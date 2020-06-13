@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import './TransactionTable.css';
+import { ReactTable } from "react-table";
+
+//import './TransactionTable.css';
 import './Loader.scss';
 
 class TransactionTable extends Component {
@@ -12,7 +14,10 @@ class TransactionTable extends Component {
       [3, "5/12/2020", "test.com", "online", "4.35"],
       [4, "5/15/2020", "test.com", "online", "15.71"],
       [5, "4/11/2020", "Walgreens", "none", "25.22"],
-    ]
+    ],
+    data: [
+        { guid: 1, date: "6/12/2020", transactionName: "test.com", category: "online", amount: 5.51 },
+      ]
   }
 
   addRow = row => {
@@ -24,6 +29,7 @@ class TransactionTable extends Component {
   componentDidMount() {
     this.isLoading = setTimeout(()=>{this.setState({loading: false})}, 2300);
   }
+
   componentWillUnmount() {
      clearTimeout(this.isLoading);
   }
@@ -36,9 +42,11 @@ class TransactionTable extends Component {
     const headers = this.state.table.slice(0, 1)[0]
     const rows = this.state.table.slice(1)
     const {loading} = this.state;
-
-    return (
-            loading ? (<Loading/>) :(
+    let val;
+    if( loading )  {
+      val = <div class="loading"></div>
+    } else {
+      val =
       <div>
         <table>
           <TableHeaders headers={headers} />
@@ -49,13 +57,27 @@ class TransactionTable extends Component {
           </tbody>
         </table>
         <AddRowButton addRow={this.addRow} />
-      </div>)
+      </div>;
+    }
+    return (
+       <div>
+        {val}
+      </div>
     )
   }
 }
 
-const Loading =()=>
-  <div class="loading"></div>
+// const MyTable =()=>
+//           <ReactTable
+//           columns={[
+//             { Header: "guid", accessor: "guid" },
+//             { Header: "date", accessor: "date" },
+//             { Header: "transactionName", accessor: "transactionName" },
+//             { Header: "category", accessor: "category" },
+//             { Header: "amount", accessor: "amount" }
+//           ]}
+//           data={table}
+//         />
 
 const TableHeaders = ({ headers }) =>
   <thead>
@@ -70,9 +92,8 @@ const TableRow = ({ row }) =>
   </tr>
 
 const AddRowButton = ({ addRow }) =>
-  <button onClick={() => addRow(['test','test','test','test','test'])}>
+  <button onClick={() => addRow(['100','6/1/2020','test','none','0.00'])}>
     ADD ROW
   </button>
-
 
 export default TransactionTable;

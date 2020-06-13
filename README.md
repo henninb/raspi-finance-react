@@ -3,6 +3,7 @@ npx create-react-app raspi-finance-react
 yarn add react-table
 yarn add react-router-dom
 yarn add node-sass
+yarn add react-bootstrap
 
 codepen
 
