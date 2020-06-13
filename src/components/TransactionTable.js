@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { ReactTable } from "react-table";
-
+//import { ReactTable } from "react-table";
 import './Loader.scss';
 
 class TransactionTable extends Component {
@@ -50,9 +49,7 @@ class TransactionTable extends Component {
         <table>
           <TableHeaders headers={headers} />
           <tbody>
-            {
-              rows.map(row => <TableRow row={row}/>)
-            }
+            { rows.map(row => <TableRow row={row} />) }
           </tbody>
         </table>
         <AddRowButton addRow={this.addRow} />
@@ -65,18 +62,6 @@ class TransactionTable extends Component {
     )
   }
 }
-
-// const MyTable =()=>
-//           <ReactTable
-//           columns={[
-//             { Header: "guid", accessor: "guid" },
-//             { Header: "date", accessor: "date" },
-//             { Header: "transactionName", accessor: "transactionName" },
-//             { Header: "category", accessor: "category" },
-//             { Header: "amount", accessor: "amount" }
-//           ]}
-//           data={table}
-//         />
 
 const TableHeaders = ({ headers }) =>
   <thead>
