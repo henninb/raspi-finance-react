@@ -64,6 +64,16 @@ tr:nth-child(even) {
   background-color: lightyellow;
 }
 
+// not working
+tr:hover {
+    background-color: red;
+}
+
+//not working
+tr:hover td {
+    background-color: transparent; /* or #000 */
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
