@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Spinner from './Spinner';
-import './Loader.scss';
+import SimpleSelect from './SimpleSelect';
+import './master.scss';
 
 export default class TransactionTable extends Component {
   state = {
@@ -47,6 +48,7 @@ export default class TransactionTable extends Component {
     } else {
       val =
       <div>
+        <SimpleSelect />
         <table>
           <TableHeaders headers={headers} />
           <tbody>

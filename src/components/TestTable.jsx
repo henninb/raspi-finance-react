@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import MaterialTable from "material-table";
+import SimpleSelect from './SimpleSelect';
+import './master.scss';
 
 export default class TestTable extends Component {
   state = {
@@ -29,6 +31,7 @@ export default class TestTable extends Component {
     } else {
     val =
       <div style={{ maxWidth: "100%" }}>
+        <SimpleSelect />
         <MaterialTable
           columns={[
             { title: "guid", field: "guid" },
@@ -57,4 +60,3 @@ export default class TestTable extends Component {
     )
   }
 }
-

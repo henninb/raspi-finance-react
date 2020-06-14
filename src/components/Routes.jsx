@@ -10,7 +10,7 @@ const Routes = () => (
     <BrowserRouter>
       <Switch>
         <Route path="/transaction" exact component={TransactionTable} />
-        <Route path="/test" exact component={TestTable} />
+        <Route path="/" exact component={TestTable} />
       </Switch>
     </BrowserRouter>
     </div>
