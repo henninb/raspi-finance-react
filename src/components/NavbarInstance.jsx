@@ -5,7 +5,7 @@ export default class SimpleNavbar extends Component {
 
   render() {
     return (
-     <div class="nav-div">
+     <div class="white-div">
       <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="#logo"><img alt="" src="img/logo.png" /></a>
