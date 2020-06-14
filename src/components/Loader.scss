@@ -89,6 +89,15 @@ tr:hover td {
   }
 }
 
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  // margin-top: -50px; // replace with your height/2
+  transform: translate(-50%, -50%);
+  // margin-left: -100px; // replace with your width/2
+}
+
 .loading {
     border-radius: 50%;
     width: $base-line-height;

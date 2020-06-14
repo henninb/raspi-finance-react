@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-//import { ReactTable } from "react-table";
 import './Loader.scss';
 
-class TransactionTable extends Component {
+export default class TransactionTable extends Component {
   state = {
     loading: true,
     table: [
@@ -42,7 +41,7 @@ class TransactionTable extends Component {
     const {loading} = this.state;
     let val;
     if( loading )  {
-      val = <div class="loading"></div>
+      val = <div class="loading centered"></div>
     } else {
       val =
       <div>
@@ -79,5 +78,3 @@ const AddRowButton = ({ addRow }) =>
   <button onClick={() => addRow(['100','6/1/2020','test','none','0.00'])}>
     ADD ROW
   </button>
-
-export default TransactionTable;
