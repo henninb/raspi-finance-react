@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Spinner from './Spinner';
 import './Loader.scss';
 
 export default class TransactionTable extends Component {
@@ -41,7 +42,8 @@ export default class TransactionTable extends Component {
     const {loading} = this.state;
     let val;
     if( loading )  {
-      val = <div class="loading centered"></div>
+      //val = <div class="loading centered"></div>
+      val = <div class="centered"><Spinner /></div>
     } else {
       val =
       <div>
