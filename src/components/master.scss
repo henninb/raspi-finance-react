@@ -10,8 +10,6 @@ html {
 body {
   @extend html;
   display: flex;
-  // justify-content: space-around;
-  // align-items: center;
   background: #333333;
 }
 
@@ -55,23 +53,30 @@ th, td {
 }
 
 tr:nth-child(odd) {
-  /* background-color: #f6f7f7; */
+  // background-color: #f6f7f7;
   background-color: lightgreen;
 }
 
 tr:nth-child(even) {
-  /* background-color: #fcfcfc; */
+  // background-color: #fcfcfc;
   background-color: lightyellow;
 }
 
-// not working
 tr:hover {
     background-color: red;
 }
 
-//not working
 tr:hover td {
     background-color: transparent; /* or #000 */
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  // margin-top: -50px; // replace with your height/2
+  transform: translate(-50%, -50%);
+  // margin-left: -100px; // replace with your width/2
 }
 
 @keyframes spin {
@@ -87,15 +92,6 @@ tr:hover td {
   50% {
     background: $white;
   }
-}
-
-.centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  // margin-top: -50px; // replace with your height/2
-  transform: translate(-50%, -50%);
-  // margin-left: -100px; // replace with your width/2
 }
 
 .loading {
