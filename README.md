@@ -3,8 +3,9 @@ npx create-react-app raspi-finance-react
 yarn add react-table
 yarn add react-router-dom
 yarn add node-sass
-yarn add react-bootstrap
-# yarn add react-spinners
+# yarn add react-bootstrap
+yarn add bootstrap
+yarn add react-spinners
 yarn add react-loader-spinner
 yarn add react-select
 yarn add axios

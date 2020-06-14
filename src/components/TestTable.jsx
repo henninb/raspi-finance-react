@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MaterialTable from "material-table";
 import SimpleSelect from './SimpleSelect';
+import NavbarInstance from './NavbarInstance';
 import './master.scss';
 
 export default class TestTable extends Component {
@@ -31,7 +32,7 @@ export default class TestTable extends Component {
     } else {
     val =
       <div style={{ maxWidth: "100%" }}>
-        <SimpleSelect />
+        <NavbarInstance />
         <MaterialTable
           columns={[
             { title: "guid", field: "guid" },

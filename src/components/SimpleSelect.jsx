@@ -8,7 +8,7 @@ export default class SimpleSelect extends Component {
 
   render() {
     return (
-     <div>
+     <div style={{width: '250px'}}>
       <Select
         placeholder="account name owner..."
       />
