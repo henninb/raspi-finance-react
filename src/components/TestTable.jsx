@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import MaterialTable from "material-table";
-import SimpleSelect from './SimpleSelect';
 import NavbarInstance from './NavbarInstance';
 import './master.scss';
 
