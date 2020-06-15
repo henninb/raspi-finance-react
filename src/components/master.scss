@@ -69,7 +69,7 @@ th, td {
 
 tr:nth-child(odd) {
   // background-color: #f6f7f7;
-  background-color: lightgreen;
+  background-color: lightsteelblue;
 }
 
 tr:nth-child(even) {
@@ -78,7 +78,7 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-    background-color: red;
+    background-color: lightslategray;
 }
 
 tr:hover td {
@@ -92,6 +92,11 @@ tr:hover td {
   // margin-top: -50px; // replace with your height/2
   transform: translate(-50%, -50%);
   // margin-left: -100px; // replace with your width/2
+}
+
+.table-formatting {
+  max-width: 100%;
+  margin-top:10%;
 }
 
 @keyframes spin {

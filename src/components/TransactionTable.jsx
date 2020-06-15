@@ -1,28 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
+import MaterialTable from "material-table";
+import NavbarInstance from './NavbarInstance';
 import Spinner from './Spinner';
-import SimpleSelect from './SimpleSelect';
 import './master.scss';
 
-export default class TransactionTable extends Component {
+export default class TestTable extends Component {
   state = {
     loading: true,
-    table: [
-      ["guid", "date", "transactionName", "category", "amount"],
-      [1, "6/12/2020", "test.com", "online", "5.50"],
-      [2, "6/10/2020", "test.com", "online", "7.62"],
-      [3, "5/12/2020", "test.com", "online", "4.35"],
-      [4, "5/15/2020", "test.com", "online", "15.71"],
-      [5, "4/11/2020", "Walgreens", "none", "25.22"],
-    ],
     data: [
-        { guid: 1, date: "6/12/2020", transactionName: "test.com", category: "online", amount: 5.51 },
+        { guid: 1, date: "6/12/2020", transaction: "test.com", category: "online", amount: 5.51, cleared: 1, notes: "none" },
+        { guid: 2, date: "6/13/2020", transaction: "Walgreens", category: "", amount: 10.51, cleared: 1, notes: "none" },
+        { guid: 3, date: "4/3/2020", transaction: "aliexpress.com", category: "online", amount: 7.71, cleared: 1, notes: "none" },
+        { guid: 4, date: "4/3/2020", transaction: "ebay.com", category: "online", amount: 4.43, cleared: 1, notes: "none" },
       ]
-  }
-
-  addRow = row => {
-    const table = this.state.table.slice()
-    table.push(row)
-    this.setState({ table })
   }
 
   componentDidMount() {
@@ -38,47 +28,41 @@ export default class TransactionTable extends Component {
   }, 2300);
 
   render() {
-    const headers = this.state.table.slice(0, 1)[0]
-    const rows = this.state.table.slice(1)
     const {loading} = this.state;
+    const {data} = this.state;
     let val;
     if( loading )  {
       //val = <div class="loading centered"></div>
       val = <div class="centered"><Spinner /></div>
     } else {
-      val =
-      <div>
-        <SimpleSelect />
-        <table>
-          <TableHeaders headers={headers} />
-          <tbody>
-            { rows.map(row => <TableRow row={row} />) }
-          </tbody>
-        </table>
-        <AddRowButton addRow={this.addRow} />
+    val =
+      <div class="table-formatting">
+        <NavbarInstance />
+        <MaterialTable
+          columns={[
+            { title: "guid", field: "guid" },
+            { title: "date", field: "date" },
+            { title: "transaction", field: "transaction" },
+            { title: "category", field: "category" },
+            { title: "amount", field: "amount", type: "numeric" },
+            { title: "cleared", field: "cleared", type: "numeric" },
+            { title: "notes", field: "notes"},
+            { title: "dateAdded", field: "dateAdded", type: "date"},
+            { title: "dateUpdated", field: "dateUpdated", type: "date"},
+          ]}
+          data={data}
+          title="Transactions"
+          options={{
+            paging: false,
+            search: true
+          }}
+        />
       </div>;
     }
     return (
-       <div>
+      <div>
         {val}
       </div>
     )
   }
 }
-
-const TableHeaders = ({ headers }) =>
-  <thead>
-    <tr>
-      { headers.map(header => <th>{ header }</th>) }
-    </tr>
-  </thead>
-
-const TableRow = ({ row }) =>
-  <tr>
-    { row.map(cell => <td>{cell}</td>) }
-  </tr>
-
-const AddRowButton = ({ addRow }) =>
-  <button onClick={() => addRow(['100','6/1/2020','test','none','0.00'])}>
-    ADD ROW
-  </button>

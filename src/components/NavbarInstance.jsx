@@ -20,6 +20,9 @@ export default class SimpleNavbar extends Component {
     <li class="nav-item">
       <a class="nav-link" href="#link3">NewAccounts</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#link4">Payments</a>
+    </li>
     <li>
     <SimpleSelect />
     </li>
