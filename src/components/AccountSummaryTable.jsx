@@ -6,10 +6,6 @@ import axios from "axios";
 
 export default function AccountSummaryTable() {
 
-    // const timer = () => setTimeout(() => {
-    //     setLoading(false)
-    // }, 2300);
-
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
@@ -26,14 +22,8 @@ export default function AccountSummaryTable() {
 
 
     const [loading, setLoading] = useState(true);
-    // useEffect(function () {
-    //     timer()
-    // })
 
-    const [data, setData] = useState([
-       // {guid: 1, accountName: "chase", owner: "brian", amount: 5.51, cleared: 5.51},
-       // {guid: 2, accountName: "amex", owner: "brian", amount: 4.50, cleared: 4.50},
-    ]);
+    const [data, setData] = useState([]);
 
     return (<div>
             {!loading ?
