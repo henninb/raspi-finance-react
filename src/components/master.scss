@@ -94,9 +94,13 @@ tr:hover td {
   // margin-left: -100px; // replace with your width/2
 }
 
+.select-formatting {
+  width: 250px;
+}
 .table-formatting {
   max-width: 100%;
   margin-top:10%;
+  //position: relative;
 }
 
 @keyframes spin {

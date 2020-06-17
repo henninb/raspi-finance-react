@@ -1,34 +1,32 @@
-import React, { Component } from 'react'
+import React from 'react'
 import SimpleSelect from './SimpleSelect'
+import {Link} from "react-router-dom";
 
-export default class SimpleNavbar extends Component {
-
-  render() {
+export default function NavbarInstance() {
     return (
-     <div class="white-div">
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-   <a class="navbar-brand" href="#logo">FinanceApp</a>
+        <div className="white-div">
+            <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+                <Link className="navbar-brand" to="#logo">FinanceApp</Link>
 
-  <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" href="account-summary">AccountSummary</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#link2">NewTransactions</a>
-    </li>
+                <ul className="navbar-nav">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="account-summary">AccountSummary</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="#link2">NewTransactions</Link>
+                    </li>
 
-    <li class="nav-item">
-      <a class="nav-link" href="#link3">NewAccounts</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#link4">Payments</a>
-    </li>
-    <li>
-    <SimpleSelect />
-    </li>
-  </ul>
-</nav>
-    </div>
-    )
-  }
+                    <li className="nav-item">
+                        <Link className="nav-link" to="#link3">NewAccounts</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="#link4">Payments</Link>
+                    </li>
+                    <li>
+                        <SimpleSelect/>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    );
 }
