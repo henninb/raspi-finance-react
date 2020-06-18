@@ -4,21 +4,23 @@ import Spinner from './Spinner';
 import './master.scss';
 import axios from "axios";
 
-export default function AccountSummaryTable() {
+export default function PaymentTable() {
+
+    const addRow = (newData) => {
+        return new Promise((resolve) => {
+            //TODO: add validation and reject()
+            //reject();
+
+            setTimeout(() => {
+                setData([...data, newData]);
+                //postCall(newData)
+                resolve();
+            }, 1000);
+        });
+    }
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios('http://localhost:8080/account/select/totals',);
-
-            response.data.forEach(element1 => {
-                //alert(element1.accountNameOwner);
-            });
-
-            setData(response.data);
-            setLoading(false);
-        };
-
-        fetchData().then(() => console.log('successfully called fetchData.'));
+        setLoading(false);
     }, []);
 
 
@@ -30,16 +32,19 @@ export default function AccountSummaryTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
+                            {title: "transactionDate", field: "transactionDate", type: "date"},
                             {title: "accountNameOwner", field: "accountNameOwner"},
-                            {title: "accountType", field: "accountType"},
-                            {title: "unbalanced", field: "totals", type: "currency"},
-                            {title: "balanced", field: "totalsBalanced", type: "currency"},
+                            {title: "amount", field: "amount"},
                         ]}
                         data={data}
-                        title="AccountSummary"
+                        title="Payment"
                         options={{
                             paging: false,
                             search: true
+                        }}
+
+                        editable={{
+                            onRowAdd: addRow,
                         }}
                     />
                 </div> : <div className="centered"><Spinner/></div>}</div>

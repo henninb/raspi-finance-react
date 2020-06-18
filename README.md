@@ -9,6 +9,7 @@ yarn add react-spinners
 yarn add react-loader-spinner
 yarn add react-select
 yarn add axios
+yarn add react-uuid
 
 yarn add material-table @material-ui/core
 

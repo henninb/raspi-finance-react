@@ -6,21 +6,18 @@ export default function NavbarInstance() {
     return (
         <div className="white-div">
             <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-                <Link className="navbar-brand" to="#logo">FinanceApp</Link>
+                <Link className="navbar-brand" to="/">FinanceApp</Link>
 
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <Link className="nav-link" to="account-summary">AccountSummary</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="#link2">NewTransactions</Link>
+                        <Link className="nav-link" to="/link2">NewTransactions</Link>
                     </li>
 
                     <li className="nav-item">
-                        <Link className="nav-link" to="#link3">NewAccounts</Link>
+                        <Link className="nav-link" to="/link3">NewAccounts</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="#link4">Payments</Link>
+                        <Link className="nav-link" to="/payments">Payments</Link>
                     </li>
                     <li>
                         <SimpleSelect/>
