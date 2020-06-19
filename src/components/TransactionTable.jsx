@@ -4,110 +4,55 @@ import axios from 'axios';
 import uuid from 'react-uuid';
 import Spinner from './Spinner';
 import './master.scss';
-import { useRouteMatch } from 'react-router-dom'
-import TextField from "@material-ui/core/TextField";
+import {useRouteMatch} from 'react-router-dom'
+//import TextField from "@material-ui/core/TextField";
 
-export default function TransactionTable() {
+export default function TransactionTable(url, config) {
 
     const [loading, setLoading] = useState(true);
+    const [totals, setTotals] = useState([]);
+    const [data, setData] = useState([]);
+    let match = useRouteMatch("/transactions/:account");
 
     const addRow = (newData) => {
         return new Promise((resolve) => {
             //TODO: add validation and reject()
             //reject();
 
-            setTimeout(() => {
+            setTimeout(async() => {
                 setData([...data, newData]);
-                postCall(newData)
+                await postCall(newData);
+                await fetchTotals();
                 resolve();
             }, 1000);
         });
-    }
-
-    const deleteRow = (oldData) => {
-        new Promise((resolve) => {
-            setTimeout(() => {
-                const dataDelete = [...data];
-                const index = oldData.tableData.id;
-                dataDelete.splice(index, 1);
-                setData([...dataDelete]);
-                //TODO: axios rest call to delete from database
-                resolve();
-            }, 1000);
-        });
-    }
+    };
 
     const toEpochDateAsMillis = (transactionDate) => {
-
         let date_val = new Date(transactionDate);
-        let utc_val = new Date(
-            date_val.getTime() + date_val.getTimezoneOffset() * 60000,
-        );
+        let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
 
         return utc_val.valueOf();
     };
 
-    const deleteCall = (payload) => {
+    const fetchTotals = async () => {
+        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account );
+        setTotals(response.data);
+    };
+
+    const deleteCall = async (payload) => {
         let endpoint = 'http://localhost:8080/transaction/delete/' + payload.guid;
-        axios
-            .delete(endpoint, "", {
-                timeout: 0,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => {
-                console.log(JSON.stringify(response));
-                //alert(JSON.stringify(response));
-            })
-            .catch(error => {
-                console.log(error);
-                alert(error);
-            });
-    }
+        await axios.delete(endpoint, { timeout: 0, headers: {  'Content-Type': 'application/json'}})
+    };
 
-
-    const getBreeds = async (newData, oldData) => {
-        try {
-            return await axios.patch('http://localhost:8080/transaction/update/' + oldData.guid)
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    const patchCallNew = async (newData, oldData) => {
-        const breeds = await getBreeds(newData, oldData)
-
-        if (breeds.data.message) {
-            //console.log(`Got ${Object.entries(breeds.data.message).length} breeds`)
-        }
-    }
-
-
-    const patchCall = (newData, oldData) => {
+    const patchCall = async (newData, oldData) => {
         let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
-        //alert(JSON.stringify(newData));
-
         delete newData['tableData'];
+        //alert(JSON.stringify(newData));
+        await axios.patch(endpoint, JSON.stringify(newData), { timeout: 0, headers: {  'Content-Type': 'application/json-patch+json'}})
+    };
 
-        axios
-            .patch(endpoint, newData, {
-                timeout: 0,
-                headers: {
-                    'Content-Type': 'application/json-patch+json',
-                },
-            })
-            .then(response => {
-                console.log(JSON.stringify(response));
-                //alert(JSON.stringify(response));
-            })
-            .catch(error => {
-                console.log(error);
-                alert(error);
-            });
-    }
-
-    const postCall = (payload) => {
+    const postCall = async (payload) => {
         let endpoint = 'http://localhost:8080/transaction/insert/';
         let newPayload = {};
 
@@ -120,42 +65,22 @@ export default function TransactionTable() {
         newPayload['cleared'] = payload.cleared;
         //TODO: how do we set the accountType
         newPayload['accountType'] = payload.accountType;
-        newPayload['reoccuring'] = false
+        newPayload['reoccurring'] = false
         newPayload['accountNameOwner'] = match.params.account;
 
-        axios
-            .post(endpoint, newPayload, {
-                timeout: 0,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => {
-                console.log(JSON.stringify(response));
-                //alert(JSON.stringify(response));
-            })
-            .catch(error => {
-                console.log(error);
-                alert(error);
-            });
-    }
+        await axios.post(endpoint, newPayload, { timeout: 0, headers: {  'Content-Type': 'application/json'}})
+    };
 
-    let match = useRouteMatch("/transactions/:account");
+    const fetchData = async () => {
+        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account);
+        setData(response.data);
+        setLoading(false);
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios(
-                'http://localhost:8080/transaction/account/select/' + match.params.account,
-            );
-
-            setData(response.data);
-            setLoading(false);
-        };
-
         fetchData().then(() => console.log('called fetchData.'));
+        fetchTotals().then(() => console.log('called fetchTotals'));
     }, []);
-
-    const [data, setData] = useState([]);
 
     return (<div>
             {!loading ?
@@ -181,7 +106,7 @@ export default function TransactionTable() {
                             // },
                         ]}
                         data={data}
-                        title={"Transactions: " + match.params.account}
+                        title={`Transactions: [${match.params.account}] [ $${totals.totalsCleared} ], [ $${totals.totals} ]`}
                         options={{
                             paging: true,
                             pageSize: 15,
@@ -189,29 +114,30 @@ export default function TransactionTable() {
                             search: true
                         }}
 
-
                         editable={{
                             onRowAdd: addRow,
                             onRowUpdate: (newData, oldData) =>
                                 new Promise((resolve) => {
-                                    setTimeout(() => {
+                                    setTimeout(async () => {
+
                                         const dataUpdate = [...data];
                                         const index = oldData.tableData.id;
                                         dataUpdate[index] = newData;
+                                        await patchCall(newData, oldData);
+                                        await fetchTotals();
                                         setData([...dataUpdate]);
-                                        //patchCall(newData, oldData);
                                         resolve();
                                     }, 1000);
                                 }),
                             onRowDelete: oldData =>
                                 new Promise((resolve) => {
-                                    setTimeout(() => {
+                                    setTimeout(async () => {
                                         const dataDelete = [...data];
                                         const index = oldData.tableData.id;
                                         dataDelete.splice(index, 1);
+                                        await deleteCall(oldData);
+                                        await fetchTotals();
                                         setData([...dataDelete]);
-                                        //TODO: axios rest call to delete from database
-                                        deleteCall(oldData)
                                         resolve();
                                     }, 1000);
                                 })
@@ -220,4 +146,3 @@ export default function TransactionTable() {
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )
 }
-

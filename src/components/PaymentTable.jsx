@@ -33,18 +33,21 @@ export default function PaymentTable() {
                     <MaterialTable
                         columns={[
                             {title: "transactionDate", field: "transactionDate", type: "date"},
-                            {title: "accountNameOwner", field: "accountNameOwner"},
+                            {title: "account", field: "accountNameOwner"},
                             {title: "amount", field: "amount"},
+                            {title: "status", field: "status"},
                         ]}
                         data={data}
-                        title="Payment"
+                        title="Payments"
                         options={{
                             paging: false,
-                            search: true
+                            search: false
                         }}
 
                         editable={{
                             onRowAdd: addRow,
+                            onRowDelete: oldData => console.log('delete'),
+                            onRowUpdate: (newData, oldData) => console.log('update')
                         }}
                     />
                 </div> : <div className="centered"><Spinner/></div>}</div>
