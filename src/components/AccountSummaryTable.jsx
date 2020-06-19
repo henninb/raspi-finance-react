@@ -37,6 +37,7 @@ export default function AccountSummaryTable() {
                         ]}
                         data={data}
                         title="AccountSummary"
+                        //title={`Transactions: [${match.params.account}] [ $${totals.totalsCleared} ], [ $${totals.totals} ]`}
                         options={{
                             paging: false,
                             search: true
