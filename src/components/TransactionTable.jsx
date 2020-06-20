@@ -35,6 +35,11 @@ export default function TransactionTable(url, config) {
         return utc_val.valueOf();
     };
 
+    function currencyFormat(x) {
+        x = parseFloat(x).toFixed(2);
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     const fetchTotals = async () => {
         const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account );
         setTotals(response.data);
@@ -77,9 +82,9 @@ export default function TransactionTable(url, config) {
         setLoading(false);
     };
 
-    useEffect(() => {
-        fetchData().then(() => console.log('called fetchData.'));
-        fetchTotals().then(() => console.log('called fetchTotals'));
+    useEffect(async () => {
+        await fetchData();
+        await fetchTotals();
     }, []);
 
     return (<div>
@@ -106,7 +111,7 @@ export default function TransactionTable(url, config) {
                             // },
                         ]}
                         data={data}
-                        title={`Transactions: [${match.params.account}] [ $${totals.totalsCleared} ], [ $${totals.totals} ]`}
+                        title={`[${match.params.account}] [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
                         options={{
                             paging: true,
                             pageSize: 15,

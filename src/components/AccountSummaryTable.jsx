@@ -6,19 +6,32 @@ import axios from "axios";
 
 export default function AccountSummaryTable() {
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios('http://localhost:8080/account/select/totals',);
+    const [totals, setTotals] = useState([]);
 
-            response.data.forEach(element1 => {
-                //alert(element1.accountNameOwner);
-            });
+    const fetchData = async () => {
+        const response = await axios('http://localhost:8080/account/select/totals',);
 
-            setData(response.data);
-            setLoading(false);
-        };
+        response.data.forEach(element1 => {
+            //alert(element1.accountNameOwner);
+        });
 
-        fetchData().then(() => console.log('successfully called fetchData.'));
+        setData(response.data);
+        setLoading(false);
+    };
+
+    function currencyFormat(x) {
+        x = parseFloat(x).toFixed(2);
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    const fetchTotals = async () => {
+        const response = await axios.get('http://localhost:8080/account/totals' );
+        setTotals(response.data);
+    };
+
+    useEffect(async() => {
+        await fetchData();
+        await fetchTotals();
     }, []);
 
 
@@ -36,8 +49,8 @@ export default function AccountSummaryTable() {
                             {title: "balanced", field: "totalsBalanced", type: "currency"},
                         ]}
                         data={data}
-                        title="AccountSummary"
-                        //title={`Transactions: [${match.params.account}] [ $${totals.totalsCleared} ], [ $${totals.totals} ]`}
+                        //title="AccountSummary"
+                        title={` [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
                         options={{
                             paging: false,
                             search: true
