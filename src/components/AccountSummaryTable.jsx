@@ -8,36 +8,36 @@ export default function AccountSummaryTable() {
 
     const [totals, setTotals] = useState([]);
 
-    const fetchData = async () => {
-        const response = await axios('http://localhost:8080/account/select/totals',);
-
-        // let listAsLinks = [];
-        // response.data.forEach(element => {
-        //     element.active = "false";
-        //     listAsLinks.push(element);
-        // });
-
-        setData(response.data);
-        setLoading(false);
-        if (response.status !== 200 ) {
-            alert(JSON.stringify(response))
-        }
-    };
-
-    function currencyFormat(x) {
-        x = parseFloat(x).toFixed(2);
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    function currencyFormat(inputData) {
+        inputData = parseFloat(inputData).toFixed(2);
+        return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    const fetchTotals = async () => {
-        const response = await axios.get('http://localhost:8080/account/totals' );
-        setTotals(response.data);
-        if (response.status !== 200 ) {
-            alert(JSON.stringify(response))
+    const fetchData = async () => {
+        try {
+            const response = await axios('http://localhost:8080/account/select/totals',);
+
+            setData(response.data);
+            setLoading(false);
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
         }
     };
 
-    useEffect(async() => {
+    const fetchTotals = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/account/totals');
+            setTotals(response.data);
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
+        }
+    };
+
+    useEffect(async () => {
         await fetchData();
         await fetchTotals();
     }, []);
@@ -57,7 +57,6 @@ export default function AccountSummaryTable() {
                             {title: "balanced", field: "totalsBalanced", type: "currency"},
                         ]}
                         data={data}
-                        //title="AccountSummary"
                         title={` [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
                         options={{
                             paging: false,

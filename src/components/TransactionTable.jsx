@@ -7,7 +7,7 @@ import './master.scss';
 import {useRouteMatch} from 'react-router-dom'
 //import TextField from "@material-ui/core/TextField";
 
-export default function TransactionTable(url, config) {
+export default function TransactionTable() {
 
     const [loading, setLoading] = useState(true);
     const [totals, setTotals] = useState([]);
@@ -19,7 +19,7 @@ export default function TransactionTable(url, config) {
             //TODO: add validation and reject()
             //reject();
 
-            setTimeout(async() => {
+            setTimeout(async () => {
                 setData([...data, newData]);
                 await postCall(newData);
                 await fetchTotals();
@@ -35,34 +35,45 @@ export default function TransactionTable(url, config) {
         return utc_val.valueOf();
     };
 
-    function currencyFormat(x) {
-        x = parseFloat(x).toFixed(2);
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    function currencyFormat(inputData) {
+        inputData = parseFloat(inputData).toFixed(2);
+        return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     const fetchTotals = async () => {
-        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account );
-        setTotals(response.data);
-        if (response.status !== 200 ) {
-            alert(JSON.stringify(response))
+        try {
+            const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account);
+            setTotals(response.data);
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
         }
     };
 
     const deleteCall = async (payload) => {
         let endpoint = 'http://localhost:8080/transaction/delete/' + payload.guid;
-        let response = await axios.delete(endpoint, { timeout: 0, headers: {  'Content-Type': 'application/json'}})
-        if (response.status !== 200 ) {
-            alert(JSON.stringify(response))
+        try {
+            await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}})
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
         }
     };
 
     const patchCall = async (newData, oldData) => {
         let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
         delete newData['tableData'];
-        //alert(JSON.stringify(newData));
-        let response = await axios.patch(endpoint, JSON.stringify(newData), { timeout: 0, headers: {  'Content-Type': 'application/json-patch+json'}})
-        if (response.status !== 200 ) {
-            alert(JSON.stringify(response))
+        try {
+            await axios.patch(endpoint, JSON.stringify(newData), {
+                timeout: 0,
+                headers: {'Content-Type': 'application/json-patch+json'}
+            });
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
         }
     };
 
@@ -82,19 +93,27 @@ export default function TransactionTable(url, config) {
         newPayload['reoccurring'] = false
         newPayload['accountNameOwner'] = match.params.account;
 
-        let response = await axios.post(endpoint, newPayload, { timeout: 0, headers: {  'Content-Type': 'application/json'}})
-        if (response.status !== 200 ) {
-            //reject();
-            alert(JSON.stringify(response))
+        try {
+            await axios.post(endpoint, newPayload, {
+                timeout: 0,
+                headers: {'Content-Type': 'application/json'}
+            })
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
         }
     };
 
     const fetchData = async () => {
-        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account);
-        setData(response.data);
-        setLoading(false);
-        if (response.status !== 200 ) {
-            alert(JSON.stringify(response))
+        try {
+            const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account);
+            setData(response.data);
+            setLoading(false);
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
         }
     };
 

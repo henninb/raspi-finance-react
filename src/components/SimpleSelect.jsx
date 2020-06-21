@@ -8,16 +8,13 @@ export default function SimpleSelect() {
     const handleChange = (selectedOption) => {
         history.push('/transactions/' + selectedOption.value);
         history.go(0);
-
     }
 
     const history = useHistory();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios(
-                'http://localhost:8080/account/select/active',
-            );
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/account/select/active');
 
             let optionList = []
             response.data.forEach(element => {
@@ -25,9 +22,15 @@ export default function SimpleSelect() {
             })
 
             setOptions(optionList);
-        };
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
+        }
+    };
 
-        fetchData().then(() => console.log('called fetchData.'));
+    useEffect(async () => {
+        await fetchData();
     }, []);
 
     const [options, setOptions] = useState([]);
@@ -36,7 +39,7 @@ export default function SimpleSelect() {
         <div className="select-formatting">
             <Select
                 options={options}
-                 onChange={handleChange}
+                onChange={handleChange}
                 placeholder="account name owner..."
             />
         </div>

@@ -12,9 +12,9 @@ export default function PaymentTable() {
             //TODO: add validation and reject()
             //reject();
 
-            setTimeout(async() => {
+            setTimeout(async () => {
                 setData([...data, newData]);
-                await postCall(newData)
+                let response = await postCall(newData);
                 resolve();
             }, 1000);
         });
@@ -53,17 +53,25 @@ export default function PaymentTable() {
         bankPayload['accountType'] = 'debit';
         bankPayload['reoccurring'] = false
         bankPayload['accountNameOwner'] = 'bcu-checking_brian';
-
-        let response = await axios.post(endpoint, accountPayload, { timeout: 0, headers: {  'Content-Type': 'application/json'}})
-        if (response.status !== 200 ) {
-            alert(JSON.stringify(response))
-        }
-        response = await axios.post(endpoint, bankPayload, { timeout: 0, headers: {  'Content-Type': 'application/json'}})
-        if (response.status !== 200 ) {
-            alert(JSON.stringify(response))
+        try {
+            await axios.post(endpoint, accountPayload, {
+                timeout: 0,
+                headers: {'Content-Type': 'application/json'}
+            });
+            await axios.post(endpoint, bankPayload, {
+                timeout: 0,
+                headers: {'Content-Type': 'application/json'}
+            });
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+                return error.response;
+            }
         }
     };
 
+    //data example
+    //{"transactionDate": "1/1/2021", "accountNameOwner":"test", "amount":0.00}
     useEffect(() => {
         setData([]);
     }, []);
@@ -71,27 +79,27 @@ export default function PaymentTable() {
     const [data, setData] = useState([]);
 
     return (
-                <div className="table-formatting">
-                    <MaterialTable
-                        columns={[
-                            {title: "transactionDate", field: "transactionDate", type: "date"},
-                            {title: "account", field: "accountNameOwner"},
-                            {title: "amount", field: "amount"},
-                            //{title: "status", field: "status"},
-                        ]}
-                        data={data}
-                        title="Payments"
-                        options={{
-                            paging: false,
-                            search: false
-                        }}
+        <div className="table-formatting">
+            <MaterialTable
+                columns={[
+                    {title: "transactionDate", field: "transactionDate", type: "date"},
+                    {title: "account", field: "accountNameOwner"},
+                    {title: "amount", field: "amount"},
+                    //{title: "status", field: "status"},
+                ]}
+                data={data}
+                title="Payments"
+                options={{
+                    paging: false,
+                    search: false
+                }}
 
-                        editable={{
-                            onRowAdd: addRow,
-                            onRowDelete: oldData => console.log('delete'),
-                            onRowUpdate: (newData, oldData) => console.log('update')
-                        }}
-                    />
-                </div>
+                editable={{
+                    onRowAdd: addRow,
+                    onRowDelete: oldData => console.log('delete'),
+                    onRowUpdate: (newData, oldData) => console.log('update')
+                }}
+            />
+        </div>
     )
 }
