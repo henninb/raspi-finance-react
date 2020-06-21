@@ -11,12 +11,17 @@ export default function AccountSummaryTable() {
     const fetchData = async () => {
         const response = await axios('http://localhost:8080/account/select/totals',);
 
-        response.data.forEach(element1 => {
-            //alert(element1.accountNameOwner);
-        });
+        // let listAsLinks = [];
+        // response.data.forEach(element => {
+        //     element.active = "false";
+        //     listAsLinks.push(element);
+        // });
 
         setData(response.data);
         setLoading(false);
+        if (response.status !== 200 ) {
+            alert(JSON.stringify(response))
+        }
     };
 
     function currencyFormat(x) {
@@ -27,6 +32,9 @@ export default function AccountSummaryTable() {
     const fetchTotals = async () => {
         const response = await axios.get('http://localhost:8080/account/totals' );
         setTotals(response.data);
+        if (response.status !== 200 ) {
+            alert(JSON.stringify(response))
+        }
     };
 
     useEffect(async() => {
