@@ -23,3 +23,5 @@ https://codepen.io/cs1342d/pen/wvaPmRN
 https://codepen.io/benhoyle/pen/vyygYN
 
 yarn start
+
+https://github.com/mbrn/material-table/issues/1162
