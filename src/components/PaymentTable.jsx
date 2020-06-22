@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import MaterialTable from "material-table";
-import Spinner from './Spinner';
 import './master.scss';
 import axios from "axios";
 import uuid from "react-uuid";
@@ -8,14 +7,19 @@ import uuid from "react-uuid";
 export default function PaymentTable() {
 
     const addRow = (newData) => {
-        return new Promise((resolve) => {
-            //TODO: add validation and reject()
-            //reject();
-
+        return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 setData([...data, newData]);
-                let response = await postCall(newData);
-                resolve();
+                try {
+                    await postCall(newData);
+                    resolve();
+                } catch (error) {
+                    if (error.response) {
+                        alert(JSON.stringify(error.response.data));
+                    }
+                    reject();
+                }
+
             }, 1000);
         });
     }
@@ -53,27 +57,26 @@ export default function PaymentTable() {
         bankPayload['accountType'] = 'debit';
         bankPayload['reoccurring'] = false
         bankPayload['accountNameOwner'] = 'bcu-checking_brian';
-        try {
-            await axios.post(endpoint, accountPayload, {
-                timeout: 0,
-                headers: {'Content-Type': 'application/json'}
-            });
-            await axios.post(endpoint, bankPayload, {
-                timeout: 0,
-                headers: {'Content-Type': 'application/json'}
-            });
-        } catch (error) {
-            if (error.response) {
-                alert(JSON.stringify(error.response.data));
-                return error.response;
-            }
-        }
+
+        await axios.post(endpoint, accountPayload, {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json'}
+        });
+        await axios.post(endpoint, bankPayload, {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json'}
+        });
     };
 
     //data example
     //{"transactionDate": "1/1/2021", "accountNameOwner":"test", "amount":0.00}
     useEffect(() => {
-        setData([]);
+        //async function fetchIt() {}
+
+        if (data !== null ) {
+            setData([]);
+        }
+
     }, []);
 
     const [data, setData] = useState([]);
@@ -96,8 +99,8 @@ export default function PaymentTable() {
 
                 editable={{
                     onRowAdd: addRow,
-                    onRowDelete: oldData => console.log('delete'),
-                    onRowUpdate: (newData, oldData) => console.log('update')
+                    onRowDelete: () => console.log('delete'),
+                    onRowUpdate: () => console.log('update')
                 }}
             />
         </div>

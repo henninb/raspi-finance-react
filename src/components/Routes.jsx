@@ -1,14 +1,15 @@
-import React from 'react'
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import TransactionTable from './TransactionTable'
-import AccountSummaryTable from './AccountSummaryTable'
-import PaymentTable from './PaymentTable'
+import React from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import TransactionTable from './TransactionTable';
+import AccountSummaryTable from './AccountSummaryTable';
+import PaymentTable from './PaymentTable';
 import NavbarInstance from "./NavbarInstance";
 
 export default function Routes() {
+    //let Test = () => <div className="table-formatting"><h1>test</h1></div>
     return (
         <div>
-            <BrowserRouter>
+            <Router>
                 <div>
                     <NavbarInstance/>
                 </div>
@@ -17,7 +18,7 @@ export default function Routes() {
                     <Route path="/transactions/:account" exact component={TransactionTable}/>
                     <Route path="/" exact component={AccountSummaryTable}/>
                 </Switch>
-            </BrowserRouter>
+            </Router>
         </div>
     );
 }

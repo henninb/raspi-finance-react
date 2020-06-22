@@ -30,7 +30,12 @@ export default function SimpleSelect() {
     };
 
     useEffect(async () => {
-        await fetchData();
+        let isMounted = true;
+        //TODO: consider a try catch here
+        if (isMounted) {
+            await fetchData();
+        }
+        return () => { isMounted = false };
     }, []);
 
     const [options, setOptions] = useState([]);

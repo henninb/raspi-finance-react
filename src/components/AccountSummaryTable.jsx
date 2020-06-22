@@ -7,6 +7,8 @@ import axios from "axios";
 export default function AccountSummaryTable() {
 
     const [totals, setTotals] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
 
     function currencyFormat(inputData) {
         inputData = parseFloat(inputData).toFixed(2);
@@ -15,7 +17,7 @@ export default function AccountSummaryTable() {
 
     const fetchData = async () => {
         try {
-            const response = await axios('http://localhost:8080/account/select/totals',);
+            const response = await axios.get('http://localhost:8080/account/select/totals');
 
             setData(response.data);
             setLoading(false);
@@ -38,13 +40,16 @@ export default function AccountSummaryTable() {
     };
 
     useEffect(async () => {
-        await fetchData();
-        await fetchTotals();
+        let isMounted = true;
+        //TODO: consider a try catch here
+        if (isMounted) {
+            await fetchData();
+            await fetchTotals();
+        }
+        return () => {
+            isMounted = false
+        };
     }, []);
-
-
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
 
     return (<div>
             {!loading ?

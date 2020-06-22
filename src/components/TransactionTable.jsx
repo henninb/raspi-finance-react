@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useIsMounted} from "react";
 import MaterialTable from "material-table";
 import axios from 'axios';
 import uuid from 'react-uuid';
@@ -12,18 +12,23 @@ export default function TransactionTable() {
     const [loading, setLoading] = useState(true);
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
+    //const isMounted = useIsMounted();
     let match = useRouteMatch("/transactions/:account");
 
     const addRow = (newData) => {
-        return new Promise((resolve) => {
-            //TODO: add validation and reject()
-            //reject();
-
+        return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 setData([...data, newData]);
-                await postCall(newData);
-                await fetchTotals();
-                resolve();
+                try {
+                    await postCall(newData);
+                    await fetchTotals();
+                    resolve();
+                } catch (error) {
+                    if (error.response) {
+                        alert(JSON.stringify(error.response.data));
+                    }
+                    reject();
+                }
             }, 1000);
         });
     };
@@ -41,40 +46,24 @@ export default function TransactionTable() {
     }
 
     const fetchTotals = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account);
-            setTotals(response.data);
-        } catch (error) {
-            if (error.response) {
-                alert(JSON.stringify(error.response.data));
-            }
-        }
+        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account);
+        setTotals(response.data);
     };
 
     const deleteCall = async (payload) => {
         let endpoint = 'http://localhost:8080/transaction/delete/' + payload.guid;
-        try {
-            await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}})
-        } catch (error) {
-            if (error.response) {
-                alert(JSON.stringify(error.response.data));
-            }
-        }
+
+        await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
     };
 
     const patchCall = async (newData, oldData) => {
         let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
         delete newData['tableData'];
-        try {
-            await axios.patch(endpoint, JSON.stringify(newData), {
-                timeout: 0,
-                headers: {'Content-Type': 'application/json-patch+json'}
-            });
-        } catch (error) {
-            if (error.response) {
-                alert(JSON.stringify(error.response.data));
-            }
-        }
+
+        await axios.patch(endpoint, JSON.stringify(newData), {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json-patch+json'}
+        });
     };
 
     const postCall = async (payload) => {
@@ -93,33 +82,30 @@ export default function TransactionTable() {
         newPayload['reoccurring'] = false
         newPayload['accountNameOwner'] = match.params.account;
 
-        try {
-            await axios.post(endpoint, newPayload, {
-                timeout: 0,
-                headers: {'Content-Type': 'application/json'}
-            })
-        } catch (error) {
-            if (error.response) {
-                alert(JSON.stringify(error.response.data));
-            }
-        }
+        await axios.post(endpoint, newPayload, {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json'}
+        });
     };
 
     const fetchData = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account);
-            setData(response.data);
-            setLoading(false);
-        } catch (error) {
-            if (error.response) {
-                alert(JSON.stringify(error.response.data));
-            }
-        }
+        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account);
+        setData(response.data);
+        setLoading(false);
     };
 
+    //https://stackoverflow.com/questions/53332321/react-hook-warnings-for-async-function-in-useeffect-useeffect-function-must-ret
     useEffect(async () => {
-        await fetchData();
-        await fetchTotals();
+
+        let isMounted = true;
+        //TODO: consider a try catch here
+        if (isMounted) {
+            await fetchData();
+            await fetchTotals();
+        }
+        return () => {
+            isMounted = false
+        };
     }, []);
 
     return (<div>
@@ -157,28 +143,42 @@ export default function TransactionTable() {
                         editable={{
                             onRowAdd: addRow,
                             onRowUpdate: (newData, oldData) =>
-                                new Promise((resolve) => {
+                                new Promise((resolve, reject) => {
                                     setTimeout(async () => {
 
                                         const dataUpdate = [...data];
                                         const index = oldData.tableData.id;
                                         dataUpdate[index] = newData;
-                                        await patchCall(newData, oldData);
-                                        await fetchTotals();
-                                        setData([...dataUpdate]);
-                                        resolve();
+                                        try {
+                                            await patchCall(newData, oldData);
+                                            await fetchTotals();
+                                            setData([...dataUpdate]);
+                                            resolve();
+                                        } catch (error) {
+                                            if (error.response) {
+                                                alert(JSON.stringify(error.response.data));
+                                            }
+                                            reject();
+                                        }
                                     }, 1000);
                                 }),
                             onRowDelete: oldData =>
-                                new Promise((resolve) => {
+                                new Promise((resolve, reject) => {
                                     setTimeout(async () => {
                                         const dataDelete = [...data];
                                         const index = oldData.tableData.id;
                                         dataDelete.splice(index, 1);
-                                        await deleteCall(oldData);
-                                        await fetchTotals();
-                                        setData([...dataDelete]);
-                                        resolve();
+                                        try {
+                                            await deleteCall(oldData);
+                                            await fetchTotals();
+                                            setData([...dataDelete]);
+                                            resolve();
+                                        } catch (error) {
+                                            if (error.response) {
+                                                alert(JSON.stringify(error.response.data));
+                                            }
+                                            reject();
+                                        }
                                     }, 1000);
                                 })
                         }}
