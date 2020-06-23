@@ -5,6 +5,8 @@ import {useHistory} from "react-router-dom";
 
 export default function SimpleSelect() {
 
+    const [options, setOptions] = useState([]);
+
     const handleChange = (selectedOption) => {
         history.push('/transactions/' + selectedOption.value);
         history.go(0);
@@ -29,16 +31,15 @@ export default function SimpleSelect() {
         }
     };
 
-    useEffect(async () => {
-        let isMounted = true;
-        //TODO: consider a try catch here
-        if (isMounted) {
-            await fetchData();
-        }
-        return () => { isMounted = false };
-    }, []);
+    useEffect( () => {
 
-    const [options, setOptions] = useState([]);
+        if( options.length === 0 ) {
+            fetchData();
+        }
+
+    }, [options]);
+
+
 
     return (
         <div className="select-formatting">

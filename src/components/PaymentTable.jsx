@@ -6,6 +6,8 @@ import uuid from "react-uuid";
 
 export default function PaymentTable() {
 
+    const [data, setData] = useState([]);
+
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
@@ -71,15 +73,11 @@ export default function PaymentTable() {
     //data example
     //{"transactionDate": "1/1/2021", "accountNameOwner":"test", "amount":0.00}
     useEffect(() => {
-        //async function fetchIt() {}
-
         if (data !== null ) {
             setData([]);
         }
 
     }, []);
-
-    const [data, setData] = useState([]);
 
     return (
         <div className="table-formatting">

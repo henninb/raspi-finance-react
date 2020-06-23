@@ -39,17 +39,17 @@ export default function AccountSummaryTable() {
         }
     };
 
-    useEffect(async () => {
-        let isMounted = true;
-        //TODO: consider a try catch here
-        if (isMounted) {
-            await fetchData();
-            await fetchTotals();
+    useEffect( () => {
+
+        if( data.length === 0 ) {
+            fetchData();
         }
-        return () => {
-            isMounted = false
-        };
-    }, []);
+
+        if( totals.length === 0 ) {
+            fetchTotals();
+        }
+
+    }, [totals, data]);
 
     return (<div>
             {!loading ?

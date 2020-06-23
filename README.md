@@ -9,7 +9,8 @@ yarn add react-spinners
 yarn add react-loader-spinner
 yarn add react-select
 yarn add axios
-yarn add react-uuid
+#yarn add react-uuid
+yarn add uuid
 yarn add --dev react-test-renderer
 #yarn add --dev jest-dom
 yarn add --dev @testing-library/jest-dom

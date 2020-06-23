@@ -1,7 +1,8 @@
-import React, {useState, useEffect, useIsMounted} from "react";
+import React, {useState, useEffect } from 'react';
 import MaterialTable from "material-table";
 import axios from 'axios';
 import uuid from 'react-uuid';
+//import uuid from 'uuid';
 import Spinner from './Spinner';
 import './master.scss';
 import {useRouteMatch} from 'react-router-dom'
@@ -12,7 +13,6 @@ export default function TransactionTable() {
     const [loading, setLoading] = useState(true);
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
-    //const isMounted = useIsMounted();
     let match = useRouteMatch("/transactions/:account");
 
     const addRow = (newData) => {
@@ -70,6 +70,7 @@ export default function TransactionTable() {
         let endpoint = 'http://localhost:8080/transaction/insert/';
         let newPayload = {};
 
+     //   newPayload['guid'] = uuid.v4();
         newPayload['guid'] = uuid();
         newPayload['transactionDate'] = toEpochDateAsMillis(payload.transactionDate);
         newPayload['description'] = payload.description;
@@ -95,18 +96,17 @@ export default function TransactionTable() {
     };
 
     //https://stackoverflow.com/questions/53332321/react-hook-warnings-for-async-function-in-useeffect-useeffect-function-must-ret
-    useEffect(async () => {
+    useEffect( () => {
 
-        let isMounted = true;
-        //TODO: consider a try catch here
-        if (isMounted) {
-            await fetchData();
-            await fetchTotals();
+        if( data.length === 0 ) {
+            fetchData();
         }
-        return () => {
-            isMounted = false
-        };
-    }, []);
+
+        if( totals.length === 0 ) {
+            fetchTotals();
+        }
+
+    }, [totals, data]);
 
     return (<div>
             {!loading ?
