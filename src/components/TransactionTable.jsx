@@ -1,15 +1,16 @@
 import React, {useState, useEffect } from 'react';
 import MaterialTable from "material-table";
 import axios from 'axios';
-import uuid from 'react-uuid';
+//import uuid from 'react-uuid';
+import { v4 as uuidv4 } from 'uuid';
 //import uuid from 'uuid';
 import Spinner from './Spinner';
 import './master.scss';
 import {useRouteMatch} from 'react-router-dom'
 //import TextField from "@material-ui/core/TextField";
+//let reactUuid = require("react-uuid")
 
 export default function TransactionTable() {
-
     const [loading, setLoading] = useState(true);
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
@@ -71,7 +72,8 @@ export default function TransactionTable() {
         let newPayload = {};
 
      //   newPayload['guid'] = uuid.v4();
-        newPayload['guid'] = uuid();
+     //   newPayload['guid'] = uuid();
+        newPayload['guid'] = uuidv4();
         newPayload['transactionDate'] = toEpochDateAsMillis(payload.transactionDate);
         newPayload['description'] = payload.description;
         newPayload['category'] = payload.category;
@@ -99,11 +101,11 @@ export default function TransactionTable() {
     useEffect( () => {
 
         if( data.length === 0 ) {
-            fetchData();
+            fetchData().then(()=>console.log('fetchData'));
         }
 
         if( totals.length === 0 ) {
-            fetchTotals();
+            fetchTotals().then(()=>console.log('fetchTotals'));
         }
 
     }, [totals, data]);
@@ -135,7 +137,7 @@ export default function TransactionTable() {
                         title={`[${match.params.account}] [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
                         options={{
                             paging: true,
-                            pageSize: 15,
+                            pageSize: 20,
                             addRowPosition: "first",
                             search: true
                         }}

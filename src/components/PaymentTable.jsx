@@ -2,7 +2,8 @@ import React, {useState, useEffect} from "react";
 import MaterialTable from "material-table";
 import './master.scss';
 import axios from "axios";
-import uuid from "react-uuid";
+//import uuid from "react-uuid";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function PaymentTable() {
 
@@ -38,7 +39,8 @@ export default function PaymentTable() {
         let accountPayload = {};
         let bankPayload = {};
 
-        accountPayload['guid'] = uuid();
+        accountPayload['guid'] = uuidv4();
+        //accountPayload['guid'] = uuid();
         accountPayload['transactionDate'] = toEpochDateAsMillis(payload.transactionDate);
         accountPayload['description'] = 'payment';
         accountPayload['category'] = 'bill_pay';
@@ -49,7 +51,8 @@ export default function PaymentTable() {
         accountPayload['reoccurring'] = false
         accountPayload['accountNameOwner'] = payload.accountNameOwner;
 
-        bankPayload['guid'] = uuid();
+        bankPayload['guid'] = uuidv4();
+        //bankPayload['guid'] = uuid();
         bankPayload['transactionDate'] = toEpochDateAsMillis(payload.transactionDate);
         bankPayload['description'] = 'payment';
         bankPayload['category'] = 'bill_pay';
@@ -70,14 +73,27 @@ export default function PaymentTable() {
         });
     };
 
-    //data example
-    //{"transactionDate": "1/1/2021", "accountNameOwner":"test", "amount":0.00}
     useEffect(() => {
-        if (data !== null ) {
+
+        let isLoaded = false;
+
+        if (!isLoaded) {
             setData([]);
         }
 
+        return () => {
+            isLoaded = true;
+        };
     }, []);
+
+    //data example
+    //{"transactionDate": "1/1/2021", "accountNameOwner":"test", "amount":0.00}
+    // useEffect(() => {
+    //     if ( 0 !== data.length ) {
+    //         setData([]);
+    //     }
+    //
+    // }, [data]);
 
     return (
         <div className="table-formatting">
