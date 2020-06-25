@@ -50,6 +50,8 @@ export default function PaymentTable() {
         accountPayload['accountType'] = 'credit';
         accountPayload['reoccurring'] = false
         accountPayload['accountNameOwner'] = payload.accountNameOwner;
+        accountPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
+        accountPayload['dateAdded'] = toEpochDateAsMillis(new Date())
 
         bankPayload['guid'] = uuidv4();
         //bankPayload['guid'] = uuid();
@@ -62,6 +64,8 @@ export default function PaymentTable() {
         bankPayload['accountType'] = 'debit';
         bankPayload['reoccurring'] = false
         bankPayload['accountNameOwner'] = 'bcu-checking_brian';
+        bankPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
+        bankPayload['dateAdded'] = toEpochDateAsMillis(new Date())
 
         await axios.post(endpoint, accountPayload, {
             timeout: 0,
@@ -113,8 +117,18 @@ export default function PaymentTable() {
 
                 editable={{
                     onRowAdd: addRow,
-                    onRowDelete: () => console.log('delete'),
-                    onRowUpdate: () => console.log('update')
+                    onRowDelete: () =>
+                        new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            reject();
+                        }, 1000);
+                    }),
+                    onRowUpdate:  () =>
+                        new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                              reject();
+                            }, 1000);
+                        })
                 }}
             />
         </div>

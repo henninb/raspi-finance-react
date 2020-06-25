@@ -61,6 +61,10 @@ export default function TransactionTable() {
         let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
         delete newData['tableData'];
 
+        newData['dateUpdated'] = toEpochDateAsMillis(new Date())
+        //TODO: ought not use set the dateAdded()
+        newData['dateAdded'] = toEpochDateAsMillis(new Date())
+
         await axios.patch(endpoint, JSON.stringify(newData), {
             timeout: 0,
             headers: {'Content-Type': 'application/json-patch+json'}
@@ -84,6 +88,8 @@ export default function TransactionTable() {
         newPayload['accountType'] = payload.accountType;
         newPayload['reoccurring'] = false
         newPayload['accountNameOwner'] = match.params.account;
+        newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
+        newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
 
         await axios.post(endpoint, newPayload, {
             timeout: 0,
