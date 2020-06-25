@@ -104,7 +104,18 @@ export default function PaymentTable() {
             <MaterialTable
                 columns={[
                     {title: "transactionDate", field: "transactionDate", type: "date"},
-                    {title: "account", field: "accountNameOwner"},
+                    {title: "account", field: "accountNameOwner",
+                      render: rowData => (
+            <>
+                <select>
+                  <option>Select a value</option>
+                </select>
+                <input type="checkbox"/>
+            </>
+          )
+
+
+                    },
                     {title: "amount", field: "amount"},
                     //{title: "status", field: "status"},
                 ]}
