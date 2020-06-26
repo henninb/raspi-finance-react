@@ -108,9 +108,9 @@ export default function PaymentTable() {
                       render: rowData => (
             <>
                 <select>
-                  <option>Select a value</option>
+                  <option>Select a value 1</option>
+                  <option>Select a value 2</option>
                 </select>
-                <input type="checkbox"/>
             </>
           )
 
