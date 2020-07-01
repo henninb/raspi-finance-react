@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect, useCallback } from 'react';
 import MaterialTable from "material-table";
 import axios from 'axios';
 //import uuid from 'react-uuid';
@@ -6,15 +6,26 @@ import { v4 as uuidv4 } from 'uuid';
 //import uuid from 'uuid';
 import Spinner from './Spinner';
 import './master.scss';
-import {useRouteMatch} from 'react-router-dom'
-//import TextField from "@material-ui/core/TextField";
-//let reactUuid = require("react-uuid")
+import {useRouteMatch} from 'react-router-dom';
+import SelectAccountType from './SelectAccountType';
+import SelectCleared from "./SelectCleared";
 
 export default function TransactionTable() {
     const [loading, setLoading] = useState(true);
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     let match = useRouteMatch("/transactions/:account");
+
+    const fetchTotals = useCallback( async () => {
+        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account);
+        setTotals(response.data);
+    }, [match]);
+
+    const fetchData = useCallback(async () => {
+        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account);
+        setData(response.data);
+        setLoading(false);
+    }, [match]);
 
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
@@ -41,14 +52,9 @@ export default function TransactionTable() {
         return utc_val.valueOf();
     };
 
-    function currencyFormat(inputData) {
+    const currencyFormat = (inputData) => {
         inputData = parseFloat(inputData).toFixed(2);
         return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    const fetchTotals = async () => {
-        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account);
-        setTotals(response.data);
     };
 
     const deleteCall = async (payload) => {
@@ -97,12 +103,6 @@ export default function TransactionTable() {
         });
     };
 
-    const fetchData = async () => {
-        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account);
-        setData(response.data);
-        setLoading(false);
-    };
-
     //https://stackoverflow.com/questions/53332321/react-hook-warnings-for-async-function-in-useeffect-useeffect-function-must-ret
     useEffect( () => {
 
@@ -114,7 +114,7 @@ export default function TransactionTable() {
             fetchTotals().then(()=>console.log('fetchTotals'));
         }
 
-    }, [totals, data]);
+    }, [totals, data, fetchTotals, fetchData]);
 
     return (<div>
             {!loading ?
@@ -125,19 +125,19 @@ export default function TransactionTable() {
                             {title: "description", field: "description"},
                             {title: "category", field: "category"},
                             {title: "amount", field: "amount", type: "currency"},
-                            {title: "cleared", field: "cleared", type: "numeric"},
+                            {title: "cleared", field: "cleared",
+                                editComponent: (props) => {
+                                    return (
+                                        <SelectCleared onChangeFunction={props.onChange} currentValue={props.value} />
+                                    )}},
                             {title: "notes", field: "notes"}, //TODO: add a custom text box for notes
-                            {title: "accountType", field: "accountType"},
-                            // {
-                            //     title: 'Name', field: 'name',
-                            //     editComponent: (props) => (
-                            //         <TextField
-                            //             type="text"
-                            //             value={props.value ? props.value : ''}
-                            //             onChange={e => props.onChange(e.target.value)}
-                            //         />
-                            //     )
-                            // },
+                            //{title: "accountType", field: "accountType"},
+                            {title: "accountType", field: "accountType",
+                                editComponent: (props) => {
+                                return (
+                                    <SelectAccountType onChangeFunction={props.onChange} currentValue={props.value} />
+                                )}
+                            },
                         ]}
                         data={data}
                         title={`[${match.params.account}] [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}

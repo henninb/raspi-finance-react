@@ -10,10 +10,10 @@ export default function AccountSummaryTable() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
-    function currencyFormat(inputData) {
+    const currencyFormat = (inputData) => {
         inputData = parseFloat(inputData).toFixed(2);
         return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
+    };
 
     const fetchData = async () => {
         try {
