@@ -3,6 +3,7 @@ import MaterialTable from "material-table";
 import Spinner from './Spinner';
 import './master.scss';
 import axios from "axios";
+import Link from "@material-ui/core/Link";
 
 export default function AccountSummaryTable() {
 
@@ -56,7 +57,13 @@ export default function AccountSummaryTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
-                            {title: "accountNameOwner", field: "accountNameOwner"},
+                            {title: "accountNameOwner", field: "accountNameOwner",
+                                render: (rowData) => {
+                                    return (
+                                        <Link to="/transactions/t">{rowData.accountNameOwner}</Link>
+                                    )
+                                }
+                            },
                             {title: "accountType", field: "accountType"},
                             {title: "unbalanced", field: "totals", type: "currency"},
                             {title: "balanced", field: "totalsBalanced", type: "currency"},

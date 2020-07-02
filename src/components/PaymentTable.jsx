@@ -15,8 +15,11 @@ export default function PaymentTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    verifyData(newData);
-                    await postCall(newData);
+                    if( verifyData(newData) ) {
+                        await postCall(newData);
+                    } else {
+                        reject();
+                    }
                     setData([...data, newData]);
                     resolve();
                 } catch (error) {
@@ -25,21 +28,32 @@ export default function PaymentTable() {
                     }
                     reject();
                 }
-
             }, 1000);
         });
     };
 
+    const formatDate = (date) => {
+        let d = new Date(date);
+        let month = '' + (d.getMonth() + 1);
+        let day = '' + d.getDate();
+        let year = d.getFullYear();
+
+        if (month.length < 2) {
+            month = '0' + month;
+        }
+        if (day.length < 2) {
+            day = '0' + day;
+        }
+
+        return [year, month, day].join('-');
+    };
+
     const verifyData = (newData) => {
-        //if( newData.accountNameOwner )
-        // alert(newData.accountNameOwner);
-        // alert(newData.amount);
-        // alert(newData.transactionDate);
-
-        if(isNaN(newData.amount)) throw "not a number";
-        if(newData.amount === undefined) throw "is undefined";
-
-       // throw "Too big";
+        // if(isNaN(newData.amount)) return false;
+        // if(newData.amount === undefined) return false;
+        // if(newData.transactionDate === undefined) return false;
+        // return newData.accountNameOwner !== undefined;
+        return true
     }
 
     const toEpochDateAsMillis = (transactionDate) => {
@@ -132,17 +146,22 @@ export default function PaymentTable() {
     }, []);
 
     return (
-        <div className="table-formatting">
+        <div className="table-formatting" data-testid="payment-table">
             <MaterialTable
+
                 columns={[
-                    {title: "transactionDate", field: "transactionDate", type: "date"},
+                    {title: "transactionDate", field: "transactionDate", type: "date",
+                        render: (rowData) => {
+                            return <div>{formatDate(rowData.transactionDate)}</div>
+                        }
+                    },
                     {title: "account", field: "accountNameOwner",
                         editComponent: (props) => {
                             return (
                                 <SelectAccountNameOwnerCredit onChangeFunction={props.onChange} currentValue={props.value} />
                             )}
                     },
-                    {title: "amount", field: "amount"},
+                    {title: "amount", field: "amount", type: "currency"},
                     //{title: "status", field: "status"},
                 ]}
                 data={data}

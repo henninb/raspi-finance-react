@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useCallback } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import MaterialTable from "material-table";
 import axios from 'axios';
 //import uuid from 'react-uuid';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 //import uuid from 'uuid';
 import Spinner from './Spinner';
 import './master.scss';
@@ -16,10 +16,10 @@ export default function TransactionTable() {
     const [data, setData] = useState([]);
     let match = useRouteMatch("/transactions/:account");
 
-    const fetchTotals = useCallback( async () => {
+    const fetchTotals = useCallback(async () => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
-        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account, { cancelToken: source.token });
+        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account, {cancelToken: source.token});
         setTotals(response.data);
         return () => {
             source.cancel();
@@ -30,7 +30,7 @@ export default function TransactionTable() {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
 
-        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account, { cancelToken: source.token });
+        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account, {cancelToken: source.token});
         setData(response.data);
         setLoading(false);
         return () => {
@@ -56,6 +56,22 @@ export default function TransactionTable() {
         });
     };
 
+    const formatDate = (date) => {
+        let d = new Date(date);
+        let month = '' + (d.getMonth() + 1);
+        let day = '' + d.getDate();
+        let year = d.getFullYear();
+
+        if (month.length < 2) {
+            month = '0' + month;
+        }
+        if (day.length < 2) {
+            day = '0' + day;
+        }
+
+        return [year, month, day].join('-');
+    };
+
     const toEpochDateAsMillis = (transactionDate) => {
         let date_val = new Date(transactionDate);
         let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
@@ -66,6 +82,13 @@ export default function TransactionTable() {
     const currencyFormat = (inputData) => {
         inputData = parseFloat(inputData).toFixed(2);
         return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
+    const clearedStatus = (value) => {
+        if( value === 1) return "cleared";
+        else if( value === 0 ) return "outstanding";
+        else if( value === -1 ) return "future";
+        else return "unknown";
     };
 
     const deleteCall = async (payload) => {
@@ -92,7 +115,7 @@ export default function TransactionTable() {
         let endpoint = 'http://localhost:8080/transaction/insert/';
         let newPayload = {};
 
-     //   newPayload['guid'] = uuid();
+        //   newPayload['guid'] = uuid();
         newPayload['guid'] = uuidv4();
         newPayload['transactionDate'] = toEpochDateAsMillis(payload.transactionDate);
         newPayload['description'] = payload.description;
@@ -114,14 +137,13 @@ export default function TransactionTable() {
         });
     };
 
-    useEffect( () => {
-
-        if( data.length === 0 ) {
-            fetchData().then(()=>console.log('fetchData'));
+    useEffect(() => {
+        if (data.length === 0) {
+            fetchData().then(() => console.log('fetchData'));
         }
 
-        if( totals.length === 0 ) {
-            fetchTotals().then(()=>console.log('fetchTotals'));
+        if (totals.length === 0) {
+            fetchTotals().then(() => console.log('fetchTotals'));
         }
 
     }, [totals, data, fetchTotals, fetchData]);
@@ -131,22 +153,36 @@ export default function TransactionTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
-                            {title: "date", field: "transactionDate", type: 'date'},
+                            {
+                                title: "date", field: "transactionDate", type: "date",
+                                render: (rowData) => {
+                                    return <div>{formatDate(rowData.transactionDate)}</div>
+                                }
+                            },
                             {title: "description", field: "description"},
                             {title: "category", field: "category"},
                             {title: "amount", field: "amount", type: "currency"},
-                            {title: "cleared", field: "cleared",
+                            {
+                                title: "cleared", field: "cleared",
+                                render: (rowData) => {
+                                    return <div>{clearedStatus(rowData.cleared)}</div>
+                                },
                                 editComponent: (props) => {
                                     return (
-                                        <SelectCleared onChangeFunction={props.onChange} currentValue={props.value} />
-                                    )}},
+                                        <SelectCleared onChangeFunction={props.onChange} currentValue={props.value}/>
+                                    )
+                                }
+                            },
                             {title: "notes", field: "notes"}, //TODO: add a custom text box for notes
                             //{title: "accountType", field: "accountType"},
-                            {title: "accountType", field: "accountType",
+                            {
+                                title: "accountType", field: "accountType",
                                 editComponent: (props) => {
-                                return (
-                                    <SelectAccountType onChangeFunction={props.onChange} currentValue={props.value} />
-                                )}
+                                    return (
+                                        <SelectAccountType onChangeFunction={props.onChange}
+                                                           currentValue={props.value}/>
+                                    )
+                                }
                             },
                         ]}
                         data={data}
