@@ -4,6 +4,8 @@ import './master.scss';
 import axios from "axios";
 //import uuid from "react-uuid";
 import { v4 as uuidv4 } from 'uuid';
+import SelectAccountNameOwnerCredit from './SelectAccountNameOwnerCredit'
+
 
 export default function PaymentTable() {
 
@@ -45,10 +47,11 @@ export default function PaymentTable() {
         accountPayload['description'] = 'payment';
         accountPayload['category'] = 'bill_pay';
         accountPayload['notes'] = 'from bcu';
-        accountPayload['amount'] = payload.amount;
+        accountPayload['amount'] = payload.amount * (-1.0);
         accountPayload['cleared'] = 0;
         accountPayload['accountType'] = 'credit';
         accountPayload['reoccurring'] = false
+        accountPayload['sha256'] = '';
         accountPayload['accountNameOwner'] = payload.accountNameOwner;
         accountPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         accountPayload['dateAdded'] = toEpochDateAsMillis(new Date())
@@ -63,6 +66,7 @@ export default function PaymentTable() {
         bankPayload['cleared'] = 0;
         bankPayload['accountType'] = 'debit';
         bankPayload['reoccurring'] = false
+        bankPayload['sha256'] = '';
         bankPayload['accountNameOwner'] = 'bcu-checking_brian';
         bankPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         bankPayload['dateAdded'] = toEpochDateAsMillis(new Date())
@@ -90,31 +94,16 @@ export default function PaymentTable() {
         };
     }, []);
 
-    //data example
-    //{"transactionDate": "1/1/2021", "accountNameOwner":"test", "amount":0.00}
-    // useEffect(() => {
-    //     if ( 0 !== data.length ) {
-    //         setData([]);
-    //     }
-    //
-    // }, [data]);
-
     return (
         <div className="table-formatting">
             <MaterialTable
                 columns={[
                     {title: "transactionDate", field: "transactionDate", type: "date"},
                     {title: "account", field: "accountNameOwner",
-                      render: rowData => (
-            <>
-                <select>
-                  <option>Select a value 1</option>
-                  <option>Select a value 2</option>
-                </select>
-            </>
-          )
-
-
+                        editComponent: (props) => {
+                            return (
+                                <SelectAccountNameOwnerCredit onChangeFunction={props.onChange} currentValue={props.value} />
+                            )}
                     },
                     {title: "amount", field: "amount"},
                     //{title: "status", field: "status"},
