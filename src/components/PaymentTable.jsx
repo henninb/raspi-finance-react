@@ -155,7 +155,7 @@ export default function PaymentTable() {
                             return <div>{formatDate(rowData.transactionDate)}</div>
                         }
                     },
-                    {title: "account", field: "accountNameOwner",
+                    {title: "accountNameOwner", field: "accountNameOwner",
                         editComponent: (props) => {
                             return (
                                 <SelectAccountNameOwnerCredit onChangeFunction={props.onChange} currentValue={props.value} />
