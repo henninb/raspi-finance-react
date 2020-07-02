@@ -17,14 +17,25 @@ export default function TransactionTable() {
     let match = useRouteMatch("/transactions/:account");
 
     const fetchTotals = useCallback( async () => {
-        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account);
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account, { cancelToken: source.token });
         setTotals(response.data);
+        return () => {
+            source.cancel();
+        };
     }, [match]);
 
     const fetchData = useCallback(async () => {
-        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account);
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account, { cancelToken: source.token });
         setData(response.data);
         setLoading(false);
+        return () => {
+            source.cancel();
+        };
     }, [match]);
 
     const addRow = (newData) => {
@@ -81,19 +92,18 @@ export default function TransactionTable() {
         let endpoint = 'http://localhost:8080/transaction/insert/';
         let newPayload = {};
 
-     //   newPayload['guid'] = uuid.v4();
      //   newPayload['guid'] = uuid();
         newPayload['guid'] = uuidv4();
         newPayload['transactionDate'] = toEpochDateAsMillis(payload.transactionDate);
         newPayload['description'] = payload.description;
-        newPayload['category'] = payload.category;
-        newPayload['notes'] = payload.notes;
+        newPayload['category'] = payload.category === undefined ? 'none' : payload.category;
+        newPayload['notes'] = payload.notes === undefined ? '' : payload.notes;
         newPayload['amount'] = payload.amount;
         newPayload['cleared'] = payload.cleared;
         //TODO: how do we set the accountType
         newPayload['accountType'] = payload.accountType;
         newPayload['reoccurring'] = false
-        newPayload['sha256'] = ''
+        newPayload['sha256'] = payload.sha256 === undefined ? '' : payload.sha256;
         newPayload['accountNameOwner'] = match.params.account;
         newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
@@ -104,7 +114,6 @@ export default function TransactionTable() {
         });
     };
 
-    //https://stackoverflow.com/questions/53332321/react-hook-warnings-for-async-function-in-useeffect-useeffect-function-must-ret
     useEffect( () => {
 
         if( data.length === 0 ) {

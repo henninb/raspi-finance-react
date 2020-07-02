@@ -28,6 +28,7 @@ export default function SelectAccountType({onChangeFunction, currentValue}) {
                 value={selectedOption}
                 onChange={onSelectChange}
                 native={true}
+                //defaultValue={{ value: 'credit', label: 'credit' }}
                 options={accountTypeOptions}
                 placeholder={currentValue}
             />

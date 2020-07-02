@@ -14,9 +14,9 @@ export default function PaymentTable() {
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
-                setData([...data, newData]);
                 try {
                     await postCall(newData);
+                    setData([...data, newData]);
                     resolve();
                 } catch (error) {
                     if (error.response) {
@@ -27,7 +27,7 @@ export default function PaymentTable() {
 
             }, 1000);
         });
-    }
+    };
 
     const toEpochDateAsMillis = (transactionDate) => {
         let date_val = new Date(transactionDate);
@@ -36,8 +36,40 @@ export default function PaymentTable() {
         return utc_val.valueOf();
     };
 
-    const postCall = async (payload) => {
+
+    const postCallCredit = async (accountPayload) => {
+        let CancelToken = axios.CancelToken;
+        let source = CancelToken.source();
         let endpoint = 'http://localhost:8080/transaction/insert/';
+
+        await axios.post(endpoint, accountPayload, {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json'},
+            cancelToken: source.token
+        });
+
+        return () => {
+            source.cancel();
+        };
+    };
+
+    const postCallDebit = async (bankPayload) => {
+        let CancelToken = axios.CancelToken;
+        let source = CancelToken.source();
+        let endpoint = 'http://localhost:8080/transaction/insert/';
+
+        await axios.post(endpoint, bankPayload, {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json'},
+            cancelToken: source.token
+        });
+
+        return () => {
+            source.cancel();
+        };
+    };
+
+    const postCall = async (payload) => {
         let accountPayload = {};
         let bankPayload = {};
 
@@ -71,18 +103,11 @@ export default function PaymentTable() {
         bankPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         bankPayload['dateAdded'] = toEpochDateAsMillis(new Date())
 
-        await axios.post(endpoint, accountPayload, {
-            timeout: 0,
-            headers: {'Content-Type': 'application/json'}
-        });
-        await axios.post(endpoint, bankPayload, {
-            timeout: 0,
-            headers: {'Content-Type': 'application/json'}
-        });
+        await postCallCredit(accountPayload);
+        await postCallDebit(bankPayload);
     };
 
     useEffect(() => {
-
         let isLoaded = false;
 
         if (!isLoaded) {
