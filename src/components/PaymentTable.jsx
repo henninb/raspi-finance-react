@@ -15,6 +15,7 @@ export default function PaymentTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
+                    verifyData(newData);
                     await postCall(newData);
                     setData([...data, newData]);
                     resolve();
@@ -29,13 +30,24 @@ export default function PaymentTable() {
         });
     };
 
+    const verifyData = (newData) => {
+        //if( newData.accountNameOwner )
+        // alert(newData.accountNameOwner);
+        // alert(newData.amount);
+        // alert(newData.transactionDate);
+
+        if(isNaN(newData.amount)) throw "not a number";
+        if(newData.amount === undefined) throw "is undefined";
+
+       // throw "Too big";
+    }
+
     const toEpochDateAsMillis = (transactionDate) => {
         let date_val = new Date(transactionDate);
         let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
 
         return utc_val.valueOf();
     };
-
 
     const postCallCredit = async (accountPayload) => {
         let CancelToken = axios.CancelToken;
