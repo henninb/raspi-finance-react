@@ -93,6 +93,7 @@ export default function TransactionTable() {
         //TODO: how do we set the accountType
         newPayload['accountType'] = payload.accountType;
         newPayload['reoccurring'] = false
+        newPayload['sha256'] = ''
         newPayload['accountNameOwner'] = match.params.account;
         newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
