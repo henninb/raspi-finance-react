@@ -6,7 +6,7 @@ import axios from "axios";
 import {v4 as uuidv4} from 'uuid';
 import SelectAccountNameOwnerCredit from './SelectAccountNameOwnerCredit'
 import Spinner from "./Spinner";
-//import {formatDate} from "./Common"
+import formatDate from "./Common"
 
 export default function PaymentTable() {
     const [data, setData] = useState([]);
@@ -45,21 +45,17 @@ export default function PaymentTable() {
         }
     }, []);
 
-    const formatDate = (date) => {
-        let d = new Date(date);
-        let month = '' + (d.getMonth() + 1);
-        let day = '' + d.getDate();
-        let year = d.getFullYear();
-
-        if (month.length < 2) {
-            month = '0' + month;
-        }
-        if (day.length < 2) {
-            day = '0' + day;
-        }
-
-        return [year, month, day].join('-');
-    };
+    // const formatDate = (date) => {
+    //     let d = new Date(date);
+    //     let month = '' + (d.getMonth() + 1);
+    //     let day = '' + d.getDate();
+    //     let year = d.getFullYear();
+    //
+    //     month = ("0" + month).slice(-2);
+    //     day = ("0" + day).slice(-2);
+    //
+    //     return [year, month, day].join('-');
+    // };
 
     const verifyData = (newData) => {
         if (isNaN(newData.amount)) return false;
@@ -174,9 +170,9 @@ export default function PaymentTable() {
     return (
         <div>
             {!loading ?
-                <div className="table-formatting" data-testid="payment-table">
+                <div className="table-formatting">
                     <MaterialTable
-
+                        data-testid="payment-table"
                         columns={[
                             {
                                 title: "transactionDate", field: "transactionDate", type: "date",

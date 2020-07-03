@@ -1,10 +1,13 @@
 import React from 'react';
-import {act, render} from "@testing-library/react";
+import {act, render, renderHook} from "@testing-library/react";
 import PaymentTable from "./PaymentTable";
 import {fireEvent} from "@testing-library/dom";
+import Spinner from "./Spinner";
 
 describe('paymentTableTests', () => {
     let wrapper;
+    const { result } = renderHook(() => setLoading(true))
+
     beforeEach(async () => {
         jest.clearAllMocks();
         await act(() => {
@@ -13,8 +16,14 @@ describe('paymentTableTests', () => {
     });
     it('paymentTable - add a record', () => {
         //console.log(wrapper);
-        const {getByTestId, getByTitle, getByPlaceholderText} = wrapper
+        const {getByLabelText, getByTitle, getByPlaceholderText} = wrapper
+        let paymentTable = getByLabelText('payment-table')
+
+        //TODO: set the hook value of loading to true otherwise this will not work
         let addButton = getByTitle("Add");
+
+        //const {getByLabelText} = render(<PaymentTable/>);
+        console.log(getByLabelText('payment-table'));
 
         fireEvent.click(addButton);
         //let transactionDate = getByPlaceholderText("transactionDate");
