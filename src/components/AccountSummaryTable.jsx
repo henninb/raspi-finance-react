@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import MaterialTable from "material-table";
 import Spinner from './Spinner';
 import './master.scss';
@@ -16,7 +16,21 @@ export default function AccountSummaryTable() {
         return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
-    const fetchData = async () => {
+    const fetchTotals = useCallback(async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/account/totals');
+            setTotals(response.data);
+        } catch (error) {
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
+        }
+    }, []);
+
+    const fetchData = useCallback(async () => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
         try {
             const response = await axios.get('http://localhost:8080/account/select/totals');
 
@@ -27,18 +41,11 @@ export default function AccountSummaryTable() {
                 alert(JSON.stringify(error.response.data));
             }
         }
-    };
 
-    const fetchTotals = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/account/totals');
-            setTotals(response.data);
-        } catch (error) {
-            if (error.response) {
-                alert(JSON.stringify(error.response.data));
-            }
-        }
-    };
+        return () => {
+            source.cancel();
+        };
+    }, []);
 
     useEffect( () => {
 
@@ -50,7 +57,7 @@ export default function AccountSummaryTable() {
             fetchTotals();
         }
 
-    }, [totals, data]);
+    }, [totals, data, fetchData, fetchTotals]);
 
     return (<div>
             {!loading ?

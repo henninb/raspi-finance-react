@@ -1,15 +1,18 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import MaterialTable from "material-table";
 import './master.scss';
 import axios from "axios";
 //import uuid from "react-uuid";
 import { v4 as uuidv4 } from 'uuid';
 import SelectAccountNameOwnerCredit from './SelectAccountNameOwnerCredit'
+import Spinner from "./Spinner";
+//import {formatDate} from "./Common"
 
 
 export default function PaymentTable() {
 
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
@@ -32,6 +35,18 @@ export default function PaymentTable() {
         });
     };
 
+    const fetchData = useCallback(async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/payment/select');
+            setData(response.data);
+            setLoading(false);
+        } catch (error) {
+           if (error.response) {
+               alert(JSON.stringify(error.response.data));
+           }
+        }
+    }, []);
+
     const formatDate = (date) => {
         let d = new Date(date);
         let month = '' + (d.getMonth() + 1);
@@ -49,7 +64,7 @@ export default function PaymentTable() {
     };
 
     const verifyData = (newData) => {
-        // if(isNaN(newData.amount)) return false;
+         if(isNaN(newData.amount)) return false;
         // if(newData.amount === undefined) return false;
         // if(newData.transactionDate === undefined) return false;
         // return newData.accountNameOwner !== undefined;
@@ -134,18 +149,15 @@ export default function PaymentTable() {
     };
 
     useEffect(() => {
-        let isLoaded = false;
-
-        if (!isLoaded) {
-            setData([]);
+        if (data.length === 0) {
+            fetchData();
         }
 
-        return () => {
-            isLoaded = true;
-        };
-    }, []);
+    }, [data, fetchData]);
 
     return (
+        <div>
+            {!loading ?
         <div className="table-formatting" data-testid="payment-table">
             <MaterialTable
 
@@ -187,6 +199,6 @@ export default function PaymentTable() {
                         })
                 }}
             />
-        </div>
+        </div> : <div className="centered"><Spinner/></div>}</div>
     )
 }

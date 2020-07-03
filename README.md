@@ -11,10 +11,12 @@ yarn add react-select
 yarn add axios
 #yarn add react-uuid
 yarn add uuid
+#yarn add canvas
 yarn add --dev react-test-renderer
 #yarn add --dev jest-dom
 yarn add --dev @testing-library/jest-dom
 yarn add --dev @testing-library/react
+yarn add --dev canvas
 yarn add material-table @material-ui/core
 
 

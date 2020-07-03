@@ -9,6 +9,7 @@ import './master.scss';
 import {useRouteMatch} from 'react-router-dom';
 import SelectAccountType from './SelectAccountType';
 import SelectCleared from "./SelectCleared";
+//import {formatDate} from "./Common"
 
 export default function TransactionTable() {
     const [loading, setLoading] = useState(true);
@@ -139,11 +140,11 @@ export default function TransactionTable() {
 
     useEffect(() => {
         if (data.length === 0) {
-            fetchData().then(() => console.log('fetchData'));
+            fetchData();
         }
 
         if (totals.length === 0) {
-            fetchTotals().then(() => console.log('fetchTotals'));
+            fetchTotals();
         }
 
     }, [totals, data, fetchTotals, fetchData]);
