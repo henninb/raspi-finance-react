@@ -3,13 +3,10 @@ import MaterialTable from "material-table";
 import axios from 'axios';
 //import uuid from 'react-uuid';
 import {v4 as uuidv4} from 'uuid';
-//import uuid from 'uuid';
 import Spinner from './Spinner';
 import './master.scss';
 import {useRouteMatch} from 'react-router-dom';
-import SelectAccountType from './SelectAccountType';
 import SelectCleared from "./SelectCleared";
-//import {formatDate} from "./Common"
 
 export default function TransactionTable() {
     const [loading, setLoading] = useState(true);
@@ -86,9 +83,9 @@ export default function TransactionTable() {
     };
 
     const clearedStatus = (value) => {
-        if( value === 1) return "cleared";
-        else if( value === 0 ) return "outstanding";
-        else if( value === -1 ) return "future";
+        if (value === 1) return "cleared";
+        else if (value === 0) return "outstanding";
+        else if (value === -1) return "future";
         else return "unknown";
     };
 
@@ -124,8 +121,7 @@ export default function TransactionTable() {
         newPayload['notes'] = payload.notes === undefined ? '' : payload.notes;
         newPayload['amount'] = payload.amount;
         newPayload['cleared'] = payload.cleared;
-        //TODO: how do we set the accountType
-        newPayload['accountType'] = payload.accountType;
+        newPayload['accountType'] = 'unknown';
         newPayload['reoccurring'] = false
         newPayload['sha256'] = payload.sha256 === undefined ? '' : payload.sha256;
         newPayload['accountNameOwner'] = match.params.account;
@@ -174,17 +170,15 @@ export default function TransactionTable() {
                                     )
                                 }
                             },
-                            {title: "notes", field: "notes"}, //TODO: add a custom text box for notes
-                            //{title: "accountType", field: "accountType"},
-                            {
-                                title: "accountType", field: "accountType",
-                                editComponent: (props) => {
-                                    return (
-                                        <SelectAccountType onChangeFunction={props.onChange}
-                                                           currentValue={props.value}/>
-                                    )
-                                }
-                            },
+                            {title: "notes", field: "notes"},
+                            // {title: "accountType", field: "accountType",
+                            //     editComponent: (props) => {
+                            //         return (
+                            //             <SelectAccountType onChangeFunction={props.onChange}
+                            //                                currentValue={props.value}/>
+                            //         )
+                            //     }
+                            // },
                         ]}
                         data={data}
                         title={`[${match.params.account}] [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
@@ -217,7 +211,7 @@ export default function TransactionTable() {
                                         }
                                     }, 1000);
                                 }),
-                            onRowDelete: oldData =>
+                            onRowDelete: (oldData) =>
                                 new Promise((resolve, reject) => {
                                     setTimeout(async () => {
                                         const dataDelete = [...data];

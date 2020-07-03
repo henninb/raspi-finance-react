@@ -1,16 +1,14 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import MaterialTable from "material-table";
 import './master.scss';
 import axios from "axios";
 //import uuid from "react-uuid";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import SelectAccountNameOwnerCredit from './SelectAccountNameOwnerCredit'
 import Spinner from "./Spinner";
 //import {formatDate} from "./Common"
 
-
 export default function PaymentTable() {
-
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -18,7 +16,7 @@ export default function PaymentTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    if( verifyData(newData) ) {
+                    if (verifyData(newData)) {
                         await postCall(newData);
                     } else {
                         reject();
@@ -41,9 +39,9 @@ export default function PaymentTable() {
             setData(response.data);
             setLoading(false);
         } catch (error) {
-           if (error.response) {
-               alert(JSON.stringify(error.response.data));
-           }
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
         }
     }, []);
 
@@ -64,7 +62,7 @@ export default function PaymentTable() {
     };
 
     const verifyData = (newData) => {
-         if(isNaN(newData.amount)) return false;
+        if (isNaN(newData.amount)) return false;
         // if(newData.amount === undefined) return false;
         // if(newData.transactionDate === undefined) return false;
         // return newData.accountNameOwner !== undefined;
@@ -110,6 +108,17 @@ export default function PaymentTable() {
         };
     };
 
+
+    const postCallPayment = async (payload) => {
+        let endpoint = 'http://localhost:8080/payment/insert/';
+
+        await axios.post(endpoint, payload, {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json'}
+        });
+    };
+
+
     const postCall = async (payload) => {
         let accountPayload = {};
         let bankPayload = {};
@@ -146,6 +155,7 @@ export default function PaymentTable() {
 
         await postCallCredit(accountPayload);
         await postCallDebit(bankPayload);
+        await postCallPayment(payload);
     };
 
     useEffect(() => {
@@ -155,50 +165,72 @@ export default function PaymentTable() {
 
     }, [data, fetchData]);
 
+    const deleteCall = async (payload) => {
+        let endpoint = 'http://localhost:8080/payment/delete/' + payload.paymentId;
+
+        await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
+    };
+
     return (
         <div>
             {!loading ?
-        <div className="table-formatting" data-testid="payment-table">
-            <MaterialTable
+                <div className="table-formatting" data-testid="payment-table">
+                    <MaterialTable
 
-                columns={[
-                    {title: "transactionDate", field: "transactionDate", type: "date",
-                        render: (rowData) => {
-                            return <div>{formatDate(rowData.transactionDate)}</div>
-                        }
-                    },
-                    {title: "accountNameOwner", field: "accountNameOwner",
-                        editComponent: (props) => {
-                            return (
-                                <SelectAccountNameOwnerCredit onChangeFunction={props.onChange} currentValue={props.value} />
-                            )}
-                    },
-                    {title: "amount", field: "amount", type: "currency"},
-                    //{title: "status", field: "status"},
-                ]}
-                data={data}
-                title="Payments"
-                options={{
-                    paging: false,
-                    search: false
-                }}
+                        columns={[
+                            {
+                                title: "transactionDate", field: "transactionDate", type: "date",
+                                render: (rowData) => {
+                                    return <div>{formatDate(rowData.transactionDate)}</div>
+                                }
+                            },
+                            {
+                                title: "accountNameOwner", field: "accountNameOwner",
+                                editComponent: (props) => {
+                                    return (
+                                        <SelectAccountNameOwnerCredit onChangeFunction={props.onChange}
+                                                                      currentValue={props.value}/>
+                                    )
+                                }
+                            },
+                            {title: "amount", field: "amount", type: "currency"},
+                        ]}
+                        data={data}
+                        title="Payments"
+                        options={{
+                            paging: false,
+                            search: false
+                        }}
 
-                editable={{
-                    onRowAdd: addRow,
-                    onRowDelete: () =>
-                        new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            reject();
-                        }, 1000);
-                    }),
-                    onRowUpdate:  () =>
-                        new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                              reject();
-                            }, 1000);
-                        })
-                }}
-            />
-        </div> : <div className="centered"><Spinner/></div>}</div>
+                        editable={{
+                            onRowAdd: addRow,
+                            onRowDelete: (oldData) =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(async () => {
+                                        const dataDelete = [...data];
+                                        const index = oldData.tableData.id;
+                                        dataDelete.splice(index, 1);
+                                        try {
+                                            await deleteCall(oldData);
+                                            setData([...dataDelete]);
+                                            resolve();
+                                        } catch (error) {
+                                            if (error.response) {
+                                                alert(JSON.stringify(error.response.data));
+                                            }
+                                            reject();
+                                        }
+                                    }, 1000);
+                                })
+                            ,
+                            onRowUpdate: () =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        reject();
+                                    }, 1000);
+                                })
+                        }}
+                    />
+                </div> : <div className="centered"><Spinner/></div>}</div>
     )
 }
