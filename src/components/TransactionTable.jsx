@@ -8,6 +8,13 @@ import './master.scss';
 import {useRouteMatch} from 'react-router-dom';
 import SelectCleared from "./SelectCleared";
 import formatDate from "./Common"
+import TableCell from "@material-ui/core/TableCell";
+
+// const styles = theme => ({
+//     tableCell: {
+//         whiteSpace: 'nowrap',
+//     },
+// });
 
 export default function TransactionTable() {
     const [loading, setLoading] = useState(true);
@@ -24,6 +31,8 @@ export default function TransactionTable() {
             source.cancel();
         };
     }, [match]);
+
+
 
     const fetchData = useCallback(async () => {
         const CancelToken = axios.CancelToken;
@@ -54,6 +63,28 @@ export default function TransactionTable() {
             }, 1000);
         });
     };
+
+    const updateRow = (oldData, newData) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(async () => {
+
+                const dataUpdate = [...data];
+                const index = oldData.tableData.id;
+                dataUpdate[index] = newData;
+                try {
+                    await patchCall(newData, oldData);
+                    await fetchTotals();
+                    setData([...dataUpdate]);
+                    resolve();
+                } catch (error) {
+                    if (error.response) {
+                        alert(JSON.stringify(error.response.data));
+                    }
+                    reject();
+                }
+            }, 1000);
+        })
+    }
 
     const toEpochDateAsMillis = (transactionDate) => {
         let date_val = new Date(transactionDate);
@@ -106,7 +137,7 @@ export default function TransactionTable() {
         newPayload['notes'] = payload.notes === undefined ? '' : payload.notes;
         newPayload['amount'] = payload.amount;
         newPayload['cleared'] = payload.cleared;
-        newPayload['accountType'] = 'unknown';
+        newPayload['accountType'] = 'undefined';
         newPayload['reoccurring'] = false
         newPayload['sha256'] = payload.sha256 === undefined ? '' : payload.sha256;
         newPayload['accountNameOwner'] = match.params.account;
@@ -138,10 +169,25 @@ export default function TransactionTable() {
                             {
                                 title: "date", field: "transactionDate", type: "date",
                                 render: (rowData) => {
-                                    return <div>{formatDate(rowData.transactionDate)}</div>
+                                    return ( <TableCell  style={{
+                                        whiteSpace: "nowrap",
+                                        borderBottom: 0,
+                                    }}>
+                                        {formatDate(rowData.transactionDate)}
+                                    </TableCell>)
                                 }
                             },
-                            {title: "description", field: "description"},
+                            {title: "description", field: "description",
+                                render: (rowData) => {
+                                   return ( <TableCell  style={{
+                                       whiteSpace: "nowrap",
+                                       //wordWrap: "break-word",
+                                       borderBottom: 0,
+                                   }}>
+                                        {rowData.description}
+                                    </TableCell>)
+                                }
+                            },
                             {title: "category", field: "category"},
                             {title: "amount", field: "amount", type: "currency"},
                             {
@@ -155,15 +201,17 @@ export default function TransactionTable() {
                                     )
                                 }
                             },
-                            {title: "notes", field: "notes"},
-                            // {title: "accountType", field: "accountType",
-                            //     editComponent: (props) => {
-                            //         return (
-                            //             <SelectAccountType onChangeFunction={props.onChange}
-                            //                                currentValue={props.value}/>
-                            //         )
-                            //     }
-                            // },
+                            {title: "notes", field: "notes",
+                                render: (rowData) => {
+                                    return ( <TableCell  style={{
+                                        whiteSpace: "nowrap",
+                                        borderBottom: 0,
+                                    }}>
+                                        {rowData.notes}
+                                    </TableCell>)
+                                }
+                            },
+
                         ]}
                         data={data}
                         title={`[${match.params.account}] [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
@@ -176,7 +224,8 @@ export default function TransactionTable() {
 
                         editable={{
                             onRowAdd: addRow,
-                            onRowUpdate: (newData, oldData) =>
+                            onRowUpdate:  //updateRow,
+                                (newData, oldData) =>
                                 new Promise((resolve, reject) => {
                                     setTimeout(async () => {
 

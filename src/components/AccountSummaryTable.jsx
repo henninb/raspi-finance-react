@@ -4,6 +4,8 @@ import Spinner from './Spinner';
 import './master.scss';
 import axios from "axios";
 import Link from "@material-ui/core/Link";
+import Tab from "@material-ui/core/Tab";
+import Button from "@material-ui/core/Button";
 
 export default function AccountSummaryTable() {
 
@@ -67,7 +69,10 @@ export default function AccountSummaryTable() {
                             {title: "accountNameOwner", field: "accountNameOwner",
                                 render: (rowData) => {
                                     return (
-                                        <Link to="/transactions/t">{rowData.accountNameOwner}</Link>
+                                        // <Link onClick={alert('me')}>{rowData.accountNameOwner}</Link>
+                                        //TODO: adding links
+                                        // <Tab label={rowData.accountNameOwner} to={'/transactions/' + rowData.accountNameOwner} component={Link}></Tab>
+                                    <Button component={Link} to={'/transactions/' + rowData.accountNameOwner}>{rowData.accountNameOwner}</Button>
                                     )
                                 }
                             },
