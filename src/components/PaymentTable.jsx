@@ -119,9 +119,10 @@ export default function PaymentTable() {
         let accountPayload = {};
         let bankPayload = {};
 
+
         accountPayload['guid'] = uuidv4();
         //accountPayload['guid'] = uuid();
-        accountPayload['transactionDate'] = toEpochDateAsMillis(payload.transactionDate);
+        accountPayload['transactionDate'] = toEpochDateAsMillis(new Date(payload.transactionDate.toDateString()));
         accountPayload['description'] = 'payment';
         accountPayload['category'] = 'bill_pay';
         accountPayload['notes'] = 'from bcu';
@@ -136,7 +137,7 @@ export default function PaymentTable() {
 
         bankPayload['guid'] = uuidv4();
         //bankPayload['guid'] = uuid();
-        bankPayload['transactionDate'] = toEpochDateAsMillis(payload.transactionDate);
+        bankPayload['transactionDate'] = toEpochDateAsMillis(new Date(payload.transactionDate.toDateString()));
         bankPayload['description'] = 'payment';
         bankPayload['category'] = 'bill_pay';
         bankPayload['notes'] = 'to ' + payload.accountNameOwner;

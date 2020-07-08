@@ -131,7 +131,7 @@ export default function TransactionTable() {
 
         //   newPayload['guid'] = uuid();
         newPayload['guid'] = uuidv4();
-        newPayload['transactionDate'] = toEpochDateAsMillis(payload.transactionDate);
+        newPayload['transactionDate'] = toEpochDateAsMillis(new Date(payload.transactionDate.toDateString()));
         newPayload['description'] = payload.description;
         newPayload['category'] = payload.category === undefined ? 'none' : payload.category;
         newPayload['notes'] = payload.notes === undefined ? '' : payload.notes;

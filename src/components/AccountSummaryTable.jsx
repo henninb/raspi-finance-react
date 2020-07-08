@@ -34,7 +34,7 @@ export default function AccountSummaryTable() {
         const source = CancelToken.source();
 
         try {
-            const response = await axios.get('http://localhost:8080/account/select/totals');
+            const response = await axios.get('http://localhost:8080/account/select/active');
 
             setData(response.data);
             setLoading(false);
