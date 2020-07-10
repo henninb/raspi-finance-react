@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Select from 'react-select'
 import axios from "axios";
 
@@ -6,29 +6,32 @@ export default function SelectAccountNameOwnerCredit({onChangeFunction, currentV
     const [selectedOption, setSelectedOption] = useState(currentValue);
     const [accountTypeOptions, setaccountTypeOptions] = useState([]);
 
-    const fetchAccountTypeOptions = async () => {
+    const fetchAccountTypeOptions = useCallback(async () => {
         try {
             const response = await axios.get('http://localhost:8080/account/select/active');
 
             let optionList = []
             response.data.forEach(element => {
-                if( element.accountType === 'credit') {
+                if (element.accountType === 'credit') {
                     optionList = optionList.concat({value: element.accountNameOwner, label: element.accountNameOwner})
                 }
             })
-            setaccountTypeOptions(optionList);
+            if (optionList.length > 0) {
+                setaccountTypeOptions(optionList);
+            }
+            alert(optionList);
         } catch (error) {
             if (error.response) {
                 alert(JSON.stringify(error.response.data));
             }
         }
-    };
+    }, []);
 
-    useEffect( () => {
-        if( accountTypeOptions.length === 0 ) {
+    useEffect(() => {
+        if (accountTypeOptions.length === 0) {
             fetchAccountTypeOptions();
         }
-    }, [accountTypeOptions]);
+    }, [accountTypeOptions, fetchAccountTypeOptions]);
 
     const onSelectChange = ({value}) => {
         setSelectedOption(value);

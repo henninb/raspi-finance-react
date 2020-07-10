@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Spinner from "./Spinner";
-import {render, cleanup, act} from "@testing-library/react";
-import {fireEvent} from "@testing-library/dom";
+import {act, cleanup, render} from "@testing-library/react";
 
 afterEach(cleanup)
 
@@ -18,7 +17,6 @@ test("renders loader correctly", () => {
     console.log(getByTestId('loader'));
     //expect(getByTestId('loader')).toHaveTextContent("Circles");
 });
-
 
 
 describe('spinnerTests', () => {

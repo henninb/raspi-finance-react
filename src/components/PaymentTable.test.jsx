@@ -2,11 +2,10 @@ import React from 'react';
 import {act, render, renderHook} from "@testing-library/react";
 import PaymentTable from "./PaymentTable";
 import {fireEvent} from "@testing-library/dom";
-import Spinner from "./Spinner";
 
 describe('paymentTableTests', () => {
     let wrapper;
-    const { result } = renderHook(() => setLoading(true))
+    const {result} = renderHook(() => setLoading(true))
 
     beforeEach(async () => {
         jest.clearAllMocks();

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Select from 'react-select'
 import axios from "axios";
 import {useHistory} from "react-router-dom";
@@ -14,7 +14,7 @@ export default function SimpleSelect() {
 
     const history = useHistory();
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const response = await axios.get('http://localhost:8080/account/select/active');
 
@@ -23,23 +23,26 @@ export default function SimpleSelect() {
                 optionList = optionList.concat({value: element.accountNameOwner, label: element.accountNameOwner})
             })
 
+            //if( response.data.length > 0 ) {
             setOptions(optionList);
+            //}
         } catch (error) {
             if (error.response) {
-                alert(JSON.stringify(error.response.data));
+                if (error.response.status === 404) {
+                } else {
+                    alert("fetchData" + JSON.stringify(error.response.data));
+                }
             }
         }
-    };
+    }, []);
 
-    useEffect( () => {
+    useEffect(() => {
 
-        if( options.length === 0 ) {
+        if (options.length === 0) {
             fetchData();
         }
 
-    }, [options]);
-
-
+    }, [options, fetchData]);
 
     return (
         <div className="select-formatting">

@@ -1,4 +1,3 @@
-
 export default function formatDate(date) {
     let d = new Date(date);
     let month = '' + (d.getMonth() + 1);
@@ -11,12 +10,13 @@ export default function formatDate(date) {
     return [year, month, day].join('-');
 }
 
-// export function toEpochDateAsMillis(transactionDate) {
-//     let date_val = new Date(transactionDate);
-//     let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
-//
-//     return utc_val.valueOf();
-// }
+export function toEpochDateAsMillis(transactionDate) {
+    let date_val = new Date(transactionDate);
+    let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
+
+    return utc_val.valueOf();
+}
+
 //
 // export function currencyFormat(inputData) {
 //     inputData = parseFloat(inputData).toFixed(2);

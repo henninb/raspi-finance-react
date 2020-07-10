@@ -8,8 +8,8 @@ export default function SelectAccountType({onChangeFunction, currentValue}) {
     const [selectedOption, setSelectedOption] = useState(currentValue);
 
     const accountTypeOptions = [
-        { value: 'credit', label: 'credit' },
-        { value: 'debit', label: 'debit' }
+        {value: 'credit', label: 'credit'},
+        {value: 'debit', label: 'debit'}
     ];
 
     const onSelectChange = ({value}) => {

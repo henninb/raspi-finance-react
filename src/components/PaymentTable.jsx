@@ -21,7 +21,7 @@ export default function PaymentTable() {
                     } else {
                         reject();
                     }
-                    setData([...data, newData]);
+                    setData([newData, ...data]);
                     resolve();
                 } catch (error) {
                     if (error.response) {
@@ -38,9 +38,10 @@ export default function PaymentTable() {
             const response = await axios.get('http://localhost:8080/payment/select');
             setData(response.data);
             setLoading(false);
+
         } catch (error) {
             if (error.response) {
-                alert(JSON.stringify(error.response.data));
+                alert("status: " + error.response.status + " - " + JSON.stringify(error.response.data));
             }
         }
     }, []);
@@ -83,9 +84,9 @@ export default function PaymentTable() {
             cancelToken: source.token
         });
 
-        return () => {
-            source.cancel();
-        };
+        // return () => {
+        //     source.cancel();
+        // };
     };
 
     const postCallDebit = async (bankPayload) => {
@@ -99,18 +100,21 @@ export default function PaymentTable() {
             cancelToken: source.token
         });
 
-        return () => {
-            source.cancel();
-        };
+        // return () => {
+        //     source.cancel();
+        // };
     };
 
 
     const postCallPayment = async (payload) => {
+        let CancelToken = axios.CancelToken;
+        let source = CancelToken.source();
         let endpoint = 'http://localhost:8080/payment/insert/';
 
         await axios.post(endpoint, payload, {
             timeout: 0,
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json'},
+            cancelToken: source.token
         });
     };
 
@@ -156,6 +160,10 @@ export default function PaymentTable() {
     };
 
     useEffect(() => {
+        if (data === undefined) {
+            console.log('data is undefined')
+        }
+
         if (data.length === 0) {
             fetchData();
         }
@@ -196,6 +204,8 @@ export default function PaymentTable() {
                         title="Payments"
                         options={{
                             paging: false,
+                            pageSize: 20,
+                            addRowPosition: "first",
                             search: false
                         }}
 

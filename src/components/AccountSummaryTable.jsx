@@ -1,17 +1,26 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import MaterialTable from "material-table";
 import Spinner from './Spinner';
 import './master.scss';
 import axios from "axios";
 import Link from "@material-ui/core/Link";
-import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
+import {useHistory} from "react-router-dom";
 
 export default function AccountSummaryTable() {
 
     const [totals, setTotals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+
+
+
+    const history = useHistory();
+
+    const handleChange = (accountNameOwner) => {
+        history.push('/transactions/' + accountNameOwner);
+        history.go(0);
+    }
 
     const currencyFormat = (inputData) => {
         inputData = parseFloat(inputData).toFixed(2);
@@ -24,7 +33,12 @@ export default function AccountSummaryTable() {
             setTotals(response.data);
         } catch (error) {
             if (error.response) {
-                alert(JSON.stringify(error.response.data));
+                if (error.response.status === 500) {
+                    setLoading(false);
+                } else {
+                    alert("fetchTotals: " + error.response.status);
+                    alert("fetchTotals: " + JSON.stringify(error.response.data));
+                }
             }
         }
     }, []);
@@ -35,12 +49,16 @@ export default function AccountSummaryTable() {
 
         try {
             const response = await axios.get('http://localhost:8080/account/select/active');
-
             setData(response.data);
             setLoading(false);
         } catch (error) {
             if (error.response) {
-                alert(JSON.stringify(error.response.data));
+                if (error.response.status === 404) {
+                    setLoading(false);
+                } else {
+                    alert("fetchData: " + error.response.status);
+                    alert("fetchData: " + JSON.stringify(error.response.data));
+                }
             }
         }
 
@@ -49,13 +67,13 @@ export default function AccountSummaryTable() {
         };
     }, []);
 
-    useEffect( () => {
+    useEffect(() => {
 
-        if( data.length === 0 ) {
+        if (data.length === 0) {
             fetchData();
         }
 
-        if( totals.length === 0 ) {
+        if (totals.length === 0) {
             fetchTotals();
         }
 
@@ -66,13 +84,11 @@ export default function AccountSummaryTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
-                            {title: "accountNameOwner", field: "accountNameOwner",
+                            {
+                                title: "accountNameOwner", field: "accountNameOwner",
                                 render: (rowData) => {
                                     return (
-                                        // <Link onClick={alert('me')}>{rowData.accountNameOwner}</Link>
-                                        //TODO: adding links
-                                        // <Tab label={rowData.accountNameOwner} to={'/transactions/' + rowData.accountNameOwner} component={Link}></Tab>
-                                    <Button component={Link} to={'/transactions/' + rowData.accountNameOwner}>{rowData.accountNameOwner}</Button>
+                                        <Button  onClick={() => handleChange(rowData.accountNameOwner)}>{rowData.accountNameOwner}</Button>
                                     )
                                 }
                             },

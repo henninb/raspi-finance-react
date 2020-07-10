@@ -32,8 +32,6 @@ export default function TransactionTable() {
         };
     }, [match]);
 
-
-
     const fetchData = useCallback(async () => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
@@ -49,7 +47,7 @@ export default function TransactionTable() {
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
-                setData([...data, newData]);
+                setData([newData, ...data]);
                 try {
                     await postCall(newData);
                     await fetchTotals();
@@ -169,7 +167,7 @@ export default function TransactionTable() {
                             {
                                 title: "date", field: "transactionDate", type: "date",
                                 render: (rowData) => {
-                                    return ( <TableCell  style={{
+                                    return (<TableCell style={{
                                         whiteSpace: "nowrap",
                                         borderBottom: 0,
                                     }}>
@@ -177,13 +175,14 @@ export default function TransactionTable() {
                                     </TableCell>)
                                 }
                             },
-                            {title: "description", field: "description",
+                            {
+                                title: "description", field: "description",
                                 render: (rowData) => {
-                                   return ( <TableCell  style={{
-                                       whiteSpace: "nowrap",
-                                       //wordWrap: "break-word",
-                                       borderBottom: 0,
-                                   }}>
+                                    return (<TableCell style={{
+                                        whiteSpace: "nowrap",
+                                        //wordWrap: "break-word",
+                                        borderBottom: 0,
+                                    }}>
                                         {rowData.description}
                                     </TableCell>)
                                 }
@@ -201,9 +200,10 @@ export default function TransactionTable() {
                                     )
                                 }
                             },
-                            {title: "notes", field: "notes",
+                            {
+                                title: "notes", field: "notes",
                                 render: (rowData) => {
-                                    return ( <TableCell  style={{
+                                    return (<TableCell style={{
                                         whiteSpace: "nowrap",
                                         borderBottom: 0,
                                     }}>
@@ -211,7 +211,6 @@ export default function TransactionTable() {
                                     </TableCell>)
                                 }
                             },
-
                         ]}
                         data={data}
                         title={`[${match.params.account}] [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
@@ -226,25 +225,24 @@ export default function TransactionTable() {
                             onRowAdd: addRow,
                             onRowUpdate:  //updateRow,
                                 (newData, oldData) =>
-                                new Promise((resolve, reject) => {
-                                    setTimeout(async () => {
-
-                                        const dataUpdate = [...data];
-                                        const index = oldData.tableData.id;
-                                        dataUpdate[index] = newData;
-                                        try {
-                                            await patchCall(newData, oldData);
-                                            await fetchTotals();
-                                            setData([...dataUpdate]);
-                                            resolve();
-                                        } catch (error) {
-                                            if (error.response) {
-                                                alert(JSON.stringify(error.response.data));
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(async () => {
+                                            const dataUpdate = [...data];
+                                            const index = oldData.tableData.id;
+                                            dataUpdate[index] = newData;
+                                            try {
+                                                await patchCall(newData, oldData);
+                                                await fetchTotals();
+                                                setData([...dataUpdate]);
+                                                resolve();
+                                            } catch (error) {
+                                                if (error.response) {
+                                                    alert(JSON.stringify(error.response.data));
+                                                }
+                                                reject();
                                             }
-                                            reject();
-                                        }
-                                    }, 1000);
-                                }),
+                                        }, 1000);
+                                    }),
                             onRowDelete: (oldData) =>
                                 new Promise((resolve, reject) => {
                                     setTimeout(async () => {
