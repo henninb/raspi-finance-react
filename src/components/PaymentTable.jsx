@@ -6,7 +6,7 @@ import axios from "axios";
 import {v4 as uuidv4} from 'uuid';
 import SelectAccountNameOwnerCredit from './SelectAccountNameOwnerCredit'
 import Spinner from "./Spinner";
-import formatDate from "./Common"
+import {formatDate} from "./Common"
 
 export default function PaymentTable() {
     const [data, setData] = useState([]);

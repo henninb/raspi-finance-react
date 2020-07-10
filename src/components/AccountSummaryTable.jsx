@@ -3,7 +3,6 @@ import MaterialTable from "material-table";
 import Spinner from './Spinner';
 import './master.scss';
 import axios from "axios";
-import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 import {useHistory} from "react-router-dom";
 
@@ -12,12 +11,9 @@ export default function AccountSummaryTable() {
     const [totals, setTotals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-
-
-
     const history = useHistory();
 
-    const handleChange = (accountNameOwner) => {
+    const handleButtonClickLink = (accountNameOwner) => {
         history.push('/transactions/' + accountNameOwner);
         history.go(0);
     }
@@ -88,7 +84,8 @@ export default function AccountSummaryTable() {
                                 title: "accountNameOwner", field: "accountNameOwner",
                                 render: (rowData) => {
                                     return (
-                                        <Button  onClick={() => handleChange(rowData.accountNameOwner)}>{rowData.accountNameOwner}</Button>
+                                        <Button
+                                            onClick={() => handleButtonClickLink(rowData.accountNameOwner)}>{rowData.accountNameOwner}</Button>
                                     )
                                 }
                             },

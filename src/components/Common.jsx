@@ -1,4 +1,4 @@
-export default function formatDate(date) {
+export function formatDate(date) {
     let d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
@@ -17,10 +17,7 @@ export function toEpochDateAsMillis(transactionDate) {
     return utc_val.valueOf();
 }
 
-//
-// export function currencyFormat(inputData) {
-//     inputData = parseFloat(inputData).toFixed(2);
-//     return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-// }
-
-//export default {formatDate, toEpochDateAsMillis, currencyFormat};
+export function currencyFormat(inputData) {
+    inputData = parseFloat(inputData).toFixed(2);
+    return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

@@ -19,10 +19,9 @@ export default function SelectAccountNameOwnerCredit({onChangeFunction, currentV
             if (optionList.length > 0) {
                 setaccountTypeOptions(optionList);
             }
-            alert(optionList);
         } catch (error) {
             if (error.response) {
-                alert(JSON.stringify(error.response.data));
+                alert("status: " + error.response.status + " - " + JSON.stringify(error.response.data));
             }
         }
     }, []);

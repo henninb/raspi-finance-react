@@ -7,7 +7,7 @@ import Spinner from './Spinner';
 import './master.scss';
 import {useRouteMatch} from 'react-router-dom';
 import SelectCleared from "./SelectCleared";
-import formatDate from "./Common"
+import {formatDate,toEpochDateAsMillis} from "./Common"
 import TableCell from "@material-ui/core/TableCell";
 
 // const styles = theme => ({
@@ -84,12 +84,12 @@ export default function TransactionTable() {
         })
     }
 
-    const toEpochDateAsMillis = (transactionDate) => {
-        let date_val = new Date(transactionDate);
-        let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
-
-        return utc_val.valueOf();
-    };
+    // const toEpochDateAsMillis = (transactionDate) => {
+    //     let date_val = new Date(transactionDate);
+    //     let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
+    //
+    //     return utc_val.valueOf();
+    // };
 
     const currencyFormat = (inputData) => {
         inputData = parseFloat(inputData).toFixed(2);
