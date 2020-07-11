@@ -1,4 +1,4 @@
-export function formatDate(date) {
+export const formatDate = (date)  => {
     let d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
@@ -10,18 +10,12 @@ export function formatDate(date) {
     return [year, month, day].join('-');
 }
 
-export function toEpochDateAsMillis(transactionDate) {
+export const toEpochDateAsMillis = (transactionDate) => {
     let date_val = new Date(transactionDate);
     let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
 
     return utc_val.valueOf();
 }
-
-// export function currencyFormat(inputData) {
-//     inputData = parseFloat(inputData).toFixed(2);
-//     return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-// }
-
 
 export const currencyFormat = (inputData) => {
     inputData = parseFloat(inputData).toFixed(2);

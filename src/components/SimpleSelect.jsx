@@ -20,7 +20,7 @@ export default function SimpleSelect() {
 
             let optionList = []
             response.data.forEach(element => {
-                optionList = optionList.concat({value: element.accountNameOwner, label: element.accountNameOwner})
+                optionList = optionList.concat({value: element.accountNameOwner, label: element.accountNameOwner});
             })
 
             //if( response.data.length > 0 ) {
