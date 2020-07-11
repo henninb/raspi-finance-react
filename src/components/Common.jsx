@@ -17,7 +17,13 @@ export function toEpochDateAsMillis(transactionDate) {
     return utc_val.valueOf();
 }
 
-export function currencyFormat(inputData) {
+// export function currencyFormat(inputData) {
+//     inputData = parseFloat(inputData).toFixed(2);
+//     return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// }
+
+
+export const currencyFormat = (inputData) => {
     inputData = parseFloat(inputData).toFixed(2);
     return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+};

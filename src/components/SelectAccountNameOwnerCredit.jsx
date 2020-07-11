@@ -21,7 +21,7 @@ export default function SelectAccountNameOwnerCredit({onChangeFunction, currentV
             }
         } catch (error) {
             if (error.response) {
-                alert("status: " + error.response.status + " - " + JSON.stringify(error.response.data));
+                alert("fetchAccountTypeOptions - status: " + error.response.status + " - " + JSON.stringify(error.response.data));
             }
         }
     }, []);

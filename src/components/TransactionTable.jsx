@@ -7,7 +7,7 @@ import Spinner from './Spinner';
 import './master.scss';
 import {useRouteMatch} from 'react-router-dom';
 import SelectCleared from "./SelectCleared";
-import {formatDate,toEpochDateAsMillis} from "./Common"
+import {currencyFormat, formatDate, toEpochDateAsMillis} from "./Common"
 import TableCell from "@material-ui/core/TableCell";
 
 // const styles = theme => ({
@@ -83,18 +83,6 @@ export default function TransactionTable() {
             }, 1000);
         })
     }
-
-    // const toEpochDateAsMillis = (transactionDate) => {
-    //     let date_val = new Date(transactionDate);
-    //     let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
-    //
-    //     return utc_val.valueOf();
-    // };
-
-    const currencyFormat = (inputData) => {
-        inputData = parseFloat(inputData).toFixed(2);
-        return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    };
 
     const clearedStatus = (value) => {
         if (value === 1) return "cleared";

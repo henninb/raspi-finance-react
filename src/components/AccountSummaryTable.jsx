@@ -29,19 +29,15 @@ export default function AccountSummaryTable() {
             setTotals(response.data);
         } catch (error) {
             if (error.response) {
-                if (error.response.status === 500) {
-                    setLoading(false);
-                } else {
-                    alert("fetchTotals: " + error.response.status);
-                    alert("fetchTotals: " + JSON.stringify(error.response.data));
-                }
+                alert("fetchTotals: " + error.response.status);
+                alert("fetchTotals: " + JSON.stringify(error.response.data));
             }
         }
     }, []);
 
     const fetchData = useCallback(async () => {
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
+        // const CancelToken = axios.CancelToken;
+        // const source = CancelToken.source();
 
         try {
             const response = await axios.get('http://localhost:8080/account/select/active');
@@ -58,9 +54,9 @@ export default function AccountSummaryTable() {
             }
         }
 
-        return () => {
-            source.cancel();
-        };
+        // return () => {
+        //     source.cancel();
+        // };
     }, []);
 
     useEffect(() => {

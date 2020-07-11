@@ -6,11 +6,19 @@ import axios from "axios";
 import {v4 as uuidv4} from 'uuid';
 import SelectAccountNameOwnerCredit from './SelectAccountNameOwnerCredit'
 import Spinner from "./Spinner";
-import {formatDate} from "./Common"
+import {formatDate, toEpochDateAsMillis} from "./Common"
+import {useHistory} from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 export default function PaymentTable() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const history = useHistory();
+
+    const handleButtonClickLink = (accountNameOwner) => {
+        history.push('/transactions/' + accountNameOwner);
+        history.go(0);
+    }
 
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
@@ -25,7 +33,7 @@ export default function PaymentTable() {
                     resolve();
                 } catch (error) {
                     if (error.response) {
-                        alert(JSON.stringify(error.response.data));
+                        alert("addRow - status: " + error.response.status + " - " + JSON.stringify(error.response.data));
                     }
                     reject();
                 }
@@ -36,27 +44,16 @@ export default function PaymentTable() {
     const fetchData = useCallback(async () => {
         try {
             const response = await axios.get('http://localhost:8080/payment/select');
-            setData(response.data);
+            if (response.data.length > 0) {
+                setData(response.data);
+            }
             setLoading(false);
-
         } catch (error) {
             if (error.response) {
-                alert("status: " + error.response.status + " - " + JSON.stringify(error.response.data));
+                alert("fetchData - status: " + error.response.status + " - " + JSON.stringify(error.response.data));
             }
         }
     }, []);
-
-    // const formatDate = (date) => {
-    //     let d = new Date(date);
-    //     let month = '' + (d.getMonth() + 1);
-    //     let day = '' + d.getDate();
-    //     let year = d.getFullYear();
-    //
-    //     month = ("0" + month).slice(-2);
-    //     day = ("0" + day).slice(-2);
-    //
-    //     return [year, month, day].join('-');
-    // };
 
     const verifyData = (newData) => {
         if (isNaN(newData.amount)) return false;
@@ -65,13 +62,6 @@ export default function PaymentTable() {
         // return newData.accountNameOwner !== undefined;
         return true
     }
-
-    const toEpochDateAsMillis = (transactionDate) => {
-        let date_val = new Date(transactionDate);
-        let utc_val = new Date(date_val.getTime() + date_val.getTimezoneOffset() * 60000);
-
-        return utc_val.valueOf();
-    };
 
     const postCallCredit = async (accountPayload) => {
         let CancelToken = axios.CancelToken;
@@ -105,7 +95,6 @@ export default function PaymentTable() {
         // };
     };
 
-
     const postCallPayment = async (payload) => {
         let CancelToken = axios.CancelToken;
         let source = CancelToken.source();
@@ -118,11 +107,9 @@ export default function PaymentTable() {
         });
     };
 
-
     const postCall = async (payload) => {
         let accountPayload = {};
         let bankPayload = {};
-
 
         accountPayload['guid'] = uuidv4();
         //accountPayload['guid'] = uuid();
@@ -130,7 +117,11 @@ export default function PaymentTable() {
         accountPayload['description'] = 'payment';
         accountPayload['category'] = 'bill_pay';
         accountPayload['notes'] = 'from bcu';
-        accountPayload['amount'] = payload.amount * (-1.0);
+        if (payload.amount > 0) {
+            accountPayload['amount'] = payload.amount * (-1.0);
+        } else {
+            accountPayload['amount'] = payload.amount;
+        }
         accountPayload['cleared'] = 0;
         accountPayload['accountType'] = 'credit';
         accountPayload['reoccurring'] = false
@@ -145,14 +136,18 @@ export default function PaymentTable() {
         bankPayload['description'] = 'payment';
         bankPayload['category'] = 'bill_pay';
         bankPayload['notes'] = 'to ' + payload.accountNameOwner;
-        bankPayload['amount'] = payload.amount * (-1.0);
+        if (payload.amount > 0) {
+            bankPayload['amount'] = payload.amount * (-1.0);
+        } else {
+            bankPayload['amount'] = payload.amount;
+        }
         bankPayload['cleared'] = 0;
         bankPayload['accountType'] = 'debit';
-        bankPayload['reoccurring'] = false
+        bankPayload['reoccurring'] = false;
         bankPayload['sha256'] = '';
         bankPayload['accountNameOwner'] = 'bcu-checking_brian';
-        bankPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
-        bankPayload['dateAdded'] = toEpochDateAsMillis(new Date())
+        bankPayload['dateUpdated'] = toEpochDateAsMillis(new Date());
+        bankPayload['dateAdded'] = toEpochDateAsMillis(new Date());
 
         await postCallCredit(accountPayload);
         await postCallDebit(bankPayload);
@@ -191,6 +186,13 @@ export default function PaymentTable() {
                             },
                             {
                                 title: "accountNameOwner", field: "accountNameOwner",
+                                render: (rowData) => {
+                                    return (
+                                        <Button
+                                            onClick={() => handleButtonClickLink(rowData.accountNameOwner)}>{rowData.accountNameOwner}</Button>
+                                    )
+                                }
+                                ,
                                 editComponent: (props) => {
                                     return (
                                         <SelectAccountNameOwnerCredit onChangeFunction={props.onChange}
@@ -223,17 +225,10 @@ export default function PaymentTable() {
                                             resolve();
                                         } catch (error) {
                                             if (error.response) {
-                                                alert(JSON.stringify(error.response.data));
+                                                alert("onRowDelete - status: " + error.response + " - " + JSON.stringify(error.response.data));
                                             }
                                             reject();
                                         }
-                                    }, 1000);
-                                })
-                            ,
-                            onRowUpdate: () =>
-                                new Promise((resolve, reject) => {
-                                    setTimeout(() => {
-                                        reject();
                                     }, 1000);
                                 })
                         }}
