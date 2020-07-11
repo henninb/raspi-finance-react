@@ -62,28 +62,6 @@ export default function TransactionTable() {
         });
     };
 
-    const updateRow = (oldData, newData) => {
-        return new Promise((resolve, reject) => {
-            setTimeout(async () => {
-
-                const dataUpdate = [...data];
-                const index = oldData.tableData.id;
-                dataUpdate[index] = newData;
-                try {
-                    await patchCall(newData, oldData);
-                    await fetchTotals();
-                    setData([...dataUpdate]);
-                    resolve();
-                } catch (error) {
-                    if (error.response) {
-                        alert(JSON.stringify(error.response.data));
-                    }
-                    reject();
-                }
-            }, 1000);
-        })
-    }
-
     const clearedStatus = (value) => {
         if (value === 1) return "cleared";
         else if (value === 0) return "outstanding";
