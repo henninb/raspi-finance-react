@@ -209,6 +209,7 @@ export default function TransactionTable() {
     return (<div>
             {!loading ?
                 <div className="table-formatting">
+                    //TODO: EditableTable
                     <MaterialTable
                         columns={[
                             {title: "date", field: "transactionDate", type: "date", cellStyle: {whiteSpace: "nowrap"},
@@ -254,6 +255,16 @@ export default function TransactionTable() {
                             onRowUpdate: updateRow,
                             onRowDelete: deleteRow
                         }}
+
+                        // actions={[
+                        //     {
+                        //         icon: "edit",
+                        //         iconProps: { style: { fontSize: "24px" } },
+                        //         tooltip: "Edit",
+                        //         onClick: (event, rowData) => alert("You edited " + rowData.accountNameOwner)
+                        //     }
+                        // ]}
+
                     />
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )
