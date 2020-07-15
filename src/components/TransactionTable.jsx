@@ -5,10 +5,11 @@ import axios from 'axios';
 import {v4 as uuidv4} from 'uuid';
 import Spinner from './Spinner';
 import './master.scss';
-import {useRouteMatch} from 'react-router-dom';
+import {useHistory, useRouteMatch} from 'react-router-dom';
 import SelectCleared from "./SelectCleared";
 import {currencyFormat, formatDate, toEpochDateAsMillis} from "./Common"
 import TableCell from "@material-ui/core/TableCell";
+import Button from "@material-ui/core/Button";
 
 // const styles = theme => ({
 //     tableCell: {
@@ -20,7 +21,16 @@ export default function TransactionTable() {
     const [loading, setLoading] = useState(true);
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
+    const [keyPressed, setKeyPressed] = useState(false);
+    const history = useHistory();
+
     let match = useRouteMatch("/transactions/:account");
+
+    const handleButtonClickLink = (accountNameOwner) => {
+        alert(accountNameOwner);
+        // history.push('/transactions/' + accountNameOwner);
+        history.go(0);
+    };
 
     const fetchTotals = useCallback(async () => {
         const CancelToken = axios.CancelToken;
@@ -43,6 +53,62 @@ export default function TransactionTable() {
             source.cancel();
         };
     }, [match]);
+
+    const patchCall = async (newData, oldData) => {
+        let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
+        delete newData['tableData'];
+
+        newData['dateUpdated'] = toEpochDateAsMillis(new Date())
+        //TODO: ought not use set the dateAdded()
+        newData['dateAdded'] = toEpochDateAsMillis(new Date())
+
+        await axios.patch(endpoint, JSON.stringify(newData), {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json-patch+json'}
+        });
+    };
+
+    const updateRow = (newData, oldData) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(async () => {
+                const dataUpdate = [...data];
+                const index = oldData.tableData.id;
+                dataUpdate[index] = newData;
+                try {
+                    await patchCall(newData, oldData);
+                    await fetchTotals();
+                    setData([...dataUpdate]);
+                    resolve();
+                } catch (error) {
+                    if (error.response) {
+                        alert(JSON.stringify(error.response.data));
+                    }
+                    reject();
+                }
+            }, 1000);
+        });
+    };
+
+    const deleteRow = (oldData) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(async () => {
+                const dataDelete = [...data];
+                const index = oldData.tableData.id;
+                dataDelete.splice(index, 1);
+                try {
+                    await deleteCall(oldData);
+                    await fetchTotals();
+                    setData([...dataDelete]);
+                    resolve();
+                } catch (error) {
+                    if (error.response) {
+                        alert(JSON.stringify(error.response.data));
+                    }
+                    reject();
+                }
+            }, 1000);
+        });
+    };
 
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
@@ -75,20 +141,6 @@ export default function TransactionTable() {
         await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
     };
 
-    const patchCall = async (newData, oldData) => {
-        let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
-        delete newData['tableData'];
-
-        newData['dateUpdated'] = toEpochDateAsMillis(new Date())
-        //TODO: ought not use set the dateAdded()
-        newData['dateAdded'] = toEpochDateAsMillis(new Date())
-
-        await axios.patch(endpoint, JSON.stringify(newData), {
-            timeout: 0,
-            headers: {'Content-Type': 'application/json-patch+json'}
-        });
-    };
-
     const postCall = async (payload) => {
         let endpoint = 'http://localhost:8080/transaction/insert/';
         let newPayload = {};
@@ -114,13 +166,42 @@ export default function TransactionTable() {
         });
     };
 
+    const downHandler = ({ key }) => {
+        // alert(key)
+        if (key === 'Escape') {
+            alert('me - escape');
+            // document.getElementById('Cancel').click()
+            setKeyPressed(true);
+        }
+
+        // if (key === 'Enter') {
+        //     alert('me - enter');
+        //     // document.getElementById('Cancel').click()
+        //     setKeyPressed(true);
+        // }
+    };
+
+    const upHandler = ({ key }) => {
+        if (key === 'F1') {
+            setKeyPressed(false);
+        }
+    };
+
     useEffect(() => {
+        window.addEventListener('keydown', downHandler);
+        window.addEventListener('keyup', upHandler);
+
         if (data.length === 0) {
             fetchData();
         }
 
         if (totals.length === 0) {
             fetchTotals();
+        }
+
+        return () => {
+            window.removeEventListener('keydown', downHandler);
+            window.removeEventListener('keyup', upHandler);
         }
 
     }, [totals, data, fetchTotals, fetchData]);
@@ -130,52 +211,33 @@ export default function TransactionTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
-                            {
-                                title: "date", field: "transactionDate", type: "date",
+                            {title: "date", field: "transactionDate", type: "date", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    return (<TableCell style={{
-                                        whiteSpace: "nowrap",
-                                        borderBottom: 0,
-                                    }}>
+                                    return (<div>
                                         {formatDate(rowData.transactionDate)}
-                                    </TableCell>)
+                                    </div>)
                                 }
                             },
-                            {
-                                title: "description", field: "description",
-                                render: (rowData) => {
-                                    return (<TableCell style={{
-                                        whiteSpace: "nowrap",
-                                        //wordWrap: "break-word",
-                                        borderBottom: 0,
-                                    }}>
-                                        {rowData.description}
-                                    </TableCell>)
-                                }
+                            {title: "description", field: "description", cellStyle: {whiteSpace: "nowrap"}
                             },
-                            {title: "category", field: "category"},
-                            {title: "amount", field: "amount", type: "currency"},
-                            {
-                                title: "cleared", field: "cleared",
+                            {title: "category", field: "category", cellStyle: {whiteSpace: "nowrap"}},
+                            {title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
+                            {title: "cleared", field: "cleared", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    return <div>{clearedStatus(rowData.cleared)}</div>
+                                    return (
+                                        <Button
+                                            onClick={() => handleButtonClickLink(rowData.accountNameOwner)}>{clearedStatus(rowData.cleared)}</Button>
+                                    )
                                 },
                                 editComponent: (props) => {
                                     return (
+                                        <>
                                         <SelectCleared onChangeFunction={props.onChange} currentValue={props.value}/>
+                                        </>
                                     )
                                 }
                             },
-                            {
-                                title: "notes", field: "notes",
-                                render: (rowData) => {
-                                    return (<TableCell style={{
-                                        whiteSpace: "nowrap",
-                                        borderBottom: 0,
-                                    }}>
-                                        {rowData.notes}
-                                    </TableCell>)
-                                }
+                            {title: "notes", field: "notes", cellStyle: {whiteSpace: "nowrap"}
                             },
                         ]}
                         data={data}
@@ -189,45 +251,8 @@ export default function TransactionTable() {
 
                         editable={{
                             onRowAdd: addRow,
-                            onRowUpdate:  //updateRow,
-                                (newData, oldData) =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(async () => {
-                                            const dataUpdate = [...data];
-                                            const index = oldData.tableData.id;
-                                            dataUpdate[index] = newData;
-                                            try {
-                                                await patchCall(newData, oldData);
-                                                await fetchTotals();
-                                                setData([...dataUpdate]);
-                                                resolve();
-                                            } catch (error) {
-                                                if (error.response) {
-                                                    alert(JSON.stringify(error.response.data));
-                                                }
-                                                reject();
-                                            }
-                                        }, 1000);
-                                    }),
-                            onRowDelete: (oldData) =>
-                                new Promise((resolve, reject) => {
-                                    setTimeout(async () => {
-                                        const dataDelete = [...data];
-                                        const index = oldData.tableData.id;
-                                        dataDelete.splice(index, 1);
-                                        try {
-                                            await deleteCall(oldData);
-                                            await fetchTotals();
-                                            setData([...dataDelete]);
-                                            resolve();
-                                        } catch (error) {
-                                            if (error.response) {
-                                                alert(JSON.stringify(error.response.data));
-                                            }
-                                            reject();
-                                        }
-                                    }, 1000);
-                                })
+                            onRowUpdate: updateRow,
+                            onRowDelete: deleteRow
                         }}
                     />
                 </div> : <div className="centered"><Spinner/></div>}</div>

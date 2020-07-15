@@ -18,6 +18,8 @@ export default function SelectCleared({onChangeFunction, currentValue}) {
     return (
         <div>
             <Select
+                // ariaLabel='label'
+                // aria-label='label'
                 value={selectedOption}
                 onChange={onSelectChange}
                 native={true}

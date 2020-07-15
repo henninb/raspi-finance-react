@@ -117,6 +117,10 @@ export default function AccountSummaryTable() {
             fetchTotals();
         }
 
+        return () => {
+
+        }
+
     }, [totals, data, fetchData, fetchTotals]);
 
     return (<div>
@@ -124,8 +128,7 @@ export default function AccountSummaryTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
-                            {
-                                title: "accountNameOwner", field: "accountNameOwner",
+                            {title: "accountNameOwner", field: "accountNameOwner", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     return (
                                         <Button
@@ -133,10 +136,10 @@ export default function AccountSummaryTable() {
                                     )
                                 }
                             },
-                            {title: "accountType", field: "accountType"},
-                            {title: "moniker", field: "moniker"},
-                            {title: "unbalanced", field: "totals", type: "currency"},
-                            {title: "balanced", field: "totalsBalanced", type: "currency"},
+                            {title: "accountType", field: "accountType", cellStyle: {whiteSpace: "nowrap"}},
+                            {title: "moniker", field: "moniker", cellStyle: {whiteSpace: "nowrap"}},
+                            {title: "unbalanced", field: "totals", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
+                            {title: "balanced", field: "totalsBalanced", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
                         ]}
                         data={data}
                         title={` [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}

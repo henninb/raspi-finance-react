@@ -82,6 +82,10 @@ export default function PaymentTable() {
             fetchData();
         }
 
+        return () => {
+
+        }
+
     }, [data, fetchData]);
 
     const deleteCall = async (payload) => {
@@ -97,14 +101,12 @@ export default function PaymentTable() {
                     <MaterialTable
                         data-testid="payment-table"
                         columns={[
-                            {
-                                title: "transactionDate", field: "transactionDate", type: "date",
+                            {title: "transactionDate", field: "transactionDate", type: "date", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     return <div>{formatDate(rowData.transactionDate)}</div>
                                 }
                             },
-                            {
-                                title: "accountNameOwner", field: "accountNameOwner",
+                            {title: "accountNameOwner", field: "accountNameOwner", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     return (
                                         <Button
@@ -119,7 +121,7 @@ export default function PaymentTable() {
                                     )
                                 }
                             },
-                            {title: "amount", field: "amount", type: "currency"},
+                            {title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
                         ]}
                         data={data}
                         title="Payments"

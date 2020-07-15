@@ -42,6 +42,10 @@ export default function SimpleSelect() {
             fetchData();
         }
 
+        return () => {
+
+        }
+
     }, [options, fetchData]);
 
     return (

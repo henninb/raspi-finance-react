@@ -30,6 +30,10 @@ export default function SelectAccountNameOwnerCredit({onChangeFunction, currentV
         if (accountTypeOptions.length === 0) {
             fetchAccountTypeOptions();
         }
+
+        return () => {
+
+        }
     }, [accountTypeOptions, fetchAccountTypeOptions]);
 
     const onSelectChange = ({value}) => {
