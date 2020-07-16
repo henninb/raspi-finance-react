@@ -25,6 +25,7 @@ export default function SelectCleared({onChangeFunction, currentValue}) {
                 native={true}
                 options={accountTypeOptions}
                 placeholder={currentValue}
+                defaultValue={currentValue}
             />
         </div>
     );

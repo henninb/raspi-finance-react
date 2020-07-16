@@ -8,7 +8,6 @@ import './master.scss';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import SelectCleared from "./SelectCleared";
 import {currencyFormat, formatDate, toEpochDateAsMillis} from "./Common"
-import TableCell from "@material-ui/core/TableCell";
 import Button from "@material-ui/core/Button";
 
 // const styles = theme => ({
@@ -26,9 +25,9 @@ export default function TransactionTable() {
 
     let match = useRouteMatch("/transactions/:account");
 
-    const handleButtonClickLink = (accountNameOwner) => {
-        alert(accountNameOwner);
+    const handleButtonClickLink = async (guid) => {
         // history.push('/transactions/' + accountNameOwner);
+        await updateTransactionCleared(guid)
         history.go(0);
     };
 
@@ -41,6 +40,17 @@ export default function TransactionTable() {
             source.cancel();
         };
     }, [match]);
+
+
+    const updateTransactionCleared = async (guid) => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        const response = await axios.put('http://localhost:8080/transaction/cleared/update/' + guid, {cancelToken: source.token});
+        setTotals(response.data);
+        return () => {
+            source.cancel();
+        };
+    };
 
     const fetchData = useCallback(async () => {
         const CancelToken = axios.CancelToken;
@@ -209,7 +219,6 @@ export default function TransactionTable() {
     return (<div>
             {!loading ?
                 <div className="table-formatting">
-                    //TODO: EditableTable
                     <MaterialTable
                         columns={[
                             {title: "date", field: "transactionDate", type: "date", cellStyle: {whiteSpace: "nowrap"},
@@ -227,7 +236,7 @@ export default function TransactionTable() {
                                 render: (rowData) => {
                                     return (
                                         <Button
-                                            onClick={() => handleButtonClickLink(rowData.accountNameOwner)}>{clearedStatus(rowData.cleared)}</Button>
+                                            onClick={() => handleButtonClickLink(rowData.guid)}>{clearedStatus(rowData.cleared)}</Button>
                                     )
                                 },
                                 editComponent: (props) => {
