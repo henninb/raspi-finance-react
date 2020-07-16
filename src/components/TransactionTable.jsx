@@ -139,10 +139,14 @@ export default function TransactionTable() {
     };
 
     const clearedStatus = (value) => {
-        if (value === 1) return "cleared";
-        else if (value === 0) return "outstanding";
-        else if (value === -1) return "future";
-        else return "unknown";
+        let result = parseInt(value, 10);
+        if (result === 1) return "cleared";
+        else if (result === 0) return "outstanding";
+        else if (result === -1) return "future";
+        else {
+            alert("unknown status type: " + value);
+            return "unknown";
+        };
     };
 
     const deleteCall = async (payload) => {
