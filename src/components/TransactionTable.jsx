@@ -10,12 +10,6 @@ import SelectCleared from "./SelectCleared";
 import {currencyFormat, formatDate, toEpochDateAsMillis} from "./Common"
 import Button from "@material-ui/core/Button";
 
-// const styles = theme => ({
-//     tableCell: {
-//         whiteSpace: 'nowrap',
-//     },
-// });
-
 export default function TransactionTable() {
     const [loading, setLoading] = useState(true);
     const [totals, setTotals] = useState([]);
@@ -146,7 +140,7 @@ export default function TransactionTable() {
         else {
             alert("unknown status type: " + value);
             return "unknown";
-        };
+        }
     };
 
     const deleteCall = async (payload) => {
@@ -183,7 +177,7 @@ export default function TransactionTable() {
     const downHandler = ({ key }) => {
         // alert(key)
         if (key === 'Escape') {
-            alert('me - escape');
+            alert('me - escape' + keyPressed);
             // document.getElementById('Cancel').click()
             setKeyPressed(true);
         }
@@ -196,7 +190,7 @@ export default function TransactionTable() {
     };
 
     const upHandler = ({ key }) => {
-        if (key === 'F1') {
+        if (key === 'Escape') {
             setKeyPressed(false);
         }
     };
