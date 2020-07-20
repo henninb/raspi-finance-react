@@ -41,3 +41,8 @@ Warning: Can't perform a React state update on an unmounted component. This is a
 
 ## example cleanup
 https://codesandbox.io/s/l458746w89?from-embed=&file=/src/AxiosHooksComponent.js:127-723
+
+
+
+## upgrade packages
+ncu -u

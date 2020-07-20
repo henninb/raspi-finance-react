@@ -174,7 +174,9 @@ export default function TransactionTable() {
         });
     };
 
-    const downHandler = ({ key }) => {
+    //const fetchData = useCallback(async () => {
+
+    const downHandler = useCallback(({ key }) => {
         // alert(key)
         if (key === 'Escape') {
             alert('me - escape' + keyPressed);
@@ -187,13 +189,13 @@ export default function TransactionTable() {
         //     // document.getElementById('Cancel').click()
         //     setKeyPressed(true);
         // }
-    };
+    }, [keyPressed]);
 
-    const upHandler = ({ key }) => {
+    const upHandler = useCallback(({ key }) => {
         if (key === 'Escape') {
             setKeyPressed(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         window.addEventListener('keydown', downHandler);
@@ -212,7 +214,7 @@ export default function TransactionTable() {
             window.removeEventListener('keyup', upHandler);
         }
 
-    }, [totals, data, fetchTotals, fetchData]);
+    }, [totals, data, fetchTotals, fetchData, downHandler, upHandler]);
 
     return (<div>
             {!loading ?

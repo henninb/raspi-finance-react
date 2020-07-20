@@ -27,12 +27,15 @@ export default function SelectAccountNameOwnerCredit({onChangeFunction, currentV
     }, []);
 
     useEffect(() => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
         if (accountTypeOptions.length === 0) {
             fetchAccountTypeOptions();
         }
 
         return () => {
-
+            source.cancel();
         }
     }, [accountTypeOptions, fetchAccountTypeOptions]);
 

@@ -84,8 +84,8 @@ export default function AccountSummaryTable() {
     }, []);
 
     const fetchData = useCallback(async () => {
-        // const CancelToken = axios.CancelToken;
-        // const source = CancelToken.source();
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
 
         try {
             const response = await axios.get('http://localhost:8080/account/select/active');
@@ -102,9 +102,9 @@ export default function AccountSummaryTable() {
             }
         }
 
-        // return () => {
-        //     source.cancel();
-        // };
+        return () => {
+            source.cancel();
+        };
     }, []);
 
     useEffect(() => {

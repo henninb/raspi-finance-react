@@ -5,7 +5,7 @@ export default function SelectCleared({onChangeFunction, currentValue}) {
     const [selectedOption, setSelectedOption] = useState(currentValue);
 
     const accountTypeOptions = [
-        {value: '-1', label: 'future'},
+        {value: '-1', label: 'future', chipLabel: "negative"},
         {value: '0', label: 'outstanding'},
         {value: '1', label: 'cleared'}
     ];

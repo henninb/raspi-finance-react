@@ -74,6 +74,9 @@ export default function PaymentTable() {
     };
 
     useEffect(() => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
         if (data === undefined) {
             console.log('data is undefined')
         }
@@ -83,7 +86,7 @@ export default function PaymentTable() {
         }
 
         return () => {
-
+            source.cancel();
         }
 
     }, [data, fetchData]);
