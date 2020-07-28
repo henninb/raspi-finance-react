@@ -153,9 +153,15 @@ export default function TransactionTable() {
         let endpoint = 'http://localhost:8080/transaction/insert/';
         let newPayload = {};
 
+        //TODO: need to fix date
+        //let buildTransactionDateString = payload.transactionDate.toDateString() + "T12:00:00.000";
+        let buildTransactionDateString = payload.transactionDate.toISOString().split('T')[0] + "T12:00:00.000";
+        //alert(buildTransactionDateString);
+
         //   newPayload['guid'] = uuid();
         newPayload['guid'] = uuidv4();
-        newPayload['transactionDate'] = toEpochDateAsMillis(new Date(payload.transactionDate.toDateString()));
+        //newPayload['transactionDate'] = toEpochDateAsMillis(new Date(payload.transactionDate.toDateString()));
+        newPayload['transactionDate'] = buildTransactionDateString;
         newPayload['description'] = payload.description;
         newPayload['category'] = payload.category === undefined ? 'none' : payload.category;
         newPayload['notes'] = payload.notes === undefined ? '' : payload.notes;
@@ -163,7 +169,7 @@ export default function TransactionTable() {
         newPayload['cleared'] = payload.cleared;
         newPayload['accountType'] = 'undefined';
         newPayload['reoccurring'] = false
-        newPayload['sha256'] = payload.sha256 === undefined ? '' : payload.sha256;
+        //newPayload['sha256'] = payload.sha256 === undefined ? '' : payload.sha256;
         newPayload['accountNameOwner'] = match.params.account;
         newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
