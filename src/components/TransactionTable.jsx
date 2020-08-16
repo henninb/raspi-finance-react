@@ -257,9 +257,9 @@ export default function TransactionTable() {
                             {title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     if (rowData.cleared === 1) {
-                                        return (<div>{rowData.amount.toFixed(2)}</div>)
+                                        return (<div>{parseFloat(rowData.amount).toFixed(2)}</div>)
                                     } else {
-                                        return (<div className='div-lightblue'><b>{rowData.amount.toFixed(2)}</b></div>)
+                                        return (<div className='div-lightblue'><b>{parseFloat(rowData.amount).toFixed(2)}</b></div>)
                                     }
                                 }
                             },
