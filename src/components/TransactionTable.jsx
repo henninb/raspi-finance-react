@@ -229,21 +229,51 @@ export default function TransactionTable() {
                         columns={[
                             {title: "date", field: "transactionDate", type: "date", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    return (<div>
-                                        {formatDate(rowData.transactionDate)}
-                                    </div>)
+                                    if (rowData.cleared === 1) {
+                                        return (<div> {formatDate(rowData.transactionDate)}</div>)
+                                    } else {
+                                        return (<div className='div-lightblue'> <b>{formatDate(rowData.transactionDate)}</b></div>)
+                                    }
                                 }
                             },
-                            {title: "description", field: "description", cellStyle: {whiteSpace: "nowrap"}
+                            {title: "description", field: "description", cellStyle: {whiteSpace: "nowrap"},
+                                render: (rowData) => {
+                                    if (rowData.cleared === 1) {
+                                        return (<div>{rowData.description}</div>)
+                                    } else {
+                                        return (<div className='div-lightblue'><b>{rowData.description}</b></div>)
+                                    }
+                                }
                             },
-                            {title: "category", field: "category", cellStyle: {whiteSpace: "nowrap"}},
-                            {title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
+                            {title: "category", field: "category", cellStyle: {whiteSpace: "nowrap"},
+                                render: (rowData) => {
+                                    if (rowData.cleared === 1) {
+                                        return (<div>{rowData.category}</div>)
+                                    } else {
+                                        return (<div className='div-lightblue'><b>{rowData.category}</b></div>)
+                                    }
+                                }
+                            },
+                            {title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"},
+                                render: (rowData) => {
+                                    if (rowData.cleared === 1) {
+                                        return (<div>{rowData.amount.toFixed(2)}</div>)
+                                    } else {
+                                        return (<div className='div-lightblue'><b>{rowData.amount.toFixed(2)}</b></div>)
+                                    }
+                                }
+                            },
                             {title: "cleared", field: "cleared", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    return (
-                                        <Button
-                                            onClick={() => handleButtonClickLink(rowData.guid)}>{clearedStatus(rowData.cleared)}</Button>
-                                    )
+                                    if (rowData.cleared === 1) {
+                                        return (<div>{clearedStatus(rowData.cleared)}</div>)
+                                    } else {
+                                        return (
+                                            <Button style={{ fontWeight: 'bold' }}
+                                                onClick={() => handleButtonClickLink(rowData.guid)}>{clearedStatus(rowData.cleared)}</Button>
+                                        )
+                                    }
+
                                 },
                                 editComponent: (props) => {
                                     return (
@@ -253,7 +283,14 @@ export default function TransactionTable() {
                                     )
                                 }
                             },
-                            {title: "notes", field: "notes", cellStyle: {whiteSpace: "nowrap"}
+                            {title: "notes", field: "notes", cellStyle: {whiteSpace: "nowrap"},
+                                render: (rowData) => {
+                                    if (rowData.cleared === 1) {
+                                        return (<div>{rowData.notes}</div>)
+                                    } else {
+                                        return (<div className='div-lightblue'><b>{rowData.notes}</b></div>)
+                                    }
+                                }
                             },
                         ]}
                         data={data}
