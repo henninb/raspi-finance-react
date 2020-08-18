@@ -12,6 +12,9 @@ export default function NavbarInstance() {
                     <li className="nav-item">
                         <Link className="nav-link" to="/payments">Payments</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/clone">Clone</Link>
+                    </li>
                     <li>
                         <SimpleSelect/>
                     </li>

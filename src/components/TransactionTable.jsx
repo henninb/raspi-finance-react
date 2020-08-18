@@ -227,50 +227,13 @@ export default function TransactionTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
-                            {title: "date", field: "transactionDate", type: "date", cellStyle: {whiteSpace: "nowrap"},
-                                render: (rowData) => {
-                                    if (rowData.cleared === 1) {
-                                        return (<div> {formatDate(rowData.transactionDate)}</div>)
-                                    } else {
-                                        return (<div><b>{formatDate(rowData.transactionDate)}</b></div>)
-                                    }
-                                }
+                            {title: "date", field: "transactionDate", type: "date", cellStyle: {whiteSpace: "nowrap",},
                             },
-                            {title: "description", field: "description", cellStyle: {whiteSpace: "nowrap"},
-                                render: (rowData) => {
-                                    if (rowData.cleared === 1) {
-                                        return (<div>{rowData.description}</div>)
-                                    } else {
-                                        return (<div><b>{rowData.description}</b></div>)
-                                    }
-                                }
+                            {title: "description", field: "description", cellStyle: {whiteSpace: "nowrap",},
                             },
-                            {title: "category", field: "category",
-                                // cellStyle: (rowData) => {
-                                //     if (rowData === 1) {
-                                //         return {whiteSpace: "nowrap", };
-                                //     } else {
-                                //         return {whiteSpace: "nowrap", backgroundColor: 'lightgreen'};
-                                //     }
-                                // }
-                                cellStyle: {whiteSpace: "nowrap",}
-                                ,
-                                render: (rowData) => {
-                                    if (rowData.cleared === 1) {
-                                        return (<div>{rowData.category}</div>)
-                                    } else {
-                                        return (<div><b>{rowData.category}</b></div>)
-                                    }
-                                }
+                            {title: "category", field: "category", cellStyle: {whiteSpace: "nowrap",},
                             },
                             {title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"},
-                                render: (rowData) => {
-                                    if (rowData.cleared === 1) {
-                                        return (<div>{parseFloat(rowData.amount).toFixed(2)}</div>)
-                                    } else {
-                                        return (<div><b>{parseFloat(rowData.amount).toFixed(2)}</b></div>)
-                                    }
-                                }
                             },
                             {title: "cleared", field: "cleared", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
@@ -278,11 +241,10 @@ export default function TransactionTable() {
                                         return (<div>{clearedStatus(rowData.cleared)}</div>)
                                     } else {
                                         return (
-                                            <Button style={{ fontWeight: 'bold' }}
+                                            <Button style={{ fontWeight: 'bold', fontSize: '.6rem' }}
                                                 onClick={() => handleButtonClickLink(rowData.guid)}>{clearedStatus(rowData.cleared)}</Button>
                                         )
                                     }
-
                                 },
                                 editComponent: (props) => {
                                     return (
@@ -293,13 +255,6 @@ export default function TransactionTable() {
                                 }
                             },
                             {title: "notes", field: "notes", cellStyle: {whiteSpace: "nowrap"},
-                                render: (rowData) => {
-                                    if (rowData.cleared === 1) {
-                                        return (<div>{rowData.notes}</div>)
-                                    } else {
-                                        return (<div><b>{rowData.notes}</b></div>)
-                                    }
-                                }
                             },
                         ]}
                         data={data}
@@ -309,13 +264,20 @@ export default function TransactionTable() {
                             pageSize: 20,
                             addRowPosition: "first",
                             search: true,
+                            paginationPosition: "both",
+                            headerStyle: {
+                              backgroundColor: '#01579b',
+                              color: '#FFF',
+                            },
                             //rowStyle: {  fontSize: '.8rem',  height: 'auto !important', }
 
                             rowStyle: (rowData) => {
-                                if( rowData.cleared === 1) {
-                                    return {fontSize: '.8rem', height: 'auto !important',};
+                                if( rowData.cleared === 1 ) {
+                                    return {fontSize: '.6rem' };
+                                } else if( rowData.cleared === -1 ) {
+                                    return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: 'salmon'};
                                 } else {
-                                    return {fontSize: '.8rem', height: 'auto !important', backgroundColor: 'lightgreen'};
+                                    return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: 'lightgreen'};
                                 }
                             }
                         }}

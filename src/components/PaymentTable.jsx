@@ -112,7 +112,7 @@ export default function PaymentTable() {
                             {title: "accountNameOwner", field: "accountNameOwner", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     return (
-                                        <Button
+                                        <Button style={{ fontSize: '.6rem' }}
                                             onClick={() => handleButtonClickLink(rowData.accountNameOwner)}>{rowData.accountNameOwner}</Button>
                                     )
                                 }
@@ -130,14 +130,16 @@ export default function PaymentTable() {
                         title="Payments"
                         options={{
                             paging: true,
+                            paginationPosition: "both",
                             pageSize: 20,
                             addRowPosition: "first",
                             search: false,
+                            headerStyle: {
+                                backgroundColor: '#01579b',
+                                color: '#FFF',
+                            },
                             rowStyle: {
-                                //backgroundColor: '#EEE',
-                                fontSize: '.8rem',
-                                height: 'auto !important',
-                                // padding: 0
+                                fontSize: '.6rem',
                             }
                         }}
 

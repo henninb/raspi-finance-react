@@ -147,12 +147,8 @@ export default function AccountSummaryTable() {
                             paging: false,
                             search: true,
                             addRowPosition: "first",
-                            rowStyle: {
-                                //backgroundColor: '#EEE',
-                                fontSize: '.8rem',
-                                height: 'auto !important',
-                                // padding: 0
-                            }
+                            headerStyle: { backgroundColor: '#01579b',  color: '#FFF',  },
+                            rowStyle: { fontSize: '.6rem', }
                         }}
 
                         editable={{
