@@ -232,7 +232,7 @@ export default function TransactionTable() {
                                     if (rowData.cleared === 1) {
                                         return (<div> {formatDate(rowData.transactionDate)}</div>)
                                     } else {
-                                        return (<div className='div-lightblue'> <b>{formatDate(rowData.transactionDate)}</b></div>)
+                                        return (<div><b>{formatDate(rowData.transactionDate)}</b></div>)
                                     }
                                 }
                             },
@@ -241,16 +241,25 @@ export default function TransactionTable() {
                                     if (rowData.cleared === 1) {
                                         return (<div>{rowData.description}</div>)
                                     } else {
-                                        return (<div className='div-lightblue'><b>{rowData.description}</b></div>)
+                                        return (<div><b>{rowData.description}</b></div>)
                                     }
                                 }
                             },
-                            {title: "category", field: "category", cellStyle: {whiteSpace: "nowrap"},
+                            {title: "category", field: "category",
+                                // cellStyle: (rowData) => {
+                                //     if (rowData === 1) {
+                                //         return {whiteSpace: "nowrap", };
+                                //     } else {
+                                //         return {whiteSpace: "nowrap", backgroundColor: 'lightgreen'};
+                                //     }
+                                // }
+                                cellStyle: {whiteSpace: "nowrap",}
+                                ,
                                 render: (rowData) => {
                                     if (rowData.cleared === 1) {
                                         return (<div>{rowData.category}</div>)
                                     } else {
-                                        return (<div className='div-lightblue'><b>{rowData.category}</b></div>)
+                                        return (<div><b>{rowData.category}</b></div>)
                                     }
                                 }
                             },
@@ -259,7 +268,7 @@ export default function TransactionTable() {
                                     if (rowData.cleared === 1) {
                                         return (<div>{parseFloat(rowData.amount).toFixed(2)}</div>)
                                     } else {
-                                        return (<div className='div-lightblue'><b>{parseFloat(rowData.amount).toFixed(2)}</b></div>)
+                                        return (<div><b>{parseFloat(rowData.amount).toFixed(2)}</b></div>)
                                     }
                                 }
                             },
@@ -288,7 +297,7 @@ export default function TransactionTable() {
                                     if (rowData.cleared === 1) {
                                         return (<div>{rowData.notes}</div>)
                                     } else {
-                                        return (<div className='div-lightblue'><b>{rowData.notes}</b></div>)
+                                        return (<div><b>{rowData.notes}</b></div>)
                                     }
                                 }
                             },
@@ -299,7 +308,16 @@ export default function TransactionTable() {
                             paging: true,
                             pageSize: 20,
                             addRowPosition: "first",
-                            search: true
+                            search: true,
+                            //rowStyle: {  fontSize: '.8rem',  height: 'auto !important', }
+
+                            rowStyle: (rowData) => {
+                                if( rowData.cleared === 1) {
+                                    return {fontSize: '.8rem', height: 'auto !important',};
+                                } else {
+                                    return {fontSize: '.8rem', height: 'auto !important', backgroundColor: 'lightgreen'};
+                                }
+                            }
                         }}
 
                         editable={{

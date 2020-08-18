@@ -46,3 +46,11 @@ https://codesandbox.io/s/l458746w89?from-embed=&file=/src/AxiosHooksComponent.js
 
 ## upgrade packages
 ncu -u
+
+## features to add
+lower case all entries going over the wire
+add the reoccurring feature
+add a blob for receipts
+add row click feature
+add keyboard shortcuts
+click on cleared (no refresh)

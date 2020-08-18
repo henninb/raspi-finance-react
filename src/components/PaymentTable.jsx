@@ -132,7 +132,13 @@ export default function PaymentTable() {
                             paging: true,
                             pageSize: 20,
                             addRowPosition: "first",
-                            search: false
+                            search: false,
+                            rowStyle: {
+                                //backgroundColor: '#EEE',
+                                fontSize: '.8rem',
+                                height: 'auto !important',
+                                // padding: 0
+                            }
                         }}
 
                         editable={{

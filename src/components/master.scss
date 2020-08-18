@@ -24,18 +24,6 @@ body {
   background-color: white;
 }
 
-.div-red {
-  width:100%;
-  height:100%;
-  background:red;
-}
-
-.div-lightblue {
-  width:100%;
-  height:100%;
-  background:lightgreen;
-}
-
 // .Select-control {
 //     table-layout: fixed;
 // }
@@ -71,9 +59,8 @@ td {
 }
 
 th, td {
-  text-align: center;
-  font-size: .6rem;
-  font-weight: bold;
+  //text-align: center;
+  //font-weight: bold;
   text-transform: uppercase;
   font-family: sans-serif;
   width: 6rem;
