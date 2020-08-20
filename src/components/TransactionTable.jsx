@@ -7,7 +7,8 @@ import Spinner from './Spinner';
 import './master.scss';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import SelectCleared from "./SelectCleared";
-import {currencyFormat, formatDate, toEpochDateAsMillis} from "./Common"
+import TransactionMoveDialog from "./TransactionMoveDialog";
+import {currencyFormat, toEpochDateAsMillis} from "./Common"
 import Button from "@material-ui/core/Button";
 
 export default function TransactionTable() {
@@ -254,6 +255,9 @@ export default function TransactionTable() {
                                     )
                                 }
                             },
+                            {
+                                title: "reoccurring", field: "reoccurring", cellStyle: {  whiteSpace: "nowrap", },
+                            },
                             {title: "notes", field: "notes", cellStyle: {whiteSpace: "nowrap"},
                             },
                         ]}
@@ -292,7 +296,10 @@ export default function TransactionTable() {
                             {
                                 icon: "send",
                                 tooltip: "Move",
-                                onClick: (event, rowData) => alert("Move transaction " + rowData.guid + " to another account.")
+                                // onClick: (event, rowData) => alert("Move transaction " + rowData.guid + " to another account.")
+                                onClick: (event, rowData) => () => {
+                                    return <TransactionMoveDialog open={true}></TransactionMoveDialog>;
+                                }
                             },
                             {
                                 icon: "add_a_photo",
