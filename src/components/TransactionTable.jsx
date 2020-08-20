@@ -288,14 +288,18 @@ export default function TransactionTable() {
                             onRowDelete: deleteRow
                         }}
 
-                        // actions={[
-                        //     {
-                        //         icon: "edit",
-                        //         iconProps: { style: { fontSize: "24px" } },
-                        //         tooltip: "Edit",
-                        //         onClick: (event, rowData) => alert("You edited " + rowData.accountNameOwner)
-                        //     }
-                        // ]}
+                        actions={[
+                            {
+                                icon: "send",
+                                tooltip: "Move",
+                                onClick: (event, rowData) => alert("Move transaction " + rowData.guid + " to another account.")
+                            },
+                            {
+                                icon: "add_a_photo",
+                                tooltip: "Photo-Add",
+                                onClick: (event, rowData) => alert("Associate a photo to transaction " + rowData.guid)
+                            }
+                        ]}
 
                     />
                 </div> : <div className="centered"><Spinner/></div>}</div>
