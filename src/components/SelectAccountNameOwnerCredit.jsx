@@ -4,7 +4,7 @@ import axios from "axios";
 
 export default function SelectAccountNameOwnerCredit({onChangeFunction, currentValue}) {
     const [selectedOption, setSelectedOption] = useState(currentValue);
-    const [accountTypeOptions, setaccountTypeOptions] = useState([]);
+    const [accountTypeOptions, setAccountTypeOptions] = useState([]);
 
     const fetchAccountTypeOptions = useCallback(async () => {
         try {
@@ -17,7 +17,7 @@ export default function SelectAccountNameOwnerCredit({onChangeFunction, currentV
                 }
             })
             if (optionList.length > 0) {
-                setaccountTypeOptions(optionList);
+                setAccountTypeOptions(optionList);
             }
         } catch (error) {
             if (error.response) {

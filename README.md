@@ -54,3 +54,10 @@ add a blob for receipts
 add row click feature
 add keyboard shortcuts
 click on cleared (no refresh)
+add a dialog box
+context api
+
+## color picker
+https://material.io/design/color/the-color-system.html#tools-for-picking-colors
+
+

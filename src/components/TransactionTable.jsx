@@ -12,7 +12,9 @@ import {currencyFormat, toEpochDateAsMillis} from "./Common"
 import Button from "@material-ui/core/Button";
 
 export default function TransactionTable() {
-    const [loading, setLoading] = useState(true);
+    const [loadSpinner, setLoadSpinner] = useState(true);
+    const [loadDialog, setLoadDialog] = useState(false);
+    const [currentGuid, setCurrentGuid] = useState("");
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
@@ -21,7 +23,6 @@ export default function TransactionTable() {
     let match = useRouteMatch("/transactions/:account");
 
     const handleButtonClickLink = async (guid) => {
-        // history.push('/transactions/' + accountNameOwner);
         await updateTransactionCleared(guid)
         history.go(0);
     };
@@ -53,7 +54,7 @@ export default function TransactionTable() {
 
         const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account, {cancelToken: source.token});
         setData(response.data);
-        setLoading(false);
+        setLoadSpinner(false);
         return () => {
             source.cancel();
         };
@@ -170,7 +171,6 @@ export default function TransactionTable() {
         newPayload['cleared'] = payload.cleared;
         newPayload['accountType'] = 'undefined';
         newPayload['reoccurring'] = false
-        //newPayload['sha256'] = payload.sha256 === undefined ? '' : payload.sha256;
         newPayload['accountNameOwner'] = match.params.account;
         newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
@@ -224,7 +224,7 @@ export default function TransactionTable() {
     }, [totals, data, fetchTotals, fetchData, downHandler, upHandler]);
 
     return (<div>
-            {!loading ?
+            {!loadSpinner ?
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
@@ -300,8 +300,9 @@ export default function TransactionTable() {
                                 icon: "send",
                                 tooltip: "Move",
                                 // onClick: (event, rowData) => alert("Move transaction " + rowData.guid + " to another account.")
-                                onClick: (event, rowData) => () => {
-                                    return <TransactionMoveDialog open={true}></TransactionMoveDialog>;
+                                onClick: (event, rowData) =>  {
+                                    setCurrentGuid(rowData.guid);
+                                    setLoadDialog(true);
                                 }
                             },
                             {
@@ -310,8 +311,8 @@ export default function TransactionTable() {
                                 onClick: (event, rowData) => alert("Associate a photo to transaction " + rowData.guid)
                             }
                         ]}
-
                     />
+                    {loadDialog ? <TransactionMoveDialog closeDialog={() => setLoadDialog(false)} transactionGuid={currentGuid} />: null}
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )
 }
