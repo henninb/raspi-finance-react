@@ -26,19 +26,6 @@ body {
   background-color: white;
 }
 
-// .Select-control {
-//     table-layout: fixed;
-// }
-
-// .Select-input {
-//     overflow: hidden;
-//     max-width: 100%;
-//   }
-//.button-bold {
-//  font-weight: bold;
-//  background: red;
-//}
-
 .wrapper table {
   border-style: none;
   border-collapse: collapse;
@@ -74,8 +61,6 @@ th, td {
 }
 
 tr:nth-child(odd) {
-  //background-color: #6200ee;
-  //background-color: #9965f4;
   background-color: #d4bff9;
 }
 
@@ -89,6 +74,10 @@ tr:hover {
 
 tr:hover td {
   background-color: transparent; /* or #000 */
+}
+
+.nav-purple {
+  background-color: #9965f4;
 }
 
 .centered {
