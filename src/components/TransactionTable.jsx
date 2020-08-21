@@ -242,7 +242,7 @@ export default function TransactionTable() {
                                         return (<div>{clearedStatus(rowData.cleared)}</div>)
                                     } else {
                                         return (
-                                            <Button style={{ fontWeight: 'bold', fontSize: '.6rem', backgroundColor: '#41c300' }}
+                                            <Button style={{ fontWeight: 'bold', fontSize: '.6rem', backgroundColor: '#9965f4', color: '#FFF' }}
                                                 onClick={() => handleButtonClickLink(rowData.guid)}>{clearedStatus(rowData.cleared)}</Button>
                                         )
                                     }
@@ -280,9 +280,11 @@ export default function TransactionTable() {
                                 if( rowData.cleared === 1 ) {
                                     return {fontSize: '.6rem' };
                                 } else if( rowData.cleared === -1 ) {
-                                    return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#90ee02', color: '#000'};
+                                    //return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#90ee02', color: '#000'};
+                                    return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#5800f9', color: '#FFF'};
                                 } else {
-                                    return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#defabb', color: '#000'};
+                                    //return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#defabb', color: '#000'};
+                                    return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#4000f1', color: '#FFF'};
                                 }
                             }
                         }}
