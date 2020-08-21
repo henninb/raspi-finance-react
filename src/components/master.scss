@@ -4,6 +4,8 @@ $off-white: rgba($white, 0.2);
 $spin-duration: 1s;
 $pulse-duration: 750ms;
 
+//$theme-colors: ( "primary":#ffd800);
+
 html {
   height: 100%;
 }
@@ -50,12 +52,12 @@ body {
 }
 
 th {
-  background-color: #333;
-  color: #fcfcfc;
+  background-color: #6200ee;
+  color: #bb96fc;
 }
 
 td {
-  color: #333;
+  color: #6200ee;
 }
 
 th, td {
@@ -72,17 +74,17 @@ th, td {
 }
 
 tr:nth-child(odd) {
-  // background-color: #f6f7f7;
-  background-color: lightsteelblue;
+  //background-color: #6200ee;
+  //background-color: #9965f4;
+  background-color: #d4bff9;
 }
 
 tr:nth-child(even) {
-  // background-color: #fcfcfc;
-  background-color: lightyellow;
+  background-color: #bb96fc;
 }
 
 tr:hover {
-  background-color: lightslategray;
+  background-color: #efe5fd;
 }
 
 tr:hover td {

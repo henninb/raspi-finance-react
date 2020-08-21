@@ -147,7 +147,11 @@ export default function AccountSummaryTable() {
                             paging: false,
                             search: true,
                             addRowPosition: "first",
-                            headerStyle: { backgroundColor: '#01579b',  color: '#FFF',  },
+                            headerStyle: {
+                                backgroundColor: '#9965f4',
+                                color: '#FFF',
+                                // position: 'sticky', top: 0
+                            },
                             rowStyle: { fontSize: '.6rem', }
                         }}
 

@@ -135,8 +135,9 @@ export default function PaymentTable() {
                             addRowPosition: "first",
                             search: false,
                             headerStyle: {
-                                backgroundColor: '#01579b',
+                                backgroundColor: '#9965f4',
                                 color: '#FFF',
+                                // position: 'sticky', top: 0
                             },
                             rowStyle: {
                                 fontSize: '.6rem',
