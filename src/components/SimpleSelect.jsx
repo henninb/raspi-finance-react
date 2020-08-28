@@ -54,6 +54,16 @@ export default function SimpleSelect() {
                 options={options}
                 onChange={handleChange}
                 placeholder="account name owner..."
+                theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 0,
+                    colors: {
+                        ...theme.colors,
+                        text: 'red',
+                        // primary50: 'red',
+                        primary25: '#9965f4',
+                        primary: '#FFF',
+                    }})}
             />
         </div>
     );

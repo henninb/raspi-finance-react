@@ -64,6 +64,10 @@ export default function TransactionTable() {
         let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
         delete newData['tableData'];
 
+        if( oldData.transactionState ===  undefined) {
+            newData['transactionState'] = 'undefined'
+        }
+
         newData['dateUpdated'] = toEpochDateAsMillis(new Date())
         //TODO: ought not use set the dateAdded()
         newData['dateAdded'] = toEpochDateAsMillis(new Date())
@@ -155,23 +159,21 @@ export default function TransactionTable() {
         let endpoint = 'http://localhost:8080/transaction/insert/';
         let newPayload = {};
 
-        //TODO: need to fix date
-        //let buildTransactionDateString = payload.transactionDate.toDateString() + "T12:00:00.000";
+        //TODO: bh 8/28/2020 - need to address any date conversion issues
         let buildTransactionDateString = payload.transactionDate.toISOString().split('T')[0] + "T12:00:00.000";
-        //alert(buildTransactionDateString);
 
-        //   newPayload['guid'] = uuid();
         newPayload['guid'] = uuidv4();
         //newPayload['transactionDate'] = toEpochDateAsMillis(new Date(payload.transactionDate.toDateString()));
-        newPayload['transactionDate'] = buildTransactionDateString;
-        newPayload['description'] = payload.description;
-        newPayload['category'] = payload.category === undefined ? 'none' : payload.category;
-        newPayload['notes'] = payload.notes === undefined ? '' : payload.notes;
-        newPayload['amount'] = payload.amount;
-        newPayload['cleared'] = payload.cleared;
-        newPayload['accountType'] = 'undefined';
+        newPayload['transactionDate'] = buildTransactionDateString
+        newPayload['description'] = payload.description
+        newPayload['category'] = payload.category === undefined ? 'none' : payload.category
+        newPayload['notes'] = payload.notes === undefined ? '' : payload.notes
+        newPayload['amount'] = payload.amount
+        newPayload['cleared'] = payload.cleared
+        newPayload['transactionState'] = 'undefined'
+        newPayload['accountType'] = 'undefined'
         newPayload['reoccurring'] = false
-        newPayload['accountNameOwner'] = match.params.account;
+        newPayload['accountNameOwner'] = match.params.account
         newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
 
@@ -181,10 +183,7 @@ export default function TransactionTable() {
         });
     };
 
-    //const fetchData = useCallback(async () => {
-
     const downHandler = useCallback(({ key }) => {
-        // alert(key)
         if (key === 'Escape') {
             alert('me - escape' + keyPressed);
             // document.getElementById('Cancel').click()
