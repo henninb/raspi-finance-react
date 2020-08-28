@@ -6,7 +6,7 @@ import {v4 as uuidv4} from 'uuid';
 import Spinner from './Spinner';
 import './master.scss';
 import {useHistory, useRouteMatch} from 'react-router-dom';
-import SelectCleared from "./SelectCleared";
+import SelectTransactionState from "./SelectTransactionState";
 import TransactionMoveDialog from "./TransactionMoveDialog";
 import {currencyFormat, toEpochDateAsMillis} from "./Common"
 import Button from "@material-ui/core/Button";
@@ -22,9 +22,10 @@ export default function TransactionTable() {
 
     let match = useRouteMatch("/transactions/:account");
 
-    const handleButtonClickLink = async (guid) => {
-        await updateTransactionCleared(guid)
-        history.go(0);
+    const handlerForUpdatingTransactionState = async (guid) => {
+        await updateTransactionState(guid)
+        //TODO: history go might not be required
+        //history.go(0);
     };
 
     const fetchTotals = useCallback(async () => {
@@ -38,10 +39,10 @@ export default function TransactionTable() {
     }, [match]);
 
 
-    const updateTransactionCleared = async (guid) => {
+    const updateTransactionState = async (guid) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
-        const response = await axios.put('http://localhost:8080/transaction/cleared/update/' + guid, {cancelToken: source.token});
+        const response = await axios.put('http://localhost:8080/transaction/state/update/' + guid, {cancelToken: source.token});
         setTotals(response.data);
         return () => {
             source.cancel();
@@ -138,17 +139,6 @@ export default function TransactionTable() {
         });
     };
 
-    const clearedStatus = (value) => {
-        let result = parseInt(value, 10);
-        if (result === 1) return "cleared";
-        else if (result === 0) return "outstanding";
-        else if (result === -1) return "future";
-        else {
-            alert("unknown status type: " + value);
-            return "unknown";
-        }
-    };
-
     const deleteCall = async (payload) => {
         let endpoint = 'http://localhost:8080/transaction/delete/' + payload.guid;
 
@@ -169,8 +159,7 @@ export default function TransactionTable() {
         newPayload['category'] = payload.category === undefined ? 'none' : payload.category
         newPayload['notes'] = payload.notes === undefined ? '' : payload.notes
         newPayload['amount'] = payload.amount
-        newPayload['cleared'] = payload.cleared
-        newPayload['transactionState'] = 'undefined'
+        newPayload['transactionState'] = payload.transactionState
         newPayload['accountType'] = 'undefined'
         newPayload['reoccurring'] = false
         newPayload['accountNameOwner'] = match.params.account
@@ -235,27 +224,27 @@ export default function TransactionTable() {
                             },
                             {title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"},
                             },
-                            {title: "cleared", field: "cleared", cellStyle: {whiteSpace: "nowrap"},
+                            {title: "state", field: "transactionState", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    if (rowData.cleared === 1) {
-                                        return (<div>{clearedStatus(rowData.cleared)}</div>)
+                                    if (rowData.transactionState === 'cleared') {
+                                        return (<div>{rowData.transactionState}</div>)
                                     } else {
                                         return (
                                             <Button style={{ fontWeight: 'bold', fontSize: '.6rem', backgroundColor: '#9965f4', color: '#FFF' }}
-                                                onClick={() => handleButtonClickLink(rowData.guid)}>{clearedStatus(rowData.cleared)}</Button>
+                                                    onClick={() => handlerForUpdatingTransactionState(rowData.guid)}>{rowData.transactionState}</Button>
                                         )
                                     }
                                 },
                                 editComponent: (props) => {
                                     return (
                                         <>
-                                        <SelectCleared onChangeFunction={props.onChange} currentValue={props.value}/>
+                                            <SelectTransactionState onChangeFunction={props.onChange} currentValue={props.value}/>
                                         </>
                                     )
                                 }
                             },
                             {
-                                title: "reoccurring", field: "reoccurring", cellStyle: {  whiteSpace: "nowrap", },
+                                title: "reoccur", field: "reoccurring", cellStyle: {  whiteSpace: "nowrap", },
                             },
                             {title: "notes", field: "notes", cellStyle: {whiteSpace: "nowrap"},
                             },
@@ -276,9 +265,9 @@ export default function TransactionTable() {
                             //rowStyle: {  fontSize: '.8rem',  height: 'auto !important', }
 
                             rowStyle: (rowData) => {
-                                if( rowData.cleared === 1 ) {
+                                if( rowData.transactionState === 'cleared' ) {
                                     return {fontSize: '.6rem' };
-                                } else if( rowData.cleared === -1 ) {
+                                } else if( rowData.transactionState === 'future' ) {
                                     //return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#90ee02', color: '#000'};
                                     return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#5800f9', color: '#FFF'};
                                 } else {

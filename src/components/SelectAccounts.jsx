@@ -3,7 +3,7 @@ import Select from 'react-select'
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 
-export default function SimpleSelect() {
+export default function SelectAccounts() {
 
     const [options, setOptions] = useState([]);
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import SimpleSelect from './SimpleSelect'
+import SelectAccounts from './SelectAccounts'
 import {Link} from "react-router-dom";
 import './master.scss';
 
@@ -17,7 +17,7 @@ export default function NavbarInstance() {
                     {/*    <Link className="nav-link" to="/clone">Clone</Link>*/}
                     {/*</li>*/}
                     <li>
-                        <SimpleSelect/>
+                        <SelectAccounts/>
                     </li>
                 </ul>
             </nav>
