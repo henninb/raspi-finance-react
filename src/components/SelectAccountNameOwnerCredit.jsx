@@ -47,6 +47,8 @@ export default function SelectAccountNameOwnerCredit({onChangeFunction, currentV
     return (
         <div className="select-formatting">
             <Select
+                name="account-select"
+                multi={true}
                 value={selectedOption}
                 onChange={onSelectChange}
                 native={true}

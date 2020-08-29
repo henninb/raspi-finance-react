@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react'
 import Select from 'react-select'
 import axios from "axios";
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+//import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -11,10 +11,33 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
     const [options, setOptions] = useState([]);
+    const [value, setValue] = useState('');
 
     const handleChange = (selectedOption) => {
-        alert(selectedOption);
+        setValue(selectedOption.value);
     }
+
+    const handleButtonClick = () => {
+        alert(value);
+        updateAccountByGuid();
+        closeDialog();
+    }
+
+
+        const updateAccountByGuid = useCallback(async (value) => {
+            try {
+                const response = await axios.put('http://localhost:8080/transaction/update/account');
+            } catch (error) {
+                if (error.response) {
+                    if (error.response.status === 404) {
+                    } else {
+                        alert("updateAccountByGuid" + JSON.stringify(error.response.data));
+                    }
+                }
+            }
+        }, []);
+
+
 
     const fetchData = useCallback(async () => {
         try {
@@ -69,9 +92,10 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
 {/*             fullWidth */}
 {/*           /> */}
             <Select
+                name="account-select"
 //                 value={"blah"}
                 onChange={handleChange}
-//                 native={true}
+                native={true}
                 options={options}
                 placeholder={"Select the account moving to..."}
             />
@@ -80,7 +104,7 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
           <Button onClick={closeDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={closeDialog} color="primary">
+          <Button onClick={handleButtonClick} color="primary">
             Move
           </Button>
         </DialogActions>

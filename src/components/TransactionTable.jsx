@@ -5,7 +5,7 @@ import axios from 'axios';
 import {v4 as uuidv4} from 'uuid';
 import Spinner from './Spinner';
 import './master.scss';
-import {useHistory, useRouteMatch} from 'react-router-dom';
+import {useRouteMatch} from 'react-router-dom';
 import SelectTransactionState from "./SelectTransactionState";
 import TransactionMoveDialog from "./TransactionMoveDialog";
 import {currencyFormat, toEpochDateAsMillis} from "./Common"
@@ -18,7 +18,7 @@ export default function TransactionTable() {
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
-    const history = useHistory();
+    // const history = useHistory();
 
     let match = useRouteMatch("/transactions/:account");
 
@@ -159,7 +159,11 @@ export default function TransactionTable() {
         newPayload['category'] = payload.category === undefined ? 'none' : payload.category
         newPayload['notes'] = payload.notes === undefined ? '' : payload.notes
         newPayload['amount'] = payload.amount
-        newPayload['transactionState'] = payload.transactionState
+        if( payload.transactionState === undefined) {
+            newPayload['transactionState'] = 'outstanding'
+        } else {
+            newPayload['transactionState'] = payload.transactionState
+        }
         newPayload['accountType'] = 'undefined'
         newPayload['reoccurring'] = false
         newPayload['accountNameOwner'] = match.params.account
