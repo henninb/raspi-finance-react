@@ -65,6 +65,7 @@ export default function TransactionTable() {
         let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
         delete newData['tableData'];
 
+        //TODO: do I need this?
         if( oldData.transactionState ===  undefined) {
             newData['transactionState'] = 'undefined'
         }

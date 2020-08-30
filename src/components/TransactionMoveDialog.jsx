@@ -18,26 +18,20 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
     }
 
     const handleButtonClick = () => {
-        alert(value);
         updateAccountByGuid();
         closeDialog();
     }
 
+    const  updateAccountByGuid = async() => {
+        let newData = {};
+        newData['accountNameOwner'] = value
 
-        const updateAccountByGuid = useCallback(async (value) => {
-            try {
-                const response = await axios.put('http://localhost:8080/transaction/update/account');
-            } catch (error) {
-                if (error.response) {
-                    if (error.response.status === 404) {
-                    } else {
-                        alert("updateAccountByGuid" + JSON.stringify(error.response.data));
-                    }
-                }
-            }
-        }, []);
-
-
+        //alert(JSON.stringify(newData));
+        let x = await axios.put('http://localhost:8080/transaction/update/account', JSON.stringify(newData), {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json'}
+        });
+    }
 
     const fetchData = useCallback(async () => {
         try {
@@ -63,9 +57,9 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
 
     useEffect(() => {
 
-        //if (options.length === 0) {
+        if (options.length === 0) {
             fetchData();
-        //}
+        }
 
         return () => {
 
@@ -84,16 +78,15 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
           <DialogContentText>
             Please enter the new account {transactionGuid} is moving to.
           </DialogContentText>
-{/*           <TextField */}
-{/*             autoFocus */}
-{/*             margin="dense" */}
-{/*             id="account_name_owner" */}
-{/*             label="account_name_owner" */}
-{/*             fullWidth */}
-{/*           /> */}
             <Select
                 name="account-select"
-//                 value={"blah"}
+//                 value={options.find(op => {
+//                     if( op.value === undefined ) {
+//                       return op.value === 'cash_brian'
+//                     }
+//                     return true
+//                 })}
+
                 onChange={handleChange}
                 native={true}
                 options={options}
