@@ -13,21 +13,24 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState('');
 
-    const handleChange = (selectedOption) => {
+    const handleChange =  (selectedOption) => {
         setValue(selectedOption.value);
     }
 
-    const handleButtonClick = () => {
-        updateAccountByGuid();
-        closeDialog();
+    const handleButtonClick = async () => {
+        await updateAccountByGuid(value);
+        if (value !== undefined && value !== "" ) {
+            closeDialog();
+        }
     }
 
-    const  updateAccountByGuid = async() => {
+    const  updateAccountByGuid = async(accountNameOwner) => {
+        let endpoint = 'http://localhost:8080/transaction/update/account';
         let newData = {};
-        newData['accountNameOwner'] = value
+        newData['accountNameOwner'] = accountNameOwner
+        newData['guid'] = transactionGuid
 
-        //alert(JSON.stringify(newData));
-        let x = await axios.put('http://localhost:8080/transaction/update/account', JSON.stringify(newData), {
+        await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
             headers: {'Content-Type': 'application/json'}
         });
