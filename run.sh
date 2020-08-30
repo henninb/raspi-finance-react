@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo yarn global add npm-check-updates
 ncu -u
 yarn install
 echo yarn upgrade

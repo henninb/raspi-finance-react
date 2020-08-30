@@ -3,6 +3,7 @@ npx create-react-app raspi-finance-react
 yarn add react-table
 yarn add react-router-dom
 yarn add node-sass
+
 # yarn add react-bootstrap
 yarn add bootstrap
 yarn add react-spinners
@@ -20,7 +21,7 @@ yarn add --dev @testing-library/react-hooks
 # yarn add --dev canvas
 yarn add material-table @material-ui/core
 
-
+yarn global add npm-check-updates
 
 codepen
 
