@@ -1,5 +1,6 @@
 #!/bin/sh
 
+ncu -u
 yarn install
 echo yarn upgrade
 echo ncu -u
