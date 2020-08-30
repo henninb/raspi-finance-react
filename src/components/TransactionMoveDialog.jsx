@@ -1,8 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import Select from 'react-select'
+import Select, {createFilter} from 'react-select'
 import axios from "axios";
 import Button from '@material-ui/core/Button';
-//import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -45,9 +44,7 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
                 optionList = optionList.concat({value: element.accountNameOwner, label: element.accountNameOwner});
             })
 
-            //if( response.data.length > 0 ) {
             setOptions(optionList);
-            //}
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 404) {
@@ -65,46 +62,32 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
         }
 
         return () => {
-
         }
 
     }, [options, fetchData]);
 
-  return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={closeDialog}>
-        Open form dialog
-      </Button>
+  return (<div>
+      <Button variant="outlined" color="primary" onClick={closeDialog}>Open form dialog</Button>
       <Dialog onClose={closeDialog} aria-labelledby="form-dialog-title" open={true}>
         <DialogTitle id="form-dialog-title">Move a transaction</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Please enter the new account {transactionGuid} is moving to.
-          </DialogContentText>
+          <DialogContentText>Please enter the new account {transactionGuid} is moving to.</DialogContentText>
             <Select
                 name="account-select"
-//                 value={options.find(op => {
-//                     if( op.value === undefined ) {
-//                       return op.value === 'cash_brian'
-//                     }
-//                     return true
-//                 })}
-
+                //filterOption={createFilter({ matchFrom: ["first", "any"] })}
+                filterOption={createFilter({ matchFrom: "first" })}
                 onChange={handleChange}
                 native={true}
                 options={options}
-                placeholder={"Select the account moving to..."}
+                placeholder={"Select the new account moving to..."}
             />
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleButtonClick} color="primary">
-            Move
-          </Button>
+          <Button onClick={closeDialog} color="primary">Cancel</Button>
+          <Button onClick={handleButtonClick} color="primary">Move</Button>
         </DialogActions>
       </Dialog>
     </div>
+
   );
 }
