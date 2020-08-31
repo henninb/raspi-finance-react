@@ -10,7 +10,7 @@ export default function AccountSummaryTable() {
 
     const [totals, setTotals] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
+    const [accountData, setData] = useState([]);
     const history = useHistory();
 
     const handleButtonClickLink = (accountNameOwner) => {
@@ -24,7 +24,7 @@ export default function AccountSummaryTable() {
             setTimeout(async () => {
                 try {
                     await postCall(newData);
-                    setData([newData, ...data]);
+                    setData([newData, ...accountData]);
                     resolve();
                 } catch (error) {
                     if (error.response) {
@@ -109,7 +109,7 @@ export default function AccountSummaryTable() {
 
     useEffect(() => {
 
-        if (data.length === 0) {
+        if (accountData.length === 0) {
             fetchData();
         }
 
@@ -121,7 +121,7 @@ export default function AccountSummaryTable() {
 
         }
 
-    }, [totals, data, fetchData, fetchTotals]);
+    }, [totals, accountData, fetchData, fetchTotals]);
 
     return (<div>
             {!loading ?
@@ -141,7 +141,7 @@ export default function AccountSummaryTable() {
                             {title: "unbalanced", field: "totals", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
                             {title: "balanced", field: "totalsBalanced", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
                         ]}
-                        data={data}
+                        data={accountData}
                         title={` [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
                         options={{
                             paging: false,
@@ -160,7 +160,7 @@ export default function AccountSummaryTable() {
                             onRowDelete: (oldData) =>
                                 new Promise((resolve, reject) => {
                                     setTimeout(async () => {
-                                        const dataDelete = [...data];
+                                        const dataDelete = [...accountData];
                                         const index = oldData.tableData.id;
                                         dataDelete.splice(index, 1);
                                         try {

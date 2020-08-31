@@ -29,10 +29,12 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
         newData['accountNameOwner'] = accountNameOwner
         newData['guid'] = transactionGuid
 
-        await axios.put(endpoint, JSON.stringify(newData), {
+        const response = await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
             headers: {'Content-Type': 'application/json'}
         });
+
+        alert(response.data);
     }
 
     const fetchData = useCallback(async () => {

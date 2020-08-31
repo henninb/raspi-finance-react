@@ -18,14 +18,18 @@ export default function TransactionTable() {
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
-    // const history = useHistory();
 
     let match = useRouteMatch("/transactions/:account");
 
     const handlerForUpdatingTransactionState = async (guid) => {
-        await updateTransactionState(guid)
+        await changeTransactionStateToCleared(guid)
         //TODO: history go might not be required
         //history.go(0);
+    };
+
+    const toggleReoccurring = (reoccurringStatus) => {
+        alert('clicked me, new value=' + !reoccurringStatus)
+        return !reoccurringStatus;
     };
 
     const fetchTotals = useCallback(async () => {
@@ -37,12 +41,12 @@ export default function TransactionTable() {
             source.cancel();
         };
     }, [match]);
-
-
-    const updateTransactionState = async (guid) => {
+    
+    const changeTransactionStateToCleared = async (guid) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
-        const response = await axios.put('http://localhost:8080/transaction/state/update/' + guid, {cancelToken: source.token});
+        //TODO: right now 'Cleared' is case sensitive, not cool
+        const response = await axios.put('http://localhost:8080/transaction/state/update/' + guid + '/Cleared', {cancelToken: source.token});
         setTotals(response.data);
         return () => {
             source.cancel();
@@ -66,7 +70,7 @@ export default function TransactionTable() {
         delete newData['tableData'];
 
         //TODO: do I need this?
-        if( oldData.transactionState ===  undefined) {
+        if (oldData.transactionState === undefined) {
             newData['transactionState'] = 'undefined'
         }
 
@@ -160,7 +164,7 @@ export default function TransactionTable() {
         newPayload['category'] = payload.category === undefined ? 'none' : payload.category
         newPayload['notes'] = payload.notes === undefined ? '' : payload.notes
         newPayload['amount'] = payload.amount
-        if( payload.transactionState === undefined) {
+        if (payload.transactionState === undefined) {
             newPayload['transactionState'] = 'outstanding'
         } else {
             newPayload['transactionState'] = payload.transactionState
@@ -177,7 +181,7 @@ export default function TransactionTable() {
         });
     };
 
-    const downHandler = useCallback(({ key }) => {
+    const downHandler = useCallback(({key}) => {
         if (key === 'Escape') {
             alert('me - escape' + keyPressed);
             // document.getElementById('Cancel').click()
@@ -191,7 +195,7 @@ export default function TransactionTable() {
         // }
     }, [keyPressed]);
 
-    const upHandler = useCallback(({ key }) => {
+    const upHandler = useCallback(({key}) => {
         if (key === 'Escape') {
             setKeyPressed(false);
         }
@@ -221,21 +225,34 @@ export default function TransactionTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
-                            {title: "date", field: "transactionDate", type: "date", cellStyle: {whiteSpace: "nowrap",},
+                            {
+                                title: "date",
+                                field: "transactionDate",
+                                type: "date",
+                                cellStyle: {whiteSpace: "nowrap",},
                             },
-                            {title: "description", field: "description", cellStyle: {whiteSpace: "nowrap",},
+                            {
+                                title: "description", field: "description", cellStyle: {whiteSpace: "nowrap",},
                             },
-                            {title: "category", field: "category", cellStyle: {whiteSpace: "nowrap",},
+                            {
+                                title: "category", field: "category", cellStyle: {whiteSpace: "nowrap",},
                             },
-                            {title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"},
+                            {
+                                title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"},
                             },
-                            {title: "state", field: "transactionState", cellStyle: {whiteSpace: "nowrap"},
+                            {
+                                title: "state", field: "transactionState", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     if (rowData.transactionState === 'cleared') {
                                         return (<div>{rowData.transactionState}</div>)
                                     } else {
                                         return (
-                                            <Button style={{ fontWeight: 'bold', fontSize: '.6rem', backgroundColor: '#9965f4', color: '#FFF' }}
+                                            <Button style={{
+                                                fontWeight: 'bold',
+                                                fontSize: '.6rem',
+                                                backgroundColor: '#9965f4',
+                                                color: '#FFF'
+                                            }}
                                                     onClick={() => handlerForUpdatingTransactionState(rowData.guid)}>{rowData.transactionState}</Button>
                                         )
                                     }
@@ -243,15 +260,26 @@ export default function TransactionTable() {
                                 editComponent: (props) => {
                                     return (
                                         <>
-                                            <SelectTransactionState onChangeFunction={props.onChange} currentValue={props.value}/>
+                                            <SelectTransactionState onChangeFunction={props.onChange}
+                                                                    currentValue={props.value}/>
                                         </>
                                     )
                                 }
                             },
                             {
-                                title: "reoccur", field: "reoccurring", cellStyle: {  whiteSpace: "nowrap", },
+                                title: "reoccur", field: "reoccurring", cellStyle: {whiteSpace: "nowrap",},
+                                render: (rowData) => {
+                                    return (
+                                        <input
+                                            type="checkbox"
+                                            checked={rowData.reoccurring}
+                                            onChange={() => toggleReoccurring(rowData.reoccurring)}
+                                        />
+                                    )
+                                }
                             },
-                            {title: "notes", field: "notes", cellStyle: {whiteSpace: "nowrap"},
+                            {
+                                title: "notes", field: "notes", cellStyle: {whiteSpace: "nowrap"},
                             },
                         ]}
                         data={data}
@@ -263,21 +291,31 @@ export default function TransactionTable() {
                             search: true,
                             paginationPosition: "both",
                             headerStyle: {
-                              backgroundColor: '#9965f4',
-                              color: '#FFF',
-                              // position: 'sticky', top: 0
+                                backgroundColor: '#9965f4',
+                                color: '#FFF',
+                                // position: 'sticky', top: 0
                             },
                             //rowStyle: {  fontSize: '.8rem',  height: 'auto !important', }
 
                             rowStyle: (rowData) => {
-                                if( rowData.transactionState === 'cleared' ) {
-                                    return {fontSize: '.6rem' };
-                                } else if( rowData.transactionState === 'future' ) {
+                                if (rowData.transactionState === 'cleared') {
+                                    return {fontSize: '.6rem'};
+                                } else if (rowData.transactionState === 'future') {
                                     //return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#90ee02', color: '#000'};
-                                    return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#5800f9', color: '#FFF'};
+                                    return {
+                                        fontSize: '.6rem',
+                                        fontWeight: 'bold',
+                                        backgroundColor: '#5800f9',
+                                        color: '#FFF'
+                                    };
                                 } else {
                                     //return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#defabb', color: '#000'};
-                                    return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#4000f1', color: '#FFF'};
+                                    return {
+                                        fontSize: '.6rem',
+                                        fontWeight: 'bold',
+                                        backgroundColor: '#4000f1',
+                                        color: '#FFF'
+                                    };
                                 }
                             }
                         }}
@@ -292,8 +330,7 @@ export default function TransactionTable() {
                             {
                                 icon: "send",
                                 tooltip: "Move",
-                                // onClick: (event, rowData) => alert("Move transaction " + rowData.guid + " to another account.")
-                                onClick: (event, rowData) =>  {
+                                onClick: (event, rowData) => {
                                     setCurrentGuid(rowData.guid);
                                     setLoadDialog(true);
                                 }
@@ -305,7 +342,8 @@ export default function TransactionTable() {
                             }
                         ]}
                     />
-                    {loadDialog ? <TransactionMoveDialog closeDialog={() => setLoadDialog(false)} transactionGuid={currentGuid} />: null}
+                    {loadDialog ? <TransactionMoveDialog closeDialog={() => setLoadDialog(false)}
+                                                         transactionGuid={currentGuid}/> : null}
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )
 }
