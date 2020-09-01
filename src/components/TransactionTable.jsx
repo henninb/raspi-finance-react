@@ -10,6 +10,7 @@ import SelectTransactionState from "./SelectTransactionState";
 import TransactionMoveDialog from "./TransactionMoveDialog";
 import {currencyFormat, toEpochDateAsMillis} from "./Common"
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true);
@@ -18,7 +19,7 @@ export default function TransactionTable() {
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
-
+    //const [reoccurringChecked, setReoccurringChecked] = useState(false);
     let match = useRouteMatch("/transactions/:account");
 
     const handlerForUpdatingTransactionState = async (guid) => {
@@ -27,9 +28,11 @@ export default function TransactionTable() {
         //history.go(0);
     };
 
-    const toggleReoccurring = (reoccurringStatus) => {
-        alert('clicked me, new value=' + !reoccurringStatus)
-        return !reoccurringStatus;
+    const toggleReoccurring = async (event, guid, reoccurring) => {
+        await changeTransactionReoccurringStatus(guid,!reoccurring)
+        //event.target.change = !reoccurring
+        //alert('clicked me, new value=' + !reoccurringStatus)
+        //return reoccurringStatus;
     };
 
     const fetchTotals = useCallback(async () => {
@@ -41,13 +44,27 @@ export default function TransactionTable() {
             source.cancel();
         };
     }, [match]);
-    
+
     const changeTransactionStateToCleared = async (guid) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         //TODO: right now 'Cleared' is case sensitive, not cool
         const response = await axios.put('http://localhost:8080/transaction/state/update/' + guid + '/Cleared', {cancelToken: source.token});
-        setTotals(response.data);
+        if( response.data !== "transaction state updated" ) {
+          alert('changeTransactionStateToCleared - failure');
+        }
+        return () => {
+            source.cancel();
+        };
+    };
+
+    const changeTransactionReoccurringStatus = async (guid, reoccurring) => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        const response = await axios.put('http://localhost:8080/transaction/reoccurring/update/' + guid + '/' + reoccurring, {cancelToken: source.token});
+        if( response.data !== "transaction reoccurring updated" ) {
+            alert('changeTransactionReoccurringStatus - failure');
+        }
         return () => {
             source.cancel();
         };
@@ -65,7 +82,7 @@ export default function TransactionTable() {
         };
     }, [match]);
 
-    const patchCall = async (newData, oldData) => {
+    const putCall = async (newData, oldData) => {
         let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
         delete newData['tableData'];
 
@@ -78,9 +95,9 @@ export default function TransactionTable() {
         //TODO: ought not use set the dateAdded()
         newData['dateAdded'] = toEpochDateAsMillis(new Date())
 
-        await axios.patch(endpoint, JSON.stringify(newData), {
+        await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
-            headers: {'Content-Type': 'application/json-patch+json'}
+            headers: {'Content-Type': 'application/json'}
         });
     };
 
@@ -91,7 +108,7 @@ export default function TransactionTable() {
                 const index = oldData.tableData.id;
                 dataUpdate[index] = newData;
                 try {
-                    await patchCall(newData, oldData);
+                    await putCall(newData, oldData);
                     await fetchTotals();
                     setData([...dataUpdate]);
                     resolve();
@@ -269,13 +286,7 @@ export default function TransactionTable() {
                             {
                                 title: "reoccur", field: "reoccurring", cellStyle: {whiteSpace: "nowrap",},
                                 render: (rowData) => {
-                                    return (
-                                        <input
-                                            type="checkbox"
-                                            checked={rowData.reoccurring}
-                                            onChange={() => toggleReoccurring(rowData.reoccurring)}
-                                        />
-                                    )
+                                    return <Checkbox checked={rowData.reoccurring} onChange={(event) => toggleReoccurring(event, rowData.guid, rowData.reoccurring)} />
                                 }
                             },
                             {
