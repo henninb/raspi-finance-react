@@ -11,10 +11,16 @@ export default function CloneTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
-                            {title: "accountNameOwner", field: "accountNameOwner", cellStyle: {whiteSpace: "nowrap"},
+                            {
+                                title: "accountNameOwner", field: "accountNameOwner", cellStyle: {whiteSpace: "nowrap"},
                             },
                             {title: "unbalanced", field: "totals", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
-                            {title: "balanced", field: "totalsBalanced", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
+                            {
+                                title: "balanced",
+                                field: "totalsBalanced",
+                                type: "currency",
+                                cellStyle: {whiteSpace: "nowrap"}
+                            },
                         ]}
                         // data={data}
                         title={'test'}
@@ -22,12 +28,11 @@ export default function CloneTable() {
                             paging: false,
                             search: true,
                             addRowPosition: "first",
-                            headerStyle: { backgroundColor: '#01579b',  color: '#FFF',  },
-                            rowStyle: { fontSize: '.6rem', }
+                            headerStyle: {backgroundColor: '#01579b', color: '#FFF',},
+                            rowStyle: {fontSize: '.6rem',}
                         }}
 
-                        editable={{
-                        }}
+                        editable={{}}
                     />
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )

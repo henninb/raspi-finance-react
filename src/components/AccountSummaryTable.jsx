@@ -66,7 +66,7 @@ export default function AccountSummaryTable() {
         let endpoint = 'http://localhost:8080/account/delete/' + payload.accountNameOwner;
 
         let response = await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
-        if( response.status !== 200 ) {
+        if (response.status !== 200) {
             alert("not a 200");
         }
     };
@@ -128,7 +128,8 @@ export default function AccountSummaryTable() {
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
-                            {title: "accountNameOwner", field: "accountNameOwner", cellStyle: {whiteSpace: "nowrap"},
+                            {
+                                title: "accountNameOwner", field: "accountNameOwner", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     return (
                                         <Button
@@ -139,7 +140,12 @@ export default function AccountSummaryTable() {
                             {title: "accountType", field: "accountType", cellStyle: {whiteSpace: "nowrap"}},
                             {title: "moniker", field: "moniker", cellStyle: {whiteSpace: "nowrap"}},
                             {title: "unbalanced", field: "totals", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
-                            {title: "balanced", field: "totalsBalanced", type: "currency", cellStyle: {whiteSpace: "nowrap"}},
+                            {
+                                title: "balanced",
+                                field: "totalsBalanced",
+                                type: "currency",
+                                cellStyle: {whiteSpace: "nowrap"}
+                            },
                         ]}
                         data={accountData}
                         title={` [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
@@ -152,7 +158,7 @@ export default function AccountSummaryTable() {
                                 color: '#FFF',
                                 // position: 'sticky', top: 0
                             },
-                            rowStyle: { fontSize: '.6rem', }
+                            rowStyle: {fontSize: '.6rem',}
                         }}
 
                         editable={{

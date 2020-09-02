@@ -104,16 +104,21 @@ export default function PaymentTable() {
                     <MaterialTable
                         data-testid="payment-table"
                         columns={[
-                            {title: "transactionDate", field: "transactionDate", type: "date", cellStyle: {whiteSpace: "nowrap"},
+                            {
+                                title: "transactionDate",
+                                field: "transactionDate",
+                                type: "date",
+                                cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     return <div>{formatDate(rowData.transactionDate)}</div>
                                 }
                             },
-                            {title: "accountNameOwner", field: "accountNameOwner", cellStyle: {whiteSpace: "nowrap"},
+                            {
+                                title: "accountNameOwner", field: "accountNameOwner", cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     return (
-                                        <Button style={{ fontSize: '.6rem' }}
-                                            onClick={() => handleButtonClickLink(rowData.accountNameOwner)}>{rowData.accountNameOwner}</Button>
+                                        <Button style={{fontSize: '.6rem'}}
+                                                onClick={() => handleButtonClickLink(rowData.accountNameOwner)}>{rowData.accountNameOwner}</Button>
                                     )
                                 }
                                 ,

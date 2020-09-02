@@ -63,7 +63,8 @@ export default function SelectAccounts() {
                         // primary50: 'red',
                         primary25: '#9965f4',
                         primary: '#FFF',
-                    }})}
+                    }
+                })}
             />
         </div>
     );

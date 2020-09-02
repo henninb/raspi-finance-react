@@ -1,4 +1,4 @@
-export const formatDate = (date)  => {
+export const formatDate = (date) => {
     let d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();

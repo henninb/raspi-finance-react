@@ -29,7 +29,7 @@ export default function TransactionTable() {
     };
 
     const toggleReoccurring = async (event, guid, reoccurring) => {
-        await changeTransactionReoccurringStatus(guid,!reoccurring)
+        await changeTransactionReoccurringStatus(guid, !reoccurring)
         //event.target.change = !reoccurring
         //alert('clicked me, new value=' + !reoccurringStatus)
         //return reoccurringStatus;
@@ -50,8 +50,8 @@ export default function TransactionTable() {
         const source = CancelToken.source();
         //TODO: right now 'Cleared' is case sensitive, not cool
         const response = await axios.put('http://localhost:8080/transaction/state/update/' + guid + '/Cleared', {cancelToken: source.token});
-        if( response.data !== "transaction state updated" ) {
-          alert('changeTransactionStateToCleared - failure');
+        if (response.data !== "transaction state updated") {
+            alert('changeTransactionStateToCleared - failure');
         }
         return () => {
             source.cancel();
@@ -62,7 +62,7 @@ export default function TransactionTable() {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const response = await axios.put('http://localhost:8080/transaction/reoccurring/update/' + guid + '/' + reoccurring, {cancelToken: source.token});
-        if( response.data !== "transaction reoccurring updated" ) {
+        if (response.data !== "transaction reoccurring updated") {
             alert('changeTransactionReoccurringStatus - failure');
         }
         return () => {
@@ -286,7 +286,8 @@ export default function TransactionTable() {
                             {
                                 title: "reoccur", field: "reoccurring", cellStyle: {whiteSpace: "nowrap",},
                                 render: (rowData) => {
-                                    return <Checkbox checked={rowData.reoccurring} onChange={(event) => toggleReoccurring(event, rowData.guid, rowData.reoccurring)} />
+                                    return <Checkbox checked={rowData.reoccurring}
+                                                     onChange={(event) => toggleReoccurring(event, rowData.guid, rowData.reoccurring)}/>
                                 }
                             },
                             {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Select from 'react-select'
 
 export default function SelectTransactionState({onChangeFunction, currentValue}) {
@@ -19,7 +19,7 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
         <div>
             <Select
                 value={transactionStateOptions().find(op => {
-                    if( currentValue === undefined ) {
+                    if (currentValue === undefined) {
                         return op.value === 'outstanding'
                     }
                     return op.value === currentValue
