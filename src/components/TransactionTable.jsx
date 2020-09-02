@@ -24,15 +24,29 @@ export default function TransactionTable() {
 
     const handlerForUpdatingTransactionState = async (guid) => {
         await changeTransactionStateToCleared(guid)
-        //TODO: history go might not be required
-        //history.go(0);
+        setData(data.map((elem) => {
+            if (elem["guid"] === guid) {
+                return {...elem, transactionState: 'cleared'}
+            } else {
+                return elem
+            }
+        }));
     };
 
-    const toggleReoccurring = async (event, guid, reoccurring) => {
-        await changeTransactionReoccurringStatus(guid, !reoccurring)
-        //event.target.change = !reoccurring
-        //alert('clicked me, new value=' + !reoccurringStatus)
-        //return reoccurringStatus;
+    const toggleReoccurring = async (guid, reoccurring) => {
+
+        try {
+            await changeTransactionReoccurringStatus(guid, !reoccurring)
+            setData(data.map((elem) => {
+                if (elem["guid"] === guid) {
+                    return {...elem, reoccurring: !elem.reoccurring}
+                } else {
+                    return elem
+                }
+            }));
+        } catch (e) {
+            alert('toggleReoccurring');
+        }
     };
 
     const fetchTotals = useCallback(async () => {
@@ -286,8 +300,9 @@ export default function TransactionTable() {
                             {
                                 title: "reoccur", field: "reoccurring", cellStyle: {whiteSpace: "nowrap",},
                                 render: (rowData) => {
+
                                     return <Checkbox checked={rowData.reoccurring}
-                                                     onChange={(event) => toggleReoccurring(event, rowData.guid, rowData.reoccurring)}/>
+                                                     onChange={(event, checked) => toggleReoccurring(rowData.guid, rowData.reoccurring)}/>
                                 }
                             },
                             {
