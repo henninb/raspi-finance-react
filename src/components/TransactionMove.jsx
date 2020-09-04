@@ -9,20 +9,19 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {endpointUrl} from "./Common"
+import {endpointUrl} from "./Common";
 
-export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
-
+export default function TransactionMove({closeDialog, transactionGuid}) {
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState(options[0]);
     const [inputValue, setInputValue] = useState('');
 
     const handleButtonClick = async () => {
         try {
-          await updateAccountByGuid(value);
-          closeDialog();
+            await updateAccountByGuid(value);
+            closeDialog();
         } catch(error) {
-          alert("handleButtonClick failure.");
+            alert("handleButtonClick failure.");
         }
     }
 
@@ -69,33 +68,34 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
 
     }, [options, fetchData]);
 
-  return (<div>
-      <Button variant="outlined" color="primary" onClick={closeDialog}>Open form dialog</Button>
-      <Dialog onClose={closeDialog} aria-labelledby="form-dialog-title" open={true}>
-        <DialogTitle id="form-dialog-title">Move a transaction</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Please enter the new account {transactionGuid} is moving to.</DialogContentText>
+    return (
+        <div>
+            <Button variant="outlined" color="primary" onClick={closeDialog}>Open form dialog</Button>
+            <Dialog onClose={closeDialog} aria-labelledby="form-dialog-title" open={true}>
+                <DialogTitle id="form-dialog-title">Move a transaction</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>Please enter the new account {transactionGuid} is moving to.</DialogContentText>
 
-            <Autocomplete
-               value={value}
-               onChange={(event, newValue) => {
-                  setValue(newValue);
-               }}
-               inputValue={inputValue}
-               onInputChange={(event, newInputValue) => {
-                  setInputValue(newInputValue);
-               }}
-               options={options}
-               renderInput={(params) => <TextField {...params} label="Accounts" variant="outlined" />}
-            />
+                    <Autocomplete
+                        value={value}
+                        onChange={(event, newValue) => {
+                            setValue(newValue);
+                        }}
+                        inputValue={inputValue}
+                        onInputChange={(event, newInputValue) => {
+                            setInputValue(newInputValue);
+                        }}
+                        options={options}
+                        renderInput={(params) => <TextField {...params} label="Accounts" variant="outlined" />}
+                    />
 
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialog} color="primary">Cancel</Button>
-          <Button onClick={handleButtonClick} color="primary">Move</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={closeDialog} color="primary">Cancel</Button>
+                    <Button onClick={handleButtonClick} color="primary">Move</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
 
-  );
+    );
 }

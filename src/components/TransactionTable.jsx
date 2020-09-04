@@ -7,7 +7,7 @@ import Spinner from './Spinner';
 import './master.scss';
 import {useRouteMatch} from 'react-router-dom';
 import SelectTransactionState from "./SelectTransactionState";
-import TransactionMoveDialog from "./TransactionMoveDialog";
+import TransactionMoveDialog from "./TransactionMove";
 import {currencyFormat, toEpochDateAsMillis, endpointUrl} from "./Common"
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -25,11 +25,11 @@ export default function TransactionTable() {
     const handlerForUpdatingTransactionState = async (guid) => {
         try {
             await changeTransactionStateToCleared(guid)
-            setData(data.map((elem) => {
-                if (elem["guid"] === guid) {
-                    return {...elem, transactionState: 'cleared'}
+            setData(data.map((element) => {
+                if (element["guid"] === guid) {
+                    return {...element, transactionState: 'cleared'}
                 } else {
-                    return elem
+                    return element
                 }
             }));
         } catch (error) {

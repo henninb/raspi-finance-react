@@ -8,23 +8,8 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
     const [inputValue, setInputValue] = useState('');
     const [keyPressValue, setKeyPressValue] = useState('');
 
-    // const transactionStateOptions = () => {
-    //     return ['future', 'outstanding', 'cleared', 'undefined']
-    // }
-
-    // const onSelectChange = ({value}) => {
-    //     onChangeFunction(value);
-    // }
-
-    // const newOptions = [
-    //     { title: 'future'},
-    //     { title: 'outstanding'},
-    //     { title: 'cleared'}
-    // ]
-
     useEffect(() => {
         setOptions(['future', 'outstanding', 'cleared']);
-        //setOptions(newOptions);
         if (value === '') {
             setValue(currentValue);
         }
@@ -38,17 +23,7 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
                     return state
                 }
                 return ""
-                
             })
-            // alert(x)
-            // if (inputValue.startsWith("o")) {
-            //     await setKeyPressValue('outstanding');
-            // } else if (inputValue.startsWith("c")) {
-            //     await setKeyPressValue('cleared');
-            // } else if (inputValue.startsWith("f")) {
-            //     await setKeyPressValue('future');
-            // }
-            //alert(inputValue + " " + value);
         }
     }
 
@@ -56,7 +31,6 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
         <div>
             <Autocomplete
                 getOptionLabel={(options) => options}
-                // value={value}
                 defaultValue={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
@@ -68,7 +42,7 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
                     if( keyPressValue === '') {
                         setInputValue(newInputValue);
                     } else {
-                        setInputValue(keyPressValue)
+                    setInputValue(keyPressValue)
                         setKeyPressValue('')
                     }
                 }}
