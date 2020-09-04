@@ -13,13 +13,13 @@ import {endpointUrl} from "./Common"
 
 export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
 
-    const [optionsNew, setOptionsNew] = useState([]);
-    const [value1, setValue1] = useState(optionsNew[0]);
+    const [options, setOptions] = useState([]);
+    const [value, setValue] = useState(options[0]);
     const [inputValue, setInputValue] = useState('');
 
     const handleButtonClick = async () => {
         try {
-          await updateAccountByGuid(value1);
+          await updateAccountByGuid(value);
           closeDialog();
         } catch(error) {
           alert("handleButtonClick failure.");
@@ -47,8 +47,7 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
                 accounts.push(element.accountNameOwner);
             })
 
-            //setOptions(optionList);
-            setOptionsNew(accounts);
+            setOptions(accounts);
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 404) {
@@ -61,14 +60,14 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
 
     useEffect(() => {
 
-        if (optionsNew.length === 0) {
+        if (options.length === 0) {
             fetchData();
         }
 
         return () => {
         }
 
-    }, [optionsNew, fetchData]);
+    }, [options, fetchData]);
 
   return (<div>
       <Button variant="outlined" color="primary" onClick={closeDialog}>Open form dialog</Button>
@@ -78,15 +77,15 @@ export default function TransactionMoveDialog({closeDialog, transactionGuid}) {
           <DialogContentText>Please enter the new account {transactionGuid} is moving to.</DialogContentText>
 
             <Autocomplete
-               value={value1}
+               value={value}
                onChange={(event, newValue) => {
-                  setValue1(newValue);
+                  setValue(newValue);
                }}
                inputValue={inputValue}
                onInputChange={(event, newInputValue) => {
                   setInputValue(newInputValue);
                }}
-               options={optionsNew}
+               options={options}
                renderInput={(params) => <TextField {...params} label="Accounts" variant="outlined" />}
             />
 

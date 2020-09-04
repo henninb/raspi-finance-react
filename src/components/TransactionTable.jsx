@@ -304,7 +304,14 @@ export default function TransactionTable() {
                                     return (
                                         <>
                                             <SelectTransactionState onChangeFunction={props.onChange}
-                                                                    currentValue={props.value}/>
+                                                                    currentValue={ () => {
+                                                                        if (props.value) {
+                                                                            return props.value
+                                                                        } else {
+                                                                            return 'outstanding'
+                                                                        }
+                                                                       }
+                                                                    }/>
                                         </>
                                     )
                                 }

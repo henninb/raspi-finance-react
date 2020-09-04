@@ -5,7 +5,6 @@ import {useHistory} from "react-router-dom";
 import {endpointUrl} from "./Common";
 
 export default function SelectAccounts() {
-
     const [options, setOptions] = useState([]);
 
     const handleChange = (selectedOption) => {
@@ -24,9 +23,7 @@ export default function SelectAccounts() {
                 optionList = optionList.concat({value: element.accountNameOwner, label: element.accountNameOwner});
             })
 
-            //if( response.data.length > 0 ) {
             setOptions(optionList);
-            //}
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 404) {
