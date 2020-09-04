@@ -10,6 +10,8 @@ yarn add react-spinners
 yarn add react-loader-spinner
 yarn add react-select
 yarn add axios
+yarn add dotenv
+yarn add @material-ui/lab
 # yarn add react-uuid
 yarn add uuid
 # yarn add canvas

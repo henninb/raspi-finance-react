@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react'
 import Select from 'react-select'
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import {endpointUrl} from "./Common";
 
 export default function SelectAccounts() {
 
@@ -16,7 +17,7 @@ export default function SelectAccounts() {
 
     const fetchData = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:8080/account/select/active');
+            const response = await axios.get(endpointUrl() + '/account/select/active');
 
             let optionList = []
             response.data.forEach(element => {

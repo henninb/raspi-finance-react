@@ -24,3 +24,12 @@ export const currencyFormat = (inputData) => {
     inputData = parseFloat(inputData).toFixed(2);
     return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export const endpointUrl = () => {
+    //TODO: figure this out
+    let port = process.env.REACT_APP_ENDPOINT_PORT
+    let server = process.env.REACT_APP_ENDPOINT_SERVER
+    console.log(server + ":" + port)
+    //return "http://192.168.100.97:8080";
+    return 'http://' + server + ":" + port;
+}

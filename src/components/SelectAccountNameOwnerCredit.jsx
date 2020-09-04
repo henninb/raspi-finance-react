@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Select from 'react-select'
 import axios from "axios";
+import {endpointUrl} from "./Common";
 
 export default function SelectAccountNameOwnerCredit({onChangeFunction, currentValue}) {
     const [selectedOption, setSelectedOption] = useState(currentValue);
@@ -8,7 +9,7 @@ export default function SelectAccountNameOwnerCredit({onChangeFunction, currentV
 
     const fetchAccountTypeOptions = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:8080/account/select/active');
+            const response = await axios.get(endpointUrl() + '/account/select/active');
 
             let optionList = []
             response.data.forEach(element => {

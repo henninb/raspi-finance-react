@@ -4,7 +4,7 @@ import './master.scss';
 import axios from "axios";
 import SelectAccountNameOwnerCredit from './SelectAccountNameOwnerCredit'
 import Spinner from "./Spinner";
-import {formatDate} from "./Common"
+import {endpointUrl, formatDate} from "./Common"
 import {useHistory} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
@@ -41,7 +41,7 @@ export default function PaymentTable() {
 
     const fetchData = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:8080/payment/select');
+            const response = await axios.get(endpointUrl() + '/payment/select');
             if (response.data.length > 0) {
                 setData(response.data);
             }
@@ -64,7 +64,7 @@ export default function PaymentTable() {
     const postCallPayment = async (payload) => {
         let CancelToken = axios.CancelToken;
         let source = CancelToken.source();
-        let endpoint = 'http://localhost:8080/payment/insert/';
+        let endpoint = endpointUrl() + '/payment/insert/';
 
         await axios.post(endpoint, payload, {
             timeout: 0,
@@ -92,7 +92,7 @@ export default function PaymentTable() {
     }, [data, fetchData]);
 
     const deleteCall = async (payload) => {
-        let endpoint = 'http://localhost:8080/payment/delete/' + payload.paymentId;
+        let endpoint = endpointUrl() + '/payment/delete/' + payload.paymentId;
 
         await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
     };

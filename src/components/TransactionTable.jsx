@@ -8,7 +8,7 @@ import './master.scss';
 import {useRouteMatch} from 'react-router-dom';
 import SelectTransactionState from "./SelectTransactionState";
 import TransactionMoveDialog from "./TransactionMoveDialog";
-import {currencyFormat, toEpochDateAsMillis} from "./Common"
+import {currencyFormat, toEpochDateAsMillis, endpointUrl} from "./Common"
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 
@@ -23,14 +23,21 @@ export default function TransactionTable() {
     let match = useRouteMatch("/transactions/:account");
 
     const handlerForUpdatingTransactionState = async (guid) => {
-        await changeTransactionStateToCleared(guid)
-        setData(data.map((elem) => {
-            if (elem["guid"] === guid) {
-                return {...elem, transactionState: 'cleared'}
-            } else {
-                return elem
+        try {
+            await changeTransactionStateToCleared(guid)
+            setData(data.map((elem) => {
+                if (elem["guid"] === guid) {
+                    return {...elem, transactionState: 'cleared'}
+                } else {
+                    return elem
+                }
+            }));
+        } catch (error) {
+            console.log('handlerForUpdatingTransactionState failure');
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
             }
-        }));
+        }
     };
 
     const toggleReoccurring = async (guid, reoccurring) => {
@@ -44,15 +51,18 @@ export default function TransactionTable() {
                     return elem
                 }
             }));
-        } catch (e) {
-            alert('toggleReoccurring');
+        } catch (error) {
+            console.log('toggleReoccurring failure');
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+            }
         }
     };
 
     const fetchTotals = useCallback(async () => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
-        const response = await axios.get('http://localhost:8080/transaction/account/totals/' + match.params.account, {cancelToken: source.token});
+        const response = await axios.get(endpointUrl() + '/transaction/account/totals/' + match.params.account, {cancelToken: source.token});
         setTotals(response.data);
         return () => {
             source.cancel();
@@ -63,9 +73,10 @@ export default function TransactionTable() {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         //TODO: right now 'Cleared' is case sensitive, not cool
-        const response = await axios.put('http://localhost:8080/transaction/state/update/' + guid + '/Cleared', {cancelToken: source.token});
+        const response = await axios.put(endpointUrl() + '/transaction/state/update/' + guid + '/Cleared', {cancelToken: source.token});
         if (response.data !== "transaction state updated") {
-            alert('changeTransactionStateToCleared - failure');
+            console.log('changeTransactionStateToCleared - failure');
+            console.log(response.data)
         }
         return () => {
             source.cancel();
@@ -75,7 +86,7 @@ export default function TransactionTable() {
     const changeTransactionReoccurringStatus = async (guid, reoccurring) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
-        const response = await axios.put('http://localhost:8080/transaction/reoccurring/update/' + guid + '/' + reoccurring, {cancelToken: source.token});
+        const response = await axios.put(endpointUrl() + '/transaction/reoccurring/update/' + guid + '/' + reoccurring, {cancelToken: source.token});
         if (response.data !== "transaction reoccurring updated") {
             alert('changeTransactionReoccurringStatus - failure');
         }
@@ -88,7 +99,7 @@ export default function TransactionTable() {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
 
-        const response = await axios.get('http://localhost:8080/transaction/account/select/' + match.params.account, {cancelToken: source.token});
+        const response = await axios.get(endpointUrl() + '/transaction/account/select/' + match.params.account, {cancelToken: source.token});
         setData(response.data);
         setLoadSpinner(false);
         return () => {
@@ -97,7 +108,7 @@ export default function TransactionTable() {
     }, [match]);
 
     const putCall = async (newData, oldData) => {
-        let endpoint = 'http://localhost:8080/transaction/update/' + oldData.guid;
+        let endpoint = endpointUrl() + '/transaction/update/' + oldData.guid;
         delete newData['tableData'];
 
         //TODO: do I need this?
@@ -167,6 +178,7 @@ export default function TransactionTable() {
                     resolve();
                 } catch (error) {
                     if (error.response) {
+                        console.log(error.response.data);
                         alert(JSON.stringify(error.response.data));
                     }
                     reject();
@@ -176,13 +188,13 @@ export default function TransactionTable() {
     };
 
     const deleteCall = async (payload) => {
-        let endpoint = 'http://localhost:8080/transaction/delete/' + payload.guid;
+        let endpoint = endpointUrl() + '/transaction/delete/' + payload.guid;
 
         await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
     };
 
     const postCall = async (payload) => {
-        let endpoint = 'http://localhost:8080/transaction/insert/';
+        let endpoint = endpointUrl() + '/transaction/insert/';
         let newPayload = {};
 
         //TODO: bh 8/28/2020 - need to address any date conversion issues

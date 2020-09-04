@@ -5,6 +5,7 @@ import './master.scss';
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import {useHistory} from "react-router-dom";
+import {endpointUrl} from "./Common";
 
 export default function AccountSummaryTable() {
 
@@ -40,7 +41,7 @@ export default function AccountSummaryTable() {
     const postCall = async (payload) => {
         let CancelToken = axios.CancelToken;
         let source = CancelToken.source();
-        let endpoint = 'http://localhost:8080/account/insert/';
+        let endpoint = endpointUrl() + '/account/insert/';
 
         const now = new Date()
         payload.totals = 0.0;
@@ -63,7 +64,7 @@ export default function AccountSummaryTable() {
     };
 
     const deleteCall = async (payload) => {
-        let endpoint = 'http://localhost:8080/account/delete/' + payload.accountNameOwner;
+        let endpoint = endpointUrl() + '/account/delete/' + payload.accountNameOwner;
 
         let response = await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
         if (response.status !== 200) {
@@ -73,7 +74,7 @@ export default function AccountSummaryTable() {
 
     const fetchTotals = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:8080/account/totals');
+            const response = await axios.get(endpointUrl() + '/account/totals');
             setTotals(response.data);
         } catch (error) {
             if (error.response) {
@@ -88,7 +89,7 @@ export default function AccountSummaryTable() {
         const source = CancelToken.source();
 
         try {
-            const response = await axios.get('http://localhost:8080/account/select/active');
+            const response = await axios.get(endpointUrl() + '/account/select/active');
             setData(response.data);
             setLoading(false);
         } catch (error) {
