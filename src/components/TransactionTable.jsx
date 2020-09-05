@@ -27,6 +27,7 @@ export default function TransactionTable() {
             await changeTransactionStateToCleared(guid)
             setData(data.map((element) => {
                 if (element["guid"] === guid) {
+                    fetchTotals()
                     return {...element, transactionState: 'cleared'}
                 } else {
                     return element
@@ -290,7 +291,7 @@ export default function TransactionTable() {
                                                                         if (props.value) {
                                                                             return props.value;
                                                                         } else {
-                                                                            return 'test';
+                                                                            return 'none';
                                                                         }
                                                                     }
                                                                     }/>
