@@ -309,13 +309,20 @@ export default function TransactionTable() {
                                         return (<div>{rowData.transactionState}</div>)
                                     } else {
                                         return (
-                                            <Button style={{
-                                                fontWeight: 'bold',
-                                                fontSize: '.6rem',
-                                                backgroundColor: '#9965f4',
-                                                color: '#FFF'
-                                            }}
-                                                    onClick={() => handlerForUpdatingTransactionState(rowData.guid)}>{rowData.transactionState}</Button>
+                                            <div>
+                                                <Checkbox checked={false}
+                                                          onChange={() => handlerForUpdatingTransactionState(rowData.guid)}/>
+                                                {rowData.transactionState}
+                                            </div>
+
+
+                                            // <Button style={{
+                                            //     fontWeight: 'bold',
+                                            //     fontSize: '.6rem',
+                                            //     backgroundColor: '#9965f4',
+                                            //     color: '#FFF'
+                                            // }}
+                                            //         onClick={() => handlerForUpdatingTransactionState(rowData.guid)}>{rowData.transactionState}</Button>
                                         )
                                     }
                                 },
