@@ -1,10 +1,14 @@
 import MaterialTable from "material-table";
 // import Button from "@material-ui/core/Button";
 import Spinner from "./Spinner";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 export default function CloneTable() {
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
 
     return (<div>
             {!loading ?

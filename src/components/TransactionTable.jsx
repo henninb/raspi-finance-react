@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import MaterialTable from "material-table";
 import axios from 'axios';
-//import uuid from 'react-uuid';
 import {v4 as uuidv4} from 'uuid';
 import Spinner from './Spinner';
 import './master.scss';
@@ -11,6 +10,7 @@ import TransactionMoveDialog from "./TransactionMove";
 import {currencyFormat, toEpochDateAsMillis, endpointUrl} from "./Common"
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
+import SelectCategory from "./SelectCategory";
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true);
@@ -249,11 +249,13 @@ export default function TransactionTable() {
         window.addEventListener('keyup', upHandler);
 
         if (data.length === 0) {
-            fetchData();
+            let response = fetchData();
+            console.log(response);
         }
 
         if (totals.length === 0) {
-            fetchTotals();
+            let response = fetchTotals();
+            console.log(response);
         }
 
         return () => {
@@ -279,6 +281,22 @@ export default function TransactionTable() {
                             },
                             {
                                 title: "category", field: "category", cellStyle: {whiteSpace: "nowrap",},
+
+                                editComponent: (props) => {
+                                    return (
+                                        <>
+                                            <SelectCategory onChangeFunction={props.onChange}
+                                                                    currentValue={ () => {
+                                                                        if (props.value) {
+                                                                            return props.value;
+                                                                        } else {
+                                                                            return 'test';
+                                                                        }
+                                                                    }
+                                                                    }/>
+                                        </>
+                                    )
+                                }
                             },
                             {
                                 title: "amount", field: "amount", type: "currency", cellStyle: {whiteSpace: "nowrap"},
@@ -306,9 +324,9 @@ export default function TransactionTable() {
                                             <SelectTransactionState onChangeFunction={props.onChange}
                                                                     currentValue={ () => {
                                                                         if (props.value) {
-                                                                            return props.value
+                                                                            return props.value;
                                                                         } else {
-                                                                            return 'outstanding'
+                                                                            return 'outstanding';
                                                                         }
                                                                        }
                                                                     }/>
@@ -321,7 +339,7 @@ export default function TransactionTable() {
                                 render: (rowData) => {
 
                                     return <Checkbox checked={rowData.reoccurring}
-                                                     onChange={(event, checked) => toggleReoccurring(rowData.guid, rowData.reoccurring)}/>
+                                                     onChange={() => toggleReoccurring(rowData.guid, rowData.reoccurring)}/>
                                 }
                             },
                             {
