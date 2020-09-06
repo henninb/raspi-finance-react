@@ -8,7 +8,6 @@ import {useRouteMatch} from 'react-router-dom';
 import SelectTransactionState from "./SelectTransactionState";
 import TransactionMoveDialog from "./TransactionMove";
 import {currencyFormat, toEpochDateAsMillis, endpointUrl} from "./Common"
-import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import SelectCategory from "./SelectCategory";
 
@@ -19,7 +18,6 @@ export default function TransactionTable() {
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
-    //const [reoccurringChecked, setReoccurringChecked] = useState(false);
     let match = useRouteMatch("/transactions/:account");
 
     const handlerForUpdatingTransactionState = async (guid) => {
@@ -77,7 +75,7 @@ export default function TransactionTable() {
         const response = await axios.put(endpointUrl() + '/transaction/state/update/' + guid + '/Cleared', {cancelToken: source.token});
         if (response.data !== "transaction state updated") {
             console.log('changeTransactionStateToCleared - failure');
-            console.log(response.data)
+            console.log(response.data);
         }
         return () => {
             source.cancel();
@@ -89,7 +87,8 @@ export default function TransactionTable() {
         const source = CancelToken.source();
         const response = await axios.put(endpointUrl() + '/transaction/reoccurring/update/' + guid + '/' + reoccurring, {cancelToken: source.token});
         if (response.data !== "transaction reoccurring updated") {
-            alert('changeTransactionReoccurringStatus - failure');
+            console.log('changeTransactionReoccurringStatus - failure');
+            console.log(response.data);
         }
         return () => {
             source.cancel();
@@ -227,8 +226,7 @@ export default function TransactionTable() {
 
     const downHandler = useCallback(({key}) => {
         if (key === 'Escape') {
-            alert('me - escape' + keyPressed);
-            // document.getElementById('Cancel').click()
+            console.log('escape key pressed: ' + keyPressed);
             setKeyPressed(true);
         }
 
@@ -311,18 +309,10 @@ export default function TransactionTable() {
                                         return (
                                             <div>
                                                 <Checkbox checked={false}
+                                                          style={{color: '#9965f4'}}
                                                           onChange={() => handlerForUpdatingTransactionState(rowData.guid)}/>
                                                 {rowData.transactionState}
                                             </div>
-
-
-                                            // <Button style={{
-                                            //     fontWeight: 'bold',
-                                            //     fontSize: '.6rem',
-                                            //     backgroundColor: '#9965f4',
-                                            //     color: '#FFF'
-                                            // }}
-                                            //         onClick={() => handlerForUpdatingTransactionState(rowData.guid)}>{rowData.transactionState}</Button>
                                         )
                                     }
                                 },
@@ -332,8 +322,10 @@ export default function TransactionTable() {
                                             <SelectTransactionState onChangeFunction={props.onChange}
                                                                     currentValue={ () => {
                                                                         if (props.value) {
+                                                                            console.log('props.value: ' + props.value);
                                                                             return props.value;
                                                                         } else {
+                                                                            console.log('props.value: always outstanding');
                                                                             return 'outstanding';
                                                                         }
                                                                        }
@@ -347,6 +339,7 @@ export default function TransactionTable() {
                                 render: (rowData) => {
 
                                     return <Checkbox checked={rowData.reoccurring}
+                                                     style={{color: '#9965f4'}}
                                                      onChange={() => toggleReoccurring(rowData.guid, rowData.reoccurring)}/>
                                 }
                             },
