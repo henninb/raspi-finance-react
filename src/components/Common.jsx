@@ -31,5 +31,5 @@ export const endpointUrl = () => {
     let server = process.env.REACT_APP_ENDPOINT_SERVER
     console.log(server + ":" + port)
     //return "http://192.168.100.97:8080";
-    return 'http://' + server + ":" + port;
+    return 'https://' + server + ":" + port;
 }
