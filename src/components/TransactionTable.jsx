@@ -212,6 +212,7 @@ export default function TransactionTable() {
         } else {
             newPayload['transactionState'] = payload.transactionState
         }
+        newPayload['activeStatus'] = true
         newPayload['accountType'] = 'undefined'
         newPayload['reoccurring'] = false
         newPayload['accountNameOwner'] = match.params.account
