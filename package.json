@@ -7,15 +7,15 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "axios": "^0.20.0",
     "dotenv": "^8.2.0",
-    "material-table": "^1.69.0",
+    "material-table": "^1.69.1",
     "node-sass": "^4.14.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-loader-spinner": "^3.1.14",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-select": "^3.1.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,11 +40,11 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.0.4",
-    "@testing-library/react-hooks": "^3.4.1",
-    "@testing-library/user-event": "^12.1.6",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/react-hooks": "^3.4.2",
+    "@testing-library/user-event": "^12.1.8",
     "jest-dom": "^4.0.0",
-    "react-test-renderer": "^16.13.1"
+    "react-test-renderer": "^16.14.0"
   },
   "resolutions": {
     "material-table/jspdf": "^2.1.0"
