@@ -17,7 +17,6 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
 
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
-            console.log('transactionState - tab pressed');
             options.find((state) => {
                 if (state.includes(inputValue)) {
                     setKeyPressValue(state)

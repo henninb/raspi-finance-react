@@ -40,7 +40,6 @@ export default function SelectCategory({onChangeFunction, currentValue}) {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
-            console.log('category - tab pressed');
             options.find((state) => {
                 if (state.includes(inputValue)) {
                     setKeyPressValue(state)

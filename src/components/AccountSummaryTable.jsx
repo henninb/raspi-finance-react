@@ -24,8 +24,8 @@ export default function AccountSummaryTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    await postCall(newData);
-                    setData([newData, ...accountData]);
+                    const newPayload = await postCall(newData);
+                    setData([newPayload, ...accountData]);
                     resolve();
                 } catch (error) {
                     if (error.response) {
@@ -56,6 +56,7 @@ export default function AccountSummaryTable() {
             headers: {'Content-Type': 'application/json'},
             cancelToken: source.token
         });
+        return payload;
     };
 
     const currencyFormat = (inputData) => {
