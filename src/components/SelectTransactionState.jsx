@@ -10,21 +10,19 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
 
     useEffect(() => {
         setOptions(['future', 'outstanding', 'cleared']);
-        //if (value === '') {
-            console.log('inputValue ' + inputValue);
-            console.log('value ' + value);
-            setValue(inputValue);
-        //}
+        console.log('transactionState - inputValue ' + inputValue);
+        console.log('transactionState - value ' + value);
+        setValue(inputValue);
     }, [currentValue, inputValue, value]);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
+            console.log('transactionState - tab pressed');
             options.find((state) => {
-                if( state.startsWith(inputValue)) {
-                    setKeyPressValue(state);
-                    return state
+                if (state.includes(inputValue)) {
+                    setKeyPressValue(state)
+                    onChangeFunction(state)
                 }
-                return ""
             })
         }
     }
@@ -32,14 +30,12 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
     return (
         <div>
             <Autocomplete
-                //getOptionLabel={(options) => options}
                 defaultValue={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
                     onChangeFunction(newValue);
                 }}
 
-                //value={value}
                 inputValue={inputValue}
                 onInputChange={(event, newInputValue) => {
                     if( keyPressValue === '') {

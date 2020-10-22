@@ -171,9 +171,10 @@ export default function TransactionTable() {
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
-                setData([newData, ...data]);
+                //setData([newData, ...data]);
                 try {
-                    await postCall(newData);
+                    const newPayload = await postCall(newData);
+                    setData([newPayload, ...data]);
                     await fetchTotals();
                     resolve();
                 } catch (error) {
@@ -223,6 +224,7 @@ export default function TransactionTable() {
             timeout: 0,
             headers: {'Content-Type': 'application/json'}
         });
+        return newPayload;
     };
 
     const downHandler = useCallback(({key}) => {
@@ -288,6 +290,7 @@ export default function TransactionTable() {
                                             <SelectCategory onChangeFunction={props.onChange}
                                                                     currentValue={ () => {
                                                                         if (props.value) {
+                                                                            console.log('props - category = ' + props.value)
                                                                             return props.value;
                                                                         } else {
                                                                             return 'none';

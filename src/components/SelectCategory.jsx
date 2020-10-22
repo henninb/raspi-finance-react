@@ -31,23 +31,21 @@ export default function SelectCategory({onChangeFunction, currentValue}) {
     }, []);
 
     useEffect(() => {
-        //setOptions(['future', 'outstanding', 'cleared']);
         let response = fetchData();
-        console.log(response);
 
-        if (value === '') {
-            setValue(currentValue);
-        }
+        console.log('category - inputValue ' + inputValue);
+        console.log('category - value ' + value);
+        setValue(inputValue);
     }, [value, fetchData, currentValue]);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
+            console.log('category - tab pressed');
             options.find((state) => {
-                if (state.startsWith(inputValue)) {
-                    setKeyPressValue(state);
-                    return state;
+                if (state.includes(inputValue)) {
+                    setKeyPressValue(state)
+                    onChangeFunction(state)
                 }
-                return "";
             })
         }
     }
@@ -55,7 +53,6 @@ export default function SelectCategory({onChangeFunction, currentValue}) {
     return (
         <div>
             <Autocomplete
-                //getOptionLabel={(options) => options}
                 defaultValue={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);

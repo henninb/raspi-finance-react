@@ -22,12 +22,11 @@ export default function PaymentTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    if (verifyData(newData)) {
-                        await postCallPayment(newData);
-                    } else {
+                    const newPayload = await postCallPayment(newData);
+                    if (! verifyData(newPayload)) {
                         reject();
                     }
-                    setData([newData, ...data]);
+                    setData([newPayload, ...data]);
                     resolve();
                 } catch (error) {
                     if (error.response) {
@@ -75,6 +74,7 @@ export default function PaymentTable() {
             headers: {'Content-Type': 'application/json'},
             cancelToken: source.token
         });
+        return newPayload
     };
 
     useEffect(() => {
