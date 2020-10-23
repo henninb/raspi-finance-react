@@ -21,6 +21,7 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
                 if (state.includes(inputValue)) {
                     setKeyPressValue(state)
                     onChangeFunction(state)
+                    return state
                 }
             })
         }
