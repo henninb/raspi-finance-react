@@ -10,40 +10,53 @@ export default function SelectCategory({onChangeFunction, currentValue}) {
     const [inputValue, setInputValue] = useState('');
     const [keyPressValue, setKeyPressValue] = useState('');
 
-    const fetchData = useCallback(async () => {
+    const fetchCategoryData = useCallback(async () => {
         try {
             const response = await axios.get(endpointUrl() + '/category/select/active');
-
-            let categories = []
-            response.data.forEach(element => {
-                categories.push(element.category);
-            })
-
+            const categories = extracted(response);
             setOptions(categories);
+            return categories
+
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 404) {
                 } else {
-                    alert("fetchData" + JSON.stringify(error.response.data));
+                    alert("fetchCategoryData" + JSON.stringify(error.response.data));
                 }
             }
         }
     }, []);
 
-    useEffect(() => {
-        let response = fetchData();
+    const extracted = (response) => {
+        let categories = []
+        response.data.forEach(element => {
+            categories.push(element.category);
+        })
+        return categories
+    }
 
-        console.log('category - inputValue ' + inputValue);
-        console.log('category - value ' + value);
+    useEffect(() => {
+        const response = fetchCategoryData();
+        console.log(response);
+
         setValue(inputValue);
-    }, [value, fetchData, currentValue]);
+    }, [value, fetchCategoryData, currentValue, inputValue]);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
+            const lastValue = options[options.length - 1]
             options.find((state) => {
                 if (state.includes(inputValue)) {
                     setKeyPressValue(state)
                     onChangeFunction(state)
+                    return state
+                }
+                console.log('lastValue: ' + lastValue);
+                if( lastValue === state) {
+                    // TODO: new value should be added to the list of categories
+                    setKeyPressValue(inputValue)
+                    onChangeFunction(inputValue)
+                    return inputValue
                 }
             })
         }
