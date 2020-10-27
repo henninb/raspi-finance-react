@@ -5,7 +5,7 @@ import {fireEvent} from "@testing-library/dom";
 
 describe('paymentTableTests', () => {
     let wrapper;
-    const {result} = renderHook(() => setLoading(true))
+    //const {result} = renderHook(() => setLoading(true))
 
     beforeEach(async () => {
         jest.clearAllMocks();

@@ -10,6 +10,7 @@ import TransactionMoveDialog from "./TransactionMove";
 import {currencyFormat, toEpochDateAsMillis, endpointUrl} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox";
 import SelectCategory from "./SelectCategory";
+import SelectDescription from "./SelectDescription";
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true);
@@ -280,6 +281,26 @@ export default function TransactionTable() {
                             },
                             {
                                 title: "description", field: "description", cellStyle: {whiteSpace: "nowrap",},
+
+                                editComponent: (props) => {
+                                    return (
+                                        <>
+                                            <SelectDescription onChangeFunction={props.onChange}
+                                                            currentValue={ () => {
+                                                                if (props.value) {
+                                                                    console.log('props - category = ' + props.value)
+                                                                    return props.value;
+                                                                } else {
+                                                                    return 'none';
+                                                                }
+                                                            }
+                                                            }/>
+                                        </>
+                                    )
+                                }
+
+
+
                             },
                             {
                                 title: "category", field: "category", cellStyle: {whiteSpace: "nowrap",},
