@@ -19,6 +19,7 @@ export default function TransactionTable() {
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
+    const [editableCheckbox, setEditableCheckbox] = useState(false);
     let match = useRouteMatch("/transactions/:account");
 
     const handlerForUpdatingTransactionState = async (guid) => {
@@ -172,7 +173,6 @@ export default function TransactionTable() {
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
-                //setData([newData, ...data]);
                 try {
                     const newPayload = await postCall(newData);
                     setData([newPayload, ...data]);
@@ -200,8 +200,9 @@ export default function TransactionTable() {
         let newPayload = {};
 
         //TODO: bh 8/28/2020 - need to address any date conversion issues
+        //TODO: bh 10/31/2020 - set a timezone based on a parm
         let buildTransactionDateString = payload.transactionDate.toISOString().split('T')[0] + "T12:00:00.000";
-
+        //dt.toISOString());
         newPayload['guid'] = uuidv4();
         //newPayload['transactionDate'] = toEpochDateAsMillis(new Date(payload.transactionDate.toDateString()));
         newPayload['transactionDate'] = buildTransactionDateString
@@ -216,7 +217,7 @@ export default function TransactionTable() {
         }
         newPayload['activeStatus'] = true
         newPayload['accountType'] = 'undefined'
-        newPayload['reoccurring'] = false
+        newPayload['reoccurring'] = payload.reoccurring === undefined ? false : payload.reoccurring
         newPayload['accountNameOwner'] = match.params.account
         newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
@@ -281,26 +282,21 @@ export default function TransactionTable() {
                             },
                             {
                                 title: "description", field: "description", cellStyle: {whiteSpace: "nowrap",},
-
                                 editComponent: (props) => {
                                     return (
                                         <>
                                             <SelectDescription onChangeFunction={props.onChange}
-                                                            currentValue={ () => {
-                                                                if (props.value) {
-                                                                    console.log('props - category = ' + props.value)
-                                                                    return props.value;
-                                                                } else {
-                                                                    return 'none';
-                                                                }
-                                                            }
-                                                            }/>
+                                                currentValue={ () => {
+                                                    if (props.value) {
+                                                        return props.value;
+                                                    } else {
+                                                        return 'none';
+                                                    }
+                                                }
+                                                }/>
                                         </>
                                     )
                                 }
-
-
-
                             },
                             {
                                 title: "category", field: "category", cellStyle: {whiteSpace: "nowrap",},
@@ -309,15 +305,15 @@ export default function TransactionTable() {
                                     return (
                                         <>
                                             <SelectCategory onChangeFunction={props.onChange}
-                                                                    currentValue={ () => {
-                                                                        if (props.value) {
-                                                                            console.log('props - category = ' + props.value)
-                                                                            return props.value;
-                                                                        } else {
-                                                                            return 'none';
-                                                                        }
-                                                                    }
-                                                                    }/>
+                                                currentValue={ () => {
+                                                    if (props.value) {
+
+                                                        return props.value;
+                                                    } else {
+                                                        return 'none';
+                                                    }
+                                                }
+                                                }/>
                                         </>
                                     )
                                 }
@@ -345,16 +341,14 @@ export default function TransactionTable() {
                                     return (
                                         <>
                                             <SelectTransactionState onChangeFunction={props.onChange}
-                                                                    currentValue={ () => {
-                                                                        if (props.value) {
-                                                                            console.log('props.value: ' + props.value);
-                                                                            return props.value;
-                                                                        } else {
-                                                                            console.log('props.value: always outstanding');
-                                                                            return 'outstanding';
-                                                                        }
-                                                                       }
-                                                                    }/>
+                                                currentValue={ () => {
+                                                    if (props.value) {
+                                                        return props.value;
+                                                    } else {
+                                                        return 'outstanding';
+                                                    }
+                                                   }
+                                                }/>
                                         </>
                                     )
                                 }
@@ -362,10 +356,20 @@ export default function TransactionTable() {
                             {
                                 title: "reoccur", field: "reoccurring", cellStyle: {whiteSpace: "nowrap",},
                                 render: (rowData) => {
-
                                     return <Checkbox checked={rowData.reoccurring}
                                                      style={{color: '#9965f4'}}
                                                      onChange={() => toggleReoccurring(rowData.guid, rowData.reoccurring)}/>
+                                },
+                                editComponent: (props) => {
+                                    return <Checkbox checked={props.rowData.reoccurring}
+                                                 style={{color: '#9965f4'}}
+                                                 onChange={(e) => {
+                                                     props.onChange(e.target.checked)
+                                                     props.rowData.reoccurring = e.target.checked
+                                                     console.log('state:', e.target.checked)
+                                                 }
+                                                 }
+                                                 />
                                 }
                             },
                             {
