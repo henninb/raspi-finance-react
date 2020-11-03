@@ -28,6 +28,9 @@ yarn add levenary
 
 yarn global add npm-check-updates
 
+## strict ssl turned off
+- yarn config set "strict-ssl" false -g
+
 codepen
 
 https://codepen.io/alanshortis/pen/eJLVXr

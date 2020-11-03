@@ -15,6 +15,7 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState(options[0]);
     const [inputValue, setInputValue] = useState('');
+    const [fileName, setFileName] = useState('');
 
     const handleButtonClick = async () => {
         try {
@@ -23,6 +24,28 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
             alert("handleButtonClick failure.");
         }
     }
+
+//    const extractWordRawText = arrayBuffer => {
+//     let mammoth
+//      .extractRawText({ arrayBuffer })
+//      .then(result => {
+//        const text = result.value; // The raw text
+//        const messages = result.messages; // Please handle messages
+//        //this.setState({ text });
+//        setText(text);
+//      })
+//      .done();
+//    };
+
+//    const handleFileChange = file => {
+//        const reader = new FileReader();
+//        reader.readAsArrayBuffer(file);
+//        reader.onload = e => {
+//          extractWordRawText(e.target.result);
+//        };
+//
+//        //this.setState({ title: file.name });
+//    };
 
 //    const  updateAccountByGuid = async(accountNameOwner) => {
 //        let endpoint = endpointUrl() + '/transaction/update/account';
@@ -74,14 +97,18 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
                 <DialogTitle id="form-dialog-title">Save a transaction</DialogTitle>
 
   <FilePicker
-    extensions={['md']}
-    onChange={FileObject => (/* do something with File object */)}
-    onError={errMsg => (/* do something with err msg string */)
+    //extensions={["application/pdf"]}
+    extensions={['jpg', 'png', 'jpeg']}
+    onChange={ file => {
+      console.log('do something with the file object');
+      setFileName(file)
+      }}
+    onError={errMsg => (console.log('do something with the failure'))}
   >
-    <button>
-      Click to upload markdown
-    </button>
+    <button>Upload</button>
   </FilePicker>
+  <p>fileName={fileName.name}</p>
+  <p>fileName Size = {fileName.size}{fileName.size ? ' bytes' : null}</p>
 
                 <DialogActions>
                     <Button onClick={closeDialog} color="primary">Cancel</Button>
