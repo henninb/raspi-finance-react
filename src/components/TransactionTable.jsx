@@ -6,7 +6,8 @@ import Spinner from './Spinner';
 import './master.scss';
 import {useRouteMatch} from 'react-router-dom';
 import SelectTransactionState from "./SelectTransactionState";
-import TransactionMoveDialog from "./TransactionMove";
+import TransactionMove from "./TransactionMove";
+import TransactionImage from "./TransactionImage";
 import {currencyFormat, toEpochDateAsMillis, endpointUrl} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox";
 import SelectCategory from "./SelectCategory";
@@ -14,12 +15,12 @@ import SelectDescription from "./SelectDescription";
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true);
-    const [loadDialog, setLoadDialog] = useState(false);
+    const [loadMoveDialog, setLoadMoveDialog] = useState(false);
+    const [loadImageDialog, setLoadImageDialog] = useState(false);
     const [currentGuid, setCurrentGuid] = useState("");
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
-    const [editableCheckbox, setEditableCheckbox] = useState(false);
     let match = useRouteMatch("/transactions/:account");
 
     const handlerForUpdatingTransactionState = async (guid) => {
@@ -426,18 +427,23 @@ export default function TransactionTable() {
                                 tooltip: "Move",
                                 onClick: (event, rowData) => {
                                     setCurrentGuid(rowData.guid);
-                                    setLoadDialog(true);
+                                    setLoadMoveDialog(true);
                                 }
                             },
                             {
                                 icon: "add_a_photo",
                                 tooltip: "Photo-Add",
-                                onClick: (event, rowData) => alert("Associate a photo to transaction " + rowData.guid)
+                                onClick: (event, rowData) => {
+                                     setCurrentGuid(rowData.guid);
+                                     setLoadImageDialog(true);
+                                }
                             }
                         ]}
                     />
-                    {loadDialog ? <TransactionMoveDialog closeDialog={() => setLoadDialog(false)}
+                    {loadMoveDialog ? <TransactionMove closeDialog={() => setLoadMoveDialog(false)}
                                                          transactionGuid={currentGuid}/> : null}
+                    {loadImageDialog ? <TransactionImage closeDialog={() => setLoadImageDialog(false)}
+                                                                             transactionGuid={currentGuid}/> : null}
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )
 }
