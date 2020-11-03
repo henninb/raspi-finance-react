@@ -8,6 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { FilePicker } from 'react-file-picker'
 import {endpointUrl} from "./Common";
 
 export default function TransactionMove({closeDialog, transactionGuid}) {
@@ -71,6 +72,16 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
             <Button variant="outlined" color="primary" onClick={closeDialog}>Open form dialog</Button>
             <Dialog onClose={closeDialog} aria-labelledby="form-dialog-title" open={true}>
                 <DialogTitle id="form-dialog-title">Save a transaction</DialogTitle>
+
+  <FilePicker
+    extensions={['md']}
+    onChange={FileObject => (/* do something with File object */)}
+    onError={errMsg => (/* do something with err msg string */)
+  >
+    <button>
+      Click to upload markdown
+    </button>
+  </FilePicker>
 
                 <DialogActions>
                     <Button onClick={closeDialog} color="primary">Cancel</Button>

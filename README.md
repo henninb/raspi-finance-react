@@ -12,6 +12,7 @@ yarn add react-select
 yarn add axios
 yarn add dotenv
 yarn add storybook
+yarn add react-file-picker
 yarn add @material-ui/lab
 # yarn add react-uuid
 yarn add uuid
