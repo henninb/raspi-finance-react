@@ -25,6 +25,18 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
         }
     }
 
+    const getBase64 = (file) => {
+       let reader = new FileReader();
+       reader.readAsDataURL(file);
+       reader.onload = () => {
+         console.log(reader.result);
+         return reader.result
+       };
+       reader.onerror = (error) => {
+         console.log('Error: ', error);
+       };
+    }
+
 //    const extractWordRawText = arrayBuffer => {
 //     let mammoth
 //      .extractRawText({ arrayBuffer })
@@ -100,15 +112,16 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
     //extensions={["application/pdf"]}
     extensions={['jpg', 'png', 'jpeg']}
     onChange={ file => {
-      console.log('do something with the file object');
+      console.log('do something with the file object')
       setFileName(file)
+      let b64 = getBase64(file)
       }}
     onError={errMsg => (console.log('do something with the failure'))}
   >
     <button>Upload</button>
   </FilePicker>
-  <p>fileName={fileName.name}</p>
-  <p>fileName Size = {fileName.size}{fileName.size ? ' bytes' : null}</p>
+  <p>fileName = {fileName.name}</p>
+  <p>size = {fileName.size}{fileName.size ? ' bytes' : null}</p>
 
                 <DialogActions>
                     <Button onClick={closeDialog} color="primary">Cancel</Button>
