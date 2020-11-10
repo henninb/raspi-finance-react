@@ -93,9 +93,7 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
 
     useEffect(() => {
 
-//        if (options.length === 0) {
-//            fetchData();
-//        }
+
 
         return () => {
         }
@@ -109,7 +107,6 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
                 <DialogTitle id="form-dialog-title">Save a transaction</DialogTitle>
 
   <FilePicker
-    //extensions={["application/pdf"]}
     extensions={['jpg', 'png', 'jpeg']}
     onChange={ file => {
       console.log('do something with the file object')

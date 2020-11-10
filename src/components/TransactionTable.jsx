@@ -12,6 +12,7 @@ import {currencyFormat, toEpochDateAsMillis, endpointUrl} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox";
 import SelectCategory from "./SelectCategory";
 import SelectDescription from "./SelectDescription";
+import { FilePicker } from 'react-file-picker'
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true);
@@ -21,6 +22,8 @@ export default function TransactionTable() {
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
+    const [fileName, setFileName] = useState('');
+
     let match = useRouteMatch("/transactions/:account");
 
     const handlerForUpdatingTransactionState = async (guid) => {
@@ -40,6 +43,18 @@ export default function TransactionTable() {
                 alert(JSON.stringify(error.response.data));
             }
         }
+    };
+
+    const getBase64 = (file) => {
+       let reader = new FileReader();
+       reader.readAsDataURL(file);
+       reader.onload = () => {
+         console.log(reader.result);
+         return reader.result
+       };
+       reader.onerror = (error) => {
+         console.log('Error: ', error);
+       };
     };
 
     const toggleReoccurring = async (guid, reoccurring) => {
@@ -434,16 +449,24 @@ export default function TransactionTable() {
                                 icon: "add_a_photo",
                                 tooltip: "Photo-Add",
                                 onClick: (event, rowData) => {
-                                     setCurrentGuid(rowData.guid);
-                                     setLoadImageDialog(true);
+//                                    console.log('onClick photo-add')
+//                                    const fileSelector = document.createElement('input');
+//                                    fileSelector.setAttribute('type', 'file');
+//                                    fileSelector.click();
+
+//                                          setFileName(file)
+//                                          let b64 = getBase64(file)
+
+                                    setCurrentGuid(rowData.guid);
+                                    setLoadImageDialog(true);
                                 }
                             }
                         ]}
                     />
-                    {loadMoveDialog ? <TransactionMove closeDialog={() => setLoadMoveDialog(false)}
-                                                         transactionGuid={currentGuid}/> : null}
-                    {loadImageDialog ? <TransactionImage closeDialog={() => setLoadImageDialog(false)}
+                    {loadMoveDialog ?  <TransactionMove closeDialog={() => setLoadMoveDialog(false)}
                                                                              transactionGuid={currentGuid}/> : null}
+                    {loadImageDialog ?  <TransactionImage closeDialog={() => setLoadImageDialog(false)}
+                                                                             transactionGuid={currentGuid}/>: null}
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )
 }
