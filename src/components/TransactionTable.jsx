@@ -89,7 +89,6 @@ export default function TransactionTable() {
     const changeTransactionStateToCleared = async (guid) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
-        //TODO: right now 'Cleared' is case sensitive, not cool
         const response = await axios.put(endpointUrl() + '/transaction/state/update/' + guid + '/Cleared', {cancelToken: source.token});
         if (response.data !== "transaction state updated") {
             console.log('changeTransactionStateToCleared - failure');
