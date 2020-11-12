@@ -233,6 +233,7 @@ export default function TransactionTable() {
         newPayload['activeStatus'] = true
         newPayload['accountType'] = 'undefined'
         newPayload['reoccurring'] = payload.reoccurring === undefined ? false : payload.reoccurring
+        newPayload['reoccurringType'] = payload.reoccurringType === undefined ? 'undefined' : payload.reoccurringType
         newPayload['accountNameOwner'] = match.params.account
         newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
