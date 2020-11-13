@@ -12,7 +12,7 @@ import {currencyFormat, toEpochDateAsMillis, endpointUrl} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox";
 import SelectCategory from "./SelectCategory";
 import SelectDescription from "./SelectDescription";
-import { FilePicker } from 'react-file-picker'
+// import { FilePicker } from 'react-file-picker'
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true);
@@ -22,7 +22,7 @@ export default function TransactionTable() {
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
-    const [fileName, setFileName] = useState('');
+    // const [fileName, setFileName] = useState('');
 
     let match = useRouteMatch("/transactions/:account");
 
@@ -45,17 +45,17 @@ export default function TransactionTable() {
         }
     };
 
-    const getBase64 = (file) => {
-       let reader = new FileReader();
-       reader.readAsDataURL(file);
-       reader.onload = () => {
-         console.log(reader.result);
-         return reader.result
-       };
-       reader.onerror = (error) => {
-         console.log('Error: ', error);
-       };
-    };
+    // const getBase64 = (file) => {
+    //    let reader = new FileReader();
+    //    reader.readAsDataURL(file);
+    //    reader.onload = () => {
+    //      console.log(reader.result);
+    //      return reader.result
+    //    };
+    //    reader.onerror = (error) => {
+    //      console.log('Error: ', error);
+    //    };
+    // };
 
     const toggleReoccurring = async (guid, reoccurring) => {
 
