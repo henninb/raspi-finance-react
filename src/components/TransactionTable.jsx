@@ -222,7 +222,7 @@ export default function TransactionTable() {
         //newPayload['transactionDate'] = toEpochDateAsMillis(new Date(payload.transactionDate.toDateString()));
         newPayload['transactionDate'] = buildTransactionDateString
         newPayload['description'] = payload.description
-        newPayload['category'] = payload.category === undefined ? 'none' : payload.category
+        newPayload['category'] = payload.category === undefined ? 'undefined' : payload.category
         newPayload['notes'] = payload.notes === undefined ? '' : payload.notes
         newPayload['amount'] = payload.amount
         if (payload.transactionState === undefined) {
@@ -306,7 +306,7 @@ export default function TransactionTable() {
                                                     if (props.value) {
                                                         return props.value;
                                                     } else {
-                                                        return 'none';
+                                                        return 'undefined';
                                                     }
                                                 }
                                                 }/>

@@ -10,17 +10,33 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
     const [inputValue, setInputValue] = useState('');
     const [keyPressValue, setKeyPressValue] = useState('');
 
+    const postDescription = async (payload) => {
+        let CancelToken = axios.CancelToken;
+        let source = CancelToken.source();
+        let endpoint = endpointUrl() + '/description/insert/';
+        let newPayload = {};
+        newPayload['description'] = payload
+        newPayload['activeStatus'] = true
+
+        await axios.post(endpoint, newPayload, {
+            timeout: 0,
+            headers: {'Content-Type': 'application/json'},
+            cancelToken: source.token
+        });
+        return newPayload
+    };
+
     const fetchDescriptionData = useCallback(async () => {
         try {
             const response = await axios.get(endpointUrl() + '/description/select/all');
             const descriptions = extracted(response);
             setOptions(descriptions);
             return descriptions
-
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 404) {
                 } else {
+                    //TODO: swap out alert for another means
                     alert("fetchDescriptionData" + JSON.stringify(error.response.data));
                 }
             }
@@ -33,7 +49,7 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
             descriptions.push(element.description);
         })
         return descriptions
-    }
+    };
 
     useEffect(() => {
         const response = fetchDescriptionData();
@@ -44,22 +60,19 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
-            const lastValue = options[options.length - 1]
-            //TODO: need to refactor
-            options.find((state) => {
-                if (state.includes(inputValue)) {
-                    setKeyPressValue(state)
-                    onChangeFunction(state)
-                    return state
-                }
-                console.log('lastValue: ' + lastValue);
-                if( lastValue === state) {
-                    // TODO: new value should be added to the list of descriptions
-                    setKeyPressValue(inputValue)
-                    onChangeFunction(inputValue)
-                    return inputValue
-                }
-            })
+            let filteredOptions = options.filter((state) => state.includes(inputValue));
+            if( filteredOptions.length > 0) {
+                return filteredOptions.find((state) => {
+                     setKeyPressValue(state);
+                     onChangeFunction(state);
+                     return state;
+                 })
+             } else {
+                setKeyPressValue(inputValue);
+                onChangeFunction(inputValue);
+                postDescription(inputValue);
+                return inputValue;
+             }
         }
     }
 
@@ -68,14 +81,12 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
             <Autocomplete
                 defaultValue={value}
                 onChange={(event, newValue) => {
-                    console.log(event.value);
                     setValue(newValue);
                     onChangeFunction(newValue);
                 }}
 
                 inputValue={inputValue}
                 onInputChange={(event, newInputValue) => {
-                    console.log(event.value);
                     if (keyPressValue === '') {
                         setInputValue(newInputValue);
                     } else {

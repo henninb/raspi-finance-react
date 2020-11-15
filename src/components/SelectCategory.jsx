@@ -44,22 +44,18 @@ export default function SelectCategory({onChangeFunction, currentValue}) {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
-            const lastValue = options[options.length - 1]
-            //TODO: refactor the code
-            options.find((state) => {
-                if (state.includes(inputValue)) {
-                    setKeyPressValue(state)
-                    onChangeFunction(state)
-                    return state
-                }
-                console.log('lastValue: ' + lastValue);
-                if( lastValue === state) {
-                    // TODO: new value should be added to the list of categories
-                    setKeyPressValue(inputValue)
-                    onChangeFunction(inputValue)
-                    return inputValue
-                }
-            })
+            let filteredOptions = options.filter((state) => state.includes(inputValue));
+            if( filteredOptions.length > 0) {
+                return filteredOptions.find((state) => {
+                     setKeyPressValue(state);
+                     onChangeFunction(state);
+                     return state;
+                 })
+             } else {
+                setKeyPressValue(inputValue)
+                onChangeFunction(inputValue)
+                return inputValue
+             }
         }
     }
 

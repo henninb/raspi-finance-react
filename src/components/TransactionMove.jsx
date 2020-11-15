@@ -78,12 +78,11 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
                     <Autocomplete
                         value={value}
                         onChange={(event, newValue) => {
-                            console.log(event.value);
+
                             setValue(newValue);
                         }}
                         inputValue={inputValue}
                         onInputChange={(event, newInputValue) => {
-                            console.log(event.value);
                             setInputValue(newInputValue);
                         }}
                         options={options}
