@@ -45,6 +45,7 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
             const lastValue = options[options.length - 1]
+            //TODO: need to refactor
             options.find((state) => {
                 if (state.includes(inputValue)) {
                     setKeyPressValue(state)
@@ -67,12 +68,14 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
             <Autocomplete
                 defaultValue={value}
                 onChange={(event, newValue) => {
+                    console.log(event.value);
                     setValue(newValue);
                     onChangeFunction(newValue);
                 }}
 
                 inputValue={inputValue}
                 onInputChange={(event, newInputValue) => {
+                    console.log(event.value);
                     if (keyPressValue === '') {
                         setInputValue(newInputValue);
                     } else {

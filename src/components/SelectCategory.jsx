@@ -45,6 +45,7 @@ export default function SelectCategory({onChangeFunction, currentValue}) {
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
             const lastValue = options[options.length - 1]
+            //TODO: refactor the code
             options.find((state) => {
                 if (state.includes(inputValue)) {
                     setKeyPressValue(state)
