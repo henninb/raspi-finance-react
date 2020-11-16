@@ -24,6 +24,7 @@ describe('spinnerTests', () => {
     beforeEach(async () => {
         jest.clearAllMocks();
         await act(() => {
+            // eslint-disable-next-line
             wrapper = render(<Spinner type="Circles"/>);
         });
     });

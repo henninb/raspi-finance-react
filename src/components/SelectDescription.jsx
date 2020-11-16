@@ -80,13 +80,13 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
         <div>
             <Autocomplete
                 defaultValue={value}
-                onChange={(event, newValue) => {
+                onChange={(_event, newValue) => {
                     setValue(newValue);
                     onChangeFunction(newValue);
                 }}
 
                 inputValue={inputValue}
-                onInputChange={(event, newInputValue) => {
+                onInputChange={(_event, newInputValue) => {
                     if (keyPressValue === '') {
                         setInputValue(newInputValue);
                     } else {

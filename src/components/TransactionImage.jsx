@@ -60,7 +60,7 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
          };
       setFileName(file)
       }}
-    onError={errMsg => (console.log('do something with the failure'))}
+    onError={_errMsg => (console.log('do something with the failure'))}
   >
     <button>Upload</button>
   </FilePicker>

@@ -1,5 +1,4 @@
 import MaterialTable from "material-table";
-// import Button from "@material-ui/core/Button";
 import Spinner from "./Spinner";
 import React, {useEffect, useState} from "react";
 
@@ -26,7 +25,6 @@ export default function CloneTable() {
                                 cellStyle: {whiteSpace: "nowrap"}
                             },
                         ]}
-                        // data={data}
                         title={'test'}
                         options={{
                             paging: false,

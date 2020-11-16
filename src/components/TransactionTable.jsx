@@ -207,7 +207,8 @@ export default function TransactionTable() {
     const deleteCall = async (payload) => {
         let endpoint = endpointUrl() + '/transaction/delete/' + payload.guid;
 
-        await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
+        let response = await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
+        console.log(response.data);
     };
 
     const postCall = async (payload) => {
@@ -440,7 +441,7 @@ export default function TransactionTable() {
                             {
                                 icon: "send",
                                 tooltip: "Move",
-                                onClick: (event, rowData) => {
+                                onClick: (_event, rowData) => {
                                     setCurrentGuid(rowData.guid);
                                     setLoadMoveDialog(true);
                                 }
@@ -448,7 +449,7 @@ export default function TransactionTable() {
                             {
                                 icon: "add_a_photo",
                                 tooltip: "Photo-Add",
-                                onClick: (event, rowData) => {
+                                onClick: (_event, rowData) => {
 //                                    console.log('onClick photo-add')
 //                                    const fileSelector = document.createElement('input');
 //                                    fileSelector.setAttribute('type', 'file');
