@@ -32,7 +32,8 @@ export default function SelectAccountNameOwnerCredit({onChangeFunction, currentV
         const source = CancelToken.source();
 
         if (accountTypeOptions.length === 0) {
-            fetchAccountTypeOptions();
+            let response = fetchAccountTypeOptions();
+            console.log(response);
         }
 
         return () => {

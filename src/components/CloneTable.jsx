@@ -35,6 +35,7 @@ export default function CloneTable() {
                         }}
 
                         editable={{}}
+                        data={{}}
                     />
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )

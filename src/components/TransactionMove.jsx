@@ -30,10 +30,12 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
         newData['accountNameOwner'] = accountNameOwner
         newData['guid'] = transactionGuid
 
-        await axios.put(endpoint, JSON.stringify(newData), {
+        let result = await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
             headers: {'Content-Type': 'application/json'}
         });
+        console.log(result.data);
+        return result.data;
     }
 
     const fetchData = useCallback(async () => {
@@ -59,7 +61,8 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
     useEffect(() => {
 
         if (options.length === 0) {
-            fetchData();
+            let response = fetchData();
+            console.log(response);
         }
 
         return () => {

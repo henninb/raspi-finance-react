@@ -79,7 +79,7 @@ export default function TransactionTable() {
     const fetchTotals = useCallback(async () => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
-        const response = await axios.get(endpointUrl() + '/transaction/account/totals/' + match.params.account, {cancelToken: source.token});
+        const response = await axios.get(endpointUrl() + '/transaction/account/totals/' + match.params['account'], {cancelToken: source.token});
         setTotals(response.data);
         return () => {
             source.cancel();
@@ -116,7 +116,7 @@ export default function TransactionTable() {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
 
-        const response = await axios.get(endpointUrl() + '/transaction/account/select/' + match.params.account, {cancelToken: source.token});
+        const response = await axios.get(endpointUrl() + '/transaction/account/select/' + match.params['account'], {cancelToken: source.token});
         setData(response.data);
         setLoadSpinner(false);
         return () => {
@@ -235,7 +235,7 @@ export default function TransactionTable() {
         newPayload['accountType'] = 'undefined'
         newPayload['reoccurring'] = payload.reoccurring === undefined ? false : payload.reoccurring
         newPayload['reoccurringType'] = payload.reoccurringType === undefined ? 'undefined' : payload.reoccurringType
-        newPayload['accountNameOwner'] = match.params.account
+        newPayload['accountNameOwner'] = match.params['account']
         newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
         newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
 
@@ -394,7 +394,7 @@ export default function TransactionTable() {
                             },
                         ]}
                         data={data}
-                        title={`[${match.params.account}] [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
+                        title={`[${match.params['account']}] [ $${currencyFormat(totals['totalsCleared'])} ], [ $${currencyFormat(totals['totals'])} ]`}
                         options={{
                             paging: true,
                             pageSize: 20,

@@ -13,7 +13,8 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
 
     const handleButtonClick = async () => {
         try {
-            changeReceiptImage()
+            let response = changeReceiptImage()
+            console.log(response);
             closeDialog();
         } catch(error) {
             alert("handleButtonClick failure.");

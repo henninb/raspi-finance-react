@@ -69,11 +69,12 @@ export default function PaymentTable() {
         newPayload['amount'] = payload.amount
         newPayload['transactionDate'] = payload.transactionDate
 
-        await axios.post(endpoint, newPayload, {
+        let response = await axios.post(endpoint, newPayload, {
             timeout: 0,
             headers: {'Content-Type': 'application/json'},
             cancelToken: source.token
         });
+        console.log(response.data);
         return newPayload
     };
 
@@ -86,7 +87,8 @@ export default function PaymentTable() {
         }
 
         if (data.length === 0) {
-            fetchData();
+            let response = fetchData();
+            console.log(response);
         }
 
         return () => {
@@ -96,7 +98,7 @@ export default function PaymentTable() {
     }, [data, fetchData]);
 
     const deleteCall = async (payload) => {
-        let endpoint = endpointUrl() + '/payment/delete/' + payload.paymentId;
+        let endpoint = endpointUrl() + '/payment/delete/' + payload['paymentId'];
 
         await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
     };

@@ -18,11 +18,12 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
         newPayload['description'] = payload
         newPayload['activeStatus'] = true
 
-        await axios.post(endpoint, newPayload, {
+        let response = await axios.post(endpoint, newPayload, {
             timeout: 0,
             headers: {'Content-Type': 'application/json'},
             cancelToken: source.token
         });
+        console.log(response.data)
         return newPayload
     };
 

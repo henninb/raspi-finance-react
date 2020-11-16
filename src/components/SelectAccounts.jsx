@@ -24,6 +24,7 @@ export default function SelectAccounts() {
             })
 
             setOptions(optionList);
+            return optionList
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 404) {
@@ -37,7 +38,8 @@ export default function SelectAccounts() {
     useEffect(() => {
 
         if (options.length === 0) {
-            fetchData();
+            let response = fetchData();
+            console.log(response);
         }
 
         return () => {
