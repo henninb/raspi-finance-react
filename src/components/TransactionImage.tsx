@@ -4,19 +4,30 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FilePicker } from 'react-file-picker'
+
+import {useFilePicker, utils} from 'react-sage';
+
 import {endpointUrl} from "./Common";
 
-export default function TransactionMove({closeDialog, transactionGuid}) {
-    const [fileName, setFileName] = useState('');
+interface Props {closeDialog: any, transactionGuid: any}
+
+export default function TransactionMove({closeDialog, transactionGuid}: Props) {
     const [fileContent, setFileContent] = useState('');
+
+
+    const { files, onClick, errors, HiddenFileInput } = useFilePicker({
+    //maxFileSize: MAX_FILE_SIZE,
+    maxImageWidth: 1000,
+    imageQuality: 0.92,
+    resizeImage: true
+  })
 
     const handleButtonClick = async () => {
         try {
             let response = changeReceiptImage()
             console.log(response);
             closeDialog();
-        } catch(error) {
+        } catch (error) {
             alert("handleButtonClick failure.");
         }
     }
@@ -24,6 +35,7 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
     const changeReceiptImage = async () => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
+
 
         const response = await axios.put(endpointUrl() + '/transaction/update/receipt/image/' + transactionGuid, fileContent, {
             cancelToken: source.token,
@@ -34,16 +46,29 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
             console.log('changeReceiptImage - failure');
             console.log(response.data);
         }
+
         return () => {
             source.cancel();
         };
     };
 
+    const getDataUrls = async (): Promise<void> => {
+        // @ts-ignore
+        const data = await Promise.all(files.map(utils.loadFile));
+
+        // @ts-ignore
+        setFileContent(data);
+    }
+
     useEffect(() => {
+        
+        let response = getDataUrls()
+        console.log(response)
+
         return () => {
         }
 
-    }, []);
+    }, [files]);
 
     return (
         <div>
@@ -51,23 +76,8 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
             <Dialog onClose={closeDialog} aria-labelledby="form-dialog-title" open={true}>
                 <DialogTitle id="form-dialog-title">Save a transaction</DialogTitle>
 
-  <FilePicker
-    extensions={['jpg', 'png', 'jpeg']}
-    onChange={ file => {
-         let reader = new FileReader();
-         reader.readAsDataURL(file);
-         reader.onload = () => {
-           setFileContent(reader.result)
-         };
-      setFileName(file)
-      }}
-    onError={_errMsg => (console.log('do something with the failure'))}
-  >
-    <button>Upload</button>
-  </FilePicker>
-  <p>fileName = {fileName.name}</p>
-  <p>size = {fileName.size}{fileName.size ? ' bytes' : null}</p>
-  <p>content = {fileContent}{fileContent ? ' content' : null}</p>
+                <button onClick={onClick}>Upload</button>
+      <HiddenFileInput accept=".jpg, .jpeg, .png" multiple={false} />
 
                 <DialogActions>
                     <Button onClick={closeDialog} color="primary">Cancel</Button>

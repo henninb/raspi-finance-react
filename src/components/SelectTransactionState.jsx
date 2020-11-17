@@ -18,17 +18,17 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
     const handleKeyDown = (event) => {
         if (event.key === 'Tab') {
             let filteredOptions = options.filter((state) => state.includes(inputValue));
-            if( filteredOptions.length > 0) {
+            if (filteredOptions.length > 0) {
                 return filteredOptions.find((state) => {
-                     setKeyPressValue(state);
-                     onChangeFunction(state);
-                     return state;
-                 })
-             } else {
+                    setKeyPressValue(state);
+                    onChangeFunction(state);
+                    return state;
+                })
+            } else {
                 setKeyPressValue('undefined')
                 onChangeFunction(inputValue)
                 return inputValue
-             }
+            }
         }
     }
 
@@ -43,7 +43,7 @@ export default function SelectTransactionState({onChangeFunction, currentValue})
 
                 inputValue={inputValue}
                 onInputChange={(_event, newInputValue) => {
-                    if( keyPressValue === '') {
+                    if (keyPressValue === '') {
                         setInputValue(newInputValue);
                     } else {
                         setInputValue(keyPressValue);

@@ -11141,6 +11141,11 @@ react-router@5.2.0:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
+react-sage@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/react-sage/-/react-sage-0.1.5.tgz#b819549363ebcf11327755af601d142fd2d59429"
+  integrity sha512-a/L5ILib9QitvtCY4BwFnMwaelgDfg7Hg8lNWaYlqxVHtbrvc6A/JGPwcUX/6/ye9LZ4Vo7bCRFKamdMKEpvcA==
+
 react-scripts@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-4.0.0.tgz#36f3d84ffff708ac0618fd61e71eaaea11c26417"

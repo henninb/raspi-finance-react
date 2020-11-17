@@ -20,6 +20,7 @@
     "react-file-picker": "^0.0.6",
     "react-loader-spinner": "^3.1.14",
     "react-router-dom": "^5.2.0",
+    "react-sage": "^0.1.5",
     "react-scripts": "4.0.0",
     "react-select": "^3.1.0",
     "storybook": "^6.0.28",

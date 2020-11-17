@@ -8,7 +8,7 @@ import {useRouteMatch} from 'react-router-dom';
 import SelectTransactionState from "./SelectTransactionState";
 import TransactionMove from "./TransactionMove";
 import TransactionImage from "./TransactionImage";
-import {currencyFormat, toEpochDateAsMillis, endpointUrl} from "./Common"
+import {currencyFormat, endpointUrl, toEpochDateAsMillis} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox";
 import SelectCategory from "./SelectCategory";
 import SelectDescription from "./SelectDescription";

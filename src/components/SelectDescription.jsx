@@ -71,7 +71,8 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
              } else {
                 setKeyPressValue(inputValue);
                 onChangeFunction(inputValue);
-                postDescription(inputValue);
+                let response = postDescription(inputValue);
+                console.log(response);
                 return inputValue;
              }
         }

@@ -19,7 +19,6 @@ export default function AccountSummaryTable() {
         history.go(0);
     }
 
-
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
@@ -51,11 +50,12 @@ export default function AccountSummaryTable() {
         payload.dateUpdated = Math.round(now.getTime());
         payload.activeStatus = true;
 
-        await axios.post(endpoint, payload, {
+        let response = await axios.post(endpoint, payload, {
             timeout: 0,
             headers: {'Content-Type': 'application/json'},
             cancelToken: source.token
         });
+        console.log(response.data)
         return payload;
     };
 
@@ -71,6 +71,7 @@ export default function AccountSummaryTable() {
         if (response.status !== 200) {
             alert("not a 200");
         }
+        console.log(response.data)
     };
 
     const fetchTotals = useCallback(async () => {
@@ -112,11 +113,13 @@ export default function AccountSummaryTable() {
     useEffect(() => {
 
         if (accountData.length === 0) {
-            fetchData();
+            let response = fetchData();
+            console.log(response);
         }
 
         if (totals.length === 0) {
-            fetchTotals();
+            let response = fetchTotals();
+            console.log(response);
         }
 
         return () => {
@@ -150,7 +153,7 @@ export default function AccountSummaryTable() {
                             },
                         ]}
                         data={accountData}
-                        title={` [ $${currencyFormat(totals.totalsCleared)} ], [ $${currencyFormat(totals.totals)} ]`}
+                        title={` [ $${currencyFormat(totals['totalsCleared'])} ], [ $${currencyFormat(totals['totals'])} ]`}
                         options={{
                             paging: false,
                             search: true,

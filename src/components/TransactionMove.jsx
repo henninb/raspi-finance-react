@@ -19,12 +19,12 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
         try {
             await updateAccountByGuid(value);
             closeDialog();
-        } catch(error) {
+        } catch (error) {
             alert("handleButtonClick failure.");
         }
     }
 
-    const  updateAccountByGuid = async(accountNameOwner) => {
+    const updateAccountByGuid = async (accountNameOwner) => {
         let endpoint = endpointUrl() + '/transaction/update/account';
         let newData = {};
         newData['accountNameOwner'] = accountNameOwner
@@ -89,7 +89,7 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
                             setInputValue(newInputValue);
                         }}
                         options={options}
-                        renderInput={(params) => <TextField {...params} label="Accounts" variant="outlined" />}
+                        renderInput={(params) => <TextField {...params} label="Accounts" variant="outlined"/>}
                     />
 
                 </DialogContent>
