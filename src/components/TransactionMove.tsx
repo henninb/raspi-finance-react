@@ -10,43 +10,70 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {endpointUrl} from "./Common";
 
-export default function TransactionMove({closeDialog, transactionGuid}) {
+interface Props {closeDialog: any, transactionGuid: any}
+export default function TransactionMove({closeDialog, transactionGuid}: Props) {
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState(options[0]);
     const [inputValue, setInputValue] = useState('');
+    const [accountType, setAccountType] = useState([]);
 
     const handleButtonClick = async () => {
         try {
-            await updateAccountByGuid(value);
+            let response = await updateAccountByGuid(value);
+            console.log(response)
             closeDialog();
         } catch (error) {
-            alert("handleButtonClick failure.");
+            alert("handleButtonClick failure: " + error.message);
+            closeDialog();
         }
     }
 
-    const updateAccountByGuid = async (accountNameOwner) => {
-        let endpoint = endpointUrl() + '/transaction/update/account';
-        let newData = {};
-        newData['accountNameOwner'] = accountNameOwner
-        newData['guid'] = transactionGuid
+    const findAccountTypeForGuid = useCallback(async () => {
+            let endpoint = endpointUrl() + '/transaction/select/';
 
-        let result = await axios.put(endpoint, JSON.stringify(newData), {
+            let response = await axios.get(endpoint + transactionGuid, {
+                timeout: 0,
+                headers: {'Content-Type': 'application/json'}
+            });
+            console.log(`find by guid: ${response.data.accountType}`);
+            console.log(`find by guid: ${transactionGuid}`);
+            setAccountType(response.data.accountType);
+            return response.data;
+        }, [transactionGuid]);
+
+    const updateAccountByGuid = useCallback(async (accountNameOwner: any) => {
+        let endpoint = endpointUrl() + '/transaction/update/account';
+        let newData = {
+            accountNameOwner: undefined,
+            guid: undefined
+        };
+
+        newData.accountNameOwner = accountNameOwner
+        newData.guid = transactionGuid
+
+        let response = await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
             headers: {'Content-Type': 'application/json'}
         });
-        console.log(result.data);
-        return result.data;
-    }
+        console.log(`attempt to update the account by guid: ${transactionGuid}`);
+        console.log(response.data);
+        return response.data;
+    }, [transactionGuid]);
 
-    const fetchData = useCallback(async () => {
+    //TODO: why can't I useCallback here
+    const fetchActiveAccounts = async () => {
         try {
             const response = await axios.get(endpointUrl() + '/account/select/active');
+            await findAccountTypeForGuid()
+            console.log(accountType)
 
-            let accounts = []
-            response.data.forEach(element => {
-                accounts.push(element.accountNameOwner);
+            let accounts : any[] = []
+            response.data.forEach( (element: any) => {
+                if( element.accountType === accountType) {
+                    accounts.push(element.accountNameOwner);
+                }
             })
-
+            // @ts-ignore
             setOptions(accounts);
         } catch (error) {
             if (error.response) {
@@ -56,19 +83,18 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
                 }
             }
         }
-    }, []);
+    };
 
     useEffect(() => {
-
         if (options.length === 0) {
-            let response = fetchData();
-            console.log(response);
+            let response = fetchActiveAccounts();
+            console.log('accounts: ' + response);
         }
 
         return () => {
         }
 
-    }, [options, fetchData]);
+    }, [options, fetchActiveAccounts]);
 
     return (
         <div>
@@ -82,6 +108,7 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
                         value={value}
                         onChange={(_event, newValue) => {
 
+                            // @ts-ignore
                             setValue(newValue);
                         }}
                         inputValue={inputValue}
@@ -99,6 +126,5 @@ export default function TransactionMove({closeDialog, transactionGuid}) {
                 </DialogActions>
             </Dialog>
         </div>
-
     );
 }

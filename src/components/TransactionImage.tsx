@@ -1,21 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import axios from "axios";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
 import {useFilePicker, utils} from 'react-sage';
-
 import {endpointUrl} from "./Common";
 
-interface Props {closeDialog: any, transactionGuid: any}
+interface Props {closeDialog: any, transactionGuid: string}
 
 export default function TransactionMove({closeDialog, transactionGuid}: Props) {
     const [fileContent, setFileContent] = useState('');
-
-
-    const { files, onClick, errors, HiddenFileInput } = useFilePicker({
+    //const { files, onClick, errors, HiddenFileInput } = useFilePicker({
+    const { files, onClick, HiddenFileInput } = useFilePicker({
     //maxFileSize: MAX_FILE_SIZE,
     maxImageWidth: 1000,
     imageQuality: 0.92,
@@ -52,23 +49,23 @@ export default function TransactionMove({closeDialog, transactionGuid}: Props) {
         };
     };
 
-    const getDataUrls = async (): Promise<void> => {
+    const fetchFileData = useCallback(async (): Promise<void> => {
         // @ts-ignore
         const data = await Promise.all(files.map(utils.loadFile));
 
         // @ts-ignore
         setFileContent(data);
-    }
+    }, [files])
 
     useEffect(() => {
         
-        let response = getDataUrls()
+        let response = fetchFileData()
         console.log(response)
 
         return () => {
         }
 
-    }, [files]);
+    }, [files, fetchFileData]);
 
     return (
         <div>
