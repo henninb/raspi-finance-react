@@ -64,11 +64,12 @@ export default function PaymentTable() {
         let CancelToken = axios.CancelToken;
         let source = CancelToken.source();
         let endpoint = endpointUrl() + '/payment/insert/';
-        let newPayload = {};
-        newPayload['accountNameOwner'] = payload.accountNameOwner
-        newPayload['amount'] = payload.amount
-        newPayload['transactionDate'] = payload.transactionDate
-
+        let newPayload = {
+            accountNameOwner: payload.accountNameOwner,
+            amount: payload.amount,
+            transactionDate: payload.transactionDate,
+        };
+        
         let response = await axios.post(endpoint, newPayload, {
             timeout: 0,
             headers: {'Content-Type': 'application/json'},

@@ -44,12 +44,9 @@ export default function TransactionMove({closeDialog, transactionGuid}: Props) {
     const updateAccountByGuid = useCallback(async (accountNameOwner: any) => {
         let endpoint = endpointUrl() + '/transaction/update/account';
         let newData = {
-            accountNameOwner: undefined,
-            guid: undefined
+            accountNameOwner: accountNameOwner,
+            guid: transactionGuid
         };
-
-        newData.accountNameOwner = accountNameOwner
-        newData.guid = transactionGuid
 
         let response = await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
@@ -60,7 +57,7 @@ export default function TransactionMove({closeDialog, transactionGuid}: Props) {
         return response.data;
     }, [transactionGuid]);
 
-    //TODO: why can't I useCallback here
+    //TODO: why can't I useCallback here - it causes a side effect
     const fetchActiveAccounts = async () => {
         try {
             const response = await axios.get(endpointUrl() + '/account/select/active');

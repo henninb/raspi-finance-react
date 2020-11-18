@@ -1,22 +1,28 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import axios from "axios";
 import {endpointUrl} from "./Common";
 
-export default function SelectDescription({onChangeFunction, currentValue}) {
+interface Props {
+    onChangeFunction: any,
+    currentValue: any
+}
+
+export default function SelectDescription({onChangeFunction, currentValue}: Props) {
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState(currentValue);
     const [inputValue, setInputValue] = useState('');
     const [keyPressValue, setKeyPressValue] = useState('');
 
-    const postDescription = async (payload) => {
+    const postDescription = async (payload: any) => {
         let CancelToken = axios.CancelToken;
         let source = CancelToken.source();
         let endpoint = endpointUrl() + '/description/insert/';
-        let newPayload = {};
-        newPayload['description'] = payload
-        newPayload['activeStatus'] = true
+        let newPayload = {
+            description: payload,
+            activeStatus: true
+        };
 
         let response = await axios.post(endpoint, newPayload, {
             timeout: 0,
@@ -24,13 +30,14 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
             cancelToken: source.token
         });
         console.log(response.data)
-        return newPayload
+        return newPayload;
     };
 
     const fetchDescriptionData = useCallback(async () => {
         try {
             const response = await axios.get(endpointUrl() + '/description/select/all');
             const descriptions = extracted(response);
+            // @ts-ignore
             setOptions(descriptions);
             return descriptions
         } catch (error) {
@@ -44,12 +51,13 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
         }
     }, []);
 
-    const extracted = (response) => {
-        let descriptions = []
-        response.data.forEach(element => {
+    const extracted = (response: any) => {
+        // @ts-ignore
+        let descriptions: any[] = []
+        response.data.forEach((element: any) => {
             descriptions.push(element.description);
         })
-        return descriptions
+        return descriptions;
     };
 
     useEffect(() => {
@@ -59,22 +67,23 @@ export default function SelectDescription({onChangeFunction, currentValue}) {
         setValue(inputValue);
     }, [value, fetchDescriptionData, currentValue, inputValue]);
 
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: any) => {
         if (event.key === 'Tab') {
+            // @ts-ignore
             let filteredOptions = options.filter((state) => state.includes(inputValue));
-            if( filteredOptions.length > 0) {
+            if (filteredOptions.length > 0) {
                 return filteredOptions.find((state) => {
-                     setKeyPressValue(state);
-                     onChangeFunction(state);
-                     return state;
-                 })
-             } else {
+                    setKeyPressValue(state);
+                    onChangeFunction(state);
+                    return state;
+                })
+            } else {
                 setKeyPressValue(inputValue);
                 onChangeFunction(inputValue);
                 let response = postDescription(inputValue);
                 console.log(response);
                 return inputValue;
-             }
+            }
         }
     }
 

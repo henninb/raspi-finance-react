@@ -2,21 +2,28 @@ import React, {useEffect, useState} from 'react'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
-export default function SelectTransactionState({onChangeFunction, currentValue}) {
+interface Props {
+    onChangeFunction: any,
+    currentValue: any
+}
+
+export default function SelectTransactionState({onChangeFunction, currentValue}: Props) {
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState(currentValue);
     const [inputValue, setInputValue] = useState('');
     const [keyPressValue, setKeyPressValue] = useState('');
 
     useEffect(() => {
+        // @ts-ignore
         setOptions(['future', 'outstanding', 'cleared']);
-        console.log('transactionState - inputValue ' + inputValue);
-        console.log('transactionState - value ' + value);
+        console.log(`transactionState - inputValue ${inputValue}`);
+        console.log(`transactionState - value ${value}`);
         setValue(inputValue);
     }, [currentValue, inputValue, value]);
 
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: any) => {
         if (event.key === 'Tab') {
+            // @ts-ignore
             let filteredOptions = options.filter((state) => state.includes(inputValue));
             if (filteredOptions.length > 0) {
                 return filteredOptions.find((state) => {

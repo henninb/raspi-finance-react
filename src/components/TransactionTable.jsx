@@ -213,31 +213,28 @@ export default function TransactionTable() {
 
     const postCall = async (payload) => {
         let endpoint = endpointUrl() + '/transaction/insert/';
-        let newPayload = {};
+        //let newPayload = {};
 
         //TODO: bh 8/28/2020 - need to address any date conversion issues
         //TODO: bh 10/31/2020 - set a timezone based on a parm
         let buildTransactionDateString = payload.transactionDate.toISOString().split('T')[0] + "T12:00:00.000";
         //dt.toISOString());
-        newPayload['guid'] = uuidv4();
-        //newPayload['transactionDate'] = toEpochDateAsMillis(new Date(payload.transactionDate.toDateString()));
-        newPayload['transactionDate'] = buildTransactionDateString
-        newPayload['description'] = payload.description
-        newPayload['category'] = payload.category === undefined ? 'undefined' : payload.category
-        newPayload['notes'] = payload.notes === undefined ? '' : payload.notes
-        newPayload['amount'] = payload.amount
-        if (payload.transactionState === undefined) {
-            newPayload['transactionState'] = 'outstanding'
-        } else {
-            newPayload['transactionState'] = payload.transactionState
+        let newPayload = {
+            guid: uuidv4(),
+            transactionDate: buildTransactionDateString,
+            description: payload.description,
+            category: payload.category === undefined ? 'undefined' : payload.category,
+            notes: payload.notes === undefined ? '' : payload.notes,
+            amount: payload.amount,
+            transactionState: payload.transactionState === undefined ? 'outstanding':  payload.transactionState,
+            activeStatus: true,
+            accountType: 'undefined',
+            reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
+            reoccurringType: payload.reoccurringType === undefined ? 'undefined' : payload.reoccurringType,
+            accountNameOwner: match.params['account'],
+            // dateUpdated: toEpochDateAsMillis(new Date()),
+            // dateAdded: toEpochDateAsMillis(new Date()),
         }
-        newPayload['activeStatus'] = true
-        newPayload['accountType'] = 'undefined'
-        newPayload['reoccurring'] = payload.reoccurring === undefined ? false : payload.reoccurring
-        newPayload['reoccurringType'] = payload.reoccurringType === undefined ? 'undefined' : payload.reoccurringType
-        newPayload['accountNameOwner'] = match.params['account']
-        newPayload['dateUpdated'] = toEpochDateAsMillis(new Date())
-        newPayload['dateAdded'] = toEpochDateAsMillis(new Date())
 
         await axios.post(endpoint, newPayload, {
             timeout: 0,
