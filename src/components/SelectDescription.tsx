@@ -15,7 +15,7 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
     const [inputValue, setInputValue] = useState('');
     const [keyPressValue, setKeyPressValue] = useState('');
 
-    const postDescription = async (payload: any) => {
+    const postDescription = useCallback(async (payload: any) => {
         let CancelToken = axios.CancelToken;
         let source = CancelToken.source();
         let endpoint = endpointUrl() + '/description/insert/';
@@ -31,7 +31,7 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
         });
         console.log(response.data)
         return newPayload;
-    };
+    }, []);
 
     const fetchDescriptionData = useCallback(async () => {
         try {

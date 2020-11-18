@@ -13,23 +13,13 @@ export default function TransactionMove({closeDialog, transactionGuid}: Props) {
     const [fileContent, setFileContent] = useState('');
     //const { files, onClick, errors, HiddenFileInput } = useFilePicker({
     const { files, onClick, HiddenFileInput } = useFilePicker({
-    //maxFileSize: MAX_FILE_SIZE,
-    maxImageWidth: 1000,
-    imageQuality: 0.92,
-    resizeImage: true
-  })
+      //maxFileSize: MAX_FILE_SIZE,
+      maxImageWidth: 1000,
+      imageQuality: 0.92,
+      resizeImage: true
+    });
 
-    const handleButtonClick = async () => {
-        try {
-            let response = changeReceiptImage()
-            console.log(response);
-            closeDialog();
-        } catch (error) {
-            alert("handleButtonClick failure.");
-        }
-    }
-
-    const changeReceiptImage = async () => {
+    const changeReceiptImage = useCallback(async () => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
 
@@ -47,7 +37,17 @@ export default function TransactionMove({closeDialog, transactionGuid}: Props) {
         return () => {
             source.cancel();
         };
-    };
+    }, [fileContent, transactionGuid]);
+
+    const handleButtonClick = useCallback(async () => {
+        try {
+            let response = changeReceiptImage()
+            console.log(response);
+            closeDialog();
+        } catch (error) {
+            alert("handleButtonClick failure.");
+        }
+    }, [changeReceiptImage, closeDialog]);
 
     const fetchFileData = useCallback(async (): Promise<void> => {
         // @ts-ignore

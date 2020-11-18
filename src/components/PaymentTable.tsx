@@ -80,6 +80,12 @@ export default function PaymentTable() {
         return newPayload
     }, []);
 
+    const deleteCall = useCallback(async (payload: any) => {
+        let endpoint = endpointUrl() + '/payment/delete/' + payload['paymentId'];
+
+        await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
+    }, []);
+
     useEffect(() => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
@@ -98,12 +104,6 @@ export default function PaymentTable() {
         }
 
     }, [data, fetchData]);
-
-    const deleteCall = useCallback(async (payload: any) => {
-        let endpoint = endpointUrl() + '/payment/delete/' + payload['paymentId'];
-
-        await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
-    }, []);
 
     return (
         <div>
