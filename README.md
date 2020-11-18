@@ -80,3 +80,24 @@ context api
 ```
 https://material.io/design/color/the-color-system.html#tools-for-picking-colors
 ```
+
+
+## missing callback
+```
+AccountSummaryTable.jsx:    const postCall = async (payload) => {
+AccountSummaryTable.jsx:    const deleteCall = async (payload) => {
+PaymentTable.tsx:    const postCallPayment = async (payload: any) => {
+PaymentTable.tsx:    const deleteCall = async (payload: any) => {
+SelectDescription.tsx:    const postDescription = async (payload: any) => {
+TransactionImage.tsx:    const handleButtonClick = async () => {
+TransactionImage.tsx:    const changeReceiptImage = async () => {
+TransactionMove.tsx:    const handleButtonClick = async () => {
+TransactionMove.tsx:    const fetchActiveAccounts = async () => {
+TransactionTable.jsx:    const handlerForUpdatingTransactionState = async (guid) => {
+TransactionTable.jsx:    const toggleReoccurring = async (guid, reoccurring) => {
+TransactionTable.jsx:    const changeTransactionReoccurringStatus = async (guid, reoccurring) => {
+TransactionTable.jsx:    const putCall = async (newData, oldData) => {
+TransactionTable.jsx:    const deleteCall = async (payload) => {
+TransactionTable.jsx:    const postCall = async (payload) => {
+```
+

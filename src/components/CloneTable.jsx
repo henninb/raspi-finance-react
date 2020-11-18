@@ -9,6 +9,7 @@ export default function CloneTable() {
         setLoading(false);
     }, []);
 
+    // @ts-ignore
     return (<div>
             {!loading ?
                 <div className="table-formatting">

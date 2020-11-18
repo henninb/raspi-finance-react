@@ -37,7 +37,7 @@ export default function AccountSummaryTable() {
     };
 
 
-    const postCall = async (payload) => {
+    const postCall = useCallback(async (payload) => {
         let CancelToken = axios.CancelToken;
         let source = CancelToken.source();
         let endpoint = endpointUrl() + '/account/insert/';
@@ -57,14 +57,14 @@ export default function AccountSummaryTable() {
         });
         console.log(response.data)
         return payload;
-    };
+    }, []);
 
     const currencyFormat = (inputData) => {
         inputData = parseFloat(inputData).toFixed(2);
         return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
-    const deleteCall = async (payload) => {
+    const deleteCall = useCallback(async (payload) => {
         let endpoint = endpointUrl() + '/account/delete/' + payload.accountNameOwner;
 
         let response = await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
@@ -72,7 +72,7 @@ export default function AccountSummaryTable() {
             alert("not a 200");
         }
         console.log(response.data)
-    };
+    }, []);
 
     const fetchTotals = useCallback(async () => {
         try {

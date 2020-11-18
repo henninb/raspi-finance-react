@@ -13,19 +13,20 @@ export default function PaymentTable() {
     const [loading, setLoading] = useState(true);
     const history = useHistory();
 
-    const handleButtonClickLink = (accountNameOwner) => {
+    const handleButtonClickLink = (accountNameOwner: any) => {
         history.push('/transactions/' + accountNameOwner);
         history.go(0);
     }
 
-    const addRow = (newData) => {
+    const addRow = (newData: any) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
                     const newPayload = await postCallPayment(newData);
-                    if (! verifyData(newPayload)) {
+                    if (!verifyData(newPayload)) {
                         reject();
                     }
+                    // @ts-ignore
                     setData([newPayload, ...data]);
                     resolve();
                 } catch (error) {
@@ -52,7 +53,7 @@ export default function PaymentTable() {
         }
     }, []);
 
-    const verifyData = (newData) => {
+    const verifyData = (newData: any) => {
         if (isNaN(newData.amount)) return false;
         // if(newData.amount === undefined) return false;
         // if(newData.transactionDate === undefined) return false;
@@ -60,7 +61,7 @@ export default function PaymentTable() {
         return true
     }
 
-    const postCallPayment = async (payload) => {
+    const postCallPayment = useCallback(async (payload: any) => {
         let CancelToken = axios.CancelToken;
         let source = CancelToken.source();
         let endpoint = endpointUrl() + '/payment/insert/';
@@ -69,7 +70,7 @@ export default function PaymentTable() {
             amount: payload.amount,
             transactionDate: payload.transactionDate,
         };
-        
+
         let response = await axios.post(endpoint, newPayload, {
             timeout: 0,
             headers: {'Content-Type': 'application/json'},
@@ -77,7 +78,7 @@ export default function PaymentTable() {
         });
         console.log(response.data);
         return newPayload
-    };
+    }, []);
 
     useEffect(() => {
         const CancelToken = axios.CancelToken;
@@ -98,11 +99,11 @@ export default function PaymentTable() {
 
     }, [data, fetchData]);
 
-    const deleteCall = async (payload) => {
+    const deleteCall = useCallback(async (payload: any) => {
         let endpoint = endpointUrl() + '/payment/delete/' + payload['paymentId'];
 
         await axios.delete(endpoint, {timeout: 0, headers: {'Content-Type': 'application/json'}});
-    };
+    }, []);
 
     return (
         <div>

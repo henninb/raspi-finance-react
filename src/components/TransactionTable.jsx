@@ -86,7 +86,7 @@ export default function TransactionTable() {
         };
     }, [match]);
 
-    const changeTransactionStateToCleared = async (guid) => {
+    const changeTransactionStateToCleared = useCallback(async (guid) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const response = await axios.put(endpointUrl() + '/transaction/state/update/' + guid + '/Cleared', {cancelToken: source.token});
@@ -97,7 +97,7 @@ export default function TransactionTable() {
         return () => {
             source.cancel();
         };
-    };
+    },[]);
 
     const changeTransactionReoccurringStatus = async (guid, reoccurring) => {
         const CancelToken = axios.CancelToken;

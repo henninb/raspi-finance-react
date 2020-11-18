@@ -4,7 +4,12 @@ import TextField from '@material-ui/core/TextField';
 import axios from "axios";
 import {endpointUrl} from "./Common";
 
-export default function SelectCategory({onChangeFunction, currentValue}) {
+interface Props {
+    onChangeFunction: any,
+    currentValue: any
+}
+
+export default function SelectCategory({onChangeFunction, currentValue}: Props) {
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState(currentValue);
     const [inputValue, setInputValue] = useState('');
@@ -13,7 +18,8 @@ export default function SelectCategory({onChangeFunction, currentValue}) {
     const fetchCategoryData = useCallback(async () => {
         try {
             const response = await axios.get(endpointUrl() + '/category/select/active');
-            const categories = extracted(response);
+            const categories :any[] = extracted(response);
+            // @ts-ignore
             setOptions(categories);
             return categories
 
@@ -27,9 +33,9 @@ export default function SelectCategory({onChangeFunction, currentValue}) {
         }
     }, []);
 
-    const extracted = (response) => {
-        let categories = []
-        response.data.forEach(element => {
+    const extracted = (response: any) => {
+        let categories: any [] = []
+        response.data.forEach((element: any) => {
             categories.push(element.category);
         })
         return categories
@@ -42,8 +48,9 @@ export default function SelectCategory({onChangeFunction, currentValue}) {
         setValue(inputValue);
     }, [value, fetchCategoryData, currentValue, inputValue]);
 
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: any) => {
         if (event.key === 'Tab') {
+            // @ts-ignore
             let filteredOptions = options.filter((state) => state.includes(inputValue));
             if (filteredOptions.length > 0) {
                 return filteredOptions.find((state) => {
