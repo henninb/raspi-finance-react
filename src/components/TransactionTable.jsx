@@ -22,9 +22,74 @@ export default function TransactionTable() {
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
     const [keyPressed, setKeyPressed] = useState(false);
-    // const [fileName, setFileName] = useState('');
+    const [fileContent, setFileContent] = useState('');
 
     let match = useRouteMatch("/transactions/:account");
+
+    const insertReceiptImage = useCallback(async (transactionGuid) => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+
+        const response = await axios.put(endpointUrl() + '/transaction/update/receipt/image/' + transactionGuid, fileContent, {
+            cancelToken: source.token,
+            timeout: 0,
+            headers: {'Content-Type': 'text/plain'}
+        });
+
+        if (response.data !== 'transaction receipt image updated') {
+            console.log('changeReceiptImage - failure');
+            console.log(response.data);
+        } else {
+            console.log('transaction receipt image updated');
+        }
+
+        return () => {
+            source.cancel();
+        };
+    }, [fileContent]);
+
+    const getBase64 = useCallback(async (file) => {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            //console.log(reader.result);
+            setFileContent(reader.result.toString());
+            return reader.result;
+        };
+        reader.onerror = (error) => {
+            console.log('Error: ', error);
+        };
+    }, []);
+
+    const getImageFileContents = useCallback(async (transactionGuid) => {
+        console.log('onClick photo-add')
+        const fileSelector = document.createElement('input');
+        //image/*
+        //document.querySelector(".img2").setAttribute("src", "images/dice6.png");
+        fileSelector.setAttribute('type', "file");
+        fileSelector.addEventListener('change', (event) => {
+            //let file = (event.target as HTMLInputElement).files[0];
+            let fileList;
+            fileList = event.target.files;
+            // fileList.forEach((file) => {
+            console.log(fileList);
+            console.log(fileList[0] instanceof Blob);
+            if (fileList[0] instanceof Blob) {
+                let b64 = getBase64(fileList[0]);
+                console.log(typeof b64);
+                console.log(b64 instanceof String);
+                console.log(b64 instanceof Promise);
+                console.log(b64.data);
+                setFileContent(b64.type());
+                //insertReceiptImage(transactionGuid)
+            } else {
+                console.log(fileList[0].type);
+            }
+        });
+        fileSelector.click();
+    }, [getBase64]);
+
 
     const changeTransactionStateToCleared = useCallback(async (guid) => {
         const CancelToken = axios.CancelToken;
@@ -37,7 +102,7 @@ export default function TransactionTable() {
         return () => {
             source.cancel();
         };
-    },[]);
+    }, []);
 
     const fetchTotals = useCallback(async () => {
         const CancelToken = axios.CancelToken;
@@ -68,17 +133,6 @@ export default function TransactionTable() {
         }
     }, [data, changeTransactionStateToCleared, fetchTotals]);
 
-    // const getBase64 = (file) => {
-    //    let reader = new FileReader();
-    //    reader.readAsDataURL(file);
-    //    reader.onload = () => {
-    //      console.log(reader.result);
-    //      return reader.result
-    //    };
-    //    reader.onerror = (error) => {
-    //      console.log('Error: ', error);
-    //    };
-    // };
 
     const changeTransactionReoccurringStatus = useCallback(async (guid, reoccurring) => {
         const CancelToken = axios.CancelToken;
@@ -226,7 +280,7 @@ export default function TransactionTable() {
             category: payload.category === undefined ? 'undefined' : payload.category,
             notes: payload.notes === undefined ? '' : payload.notes,
             amount: payload.amount,
-            transactionState: payload.transactionState === undefined ? 'outstanding':  payload.transactionState,
+            transactionState: payload.transactionState === undefined ? 'outstanding' : payload.transactionState,
             activeStatus: true,
             accountType: 'undefined',
             reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
@@ -300,14 +354,14 @@ export default function TransactionTable() {
                                     return (
                                         <>
                                             <SelectDescription onChangeFunction={props.onChange}
-                                                currentValue={ () => {
-                                                    if (props.value) {
-                                                        return props.value;
-                                                    } else {
-                                                        return 'undefined';
-                                                    }
-                                                }
-                                                }/>
+                                                               currentValue={() => {
+                                                                   if (props.value) {
+                                                                       return props.value;
+                                                                   } else {
+                                                                       return 'undefined';
+                                                                   }
+                                                               }
+                                                               }/>
                                         </>
                                     )
                                 }
@@ -319,15 +373,15 @@ export default function TransactionTable() {
                                     return (
                                         <>
                                             <SelectCategory onChangeFunction={props.onChange}
-                                                currentValue={ () => {
-                                                    if (props.value) {
+                                                            currentValue={() => {
+                                                                if (props.value) {
 
-                                                        return props.value;
-                                                    } else {
-                                                        return 'none';
-                                                    }
-                                                }
-                                                }/>
+                                                                    return props.value;
+                                                                } else {
+                                                                    return 'none';
+                                                                }
+                                                            }
+                                                            }/>
                                         </>
                                     )
                                 }
@@ -355,14 +409,14 @@ export default function TransactionTable() {
                                     return (
                                         <>
                                             <SelectTransactionState onChangeFunction={props.onChange}
-                                                currentValue={ () => {
-                                                    if (props.value) {
-                                                        return props.value;
-                                                    } else {
-                                                        return 'outstanding';
-                                                    }
-                                                   }
-                                                }/>
+                                                                    currentValue={() => {
+                                                                        if (props.value) {
+                                                                            return props.value;
+                                                                        } else {
+                                                                            return 'outstanding';
+                                                                        }
+                                                                    }
+                                                                    }/>
                                         </>
                                     )
                                 }
@@ -376,14 +430,14 @@ export default function TransactionTable() {
                                 },
                                 editComponent: (props) => {
                                     return <Checkbox checked={props.rowData.reoccurring}
-                                                 style={{color: '#9965f4'}}
-                                                 onChange={(e) => {
-                                                     props.onChange(e.target.checked)
-                                                     props.rowData.reoccurring = e.target.checked
-                                                     console.log('state:', e.target.checked)
-                                                 }
-                                                 }
-                                                 />
+                                                     style={{color: '#9965f4'}}
+                                                     onChange={(e) => {
+                                                         props.onChange(e.target.checked)
+                                                         props.rowData.reoccurring = e.target.checked
+                                                         console.log('state:', e.target.checked)
+                                                     }
+                                                     }
+                                    />
                                 }
                             },
                             {
@@ -455,16 +509,18 @@ export default function TransactionTable() {
 //                                          setFileName(file)
 //                                          let b64 = getBase64(file)
 
-                                    setCurrentGuid(rowData.guid);
-                                    setLoadImageDialog(true);
+                                    //setCurrentGuid(rowData.guid);
+                                    //setLoadImageDialog(true);
+                                    let promise = getImageFileContents(rowData.guid)
+                                    //console.log( promise.get);
                                 }
                             }
                         ]}
                     />
-                    {loadMoveDialog ?  <TransactionMove closeDialog={() => setLoadMoveDialog(false)}
-                                                                             transactionGuid={currentGuid}/> : null}
-                    {loadImageDialog ?  <TransactionImage closeDialog={() => setLoadImageDialog(false)}
-                                                                             transactionGuid={currentGuid}/>: null}
+                    {loadMoveDialog ? <TransactionMove closeDialog={() => setLoadMoveDialog(false)}
+                                                       transactionGuid={currentGuid}/> : null}
+                    {loadImageDialog ? <TransactionImage closeDialog={() => setLoadImageDialog(false)}
+                                                         transactionGuid={currentGuid}/> : null}
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )
 }
