@@ -58,14 +58,13 @@ export default function TransactionTable() {
       reader.readAsDataURL(file)
       reader.onload = () => {
         setFileContent(reader.result.toString())
-
         return reader.result
       }
       reader.onerror = (error) => {
         console.log("Error: ", error)
       }
     },
-    [insertReceiptImage]
+    []
   )
 
   const getImageFileContents = useCallback(
@@ -345,15 +344,13 @@ export default function TransactionTable() {
         setKeyPressed(true)
       }
 
-
-
       // if (key === 'Enter') {
       //     alert('me - enter');
       //     // document.getElementById('Cancel').click()
       //     setKeyPressed(true);
       // }
     },
-    [keyPressed, fileContent, insertReceiptImage]
+    [keyPressed]
   )
 
   const upHandler = useCallback(({ key }) => {
@@ -387,7 +384,7 @@ export default function TransactionTable() {
       window.removeEventListener("keydown", downHandler)
       window.removeEventListener("keyup", upHandler)
     }
-  }, [totals, data, fetchTotals, fetchData, downHandler, upHandler])
+  }, [totals, data, fetchTotals, fetchData, downHandler, upHandler, fileContent,currentGuid,insertReceiptImage])
 
     //TODO: add this in below
   // const setDefaults = (props) => {
@@ -539,7 +536,7 @@ export default function TransactionTable() {
                 field: "receiptImage",
                 cellStyle: { whiteSpace: "nowrap" },
                 render: (rowData) => {
-                return(<div>{rowData.receiptImage}</div>
+                return(<div>{rowData.receiptImage === undefined ? 'n/a': ''}</div>
                     // <img
                     //     style={{ height: 'auto', maxWidth: '100px' }}
                     //     alt="my image"
@@ -562,15 +559,11 @@ export default function TransactionTable() {
               headerStyle: {
                 backgroundColor: "#9965f4",
                 color: "#FFF",
-                // position: 'sticky', top: 0
               },
-              //rowStyle: {  fontSize: '.8rem',  height: 'auto !important', }
-
               rowStyle: (rowData) => {
                 if (rowData.transactionState === "cleared") {
                   return { fontSize: ".6rem" }
                 } else if (rowData.transactionState === "future") {
-                  //return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#90ee02', color: '#000'};
                   return {
                     fontSize: ".6rem",
                     fontWeight: "bold",
@@ -578,7 +571,6 @@ export default function TransactionTable() {
                     color: "#FFF",
                   }
                 } else {
-                  //return {fontSize: '.6rem', fontWeight: 'bold', backgroundColor: '#defabb', color: '#000'};
                   return {
                     fontSize: ".6rem",
                     fontWeight: "bold",
