@@ -24,12 +24,12 @@ export default function TransactionTable() {
   let match = useRouteMatch("/transactions/:account")
 
   const insertReceiptImage = useCallback(
-    async (transactionGuid) => {
+    async () => {
       const CancelToken = axios.CancelToken
       const source = CancelToken.source()
 
       const response = await axios.put(
-        endpointUrl() + "/transaction/update/receipt/image/" + transactionGuid,
+        endpointUrl() + "/transaction/update/receipt/image/" + currentGuid,
         fileContent,
         {
           cancelToken: source.token,
@@ -49,16 +49,16 @@ export default function TransactionTable() {
         source.cancel()
       }
     },
-    [fileContent]
+    [fileContent, currentGuid]
   )
 
   const storeTheFileContent = useCallback(
-    async (file, transactionGuid) => {
+    async (file) => {
       let reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = () => {
         setFileContent(reader.result.toString())
-        insertReceiptImage(transactionGuid)
+
         return reader.result
       }
       reader.onerror = (error) => {
@@ -77,8 +77,9 @@ export default function TransactionTable() {
         //let file1 : any = event.target.files[0];
         let fileList = event.target.files
         console.log(fileList[0] instanceof Blob)
+        setCurrentGuid(transactionGuid)
         if (fileList[0] instanceof Blob) {
-          let response = storeTheFileContent(fileList[0], transactionGuid)
+          let response = storeTheFileContent(fileList[0])
           console.log(response)
         } else {
           console.log(fileList[0].type)
@@ -340,9 +341,11 @@ export default function TransactionTable() {
   const downHandler = useCallback(
     ({ key }) => {
       if (key === "Escape") {
-        console.log("escape key pressed: " + keyPressed)
+        console.log(`escape key pressed: ${keyPressed}`)
         setKeyPressed(true)
       }
+
+
 
       // if (key === 'Enter') {
       //     alert('me - enter');
@@ -350,7 +353,7 @@ export default function TransactionTable() {
       //     setKeyPressed(true);
       // }
     },
-    [keyPressed]
+    [keyPressed, fileContent, insertReceiptImage]
   )
 
   const upHandler = useCallback(({ key }) => {
@@ -367,6 +370,13 @@ export default function TransactionTable() {
       let response = fetchData()
       console.log(response)
     }
+
+      if( fileContent !== "" ) {
+          console.log(`current guid = ${currentGuid}`)
+          const response = insertReceiptImage()
+          console.log(response)
+          setFileContent("")
+      }
 
     if (totals.length === 0) {
       let response = fetchTotals()
@@ -387,6 +397,8 @@ export default function TransactionTable() {
   //     return "undefined"
   //   }
   // }
+    //SELECT octet_length(receipt_image) FROM t_transaction where receipt_image is not null;
+    //select encode(receipt_image::bytea, 'hex') from t_transaction where guid='6c7fda78-5f87-4a67-8870-29b2fbf9ebee';
 
   return (
     <div>
@@ -521,6 +533,20 @@ export default function TransactionTable() {
                 title: "notes",
                 field: "notes",
                 cellStyle: { whiteSpace: "nowrap" },
+              },
+              {
+                title: "receiptImage",
+                field: "receiptImage",
+                cellStyle: { whiteSpace: "nowrap" },
+                render: (rowData) => {
+                return(<div>{rowData.receiptImage}</div>
+                    // <img
+                    //     style={{ height: 'auto', maxWidth: '100px' }}
+                    //     alt="my image"
+                    //     src={rowData.receiptImage}
+                    // ></img>
+                )}
+                  ,
               },
             ]}
             data={data}
