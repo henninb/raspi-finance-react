@@ -7,17 +7,14 @@ import './master.scss';
 import {useRouteMatch} from 'react-router-dom';
 import SelectTransactionState from "./SelectTransactionState";
 import TransactionMove from "./TransactionMove";
-import TransactionImage from "./TransactionImage";
 import {currencyFormat, endpointUrl, toEpochDateAsMillis} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox";
 import SelectCategory from "./SelectCategory";
 import SelectDescription from "./SelectDescription";
-// import { FilePicker } from 'react-file-picker'
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true);
     const [loadMoveDialog, setLoadMoveDialog] = useState(false);
-    const [loadImageDialog, setLoadImageDialog] = useState(false);
     const [currentGuid, setCurrentGuid] = useState("");
     const [totals, setTotals] = useState([]);
     const [data, setData] = useState([]);
@@ -29,7 +26,6 @@ export default function TransactionTable() {
     const insertReceiptImage = useCallback(async (transactionGuid) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
-
 
         const response = await axios.put(endpointUrl() + '/transaction/update/receipt/image/' + transactionGuid, fileContent, {
             cancelToken: source.token,
@@ -49,47 +45,37 @@ export default function TransactionTable() {
         };
     }, [fileContent]);
 
-    const getBase64 = useCallback(async (file) => {
+    const storeTheFileContent = useCallback(async (file, transactionGuid) => {
         let reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => {
+        reader.onload = async () => {
             //console.log(reader.result);
             setFileContent(reader.result.toString());
+            await insertReceiptImage(transactionGuid)
             return reader.result;
         };
         reader.onerror = (error) => {
             console.log('Error: ', error);
         };
-    }, []);
+    }, [insertReceiptImage]);
 
     const getImageFileContents = useCallback(async (transactionGuid) => {
-        console.log('onClick photo-add')
+        console.log('onClick photo-add');
         const fileSelector = document.createElement('input');
-        //image/*
-        //document.querySelector(".img2").setAttribute("src", "images/dice6.png");
         fileSelector.setAttribute('type', "file");
         fileSelector.addEventListener('change', (event) => {
-            //let file = (event.target as HTMLInputElement).files[0];
-            let fileList;
-            fileList = event.target.files;
-            // fileList.forEach((file) => {
-            console.log(fileList);
+            //let file1 : any = event.target.files[0];
+            let fileList = event.target.files;
             console.log(fileList[0] instanceof Blob);
             if (fileList[0] instanceof Blob) {
-                let b64 = getBase64(fileList[0]);
-                console.log(typeof b64);
-                console.log(b64 instanceof String);
-                console.log(b64 instanceof Promise);
-                console.log(b64.data);
-                setFileContent(b64.type());
-                //insertReceiptImage(transactionGuid)
+                let response = storeTheFileContent(fileList[0], transactionGuid);
+                console.log(response)
             } else {
                 console.log(fileList[0].type);
             }
         });
         fileSelector.click();
-    }, [getBase64]);
-
+    }, [storeTheFileContent]);
 
     const changeTransactionStateToCleared = useCallback(async (guid) => {
         const CancelToken = axios.CancelToken;
@@ -117,14 +103,17 @@ export default function TransactionTable() {
     const handlerForUpdatingTransactionState = useCallback(async (guid) => {
         try {
             await changeTransactionStateToCleared(guid)
-            setData(data.map((element) => {
+            let map = data.map((element) => {
                 if (element["guid"] === guid) {
                     fetchTotals()
+                    // @ts-ignore
                     return {...element, transactionState: 'cleared'}
                 } else {
-                    return element
+                    return element;
                 }
-            }));
+            });
+            // @ts-ignore
+            setData(map);
         } catch (error) {
             console.log('handlerForUpdatingTransactionState failure');
             if (error.response) {
@@ -132,7 +121,6 @@ export default function TransactionTable() {
             }
         }
     }, [data, changeTransactionStateToCleared, fetchTotals]);
-
 
     const changeTransactionReoccurringStatus = useCallback(async (guid, reoccurring) => {
         const CancelToken = axios.CancelToken;
@@ -151,13 +139,16 @@ export default function TransactionTable() {
 
         try {
             await changeTransactionReoccurringStatus(guid, !reoccurring)
-            setData(data.map((elem) => {
+            let map = data.map((elem) => {
                 if (elem["guid"] === guid) {
+                    // @ts-ignore
                     return {...elem, reoccurring: !elem.reoccurring}
                 } else {
                     return elem
                 }
-            }));
+            });
+            // @ts-ignore
+            setData(map);
         } catch (error) {
             console.log('toggleReoccurring failure');
             if (error.response) {
@@ -286,8 +277,6 @@ export default function TransactionTable() {
             reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
             reoccurringType: payload.reoccurringType === undefined ? 'undefined' : payload.reoccurringType,
             accountNameOwner: match.params['account'],
-            // dateUpdated: toEpochDateAsMillis(new Date()),
-            // dateAdded: toEpochDateAsMillis(new Date()),
         }
 
         await axios.post(endpoint, newPayload, {
@@ -501,26 +490,14 @@ export default function TransactionTable() {
                                 icon: "add_a_photo",
                                 tooltip: "Photo-Add",
                                 onClick: (_event, rowData) => {
-//                                    console.log('onClick photo-add')
-//                                    const fileSelector = document.createElement('input');
-//                                    fileSelector.setAttribute('type', 'file');
-//                                    fileSelector.click();
-
-//                                          setFileName(file)
-//                                          let b64 = getBase64(file)
-
-                                    //setCurrentGuid(rowData.guid);
-                                    //setLoadImageDialog(true);
-                                    let promise = getImageFileContents(rowData.guid)
-                                    //console.log( promise.get);
+                                    let response = getImageFileContents(rowData.guid)
+                                    console.log(response);
                                 }
                             }
                         ]}
                     />
                     {loadMoveDialog ? <TransactionMove closeDialog={() => setLoadMoveDialog(false)}
                                                        transactionGuid={currentGuid}/> : null}
-                    {loadImageDialog ? <TransactionImage closeDialog={() => setLoadImageDialog(false)}
-                                                         transactionGuid={currentGuid}/> : null}
                 </div> : <div className="centered"><Spinner/></div>}</div>
     )
 }
