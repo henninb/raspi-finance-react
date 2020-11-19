@@ -47,7 +47,8 @@ td {
   color: #6200ee;
 }
 
-th, td {
+th,
+td {
   //text-align: center;
   //font-weight: bold;
   text-transform: uppercase;
@@ -118,7 +119,7 @@ tr:hover td {
   border-radius: 50%;
   width: $base-line-height;
   height: $base-line-height;
-  border: .25rem solid $off-white;
+  border: 0.25rem solid $off-white;
   border-top-color: $white;
   animation: spin $spin-duration infinite linear;
 }
@@ -131,8 +132,9 @@ tr:hover td {
   animation: pulse $pulse-duration infinite;
   animation-delay: ($pulse-duration / 3);
 
-  &:before, &:after {
-    content: '';
+  &:before,
+  &:after {
+    content: "";
     position: absolute;
     display: block;
     height: ($base-line-height / 1.5);

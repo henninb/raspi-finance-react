@@ -80,3 +80,8 @@ context api
 ```
 https://material.io/design/color/the-color-system.html#tools-for-picking-colors
 ```
+
+## normalize the code
+```
+prettier --no-semi --write .
+```
