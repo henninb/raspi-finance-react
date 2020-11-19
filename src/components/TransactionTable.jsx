@@ -48,10 +48,9 @@ export default function TransactionTable() {
     const storeTheFileContent = useCallback(async (file, transactionGuid) => {
         let reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = async () => {
-            //console.log(reader.result);
+        reader.onload = () => {
             setFileContent(reader.result.toString());
-            await insertReceiptImage(transactionGuid)
+            insertReceiptImage(transactionGuid)
             return reader.result;
         };
         reader.onerror = (error) => {
@@ -325,6 +324,14 @@ export default function TransactionTable() {
         }
 
     }, [totals, data, fetchTotals, fetchData, downHandler, upHandler]);
+
+    const setDefaults = (props) => {
+        if (props.value) {
+            return props.value;
+        } else {
+            return 'undefined';
+        }
+    };
 
     return (<div>
             {!loadSpinner ?
