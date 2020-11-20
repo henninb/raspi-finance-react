@@ -16,6 +16,7 @@ export default function TransactionTable() {
   const [loadSpinner, setLoadSpinner] = useState(true)
   const [loadMoveDialog, setLoadMoveDialog] = useState(false)
   const [currentGuid, setCurrentGuid] = useState("")
+  const [currentTransactionId, setCurrentTransactionId] = useState(0)
   const [totals, setTotals] = useState([])
   const [data, setData] = useState([])
   const [keyPressed, setKeyPressed] = useState(false)
@@ -27,9 +28,8 @@ export default function TransactionTable() {
     async () => {
       const CancelToken = axios.CancelToken
       const source = CancelToken.source()
-
-      const response = await axios.put(
-        endpointUrl() + "/transaction/update/receipt/image/" + currentGuid,
+      const response = await axios.post(
+        endpointUrl() + "/receipt/image/insert/" + currentTransactionId,
         fileContent,
         {
           cancelToken: source.token,
@@ -68,7 +68,7 @@ export default function TransactionTable() {
   )
 
   const getImageFileContents = useCallback(
-    async (transactionGuid) => {
+    async (transactionId) => {
       console.log("onClick photo-add")
       const fileSelector = document.createElement("input")
       fileSelector.setAttribute("type", "file")
@@ -76,7 +76,7 @@ export default function TransactionTable() {
         //let file1 : any = event.target.files[0];
         let fileList = event.target.files
         console.log(fileList[0] instanceof Blob)
-        setCurrentGuid(transactionGuid)
+        setCurrentTransactionId(transactionId)
         if (fileList[0] instanceof Blob) {
           let response = storeTheFileContent(fileList[0])
           console.log(response)
@@ -309,8 +309,7 @@ export default function TransactionTable() {
         guid: uuidv4(),
         transactionDate: buildTransactionDateString,
         description: payload.description,
-        category:
-          payload.category === undefined ? "undefined" : payload.category,
+        category: payload.category === undefined ? "undefined" : payload.category,
         notes: payload.notes === undefined ? "" : payload.notes,
         amount: payload.amount,
         transactionState:
@@ -319,8 +318,7 @@ export default function TransactionTable() {
             : payload.transactionState,
         activeStatus: true,
         accountType: "undefined",
-        reoccurring:
-          payload.reoccurring === undefined ? false : payload.reoccurring,
+        reoccurring:  payload.reoccurring === undefined ? false : payload.reoccurring,
         reoccurringType:
           payload.reoccurringType === undefined
             ? "undefined"
@@ -369,7 +367,7 @@ export default function TransactionTable() {
     }
 
       if( fileContent !== "" ) {
-          console.log(`current guid = ${currentGuid}`)
+          console.log(`current transactionId = ${currentTransactionId}`)
           const response = insertReceiptImage()
           console.log(response)
           setFileContent("")
@@ -536,7 +534,7 @@ export default function TransactionTable() {
                 field: "receiptImage",
                 cellStyle: { whiteSpace: "nowrap" },
                 render: (rowData) => {
-                return(<div>{rowData.receiptImage === undefined ? 'n/a': ''}</div>
+                return(<div>{rowData.receiptImageId === undefined ? 'n/a': ''}</div>
                     // <img
                     //     style={{ height: 'auto', maxWidth: '100px' }}
                     //     alt="my image"
@@ -598,7 +596,7 @@ export default function TransactionTable() {
                 icon: "add_a_photo",
                 tooltip: "Photo-Add",
                 onClick: (_event, rowData) => {
-                  let response = getImageFileContents(rowData.guid)
+                  let response = getImageFileContents(rowData.transactionId)
                   console.log(response)
                 },
               },
