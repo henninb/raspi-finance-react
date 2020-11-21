@@ -33,3 +33,7 @@ export const endpointUrl = () => {
   console.log(server + ":" + port)
   return "https://" + server + ":" + port
 }
+
+export function typeOf(obj: any) {
+    return {}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();
+}
