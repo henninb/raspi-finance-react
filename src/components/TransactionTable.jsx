@@ -354,7 +354,15 @@ export default function TransactionTable() {
             return newPayload
         },
         [match.params]
-    )
+    );
+
+    const unwrapImage = async (rowData) => {
+        let response  = fetchImage(rowData['receiptImageId'])
+        return await response.then(async (result) => {
+                return result
+            }
+        );
+    }
 
     const downHandler = useCallback(
         ({key}) => {
@@ -551,26 +559,26 @@ export default function TransactionTable() {
                                 cellStyle: {whiteSpace: "nowrap"},
                             },
                             {
-                                title: "receiptImage",
+                                title: "receipt",
                                 field: "receiptImage",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     let redDot = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
-                                    //let receiptImage = rowData['receiptImageId'] === undefined ? redDot : fetchImage(rowData['receiptImageId'])
                                     let receiptImage = redDot
                                     if( rowData['receiptImageId'] !== undefined ) {
-                                        receiptImage = "needs data"
-                                        let response  = fetchImage(rowData['receiptImageId'])
-                                        response.then((result) => {
-                                            receiptImage = "test"
-                                            }
-                                        );
+                                        // receiptImage = "needs data"
+                                        // let response  = fetchImage(rowData['receiptImageId'])
+                                        // let x = response.then(async (result) => {
+                                        //     receiptImage = result
+                                        //     }
+                                        // );
+                                        receiptImage = unwrapImage(rowData)
                                     }
                                     console.log('typeOf receiptImage=' + typeOf(receiptImage))
                                     console.log('receiptImageValue=' + receiptImage)
                                     return (
                                         <div>
-                                            <img id={rowData['receiptImageId']} alt="receipt" src={receiptImage}/>
+                                            <img id={rowData['receiptImageId']} alt="receiptImage" src={receiptImage}/>
                                         </div>
                                     )
                                 }
