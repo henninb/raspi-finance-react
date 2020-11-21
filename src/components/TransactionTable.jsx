@@ -16,7 +16,6 @@ export default function TransactionTable() {
   const [loadSpinner, setLoadSpinner] = useState(true)
   const [loadMoveDialog, setLoadMoveDialog] = useState(false)
   const [currentGuid, setCurrentGuid] = useState("")
-  const [currentTransactionId, setCurrentTransactionId] = useState(0)
   const [totals, setTotals] = useState([])
   const [data, setData] = useState([])
   const [keyPressed, setKeyPressed] = useState(false)
@@ -28,8 +27,8 @@ export default function TransactionTable() {
     async () => {
       const CancelToken = axios.CancelToken
       const source = CancelToken.source()
-      const response = await axios.post(
-        endpointUrl() + "/receipt/image/insert/" + currentTransactionId,
+      const response = await axios.put(
+        endpointUrl() + "/transaction/update/receipt/image/" + currentGuid,
         fileContent,
         {
           cancelToken: source.token,
@@ -68,7 +67,7 @@ export default function TransactionTable() {
   )
 
   const getImageFileContents = useCallback(
-    async (transactionId) => {
+    async (guid) => {
       console.log("onClick photo-add")
       const fileSelector = document.createElement("input")
       fileSelector.setAttribute("type", "file")
@@ -76,7 +75,7 @@ export default function TransactionTable() {
         //let file1 : any = event.target.files[0];
         let fileList = event.target.files
         console.log(fileList[0] instanceof Blob)
-        setCurrentTransactionId(transactionId)
+        setCurrentGuid(guid)
         if (fileList[0] instanceof Blob) {
           let response = storeTheFileContent(fileList[0])
           console.log(response)
@@ -117,6 +116,19 @@ export default function TransactionTable() {
       source.cancel()
     }
   }, [match])
+
+
+    const fetchImage = useCallback(async (receiptImageId) => {
+        const CancelToken = axios.CancelToken
+        const source = CancelToken.source()
+        const response = await axios.get(
+            endpointUrl() + "/receipt/image/select/" + receiptImageId,
+            { cancelToken: source.token }
+        )
+        return () => {
+            source.cancel()
+        }
+    }, [])
 
   const handlerForUpdatingTransactionState = useCallback(
     async (guid) => {
@@ -367,7 +379,7 @@ export default function TransactionTable() {
     }
 
       if( fileContent !== "" ) {
-          console.log(`current transactionId = ${currentTransactionId}`)
+          console.log(`current transactionId = ${currentGuid}`)
           const response = insertReceiptImage()
           console.log(response)
           setFileContent("")
@@ -534,12 +546,8 @@ export default function TransactionTable() {
                 field: "receiptImage",
                 cellStyle: { whiteSpace: "nowrap" },
                 render: (rowData) => {
-                return(<div>{rowData.receiptImageId === undefined ? 'n/a': ''}</div>
-                    // <img
-                    //     style={{ height: 'auto', maxWidth: '100px' }}
-                    //     alt="my image"
-                    //     src={rowData.receiptImage}
-                    // ></img>
+                return(
+                    <div>{rowData.receiptImageId === undefined ? '': <img  alt={rowData.receiptImage}  src={fetchImage(rowData.receiptImage)} />}</div>
                 )}
                   ,
               },
@@ -596,7 +604,7 @@ export default function TransactionTable() {
                 icon: "add_a_photo",
                 tooltip: "Photo-Add",
                 onClick: (_event, rowData) => {
-                  let response = getImageFileContents(rowData.transactionId)
+                  let response = getImageFileContents(rowData.guid)
                   console.log(response)
                 },
               },
