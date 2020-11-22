@@ -144,7 +144,7 @@ export default function TransactionTable() {
             source.cancel()
         }
     }, [match])
-    
+
     const handlerForUpdatingTransactionState = useCallback(
         async (guid) => {
             try {
