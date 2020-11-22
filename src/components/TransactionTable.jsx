@@ -144,29 +144,7 @@ export default function TransactionTable() {
             source.cancel()
         }
     }, [match])
-
-
-    // const fetchImage = useCallback(async (receiptImageId) => {
-    //     const CancelToken = axios.CancelToken
-    //     const source = CancelToken.source()
-    //
-    //     try {
-    //         const response = await axios.get(
-    //             endpointUrl() + "/receipt/image/select/" + receiptImageId,
-    //             {cancelToken: source.token}
-    //         )
-    //         //console.log(response.data)
-    //         return response.data
-    //     } catch {
-    //         return ""
-    //     }
-    //
-    //     // return () => {
-    //     //     source.cancel()
-    //     // }
-    //
-    // }, [])
-
+    
     const handlerForUpdatingTransactionState = useCallback(
         async (guid) => {
             try {
@@ -594,14 +572,9 @@ export default function TransactionTable() {
                                 field: "receiptImage",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
-                                    if( rowData['receiptImageId'] !== undefined ) {
-                                        // receiptImage = "needs data"
-                                        // let response  = fetchImage(rowData['receiptImageId'])
-                                        // let x = response.then(async (result) => {
-                                        //     receiptImage = result
-                                        //     }
-                                        // );
+                                    //let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+                                    let receiptImage = ""
+                                    if( rowData['receiptImage'] !== undefined ) {
                                         receiptImage = rowData.receiptImage.receiptImage
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
                                         console.log('receiptImageValue=' + receiptImage)
@@ -609,7 +582,7 @@ export default function TransactionTable() {
 
                                     return (
                                         <div>
-                                            <img id={rowData['receiptImageId']} alt="receiptImage" src={receiptImage} />
+                                            <img alt="receiptImage" src={receiptImage} />
                                         </div>
                                     )
                                 }

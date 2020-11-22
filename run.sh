@@ -7,6 +7,7 @@ yarn install
 echo yarn upgrade
 echo ncu -u
 echo yarn build --profile production
+rm tsconfig.json
 yarn start
 
 exit 0
