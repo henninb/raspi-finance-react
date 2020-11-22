@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useCallback, useEffect, useRef, useState} from "react"
 import MaterialTable from "material-table"
 import axios from "axios"
 import {v4 as uuidv4} from "uuid"
@@ -7,7 +7,7 @@ import "./master.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, endpointUrl, toEpochDateAsMillis, typeOf} from "./Common"
+import {currencyFormat, endpointUrl, typeOf} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -69,18 +69,46 @@ export default function TransactionTable() {
     const getImageFileContents = useCallback(
         async (guid) => {
             console.log("onClick photo-add")
+            const formElement = document.getElementById("form-id")
+            const inputElement = document.getElementById("input-id")
+
+            // if( inputElement === undefined) {
+            //     console.log('inputElement is undefined. ugg.')
+            // } else {
+            //     console.log('inputElement is good to go')
+            // }
+
             const fileSelector = document.createElement("input")
             fileSelector.setAttribute("type", "file")
             fileSelector.addEventListener("change", (event) => {
+                console.log('addEventListener is called.')
                 //let file1 : any = event.target.files[0];
                 let fileList = event.target.files
-                console.log(fileList[0] instanceof Blob)
-                setCurrentGuid(guid)
-                if (fileList[0] instanceof Blob) {
-                    let response = storeTheFileContent(fileList[0])
-                    console.log(response)
+
+                if(fileList[0].size>=1024*1024) {
+                    console.log("maximum file size is 1MB");
+                    //$("#form-id").get(0).reset();
+                    //fileSelector.get
+                    return
+                }
+
+                if (fileList[0].type.match('image.*')) {
+                    if (fileList[0] instanceof Blob) {
+                        console.log(`file ${fileList[0].name} is file type ${fileList[0].type}.`)
+                        // image/jpeg
+                        // image/png
+                        // image/gif
+                        // image/webp
+                        setCurrentGuid(guid)
+                        let response = storeTheFileContent(fileList[0])
+                        console.log(response)
+
+                    } else {
+                        console.log(`file ${fileList[0].name} is not a blob.`)
+                    }
                 } else {
-                    console.log(fileList[0].type)
+                    console.log(`file ${fileList[0].name} is not an image.`)
+
                 }
             })
             fileSelector.click()
@@ -118,26 +146,26 @@ export default function TransactionTable() {
     }, [match])
 
 
-    const fetchImage = useCallback(async (receiptImageId) => {
-        const CancelToken = axios.CancelToken
-        const source = CancelToken.source()
-
-        try {
-            const response = await axios.get(
-                endpointUrl() + "/receipt/image/select/" + receiptImageId,
-                {cancelToken: source.token}
-            )
-            //console.log(response.data)
-            return response.data
-        } catch {
-            return ""
-        }
-
-        // return () => {
-        //     source.cancel()
-        // }
-
-    }, [])
+    // const fetchImage = useCallback(async (receiptImageId) => {
+    //     const CancelToken = axios.CancelToken
+    //     const source = CancelToken.source()
+    //
+    //     try {
+    //         const response = await axios.get(
+    //             endpointUrl() + "/receipt/image/select/" + receiptImageId,
+    //             {cancelToken: source.token}
+    //         )
+    //         //console.log(response.data)
+    //         return response.data
+    //     } catch {
+    //         return ""
+    //     }
+    //
+    //     // return () => {
+    //     //     source.cancel()
+    //     // }
+    //
+    // }, [])
 
     const handlerForUpdatingTransactionState = useCallback(
         async (guid) => {
@@ -429,6 +457,8 @@ export default function TransactionTable() {
         <div>
             {!loadSpinner ? (
                 <div className="table-formatting">
+
+
                     <MaterialTable
                         columns={[
                             {
@@ -564,8 +594,7 @@ export default function TransactionTable() {
                                 field: "receiptImage",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    let redDot = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
-                                    let receiptImage = redDot
+                                    let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
                                     if( rowData['receiptImageId'] !== undefined ) {
                                         // receiptImage = "needs data"
                                         // let response  = fetchImage(rowData['receiptImageId'])
@@ -639,8 +668,25 @@ export default function TransactionTable() {
                                 icon: "add_a_photo",
                                 tooltip: "Photo-Add",
                                 onClick: (_event, rowData) => {
+                                    console.log('Photo-Add clicked.')
+
                                     let response = getImageFileContents(rowData.guid)
                                     console.log(response)
+
+
+                                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                                    //const fileInput = useRef(null)
+                                    const handleFileInput = () => {console.log('click happened on the form')}
+
+                                    // https://www.pluralsight.com/guides/how-to-use-a-simple-form-submit-with-files-in-react
+                                    // document.getElementById("form-id")
+                                    // return (
+                                    //     <div>
+                                    //         <form name="file-uploader" id="file-uploader">
+                                    //         <input type="file" accept="image/png" onChange={handleFileInput} onLoad={document.getElementsByName("file-uploader")}/>
+                                    //         </form>
+                                    //     </div>
+                                    // )
                                 },
                             },
                         ]}

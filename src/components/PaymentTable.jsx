@@ -13,12 +13,12 @@ export default function PaymentTable() {
   const [loading, setLoading] = useState(true)
   const history = useHistory()
 
-  const handleButtonClickLink = (accountNameOwner: any) => {
+  const handleButtonClickLink = (accountNameOwner) => {
     history.push("/transactions/" + accountNameOwner)
     history.go(0)
   }
 
-  const addRow = (newData: any) => {
+  const addRow = (newData) => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
@@ -63,7 +63,7 @@ export default function PaymentTable() {
     }
   }, [])
 
-  const verifyData = (newData: any) => {
+  const verifyData = (newData) => {
     if (isNaN(newData.amount)) return false
     // if(newData.amount === undefined) return false;
     // if(newData.transactionDate === undefined) return false;
@@ -71,7 +71,7 @@ export default function PaymentTable() {
     return true
   }
 
-  const postCallPayment = useCallback(async (payload: any) => {
+  const postCallPayment = useCallback(async (payload) => {
     let CancelToken = axios.CancelToken
     let source = CancelToken.source()
     let endpoint = endpointUrl() + "/payment/insert/"
@@ -90,7 +90,7 @@ export default function PaymentTable() {
     return newPayload
   }, [])
 
-  const deleteCall = useCallback(async (payload: any) => {
+  const deleteCall = useCallback(async (payload) => {
     let endpoint = endpointUrl() + "/payment/delete/" + payload["paymentId"]
 
     await axios.delete(endpoint, {
@@ -117,7 +117,8 @@ export default function PaymentTable() {
     }
   }, [data, fetchData])
 
-  return (
+    return (
+
     <div>
       {!loading ? (
         <div className="table-formatting">
