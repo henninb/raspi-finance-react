@@ -211,7 +211,7 @@ export default function TransactionTable() {
         [data, changeTransactionReoccurringStatus]
     )
 
-    const fetchData = useCallback(async () => {
+    const fetchAccountData = useCallback(async () => {
         const CancelToken = axios.CancelToken
         const source = CancelToken.source()
 
@@ -219,6 +219,7 @@ export default function TransactionTable() {
             endpointUrl() + "/transaction/account/select/" + match.params["account"],
             {cancelToken: source.token}
         )
+
         setData(response.data)
         setLoadSpinner(false)
         return () => {
@@ -235,9 +236,9 @@ export default function TransactionTable() {
             newData["transactionState"] = "undefined"
         }
 
-        newData["dateUpdated"] = toEpochDateAsMillis(new Date())
+        //newData["dateUpdated"] = toEpochDateAsMillis(new Date())
         //TODO: ought not use set the dateAdded()
-        newData["dateAdded"] = toEpochDateAsMillis(new Date())
+        //newData["dateAdded"] = toEpochDateAsMillis(new Date())
 
         await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
@@ -356,13 +357,13 @@ export default function TransactionTable() {
         [match.params]
     );
 
-    const unwrapImage = async (rowData) => {
-        let response  = fetchImage(rowData['receiptImageId'])
-        return await response.then(async (result) => {
-                return result
-            }
-        );
-    }
+    // const unwrapImage = async (rowData) => {
+    //     let response  = fetchImage(rowData['receiptImageId'])
+    //     return await response.then(async (result) => {
+    //             return result
+    //         }
+    //     );
+    // };
 
     const downHandler = useCallback(
         ({key}) => {
@@ -391,7 +392,7 @@ export default function TransactionTable() {
         window.addEventListener("keyup", upHandler)
 
         if (data.length === 0) {
-            let response = fetchData()
+            let response = fetchAccountData()
             console.log(response)
         }
 
@@ -411,7 +412,7 @@ export default function TransactionTable() {
             window.removeEventListener("keydown", downHandler)
             window.removeEventListener("keyup", upHandler)
         }
-    }, [totals, data, fetchTotals, fetchData, downHandler, upHandler, fileContent, currentGuid, insertReceiptImage])
+    }, [totals, data, fetchTotals, fetchAccountData, downHandler, upHandler, fileContent, currentGuid, insertReceiptImage])
 
     //TODO: add this in below
     // const setDefaults = (props) => {
@@ -572,13 +573,14 @@ export default function TransactionTable() {
                                         //     receiptImage = result
                                         //     }
                                         // );
-                                        receiptImage = unwrapImage(rowData)
+                                        receiptImage = rowData.receiptImage.receiptImage
+                                        console.log('typeOf receiptImage=' + typeOf(receiptImage))
+                                        console.log('receiptImageValue=' + receiptImage)
                                     }
-                                    console.log('typeOf receiptImage=' + typeOf(receiptImage))
-                                    console.log('receiptImageValue=' + receiptImage)
+
                                     return (
                                         <div>
-                                            <img id={rowData['receiptImageId']} alt="receiptImage" src={receiptImage}/>
+                                            <img id={rowData['receiptImageId']} alt="receiptImage" src={receiptImage} />
                                         </div>
                                     )
                                 }
