@@ -69,14 +69,6 @@ export default function TransactionTable() {
     const getImageFileContents = useCallback(
         async (guid) => {
             console.log("onClick photo-add")
-            const formElement = document.getElementById("form-id")
-            const inputElement = document.getElementById("input-id")
-
-            // if( inputElement === undefined) {
-            //     console.log('inputElement is undefined. ugg.')
-            // } else {
-            //     console.log('inputElement is good to go')
-            // }
 
             const fileSelector = document.createElement("input")
             fileSelector.setAttribute("type", "file")
@@ -573,7 +565,8 @@ export default function TransactionTable() {
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     //let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
-                                    let receiptImage = ""
+
+                                    let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
                                     if( rowData['receiptImage'] !== undefined ) {
                                         receiptImage = rowData.receiptImage.receiptImage
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
@@ -645,21 +638,6 @@ export default function TransactionTable() {
 
                                     let response = getImageFileContents(rowData.guid)
                                     console.log(response)
-
-
-                                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                                    //const fileInput = useRef(null)
-                                    const handleFileInput = () => {console.log('click happened on the form')}
-
-                                    // https://www.pluralsight.com/guides/how-to-use-a-simple-form-submit-with-files-in-react
-                                    // document.getElementById("form-id")
-                                    // return (
-                                    //     <div>
-                                    //         <form name="file-uploader" id="file-uploader">
-                                    //         <input type="file" accept="image/png" onChange={handleFileInput} onLoad={document.getElementsByName("file-uploader")}/>
-                                    //         </form>
-                                    //     </div>
-                                    // )
                                 },
                             },
                         ]}
