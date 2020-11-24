@@ -76,13 +76,11 @@ export default function TransactionTable() {
             fileSelector.setAttribute("type", "file")
             fileSelector.addEventListener("change", (event) => {
                 console.log('addEventListener is called.')
-                //let file1 : any = event.target.files[0];
+                //let file1 : any = event.target.files[0]
                 let fileList = event.target.files
 
                 if(fileList[0].size>=1024*1024) {
-                    console.log("maximum file size is 1MB");
-                    //$("#form-id").get(0).reset();
-                    //fileSelector.get
+                    console.log("maximum file size is 1MB")
                     return
                 }
 
@@ -321,13 +319,11 @@ export default function TransactionTable() {
     const postCall = useCallback(
         async (payload) => {
             let endpoint = endpointUrl() + "/transaction/insert/"
-            //let newPayload = {};
 
             //TODO: bh 8/28/2020 - need to address any date conversion issues
-            //TODO: bh 10/31/2020 - set a timezone based on a parm
+            //TODO: bh 10/31/2020 - set a timezone based on a parameter
             let buildTransactionDateString =
                 payload.transactionDate.toISOString().split("T")[0] + "T12:00:00.000"
-            //dt.toISOString());
             let newPayload = {
                 guid: uuidv4(),
                 transactionDate: buildTransactionDateString,
@@ -356,15 +352,15 @@ export default function TransactionTable() {
             return newPayload
         },
         [match.params]
-    );
+    )
 
     // const unwrapImage = async (rowData) => {
     //     let response  = fetchImage(rowData['receiptImageId'])
     //     return await response.then(async (result) => {
     //             return result
     //         }
-    //     );
-    // };
+    //     )
+    // }
 
     const downHandler = useCallback(
         ({key}) => {
@@ -374,9 +370,9 @@ export default function TransactionTable() {
             }
 
             // if (key === 'Enter') {
-            //     alert('me - enter');
+            //     alert('me - enter')
             //     // document.getElementById('Cancel').click()
-            //     setKeyPressed(true);
+            //     setKeyPressed(true)
             // }
         },
         [keyPressed]
