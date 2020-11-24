@@ -57,6 +57,8 @@ export default function TransactionTable() {
             reader.readAsDataURL(file)
             reader.onload = () => {
                 setFileContent(reader.result.toString())
+
+                //data["receiptImage"] = 'blah'
                 return reader.result
             }
             reader.onerror = (error) => {
@@ -84,7 +86,8 @@ export default function TransactionTable() {
                     return
                 }
 
-                if (fileList[0].type.match('image.*')) {
+                //if (fileList[0].type.match('image.*')) {
+                if (fileList[0].type.match('image/jpeg')) {
                     if (fileList[0] instanceof Blob) {
                         console.log(`file ${fileList[0].name} is file type ${fileList[0].type}.`)
                         // image/jpeg
@@ -398,6 +401,13 @@ export default function TransactionTable() {
             console.log(`current transactionId = ${currentGuid}`)
             const response = insertReceiptImage()
             console.log(response)
+
+            let foundObject = data.filter((obj) => obj.guid === currentGuid)
+            if( foundObject.length === 1) {
+                foundObject[0].receiptImage = {"jpgImage": fileContent}
+            }
+            console.log(`objects found: ${foundObject.length}`)
+
             setFileContent("")
         }
 
@@ -568,7 +578,8 @@ export default function TransactionTable() {
 
                                     let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
                                     if( rowData['receiptImage'] !== undefined ) {
-                                        receiptImage = rowData.receiptImage.receiptImage
+                                        receiptImage = rowData.receiptImage.jpgImage
+                                        //data.receiptImage.jpgImage =
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
                                         console.log('receiptImageValue=' + receiptImage)
                                     }
