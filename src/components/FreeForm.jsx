@@ -11,42 +11,59 @@ export default function FreeForm() {
         async (payload) => {
             let endpoint = endpointUrl() + "/transaction/insert/"
 
-
-
-            await axios.post(endpoint, payload, {
-                timeout: 0,
-                headers: {"Content-Type": "application/json"},
-            })
-            return payload
+            try {
+                let response = await axios.post(endpoint, payload, {
+                    timeout: 0,
+                    headers: {"Content-Type": "application/json"},
+                })
+                return response
+            } catch(error) {
+                console.log(error.response)
+                return ""
+            }
         },
         []
     )
 
-    const handleChange = () => {
+    const handleChange = async () => {
         let os = require('os');
 
         const text = document.getElementById("textArea").value;
         let sanitizedText = text.replace(/\t/g, ',')
+        sanitizedText = sanitizedText.toLowerCase()
         const lines = sanitizedText.split(os.EOL);
 
-        lines.forEach(line => {
+        for (const line of lines) {
             const columns = line.split(',')
+            let accountNameOwner = columns[0]
+            let transactionDate = columns[1]
+            let description = columns[2]
+            let amount = columns[3]
+
+            // transactionDate = transactionDate = sanitizedText.replace(/ /g, '-')
+            // transactionDate = transactionDate = sanitizedText.replace(/\//g, '-')
+            // transactionDate = transactionDate = sanitizedText.replace(/nov/g, '11')
+            // transactionDate = transactionDate = sanitizedText.replace(/dec/g, '12')
+            // transactionDate = transactionDate = sanitizedText.replace(/jan/g, '01')
+            amount = amount.replace(/\$/g, '')
+
+            console.log("column count: " + columns.length)
             if (columns.length === 4) {
-                if( isNaN(parseFloat(columns[3]))) {
-                    console.log('skipped:' + line)
-                    return
+                if( isNaN(parseFloat(amount))) {
+                    console.log('bad amount - skipped:' + line)
+                    continue;
                 }
 
-                if( isNaN(parseFloat(columns[1]))) {
-                    console.log('skipped:' + line)
-                    return
+                if( isNaN(Date.parse(transactionDate))) {
+                    console.log('bad date - skipped:' + line)
+                    continue;
                 }
 
                 let transaction = {
-                    accountNameOwner: columns[0],
-                    transactionDate: Date.parse(columns[1]).toISOString().split("T")[0] + "T12:00:00.000",
-                    description: columns[2],
-                    amount: parseFloat(columns[3]),
+                    accountNameOwner: accountNameOwner,
+                    transactionDate: Date.parse(transactionDate).toISOString().split("T")[0] + "T12:00:00.000",
+                    description: description,
+                    amount: parseFloat(amount),
                     guid: uuidv4(),
                     category: "none",
                     notes: "",
@@ -57,12 +74,12 @@ export default function FreeForm() {
                     reoccurringType:  "undefined",
                 }
                 console.log(transaction)
-                postCall(transaction)
+                await postCall(transaction)
                 console.log('processed:' + line)
             } else {
-                console.log('skipped:' + line)
+                console.log('column count off - skipped:' + line)
             }
-        })
+        }
     }
 
     return (
