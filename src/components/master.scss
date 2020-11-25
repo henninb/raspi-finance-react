@@ -6,15 +6,19 @@ $pulse-duration: 750ms;
 
 //$theme-colors: ( "primary":#ffd800);
 
-html {
-  height: 100%;
+img {
+  max-height: 75px;
+  max-width: 75px;
+  height: auto;
+  width: auto;
 }
 
-img{
-  max-height:75px;
-  max-width:75px;
-  height:auto;
-  width:auto;
+.freeform {
+  margin-top: 5%;
+}
+
+html {
+  height: 100%;
 }
 
 body {
@@ -161,3 +165,4 @@ tr:hover td {
     animation-delay: ($pulse-duration / 1.5);
   }
 }
+

@@ -4,6 +4,7 @@ import TransactionTable from "./TransactionTable"
 import AccountSummaryTable from "./AccountSummaryTable"
 import PaymentTable from "./PaymentTable"
 import CloneTable from "./CloneTable"
+import FreeForm from "./FreeForm"
 import NavbarInstance from "./NavbarInstance"
 
 export default function Routes() {
@@ -16,6 +17,7 @@ export default function Routes() {
         </div>
         <Switch>
           <Route path="/payments" exact component={PaymentTable} />
+          <Route path="/freeform" exact component={FreeForm} />
           <Route path="/clone" exact component={CloneTable} />
           <Route
             path="/transactions/:account"

@@ -17,9 +17,9 @@ export default function NavbarInstance() {
               Payments
             </Link>
           </li>
-          {/*<li className="nav-item">*/}
-          {/*    <Link className="nav-link" to="/clone">Clone</Link>*/}
-          {/*</li>*/}
+          <li className="nav-item">
+              <Link className="nav-link" to="/freeform">FreeForm</Link>
+          </li>
           <li>
             <SelectAccounts />
           </li>

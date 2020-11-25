@@ -434,7 +434,6 @@ export default function TransactionTable() {
             {!loadSpinner ? (
                 <div className="table-formatting">
 
-
                     <MaterialTable
                         columns={[
                             {
@@ -568,21 +567,24 @@ export default function TransactionTable() {
                             {
                                 title: "receipt",
                                 field: "receiptImage",
+                                editable: "never",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     //let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
-
-                                    let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
+                                    let receiptImage = ""
+                                    //let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
                                     if( rowData['receiptImage'] !== undefined ) {
                                         receiptImage = rowData.receiptImage.jpgImage
                                         //data.receiptImage.jpgImage =
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
                                         console.log('receiptImageValue=' + receiptImage)
                                     }
+                                    //
+                                    //<a href={receiptImage} title="click here to see the full sized image"><img src={receiptImage} alt="your alt description here" /></a>
 
                                     return (
                                         <div>
-                                            <img alt="receiptImage" src={receiptImage} />
+                                            {rowData['receiptImage'] !== undefined?<img className="receipt-image" alt="receipt" src={receiptImage}/>: null }
                                         </div>
                                     )
                                 }
