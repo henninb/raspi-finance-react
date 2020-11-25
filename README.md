@@ -17,6 +17,7 @@ yarn add react-file-picker
 yarn add @material-ui/lab
 # yarn add react-uuid
 yarn add uuid
+yarn add datejs
 # yarn add canvas
 yarn add --dev react-test-renderer
 # yarn add --dev jest-dom
