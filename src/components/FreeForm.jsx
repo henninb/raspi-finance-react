@@ -3,15 +3,13 @@ import {v4 as uuidv4} from "uuid"
 import {endpointUrl} from "./Common";
 import axios from "axios"
 import os from "os";
-//import {useNotification} from "./Snackbar";
-//import SnackbarNew  from './SnackBarNew';
 import "./master.scss"
 import Snackbar from "@material-ui/core/Snackbar";
 require('datejs') //momentjs - look into this
 
 export default function FreeForm() {
-    //const {setSuccess} = useNotification()
-    const [isActive, setIsActive] = useState(true);
+    const [message, setMessage] = useState('')
+    const [open, setOpen] = useState(false)
 
     const postCall = useCallback(
         async (payload) => {
@@ -23,7 +21,12 @@ export default function FreeForm() {
                     timeout: 0,
                     headers: {"Content-Type": "application/json"},
                 })
-                //setSuccess("successfully loaded record in the database.")
+
+                setTimeout(() => {
+                    setMessage('successfully loaded: ' + payload.guid)
+                    setOpen(true)
+                }, 500)
+
                 return response
             } catch(error) {
                 console.log(error.response)
@@ -38,7 +41,7 @@ export default function FreeForm() {
         const text = document.getElementById("textArea").value;
         let sanitizedText = text.replace(/\t/g, ',')
         sanitizedText = sanitizedText.toLowerCase()
-        const lines = sanitizedText.split(os.EOL);
+        const lines = sanitizedText.split(os.EOL)
 
         for (const line of lines) {
             const columns = line.split(',')
@@ -47,10 +50,10 @@ export default function FreeForm() {
             let description = columns[2]
             let amount = columns[3]
 
-            amount = amount.replace(/\$/g, '')
-
             console.log(`column count: ${columns.length}`)
             if (columns.length === 4) {
+                amount = amount.replace(/\$/g, '')
+
                 if( isNaN(parseFloat(amount))) {
                     console.log(`bad amount - skipped:${line}`)
                     continue;
@@ -78,24 +81,15 @@ export default function FreeForm() {
                 console.log(transaction)
                 await postCall(transaction)
                 console.log(`processed:${line}`)
+
             } else {
                 console.log(`column count off - skipped:${line}`)
             }
+
         }
+        setMessage('all records are submitted.')
+        setOpen(true)
     }
-
-    // const snackbarRef = React.createRef();
-    // const _showSnackbarHandler = () => {
-    //     console.log("try and show handler")
-    //     onclick()
-    //     //snackbarRef.current.openSnackBar('Button Pressed...');
-    // }
-
-    // const onclick = () => {
-    //     console.log("got it")
-    //     setIsActive(!isActive)
-    //     return isActive
-    // }
 
     return (
         <div className="freeform">
@@ -105,7 +99,21 @@ export default function FreeForm() {
                 <input type="submit" onClick={() => handleChange()}/>
             </div>
 
+            <Snackbar
+                message={message}
+                open={open}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                }}
+                onClose={() => {
+                console.log('from onClose close me:' + open)
+                    setTimeout(() => {
+                        setOpen(false)
+                    }, 500)
+                console.log('from onClose close me:' + open)
+                }}
+            />
         </div>
-
     );
 }
