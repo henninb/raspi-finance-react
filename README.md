@@ -28,6 +28,8 @@ yarn add --dev @testing-library/react-hooks
 yarn add material-table @material-ui/core
 yarn add levenary
 yarn add typescript
+yarn add react-material-snackbar
+yarn add lodash
 yarn global add npm-check-updates
 ```
 
