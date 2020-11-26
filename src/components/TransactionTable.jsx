@@ -653,7 +653,13 @@ export default function TransactionTable() {
                     />
                     {loadMoveDialog ? (
                         <TransactionMove
-                            closeDialog={() => setLoadMoveDialog(false)}
+                            closeDialog={() => {
+                                setLoadMoveDialog(false)
+                                console.log('delete guid:' + currentGuid)
+                                const newData = data.filter((obj) => obj.guid !== currentGuid)
+                                setData(newData)
+                                //foundObject.delete()
+                            }}
                             transactionGuid={currentGuid}
                         />
                     ) : null}
