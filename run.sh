@@ -2,7 +2,7 @@
 
 mkdir -p ssl
 echo yarn global add npm-check-updates
-#ncu -u
+ncu -u
 yarn install
 echo yarn upgrade
 echo ncu -u
