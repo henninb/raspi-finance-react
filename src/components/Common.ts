@@ -30,8 +30,10 @@ export const endpointUrl = () => {
   //TODO: figure this out
   let port = process.env.REACT_APP_ENDPOINT_PORT
   let server = process.env.REACT_APP_ENDPOINT_SERVER
-  let httpEnabled = process.env.HTTPS
+  let httpEnabled = process.env.REACT_APP_ENDPOINT_SSL_ENABLED
 
+  console.log(typeOf(httpEnabled))
+  console.log(httpEnabled)
   if( httpEnabled === 'true' ) {
     console.log(server + ":" + port)
     return "https://" + server + ":" + port
