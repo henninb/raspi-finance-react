@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/lab": "^4.0.0-alpha.56",
+    "@types/datejs": "^0.0.31",
     "@types/react-loader-spinner": "^3.1.2",
     "@types/react-router-dom": "^5.1.6",
     "@types/react-select": "^3.0.26",

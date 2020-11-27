@@ -30,10 +30,16 @@ export const endpointUrl = () => {
   //TODO: figure this out
   let port = process.env.REACT_APP_ENDPOINT_PORT
   let server = process.env.REACT_APP_ENDPOINT_SERVER
+  let httpEnabled = process.env.HTTPS
+
+  if( httpEnabled === 'true' ) {
+    console.log(server + ":" + port)
+    return "https://" + server + ":" + port
+  }
   console.log(server + ":" + port)
-  return "https://" + server + ":" + port
+  return "http://" + server + ":" + port
 }
 
-export function typeOf(obj: any) {
+export const typeOf = (obj: any) => {
     return {}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();
 }
