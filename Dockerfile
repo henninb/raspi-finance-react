@@ -2,6 +2,9 @@
 #FROM node:15.3.0-alpine
 FROM node:15.3.0
 
+# RUN curl -o- -L https://yarnpkg.com/install.sh | \  bash -s -- --version 0.26.1
+# RUN yarn global add nodemon@1.11.0
+
 
 # set working directory
 WORKDIR /app
