@@ -66,8 +66,6 @@ else
   ncu -u
   yarn install
   echo yarn upgrade
-  echo ncu -u
-  echo yarn build --profile production
   yarn start
 fi
 
