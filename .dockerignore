@@ -8,3 +8,4 @@ yarn.lock-old
 git-setup
 .idea
 .git
+os-env
