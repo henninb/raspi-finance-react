@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  raspi-finance-react:
+    image: raspi-finance-react
+    build:
+      context: ./
+      args:
+       - APP=raspi-finance-react
+       - TIMEZONE=America/Chicago
+       - USERNAME=henninb
+      dockerfile: Dockerfile
+    container_name: raspi-finance-react
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+#    mem_limit: 1024m
+#volumes:
+      # - ./logs:/opt/raspi-finance-react/logs
+      # - ./ssl:/opt/raspi-finance-react/ssl
+    extra_hosts:
+      - "hornsup:${HOST_IP}"
+    # env_file:
+    #   - env.secrets
+networks:
+  default:
+    name: react-net
