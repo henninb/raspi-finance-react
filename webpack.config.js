@@ -3,17 +3,7 @@ module.exports = {
   entry: "./index.js",
 
   output: {
-    filename: "app.js",
+    filename: "index.js",
     path: __dirname + "/dist",
-  },
-
-  module: {
-  loaders: [
-    {
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loaders: ["babel-loader"],
-    }
-  ],
   },
 }

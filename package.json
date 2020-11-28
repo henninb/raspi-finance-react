@@ -11,7 +11,6 @@
     "@types/react-select": "^3.0.26",
     "@types/uuid": "^8.3.0",
     "axios": "^0.21.0",
-    "babel-loader": "^8.2.2",
     "datejs": "^1.0.0-rc3",
     "dotenv": "^8.2.0",
     "invariant": "^2.2.4",
