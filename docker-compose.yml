@@ -12,9 +12,11 @@ services:
       dockerfile: Dockerfile
     container_name: raspi-finance-react
     ports:
-      - "3000:3000"
+      # - "3000:3000"
+      - "3000:80"
     expose:
       - "3000"
+      - "80"
 #    mem_limit: 1024m
 #volumes:
       # - ./logs:/opt/raspi-finance-react/logs

@@ -1,6 +1,19 @@
 #!/bin/sh
 
+ENV=$1
 APP=raspi-finance-react
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <prod|dev>"
+  exit 1
+fi
+
+if [ "$ENV" = "prod" ] || [ "$ENV" = "dev" ]; then
+  echo "${ENV}"
+else
+  echo "Usage: $0 <prod|dev>"
+  exit 2
+fi
 
 # "$OSTYPE" == "darwin"*
 if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Raspbian GNU/Linux" ]; then
@@ -26,26 +39,29 @@ else
 fi
 
 export HOST_IP
+export CURRENT_UID="$(id -u)"
+export CURRENT_GID="$(id -g)"
 
 mkdir -p ssl
 
-if ! docker-compose -f docker-compose.yml build; then
-  echo "docker-compose build failed."
-  exit 1
-fi
+if [ "$ENV" = "prod" ]; then
+  if ! docker-compose -f docker-compose.yml build; then
+    echo "docker-compose build failed."
+    exit 1
+  fi
 
-if ! docker-compose -f docker-compose.yml up; then
-  echo "docker-compose up failed."
-  exit 1
+  if ! docker-compose -f docker-compose.yml up; then
+    echo "docker-compose up failed."
+    exit 1
+  fi
+else
+  echo yarn global add npm-check-updates
+  ncu -u
+  yarn install
+  echo yarn upgrade
+  echo ncu -u
+  echo yarn build --profile production
+  yarn start
 fi
-
-#echo yarn global add npm-check-updates
-#ncu -u
-#yarn install
-#echo yarn upgrade
-#echo ncu -u
-#echo yarn build --profile production
-##rm tsconfig.json
-#yarn start
 
 exit 0

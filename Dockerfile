@@ -7,10 +7,16 @@ ARG APP="set the app at build time"
 ENV APP ${APP}
 ARG USERNAME="set the username as build time"
 ENV USERNAME=${USERNAME}
-RUN useradd ${USERNAME}
+RUN useradd -m ${USERNAME}
 
 RUN cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 RUN mkdir -p -m 0755 /opt/${APP}
+COPY .env /opt/${APP}
+COPY . /opt/${APP}
+COPY package.json /opt/${APP}
+COPY yarn.lock /opt/${APP}
+RUN chown -R ${USERNAME}:${USERNAME} /opt/${APP}/
+RUN chown -R ${USERNAME}:${USERNAME} /opt/${APP}/*
 
 # RUN apt-get update -qq
 # RUN npm install -g -s --no-progress yarn
@@ -23,22 +29,23 @@ RUN mkdir -p -m 0755 /opt/${APP}
 
 WORKDIR /opt/${APP}
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-
-# install app dependencies
-COPY package.json ./
-COPY yarn.lock ./
-# RUN npm install --silent
 RUN yarn config set "strict-ssl" false -g
 RUN yarn config set no-progress
-RUN yarn add react-scripts -g --silent
+# RUN yarn add react-scripts -g --silent
+RUN yarn add react-scripts -g
+
 #RUN yarn build --profile production
 
-COPY .env ./
-COPY . ./
+# RUN yarn install --production=true && yarn build
 
-# RUN yarn run build
-# RUN yarn run prune
+RUN yarn run build
+#RUN yarn run prune
+USER ${USERNAME}
 
-CMD yarn start
+ENV HOST=0.0.0.0
+ENV NODE_ENV=production
+# CMD yarn start
+# CMD [ "node", "build/index.js" ]
+# CMD [ "node", "build/index.html" ]
+# CMD [ "node", "build/server.js" ]
+CMD [ "yarn", "start" ]

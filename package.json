@@ -11,6 +11,7 @@
     "@types/react-select": "^3.0.26",
     "@types/uuid": "^8.3.0",
     "axios": "^0.21.0",
+    "babel-loader": "^8.2.2",
     "datejs": "^1.0.0-rc3",
     "dotenv": "^8.2.0",
     "invariant": "^2.2.4",
@@ -34,9 +35,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:new": "webpack-dev-server --open --mode development",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:prod": "webpack --mode production"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -59,7 +62,9 @@
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^12.2.2",
     "jest-dom": "^4.0.0",
-    "react-test-renderer": "^17.0.1"
+    "react-test-renderer": "^17.0.1",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "resolutions": {
     "material-table/jspdf": "^2.1.0"
