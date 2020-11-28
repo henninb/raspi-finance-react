@@ -31,11 +31,9 @@ WORKDIR /opt/${APP}
 
 RUN yarn config set "strict-ssl" false -g
 RUN yarn config set no-progress
-# RUN yarn add react-scripts -g --silent
-RUN yarn add react-scripts -g
+RUN yarn add react-scripts -g --silent
 
 #RUN yarn build --profile production
-
 # RUN yarn install --production=true && yarn build
 
 RUN yarn run build
