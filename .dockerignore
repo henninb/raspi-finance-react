@@ -2,3 +2,9 @@ node_modules
 build
 .dockerignore
 Dockerfile
+run.sh
+docker-compose.yml
+yarn.lock-old
+git-setup
+.idea
+.git

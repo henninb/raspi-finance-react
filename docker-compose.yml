@@ -2,6 +2,7 @@ version: "3.7"
 services:
   raspi-finance-react:
     image: raspi-finance-react
+    hostname: hornsup
     build:
       context: ./
       args:
@@ -24,4 +25,4 @@ services:
     #   - env.secrets
 networks:
   default:
-    name: react-net
+    name: finance-net

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+APP=raspi-finance-react
+
 # "$OSTYPE" == "darwin"*
 if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Raspbian GNU/Linux" ]; then
   HOST_IP=$(hostname -I | awk '{print $1}')
@@ -25,30 +27,25 @@ fi
 
 export HOST_IP
 
-
-
 mkdir -p ssl
 
+if ! docker-compose -f docker-compose.yml build; then
+  echo "docker-compose build failed."
+  exit 1
+fi
 
-    if ! docker-compose -f docker-compose.yml build; then
-      echo "docker-compose build failed."
-      exit 1
-    fi
+if ! docker-compose -f docker-compose.yml up; then
+  echo "docker-compose up failed."
+  exit 1
+fi
 
-    if ! docker-compose -f docker-compose.yml up; then
-      echo "docker-compose up failed."
-      exit 1
-    fi
-
-
-
-echo yarn global add npm-check-updates
-ncu -u
-yarn install
-echo yarn upgrade
-echo ncu -u
-echo yarn build --profile production
-#rm tsconfig.json
-yarn start
+#echo yarn global add npm-check-updates
+#ncu -u
+#yarn install
+#echo yarn upgrade
+#echo ncu -u
+#echo yarn build --profile production
+##rm tsconfig.json
+#yarn start
 
 exit 0
