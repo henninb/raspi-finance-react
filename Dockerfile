@@ -11,3 +11,4 @@ RUN mkdir -p /opt/ssl
 # ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 
 COPY ./build /usr/share/nginx/html
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
