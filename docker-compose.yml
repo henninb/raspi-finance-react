@@ -23,8 +23,8 @@ services:
       # - ./ssl:/opt/raspi-finance-react/ssl
     extra_hosts:
       - "hornsup:${HOST_IP}"
-    # env_file:
-    #   - env.secrets
+    env_file:
+      - env.prod
 networks:
   default:
     name: finance-net

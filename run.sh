@@ -51,7 +51,7 @@ export CURRENT_GID="$(id -g)"
 mkdir -p ssl
 
 if [ "$ENV" = "prod" ]; then
-  yarn build
+  yarn build:prod
   if ! docker-compose -f docker-compose.yml build; then
     echo "docker-compose build failed."
     exit 1

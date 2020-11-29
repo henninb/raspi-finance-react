@@ -13,6 +13,7 @@
     "axios": "^0.21.0",
     "datejs": "^1.0.0-rc3",
     "dotenv": "^8.2.0",
+    "env-cmd": "^10.1.0",
     "invariant": "^2.2.4",
     "levenary": "^1.1.1",
     "lodash": "^4.17.20",
@@ -38,7 +39,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start:prod": "webpack --mode production"
+    "build:prod": "env-cmd -f env.prod react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"

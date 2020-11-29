@@ -31,6 +31,7 @@ yarn add typescript
 yarn add react-material-snackbar
 yarn add lodash
 yarn global add npm-check-updates
+yarn add env-cmd -g
 ```
 
 ## strict ssl turned off
