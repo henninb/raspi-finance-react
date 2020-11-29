@@ -569,6 +569,7 @@ export default function TransactionTable() {
                                 title: "receipt",
                                 field: "receiptImage",
                                 editable: "never",
+                                filtering: false,
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     //let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
@@ -597,6 +598,8 @@ export default function TransactionTable() {
                             totals["totalsCleared"]
                         )} ], [ $${currencyFormat(totals["totals"])} ]`}
                         options={{
+                            filtering: true,
+                            // selection: true,
                             paging: true,
                             pageSize: 20,
                             addRowPosition: "first",
