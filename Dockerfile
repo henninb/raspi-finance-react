@@ -1,6 +1,6 @@
 FROM nginx:1.19.5-alpine
 
-RUN mkdir -p /opt/ssl
+# RUN mkdir -p /opt/ssl
 #COPY ./ssl /opt/ssl
 # ENV REACT_APP_ENDPOINT_SERVER=hornsup
 # ENV REACT_APP_ENDPOINT_PORT=8080

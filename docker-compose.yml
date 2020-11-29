@@ -6,20 +6,20 @@ services:
     build:
       context: ./
       args:
-       - APP=raspi-finance-react
        - TIMEZONE=America/Chicago
-       - USERNAME=henninb
       dockerfile: Dockerfile
     container_name: raspi-finance-react
     ports:
       # - "3000:3000"
-      - "3000:80"
+      - "3000:443"
     expose:
       - "3000"
+      - "443"
       - "80"
 #    mem_limit: 1024m
     volumes:
-      - ./ssl:/opt/ssl
+      - ./ssl:/etc/nginx/certs/
+      # - ./ssl:/opt/ssl
     extra_hosts:
       - "hornsup:${HOST_IP}"
     env_file:
