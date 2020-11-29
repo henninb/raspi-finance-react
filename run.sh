@@ -56,7 +56,7 @@ if [ "$ENV" = "prod" ]; then
     exit 1
   fi
 
-  docker rmi $(docker images -q -f dangling=true)
+  docker rmi -f $(docker images -q -f dangling=true)
 
   if ! docker-compose -f docker-compose.yml build; then
     echo "docker-compose build failed."
