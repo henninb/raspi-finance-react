@@ -100,3 +100,9 @@ The character encoding of the page must be declared in the document or in the tr
 
 ## stop using react-script
 ```yarn run eject```
+
+## save docker image for this project
+```
+docker save -o raspi-finance-react-docker.tar raspi-finance-react:latest
+docker load -i raspi-finance-react-docker.tar
+```
