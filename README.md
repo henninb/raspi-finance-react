@@ -89,3 +89,11 @@ https://material.io/design/color/the-color-system.html#tools-for-picking-colors
 ```
 prettier --no-semi --write .
 ```
+
+## character set issue
+The character encoding of the HTML document was not declared. 
+The document will render with garbled text in some browser configurations if the document contains characters from outside the US-ASCII range. 
+The character encoding of the page must be declared in the document or in the transfer protocol.
+```
+<meta charset="utf-8"/>
+```

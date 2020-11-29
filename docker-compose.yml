@@ -18,9 +18,8 @@ services:
       - "3000"
       - "80"
 #    mem_limit: 1024m
-#volumes:
-      # - ./logs:/opt/raspi-finance-react/logs
-      # - ./ssl:/opt/raspi-finance-react/ssl
+    volumes:
+      - ./ssl:/opt/ssl
     extra_hosts:
       - "hornsup:${HOST_IP}"
     env_file:

@@ -82,7 +82,12 @@ export default function AccountSummaryTable() {
 
   const fetchTotals = useCallback(async () => {
     try {
-      const response = await axios.get(endpointUrl() + "/account/totals")
+      const response = await axios.get(endpointUrl() + "/account/totals",
+          {
+              timeout: 0,
+              headers: {"Content-Type": "application/json"},
+          }
+          )
       setTotals(response.data)
     } catch (error) {
       if (error.response) {
@@ -97,7 +102,12 @@ export default function AccountSummaryTable() {
     const source = CancelToken.source()
 
     try {
-      const response = await axios.get(endpointUrl() + "/account/select/active")
+      const response = await axios.get(endpointUrl() + "/account/select/active",
+          {
+              timeout: 0,
+              headers: {"Content-Type": "application/json"},
+          }
+          )
       setData(response.data)
       setLoading(false)
     } catch (error) {
@@ -166,12 +176,14 @@ export default function AccountSummaryTable() {
                 title: "unbalanced",
                 field: "totals",
                 type: "currency",
+                  editable: "never",
                 cellStyle: { whiteSpace: "nowrap" },
               },
               {
                 title: "balanced",
                 field: "totalsBalanced",
                 type: "currency",
+                  editable: "never",
                 cellStyle: { whiteSpace: "nowrap" },
               },
             ]}

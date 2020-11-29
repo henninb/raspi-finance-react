@@ -6,4 +6,8 @@ module.exports = {
     filename: "index.js",
     path: __dirname + "/dist",
   },
+
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
+  },
 }

@@ -34,6 +34,7 @@ export default function TransactionTable() {
                     cancelToken: source.token,
                     timeout: 0,
                     headers: {"Content-Type": "text/plain"},
+                    //headers: {"Content-Type": "base64/QUOTED-PRINTABLE"}
                 }
             )
 
@@ -216,7 +217,15 @@ export default function TransactionTable() {
 
         const response = await axios.get(
             endpointUrl() + "/transaction/account/select/" + match.params["account"],
-            {cancelToken: source.token}
+            {
+                cancelToken: source.token,
+                timeout: 0,
+                headers: {
+                    "Content-Type": "application/json",
+                    //"Accept": "application/json; charset=utf-8"
+                    "Accept": "application/json"
+                },
+            }
         )
 
         setData(response.data)
@@ -418,14 +427,6 @@ export default function TransactionTable() {
         }
     }, [totals, data, fetchTotals, fetchAccountData, downHandler, upHandler, fileContent, currentGuid, insertReceiptImage])
 
-    //TODO: add this in below
-    // const setDefaults = (props) => {
-    //   if (props.value) {
-    //     return props.value
-    //   } else {
-    //     return "undefined"
-    //   }
-    // }
     //SELECT octet_length(receipt_image) FROM t_transaction where receipt_image is not null;
     //select encode(receipt_image::bytea, 'hex') from t_transaction where guid='6c7fda78-5f87-4a67-8870-29b2fbf9ebee';
 

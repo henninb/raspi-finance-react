@@ -35,37 +35,42 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
 
     const fetchDescriptionData = useCallback(async () => {
         try {
-            const response = await axios.get(endpointUrl() + '/description/select/all');
-            const descriptions = extracted(response);
+            const response = await axios.get(endpointUrl() + '/description/select/all',
+                {
+                    timeout: 0,
+                    headers: {"Content-Type": "application/json"},
+                }
+                )
+            const descriptions = extracted(response)
             // @ts-ignore
-            setOptions(descriptions);
+            setOptions(descriptions)
             return descriptions
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 404) {
                 } else {
                     //TODO: swap out alert for another means
-                    alert("fetchDescriptionData" + JSON.stringify(error.response.data));
+                    alert("fetchDescriptionData" + JSON.stringify(error.response.data))
                 }
             }
         }
-    }, []);
+    }, [])
 
     const extracted = (response: any) => {
         // @ts-ignore
         let descriptions: any[] = []
         response.data.forEach((element: any) => {
-            descriptions.push(element.description);
+            descriptions.push(element.description)
         })
-        return descriptions;
+        return descriptions
     };
 
     useEffect(() => {
-        const response = fetchDescriptionData();
-        console.log(response);
+        const response = fetchDescriptionData()
+        console.log(response)
 
-        setValue(inputValue);
-    }, [value, fetchDescriptionData, currentValue, inputValue]);
+        setValue(inputValue)
+    }, [value, fetchDescriptionData, currentValue, inputValue])
 
     const handleKeyDown = (event: any) => {
         if (event.key === 'Tab') {

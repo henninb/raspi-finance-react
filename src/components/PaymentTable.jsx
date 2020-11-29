@@ -46,7 +46,12 @@ export default function PaymentTable() {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(endpointUrl() + "/payment/select")
+      const response = await axios.get(endpointUrl() + "/payment/select",
+          {
+              timeout: 0,
+              headers: {"Content-Type": "application/json"},
+          }
+          )
       if (response.data.length > 0) {
         setData(response.data)
       }
