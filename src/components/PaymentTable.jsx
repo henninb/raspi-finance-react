@@ -55,16 +55,18 @@ export default function PaymentTable() {
       if (response.data.length > 0) {
         setData(response.data)
       }
-      setLoading(false)
+
     } catch (error) {
       if (error.response) {
-        alert(
+        console.log(
           "fetchData - status: " +
             error.response.status +
             " - " +
             JSON.stringify(error.response.data)
         )
       }
+    } finally {
+        setLoading(false)
     }
   }, [])
 

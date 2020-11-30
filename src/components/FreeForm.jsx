@@ -21,12 +21,8 @@ export default function FreeForm() {
                     timeout: 0,
                     headers: {"Content-Type": "application/json"},
                 })
-
-                setTimeout(() => {
-                    setMessage('successfully loaded: ' + payload.guid)
-                    setOpen(true)
-                }, 500)
-
+                
+                setOpen(true)
                 return response
             } catch(error) {
                 console.log(error.response)
@@ -106,12 +102,11 @@ export default function FreeForm() {
                     vertical: 'bottom',
                     horizontal: 'center',
                 }}
+                autoHideDuration={4500}
                 onClose={() => {
-                console.log('from onClose close me:' + open)
-                    setTimeout(() => {
-                        setOpen(false)
-                    }, 500)
-                console.log('from onClose close me:' + open)
+                    console.log('from onClose close me:' + open)
+                    setOpen(false)
+                    console.log('from onClose close me:' + open)
                 }}
             />
         </div>

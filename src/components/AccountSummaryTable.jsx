@@ -109,16 +109,17 @@ export default function AccountSummaryTable() {
           }
           )
       setData(response.data)
-      setLoading(false)
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
-          setLoading(false)
+          console.log(error.response.status)
         } else {
-          alert("fetchData: " + error.response.status)
-          alert("fetchData: " + JSON.stringify(error.response.data))
+            console.log("fetchData: " + error.response.status)
+            console.log("fetchData: " + JSON.stringify(error.response.data))
         }
       }
+    } finally {
+        setLoading(false)
     }
 
     return () => {

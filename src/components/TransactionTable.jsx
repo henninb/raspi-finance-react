@@ -215,21 +215,34 @@ export default function TransactionTable() {
         const CancelToken = axios.CancelToken
         const source = CancelToken.source()
 
-        const response = await axios.get(
-            endpointUrl() + "/transaction/account/select/" + match.params["account"],
-            {
-                cancelToken: source.token,
-                timeout: 0,
-                headers: {
-                    "Content-Type": "application/json",
-                    //"Accept": "application/json; charset=utf-8"
-                    "Accept": "application/json"
-                },
-            }
-        )
+        try {
+            const response = await axios.get(
+                endpointUrl() + "/transaction/account/select/" + match.params["account"],
+                {
+                    cancelToken: source.token,
+                    timeout: 0,
+                    headers: {
+                        "Content-Type": "application/json",
+                        //"Accept": "application/json; charset=utf-8"
+                        "Accept": "application/json"
+                    },
+                }
+            )
 
-        setData(response.data)
-        setLoadSpinner(false)
+            setData(response.data)
+
+        } catch (error) {
+            if (error.response) {
+                console.log(
+                    "fetchData - status: " +
+                    error.response.status +
+                    " - " +
+                    JSON.stringify(error.response.data)
+                )
+            }
+        } finally {
+            setLoadSpinner(false)
+        }
         return () => {
             source.cancel()
         }
