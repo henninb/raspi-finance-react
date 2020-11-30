@@ -10,16 +10,13 @@ services:
       dockerfile: Dockerfile
     container_name: raspi-finance-react
     ports:
-      # - "3000:3000"
       - "3000:443"
     expose:
       - "3000"
       - "443"
-      - "80"
 #    mem_limit: 1024m
-    volumes:
-      - ./ssl:/etc/nginx/certs/
-      # - ./ssl:/opt/ssl
+    # volumes:
+    #   - ./ssl:/etc/nginx/certs/
     extra_hosts:
       - "hornsup:${HOST_IP}"
     env_file:
