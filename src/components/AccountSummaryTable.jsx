@@ -6,17 +6,24 @@ import axios from "axios"
 import Button from "@material-ui/core/Button"
 import { useHistory } from "react-router-dom"
 import { endpointUrl } from "./Common"
+import SnackbarBaseline from "./SnackbarBaseline";
 
 export default function AccountSummaryTable() {
   const [totals, setTotals] = useState([])
   const [loading, setLoading] = useState(true)
   const [accountData, setData] = useState([])
+  const [message, setMessage] = useState('')
+  const [open, setOpen] = useState(false)
   const history = useHistory()
 
   const handleButtonClickLink = (accountNameOwner) => {
     history.push("/transactions/" + accountNameOwner)
     history.go(0)
   }
+
+    const handleSnackbarClose = () => {
+        setOpen(false);
+    };
 
   const addRow = (newData) => {
     return new Promise((resolve, reject) => {
@@ -27,7 +34,7 @@ export default function AccountSummaryTable() {
           resolve()
         } catch (error) {
           if (error.response) {
-            alert(
+            console.log(
               "addRow - status: " +
                 error.response.status +
                 " - " +
@@ -53,13 +60,19 @@ export default function AccountSummaryTable() {
     payload.dateUpdated = Math.round(now.getTime())
     payload.activeStatus = true
 
-    let response = await axios.post(endpoint, payload, {
-      timeout: 0,
-      headers: { "Content-Type": "application/json" },
-      cancelToken: source.token,
-    })
-    console.log(response.data)
-    return payload
+      try {
+          let response = await axios.post(endpoint, payload, {
+              timeout: 0,
+              headers: {"Content-Type": "application/json"},
+              cancelToken: source.token,
+          })
+          console.log(response)
+          return payload
+      } catch (error) {
+          setMessage(`postCall: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+          console.log(`postCall: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+          setOpen(true)
+      }
   }, [])
 
   const currencyFormat = (inputData) => {
@@ -69,15 +82,17 @@ export default function AccountSummaryTable() {
 
   const deleteCall = useCallback(async (payload) => {
     let endpoint = endpointUrl() + "/account/delete/" + payload.accountNameOwner
-
-    let response = await axios.delete(endpoint, {
-      timeout: 0,
-      headers: { "Content-Type": "application/json" },
-    })
-    if (response.status !== 200) {
-      alert("not a 200")
+    try {
+        let response = await axios.delete(endpoint, {
+            timeout: 0,
+            headers: {"Content-Type": "application/json"},
+        })
+        console.log(response)
+    } catch (error) {
+        setMessage(`deleteCall: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+        console.log(`deleteCall: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+        setOpen(true)
     }
-    console.log(response.data)
   }, [])
 
   const fetchTotals = useCallback(async () => {
@@ -91,8 +106,9 @@ export default function AccountSummaryTable() {
       setTotals(response.data)
     } catch (error) {
       if (error.response) {
-        alert("fetchTotals: " + error.response.status)
-        alert("fetchTotals: " + JSON.stringify(error.response.data))
+          setMessage(`fetchTotals: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+          console.log(`fetchTotals: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+          setOpen(true)
       }
     }
   }, [])
@@ -114,8 +130,9 @@ export default function AccountSummaryTable() {
         if (error.response.status === 404) {
           console.log(error.response.status)
         } else {
-            console.log("fetchData: " + error.response.status)
-            console.log("fetchData: " + JSON.stringify(error.response.data))
+            setMessage(`fetchData: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            console.log(`fetchData: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            setOpen(true)
         }
       }
     } finally {
@@ -131,6 +148,8 @@ export default function AccountSummaryTable() {
     if (accountData.length === 0) {
       let response = fetchData()
       console.log(response)
+        setMessage("data loaded")
+        setOpen(true)
     }
 
     if (totals.length === 0) {
@@ -230,7 +249,11 @@ export default function AccountSummaryTable() {
                 }),
             }}
           />
+            <div>
+                <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose} />
+            </div>
         </div>
+
       ) : (
         <div className="centered">
           <Spinner />

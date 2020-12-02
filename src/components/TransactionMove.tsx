@@ -69,13 +69,18 @@ export default function TransactionMove({
         guid: transactionGuid,
       }
 
-      let response = await axios.put(endpoint, JSON.stringify(newData), {
-        timeout: 0,
-        headers: { "Content-Type": "application/json" },
-      })
-      console.log(`attempt to update the account by guid: ${transactionGuid}`)
-      console.log(response.data)
-      return response.data
+      try {
+          let response = await axios.put(endpoint, JSON.stringify(newData), {
+              timeout: 0,
+              headers: {"Content-Type": "application/json"},
+          })
+
+          console.log(response.data)
+          return response.data
+      } catch(error) {
+          console.log(`failure: ${error.message}`)
+          console.log(`attempt to update the account by guid: ${transactionGuid}`)
+      }
     },
     [transactionGuid]
   )
@@ -86,7 +91,8 @@ export default function TransactionMove({
       console.log(response)
       closeDialog()
     } catch (error) {
-      alert("handleButtonClick failure: " + error.message)
+      console.log(`handleButtonClick failure: ${error.message}`)
+      alert(`handleButtonClick failure: ${error.message}`)
       closeDialog()
     }
   }, [closeDialog, value, updateAccountByGuid])
