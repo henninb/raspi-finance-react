@@ -2,7 +2,7 @@ version: "3.7"
 services:
   raspi-finance-react:
     image: raspi-finance-react
-    hostname: hornsup
+    hostname: hornsup-react
     build:
       context: ./
       args:
@@ -13,7 +13,7 @@ services:
       - "3000:443"
     expose:
       - "3000"
-      - "443"
+
 #    mem_limit: 1024m
     # volumes:
     #   - ./ssl:/etc/nginx/certs/
