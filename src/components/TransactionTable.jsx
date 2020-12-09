@@ -80,7 +80,7 @@ export default function TransactionTable() {
                 //let file1 : any = event.target.files[0]
                 let fileList = event.target.files
 
-                if(fileList[0].size>=1024*1024) {
+                if (fileList[0].size >= 1024 * 1024) {
                     console.log("maximum file size is 1MB")
                     return
                 }
@@ -421,7 +421,7 @@ export default function TransactionTable() {
             console.log(response)
 
             let foundObject = data.filter((obj) => obj.guid === currentGuid)
-            if( foundObject.length === 1) {
+            if (foundObject.length === 1) {
                 foundObject[0].receiptImage = {"jpgImage": fileContent}
             }
             console.log(`objects found: ${foundObject.length}`)
@@ -588,7 +588,7 @@ export default function TransactionTable() {
                                     //let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
                                     let receiptImage = ""
                                     //let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
-                                    if( rowData['receiptImage'] !== undefined ) {
+                                    if (rowData['receiptImage'] !== undefined) {
                                         receiptImage = rowData.receiptImage.jpgImage
                                         //data.receiptImage.jpgImage =
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
@@ -599,7 +599,9 @@ export default function TransactionTable() {
 
                                     return (
                                         <div>
-                                            {rowData['receiptImage'] !== undefined?<img className="receipt-image" alt="receipt" src={receiptImage}/>: null }
+                                            {rowData['receiptImage'] !== undefined ?
+                                                <img className="receipt-image" alt="receipt"
+                                                     src={receiptImage}/> : null}
                                         </div>
                                     )
                                 }

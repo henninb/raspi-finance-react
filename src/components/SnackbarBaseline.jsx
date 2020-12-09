@@ -1,4 +1,3 @@
-
 import React, {useEffect, useState} from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
@@ -16,7 +15,7 @@ export default function SnackbarBaseline({message, state, handleSnackbarClose}) 
     // };
 
     useEffect(() => {
-       setOpen(state)
+        setOpen(state)
     }, [state])
 
     return (

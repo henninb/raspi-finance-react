@@ -1,70 +1,71 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, {useCallback, useEffect, useState} from "react"
 import Select from "react-select"
 import axios from "axios"
-import { useHistory } from "react-router-dom"
-import { endpointUrl } from "./Common"
+import {useHistory} from "react-router-dom"
+import {endpointUrl} from "./Common"
 
 export default function SelectAccounts() {
-  const [options, setOptions] = useState([])
+    const [options, setOptions] = useState([])
 
-  const handleChange = (selectedOption) => {
-    history.push("/transactions/" + selectedOption.value)
-    history.go(0)
-  }
+    const handleChange = (selectedOption) => {
+        history.push("/transactions/" + selectedOption.value)
+        history.go(0)
+    }
 
-  const history = useHistory()
+    const history = useHistory()
 
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await axios.get(endpointUrl() + "/account/select/active")
+    const fetchData = useCallback(async () => {
+        try {
+            const response = await axios.get(endpointUrl() + "/account/select/active")
 
-      let optionList = []
-      response.data.forEach((element) => {
-        optionList = optionList.concat({
-          value: element.accountNameOwner,
-          label: element.accountNameOwner,
-        })
-      })
+            let optionList = []
+            response.data.forEach((element) => {
+                optionList = optionList.concat({
+                    value: element.accountNameOwner,
+                    label: element.accountNameOwner,
+                })
+            })
 
-      setOptions(optionList)
-      return optionList
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-        } else {
-          alert("fetchData" + JSON.stringify(error.response.data))
+            setOptions(optionList)
+            return optionList
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 404) {
+                } else {
+                    alert("fetchData" + JSON.stringify(error.response.data))
+                }
+            }
         }
-      }
-    }
-  }, [])
+    }, [])
 
-  useEffect(() => {
-    if (options.length === 0) {
-      let response = fetchData()
-      console.log(response)
-    }
+    useEffect(() => {
+        if (options.length === 0) {
+            let response = fetchData()
+            console.log(response)
+        }
 
-    return () => {}
-  }, [options, fetchData])
+        return () => {
+        }
+    }, [options, fetchData])
 
-  return (
-    <div className="select-formatting">
-      <Select
-        options={options}
-        onChange={handleChange}
-        placeholder="account name owner..."
-        theme={(theme) => ({
-          ...theme,
-          borderRadius: 0,
-          colors: {
-            ...theme.colors,
-            text: "red",
-            // primary50: 'red',
-            primary25: "#9965f4",
-            primary: "#FFF",
-          },
-        })}
-      />
-    </div>
-  )
+    return (
+        <div className="select-formatting">
+            <Select
+                options={options}
+                onChange={handleChange}
+                placeholder="account name owner..."
+                theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 0,
+                    colors: {
+                        ...theme.colors,
+                        text: "red",
+                        // primary50: 'red',
+                        primary25: "#9965f4",
+                        primary: "#FFF",
+                    },
+                })}
+            />
+        </div>
+    )
 }

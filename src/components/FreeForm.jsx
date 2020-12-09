@@ -5,6 +5,7 @@ import axios from "axios"
 import os from "os";
 import "./master.scss"
 import SnackbarBaseline from "./SnackbarBaseline";
+
 require('datejs') //momentjs - look into this
 
 export default function FreeForm() {
@@ -25,10 +26,10 @@ export default function FreeForm() {
                     timeout: 0,
                     headers: {"Content-Type": "application/json"},
                 })
-                
+
                 setOpen(true)
                 return response
-            } catch(error) {
+            } catch (error) {
                 if (error.response) {
                     setMessage(`insert transaction: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
                     console.log(`insert transaction: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -61,12 +62,12 @@ export default function FreeForm() {
             if (columns.length === 4) {
                 amount = amount.replace(/\$/g, '')
 
-                if( isNaN(parseFloat(amount))) {
+                if (isNaN(parseFloat(amount))) {
                     console.log(`bad amount - skipped:${line}`)
                     continue;
                 }
 
-                if( isNaN(Date.parse(transactionDate))) {
+                if (isNaN(Date.parse(transactionDate))) {
                     console.log(`bad date - skipped:${line}`)
                     continue;
                 }
@@ -83,7 +84,7 @@ export default function FreeForm() {
                     activeStatus: true,
                     accountType: "credit",
                     reoccurring: false,
-                    reoccurringType:  "undefined",
+                    reoccurringType: "undefined",
                 }
                 console.log(transaction)
                 await postCall(transaction)
@@ -106,7 +107,7 @@ export default function FreeForm() {
                 <input type="submit" onClick={() => handleChange()}/>
             </div>
 
-            <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose} />
+            <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
         </div>
     );
 }

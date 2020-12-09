@@ -127,7 +127,7 @@ export default function AccountSummaryTable() {
                 setMessage(`fetchTotals: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
                 console.log(`fetchTotals: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
                 setOpen(true)
-            }  else {
+            } else {
                 setMessage(`fetchTotals: failure`)
                 console.log(`fetchTotals: failure`)
                 setOpen(true)

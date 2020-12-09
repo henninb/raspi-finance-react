@@ -40,7 +40,7 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
                     timeout: 0,
                     headers: {"Content-Type": "application/json"},
                 }
-                )
+            )
             const descriptions = extracted(response)
             // @ts-ignore
             setOptions(descriptions)
