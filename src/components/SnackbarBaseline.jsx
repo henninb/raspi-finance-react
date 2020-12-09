@@ -1,11 +1,11 @@
 
 import React, {useEffect, useState} from "react";
 import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 //import Alert from "@material-ui/lab/Alert";
 
 export default function SnackbarBaseline({message, state, handleSnackbarClose}) {
     const [open, setOpen] = useState(false)
-
 
     // const handleClose = (event, reason) => {
     //     if (reason === 'clickaway') {
@@ -17,13 +17,11 @@ export default function SnackbarBaseline({message, state, handleSnackbarClose}) 
 
     useEffect(() => {
        setOpen(state)
-    })
+    }, [state])
 
     return (
         <div>
-
             <Snackbar
-                message={message}
                 open={open}
                 anchorOrigin={{
                     vertical: 'bottom',
@@ -36,7 +34,9 @@ export default function SnackbarBaseline({message, state, handleSnackbarClose}) 
                     handleSnackbarClose()
                     console.log('from onClose close me:' + open)
                 }}
-            />
+            >
+                <Alert severity="info">{message}</Alert>
+            </Snackbar>
 
             {/*<Alert severity="error">This is an error message!</Alert>*/}
             {/*<Alert severity="warning">This is a warning message!</Alert>*/}

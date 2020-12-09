@@ -4,12 +4,16 @@ import {endpointUrl} from "./Common";
 import axios from "axios"
 import os from "os";
 import "./master.scss"
-import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarBaseline from "./SnackbarBaseline";
 require('datejs') //momentjs - look into this
 
 export default function FreeForm() {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
+
+    const handleSnackbarClose = () => {
+        setOpen(false);
+    };
 
     const postCall = useCallback(
         async (payload) => {
@@ -25,9 +29,16 @@ export default function FreeForm() {
                 setOpen(true)
                 return response
             } catch(error) {
-                console.log(error.response)
-                console.log(error.message)
-                return ""
+                if (error.response) {
+                    setMessage(`insert transaction: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+                    console.log(`insert transaction: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+                    setOpen(true)
+                } else {
+                    setMessage(`insert transaction: failure`)
+                    console.log(`insert transaction: failure`)
+                    setOpen(true)
+                    throw error
+                }
             }
         },
         []
@@ -95,20 +106,7 @@ export default function FreeForm() {
                 <input type="submit" onClick={() => handleChange()}/>
             </div>
 
-            <Snackbar
-                message={message}
-                open={open}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
-                autoHideDuration={4500}
-                onClose={() => {
-                    console.log('from onClose close me:' + open)
-                    setOpen(false)
-                    console.log('from onClose close me:' + open)
-                }}
-            />
+            <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose} />
         </div>
     );
 }
