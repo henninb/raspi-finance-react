@@ -11,6 +11,7 @@ import {currencyFormat, endpointUrl, typeOf} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
+import SnackbarBaseline from "./SnackbarBaseline";
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true)
@@ -20,8 +21,29 @@ export default function TransactionTable() {
     const [data, setData] = useState([])
     const [keyPressed, setKeyPressed] = useState(false)
     const [fileContent, setFileContent] = useState("")
+    const [message, setMessage] = useState('')
+    const [open, setOpen] = useState(false)
 
     let match = useRouteMatch("/transactions/:account")
+
+    const handleSnackbarClose = () => {
+        setOpen(false);
+    };
+
+    const handleError = (error, moduleName, throwIt) =>  {
+        if (error.response) {
+            setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            setOpen(true)
+        } else {
+            setMessage(`${moduleName}: failure`)
+            console.log(`${moduleName}: failure`)
+            setOpen(true)
+            if (throwIt) {
+                throw  error
+            }
+        }
+    }
 
     const insertReceiptImage = useCallback(
         async () => {
@@ -63,7 +85,8 @@ export default function TransactionTable() {
                 return reader.result
             }
             reader.onerror = (error) => {
-                console.log("Error: ", error)
+                handleError(error, 'storeTheFile', false)
+                //console.log("Error: ", error)
             }
         },
         []
@@ -155,10 +178,7 @@ export default function TransactionTable() {
                 // @ts-ignore
                 setData(map)
             } catch (error) {
-                console.log("handlerForUpdatingTransactionState failure")
-                if (error.response) {
-                    alert(JSON.stringify(error.response.data))
-                }
+                handleError(error, 'updateTransactionState', false)
             }
         },
         [data, changeTransactionStateToCleared, fetchTotals]
@@ -176,10 +196,7 @@ export default function TransactionTable() {
                 reoccurring,
                 {cancelToken: source.token}
             )
-            if (response.data !== "transaction reoccurring updated") {
-                console.log("changeTransactionReoccurringStatus - failure")
-                console.log(response.data)
-            }
+
             return () => {
                 source.cancel()
             }
@@ -202,10 +219,7 @@ export default function TransactionTable() {
                 // @ts-ignore
                 setData(map)
             } catch (error) {
-                console.log("toggleReoccurring failure")
-                if (error.response) {
-                    alert(JSON.stringify(error.response.data))
-                }
+                handleError(error, 'toggleReoccurring', false)
             }
         },
         [data, changeTransactionReoccurringStatus]
@@ -232,14 +246,7 @@ export default function TransactionTable() {
             setData(response.data)
 
         } catch (error) {
-            if (error.response) {
-                console.log(
-                    "fetchData - status: " +
-                    error.response.status +
-                    " - " +
-                    JSON.stringify(error.response.data)
-                )
-            }
+            handleError(error, 'fetchAccountData', true)
         } finally {
             setLoadSpinner(false)
         }
@@ -279,9 +286,7 @@ export default function TransactionTable() {
                     setData([...dataUpdate])
                     resolve()
                 } catch (error) {
-                    if (error.response) {
-                        alert(JSON.stringify(error.response.data))
-                    }
+                    handleError(error, 'updateRow', false)
                     reject()
                 }
             }, 1000)
@@ -300,14 +305,14 @@ export default function TransactionTable() {
                     setData([...dataDelete])
                     resolve()
                 } catch (error) {
-                    if (error.response) {
-                        alert(JSON.stringify(error.response.data))
-                    }
+                    handleError(error, 'deleteRow', false)
                     reject()
                 }
             }, 1000)
         })
     }
+
+
 
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
@@ -318,10 +323,7 @@ export default function TransactionTable() {
                     await fetchTotals()
                     resolve()
                 } catch (error) {
-                    if (error.response) {
-                        console.log(error.response.data)
-                        alert(JSON.stringify(error.response.data))
-                    }
+                    handleError(error, 'addRow', false);
                     reject()
                 }
             }, 1000)
@@ -681,6 +683,9 @@ export default function TransactionTable() {
                             transactionGuid={currentGuid}
                         />
                     ) : null}
+                    <div>
+                        <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
+                    </div>
                 </div>
             ) : (
                 <div className="centered">

@@ -261,12 +261,13 @@ export default function AccountSummaryTable() {
                                             resolve()
                                         } catch (error) {
                                             if (error.response) {
-                                                alert(
-                                                    "onRowDelete - status: " +
-                                                    error.response +
-                                                    " - " +
-                                                    JSON.stringify(error.response.data)
-                                                )
+                                                setMessage(`onRowDelete: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+                                                console.log(`onRowDelete: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+                                                setOpen(true)
+                                            } else {
+                                                setMessage(`onRowDelete: failure`)
+                                                console.log(`onRowDelete: failure`)
+                                                setOpen(true)
                                             }
                                             reject()
                                         }

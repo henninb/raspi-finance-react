@@ -2187,10 +2187,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-loader-spinner@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@types/react-loader-spinner/-/react-loader-spinner-3.1.2.tgz#b063904bdc8df50b47f3762454abd3c8d39a7626"
-  integrity sha512-QJKgx4H2+C1GtQTWsK+takg2fq2AHu0Y+vE8BpYwDxOatjeV7Koe4ckUtocGbokksumVhQHKoz8hz1pUCDisgg==
+"@types/react-loader-spinner@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@types/react-loader-spinner/-/react-loader-spinner-3.1.3.tgz#eb08b0894dae61773df5873e22060c653253e3dc"
+  integrity sha512-sSkLiV2Nas6IZ77sCU6mJXycnTLnnSukE/y8FY5/uTPI90YORYGJOvdfblm3xatT9WSTgvhTEdQAPx3gRF6d3g==
   dependencies:
     "@types/react" "*"
 
@@ -2211,10 +2211,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-select@^3.0.27":
-  version "3.0.27"
-  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-3.0.27.tgz#ef0f114458a5eb063e14e99cc6d8d17dec92de60"
-  integrity sha512-UBZgS1O/BaXo27F6a5+OGMpOFmpsFWb5HyZ8DyuJ5EOCT57ZKwWS4ko9Eqxb3CzVsyKLAp5BXoZtHZbqaFN7ww==
+"@types/react-select@^3.0.28":
+  version "3.0.28"
+  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-3.0.28.tgz#b9adb98421926321b81c4cfe6a40121c96a421f0"
+  integrity sha512-Gfg3a/EPLyUQkfezcCQkmLW1Vz6+ziclJhn8dpBUEYJF3IUoxS81ToAi3ky2xtnAyk2wJFMXLvE73KiUd56yTA==
   dependencies:
     "@types/react" "*"
     "@types/react-dom" "*"
