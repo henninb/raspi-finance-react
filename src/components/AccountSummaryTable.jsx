@@ -21,9 +21,24 @@ export default function AccountSummaryTable() {
         history.go(0)
     }
 
+    const handleError = (error, moduleName, throwIt) =>  {
+        if (error.response) {
+            setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            setOpen(true)
+        } else {
+            setMessage(`${moduleName}: failure`)
+            console.log(`${moduleName}: failure`)
+            setOpen(true)
+            if (throwIt) {
+                throw  error
+            }
+        }
+    }
+
     const handleSnackbarClose = () => {
         setOpen(false);
-    };
+    }
 
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
@@ -35,15 +50,7 @@ export default function AccountSummaryTable() {
                     }
                     resolve()
                 } catch (error) {
-                    if (error.response) {
-                        setMessage(`addRow: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                        console.log(`addRow: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                        setOpen(true)
-                    } else {
-                        setMessage(`addRow: failure`)
-                        console.log(`addRow: failure`)
-                        setOpen(true)
-                    }
+                    handleError(error, 'addRow', false)
                     reject()
                 }
             }, 1000)
@@ -72,17 +79,7 @@ export default function AccountSummaryTable() {
             console.log(response)
             return payload
         } catch (error) {
-            if (error.response) {
-                setMessage(`postCall: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                console.log(`postCall: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                setOpen(true)
-                throw error
-            } else {
-                setMessage(`postCall: failure`)
-                console.log(`postCall: failure`)
-                setOpen(true)
-                throw error
-            }
+            handleError(error, 'postCall', true)
         }
     }, [])
 
@@ -100,16 +97,7 @@ export default function AccountSummaryTable() {
             })
             console.log(response)
         } catch (error) {
-            if (error.response) {
-                setMessage(`deleteCall: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                console.log(`deleteCall: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                setOpen(true)
-            } else {
-                setMessage(`deleteCall: failure`)
-                console.log(`deleteCall: failure`)
-                setOpen(true)
-                throw error
-            }
+            handleError(error, 'deleteCall', true)
         }
     }, [])
 
@@ -123,16 +111,7 @@ export default function AccountSummaryTable() {
             )
             setTotals(response.data)
         } catch (error) {
-            if (error.response) {
-                setMessage(`fetchTotals: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                console.log(`fetchTotals: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                setOpen(true)
-            } else {
-                setMessage(`fetchTotals: failure`)
-                console.log(`fetchTotals: failure`)
-                setOpen(true)
-                throw error
-            }
+            handleError(error, 'fetchTotals', true)
         }
     }, [])
 
@@ -149,16 +128,7 @@ export default function AccountSummaryTable() {
             )
             setData(response.data)
         } catch (error) {
-            if (error.response) {
-                setMessage(`fetchData: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                console.log(`fetchData: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                setOpen(true)
-            } else {
-                setMessage(`fetchData: failure`)
-                console.log(`fetchData: failure`)
-                setOpen(true)
-                throw error
-            }
+            handleError(error, 'fetchData', true)
         } finally {
             setLoading(false)
         }
@@ -260,15 +230,7 @@ export default function AccountSummaryTable() {
                                             setData([...dataDelete])
                                             resolve()
                                         } catch (error) {
-                                            if (error.response) {
-                                                setMessage(`onRowDelete: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                                                console.log(`onRowDelete: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                                                setOpen(true)
-                                            } else {
-                                                setMessage(`onRowDelete: failure`)
-                                                console.log(`onRowDelete: failure`)
-                                                setOpen(true)
-                                            }
+                                            handleError(error, 'onRowDelete', false)
                                             reject()
                                         }
                                     }, 1000)

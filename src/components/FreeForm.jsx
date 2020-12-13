@@ -14,7 +14,22 @@ export default function FreeForm() {
 
     const handleSnackbarClose = () => {
         setOpen(false);
-    };
+    }
+
+    const handleError = (error, moduleName, throwIt) =>  {
+        if (error.response) {
+            setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            setOpen(true)
+        } else {
+            setMessage(`${moduleName}: failure`)
+            console.log(`${moduleName}: failure`)
+            setOpen(true)
+            if (throwIt) {
+                throw  error
+            }
+        }
+    }
 
     const postCall = useCallback(
         async (payload) => {
@@ -30,16 +45,7 @@ export default function FreeForm() {
                 setOpen(true)
                 return response
             } catch (error) {
-                if (error.response) {
-                    setMessage(`insert transaction: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                    console.log(`insert transaction: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-                    setOpen(true)
-                } else {
-                    setMessage(`insert transaction: failure`)
-                    console.log(`insert transaction: failure`)
-                    setOpen(true)
-                    throw error
-                }
+                handleError(error, 'postCall', true)
             }
         },
         []
@@ -86,9 +92,13 @@ export default function FreeForm() {
                     reoccurring: false,
                     reoccurringType: "undefined",
                 }
-                console.log(transaction)
-                await postCall(transaction)
-                console.log(`processed:${line}`)
+                //console.log(transaction)
+                try {
+                    await postCall(transaction)
+                } catch (error) {
+                    handleError(error, 'handleChange', false)
+                }
+                //console.log(`processed:${line}`)
 
             } else {
                 console.log(`column count off - skipped:${line}`)

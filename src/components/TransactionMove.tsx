@@ -9,6 +9,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import {endpointUrl} from "./Common"
+import SnackbarBaseline from "./SnackbarBaseline";
 
 interface Props {
     closeDialog: any
@@ -23,18 +24,41 @@ export default function TransactionMove({
     const [value, setValue] = useState(options[0])
     const [inputValue, setInputValue] = useState("")
     const [accountType, setAccountType] = useState([])
+    const [message, setMessage] = useState('')
+    const [open, setOpen] = useState(false)
+
+    const handleError = (error: any, moduleName: string, throwIt: boolean) => {
+        if (error.response) {
+            setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            setOpen(true)
+        } else {
+            setMessage(`${moduleName}: failure`)
+            console.log(`${moduleName}: failure`)
+            setOpen(true)
+            if (throwIt) {
+                throw  error
+            }
+        }
+    }
+
+    const handleSnackbarClose = () => {
+        setOpen(false);
+    }
 
     const findAccountTypeForGuid = useCallback(async () => {
         let endpoint = endpointUrl() + "/transaction/select/"
 
-        let response = await axios.get(endpoint + transactionGuid, {
-            timeout: 0,
-            headers: {"Content-Type": "application/json"},
-        })
-        console.log(`find by guid: ${response.data.accountType}`)
-        console.log(`find by guid: ${transactionGuid}`)
-        setAccountType(response.data.accountType)
-        return response.data
+        try {
+            let response = await axios.get(endpoint + transactionGuid, {
+                timeout: 0,
+                headers: {"Content-Type": "application/json"},
+            })
+            setAccountType(response.data.accountType)
+            return response.data
+        } catch (error) {
+            handleError(error, 'findAccountTypeForGuid', true)
+        }
     }, [transactionGuid])
 
     const fetchActiveAccounts = useCallback(async () => {
@@ -52,12 +76,7 @@ export default function TransactionMove({
             // @ts-ignore
             setOptions(accounts)
         } catch (error) {
-            if (error.response) {
-                if (error.response.status === 404) {
-                } else {
-                    alert("fetchData" + JSON.stringify(error.response.data))
-                }
-            }
+            handleError(error, 'findAccountTypeForGuid', true)
         }
     }, [accountType, findAccountTypeForGuid])
 
@@ -78,8 +97,7 @@ export default function TransactionMove({
                 console.log(response.data)
                 return response.data
             } catch (error) {
-                console.log(`failure: ${error.message}`)
-                console.log(`attempt to update the account by guid: ${transactionGuid}`)
+                handleError(error, 'updateAccountByGuid', true)
             }
         },
         [transactionGuid]
@@ -91,9 +109,7 @@ export default function TransactionMove({
             console.log(response)
             closeDialog()
         } catch (error) {
-            console.log(`handleButtonClick failure: ${error.message}`)
-            alert(`handleButtonClick failure: ${error.message}`)
-            closeDialog()
+            handleError(error, 'updateAccountByGuid', true)
         }
     }, [closeDialog, value, updateAccountByGuid])
 
@@ -147,6 +163,9 @@ export default function TransactionMove({
                     </Button>
                 </DialogActions>
             </Dialog>
+            <div>
+                <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
+            </div>
         </div>
     )
 }
