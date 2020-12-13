@@ -86,7 +86,6 @@ export default function TransactionTable() {
             }
             reader.onerror = (error) => {
                 handleError(error, 'storeTheFile', false)
-                //console.log("Error: ", error)
             }
         },
         []

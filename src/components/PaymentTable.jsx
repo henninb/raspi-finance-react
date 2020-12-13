@@ -7,15 +7,38 @@ import Spinner from "./Spinner"
 import {endpointUrl, formatDate} from "./Common"
 import {useHistory} from "react-router-dom"
 import Button from "@material-ui/core/Button"
+import SnackbarBaseline from "./SnackbarBaseline";
 
 export default function PaymentTable() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
+    const [message, setMessage] = useState('')
+    const [open, setOpen] = useState(false)
+
     const history = useHistory()
+
+    const handleSnackbarClose = () => {
+        setOpen(false);
+    };
 
     const handleButtonClickLink = (accountNameOwner) => {
         history.push("/transactions/" + accountNameOwner)
         history.go(0)
+    }
+
+    const handleError = (error, moduleName, throwIt) =>  {
+        if (error.response) {
+            setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
+            setOpen(true)
+        } else {
+            setMessage(`${moduleName}: failure`)
+            console.log(`${moduleName}: failure`)
+            setOpen(true)
+            if (throwIt) {
+                throw  error
+            }
+        }
     }
 
     const addRow = (newData) => {
@@ -30,14 +53,7 @@ export default function PaymentTable() {
                     setData([newPayload, ...data])
                     resolve()
                 } catch (error) {
-                    if (error.response) {
-                        alert(
-                            "addRow - status: " +
-                            error.response.status +
-                            " - " +
-                            JSON.stringify(error.response.data)
-                        )
-                    }
+                    handleError(error, 'addRow', false)
                     reject()
                 }
             }, 1000)
@@ -57,14 +73,7 @@ export default function PaymentTable() {
             }
 
         } catch (error) {
-            if (error.response) {
-                console.log(
-                    "fetchData - status: " +
-                    error.response.status +
-                    " - " +
-                    JSON.stringify(error.response.data)
-                )
-            }
+            handleError(error, 'fetchData', true)
         } finally {
             setLoading(false)
         }
@@ -88,22 +97,30 @@ export default function PaymentTable() {
             transactionDate: payload.transactionDate,
         }
 
-        let response = await axios.post(endpoint, newPayload, {
-            timeout: 0,
-            headers: {"Content-Type": "application/json"},
-            cancelToken: source.token,
-        })
-        console.log(response.data)
-        return newPayload
+        try {
+            let response = await axios.post(endpoint, newPayload, {
+                timeout: 0,
+                headers: {"Content-Type": "application/json"},
+                cancelToken: source.token,
+            })
+            console.log(response.data)
+            return newPayload
+        }catch (error) {
+            handleError(error, 'postCallPayment', true)
+        }
     }, [])
 
     const deleteCall = useCallback(async (payload) => {
         let endpoint = endpointUrl() + "/payment/delete/" + payload["paymentId"]
 
-        await axios.delete(endpoint, {
-            timeout: 0,
-            headers: {"Content-Type": "application/json"},
-        })
+        try {
+            await axios.delete(endpoint, {
+                timeout: 0,
+                headers: {"Content-Type": "application/json"},
+            })
+        } catch (error) {
+            handleError(error, 'postCallPayment', true)
+        }
     }, [])
 
     useEffect(() => {
@@ -203,20 +220,16 @@ export default function PaymentTable() {
                                             setData([...dataDelete])
                                             resolve()
                                         } catch (error) {
-                                            if (error.response) {
-                                                alert(
-                                                    "onRowDelete - status: " +
-                                                    error.response +
-                                                    " - " +
-                                                    JSON.stringify(error.response.data)
-                                                )
-                                            }
+                                            handleError(error, 'onRowDelete', false)
                                             reject()
                                         }
                                     }, 1000)
                                 }),
                         }}
                     />
+                    <div>
+                        <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
+                    </div>
                 </div>
             ) : (
                 <div className="centered">
