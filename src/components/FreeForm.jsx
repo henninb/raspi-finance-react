@@ -16,6 +16,22 @@ export default function FreeForm() {
         setOpen(false);
     }
 
+    const handlePaste = () => {
+        //let modified = ''
+        //let pastedText = (event.clipboardData || window.clipboardData).getData('text');
+        const year = new Date().getFullYear().toString()
+        let text = document.getElementById("textArea").value
+
+        text = text.replace(/\nHOUSEHOLD/g, "\n")
+        //text = text.replaceAll("HOUSEHOLD", "")
+        text = text.replaceAll("\n\n", "\n")
+        text = text.replace(/ 800-591-3869\n\$/g, ",")
+        text = text.replace(/\nTARGET.COM,/g, ",TARGET.COM,")
+        text = text.replaceAll(" 800-591-3869", "")
+        text = text.replaceAll(", " + year, " " + year)
+        document.getElementById("textArea").value = text
+    }
+
     const handleError = (error, moduleName, throwIt) =>  {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -109,12 +125,17 @@ export default function FreeForm() {
         setOpen(true)
     }
 
+    //onPaste={() => handlePaste()}
     return (
         <div className="freeform">
 
             <div>
-                <textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""/>
+
+                <textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""  />
+                <p>
+                <input type="button" value="clean" onClick={() => handlePaste()}/>
                 <input type="submit" onClick={() => handleChange()}/>
+                </p>
             </div>
 
             <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
