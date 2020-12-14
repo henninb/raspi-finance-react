@@ -1,10 +1,10 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState} from 'react'
 import {v4 as uuidv4} from "uuid"
-import {endpointUrl} from "./Common";
+import {endpointUrl} from "./Common"
 import axios from "axios"
-import os from "os";
+import os from "os"
 import "./master.scss"
-import SnackbarBaseline from "./SnackbarBaseline";
+import SnackbarBaseline from "./SnackbarBaseline"
 
 require('datejs') //momentjs - look into this
 
@@ -16,20 +16,41 @@ export default function FreeForm() {
         setOpen(false);
     }
 
-    const handlePaste = () => {
-        //let modified = ''
-        //let pastedText = (event.clipboardData || window.clipboardData).getData('text');
+    const handleCleanUp = () => {
         const year = new Date().getFullYear().toString()
         let text = document.getElementById("textArea").value
-
+        text = text.replace(/[^\S\r\n]+$/gm, "")
         text = text.replace(/\nHOUSEHOLD/g, "\n")
-        //text = text.replaceAll("HOUSEHOLD", "")
-        text = text.replaceAll("\n\n", "\n")
+        text = text.replace(/\nHousehold/g, "\n")
+        text = text.replace(/CENTRAL CHECKOUT/g, "TARGET - ")
         text = text.replace(/ 800-591-3869\n\$/g, ",")
         text = text.replace(/\nTARGET.COM,/g, ",TARGET.COM,")
         text = text.replaceAll(" 800-591-3869", "")
         text = text.replaceAll(", " + year, " " + year)
-        document.getElementById("textArea").value = text
+        text = text.replace(/[\r\n]{2,}/g, "\n")
+        document.getElementById("textArea").value = text.trim()
+        setMessage('data cleaned')
+        setOpen(true)
+    }
+
+    const handlePrefix = () => {
+        let text = document.getElementById("textArea").value.trim()
+        let prefix = document.getElementById("prefix").value.trim()
+        let prefixedText = ""
+
+        if(prefix === '') {
+            setMessage('fix empty prefix')
+            setOpen(true)
+            return
+        }
+
+        text.split(/\r?\n/).forEach((str) => {
+            prefixedText += prefix +"," + str + "\n"
+        })
+        document.getElementById("textArea").value = prefixedText.trim()
+        document.getElementById("prefix").value = ""
+        setMessage('prefixed added')
+        setOpen(true)
     }
 
     const handleError = (error, moduleName, throwIt) =>  {
@@ -61,7 +82,7 @@ export default function FreeForm() {
                 setOpen(true)
                 return response
             } catch (error) {
-                handleError(error, 'postCall', true)
+                handleError(error, 'postCall', false)
             }
         },
         []
@@ -130,15 +151,18 @@ export default function FreeForm() {
         <div className="freeform">
 
             <div>
-
                 <textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""  />
                 <p>
-                <input type="button" value="clean" onClick={() => handlePaste()}/>
-                <input type="submit" onClick={() => handleChange()}/>
+                    <input type="text" id="prefix" />
+                </p>
+                <p>
+                <input type="button" value="clean" onClick={() => handleCleanUp()}/>
+                <input type="button" value="prefix" onClick={() => handlePrefix()}/>
+                <input type="submit" value="submit" onClick={() => handleChange()}/>
                 </p>
             </div>
 
             <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
         </div>
-    );
+    )
 }
