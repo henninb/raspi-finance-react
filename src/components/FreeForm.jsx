@@ -53,6 +53,18 @@ export default function FreeForm() {
         setOpen(true)
     }
 
+    const validateData = () => {
+        let text = document.getElementById("textArea").value.trim()
+        text.split(/\r?\n/).forEach((str) => {
+            if (str.split(',').length !== 5 ) {
+                setMessage("invalid record='" + str + "'")
+                setOpen(true)
+            }
+        })
+        //setMessage('looks good')
+        //setOpen(true)
+    }
+
     const handleError = (error, moduleName, throwIt) =>  {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -158,6 +170,7 @@ export default function FreeForm() {
                 <p>
                 <input type="button" value="clean" onClick={() => handleCleanUp()}/>
                 <input type="button" value="prefix" onClick={() => handlePrefix()}/>
+                <input type="button" value="validate" onClick={() => validateData()}/>
                 <input type="submit" value="submit" onClick={() => handleChange()}/>
                 </p>
             </div>
