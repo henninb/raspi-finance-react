@@ -12,6 +12,7 @@ import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
 import SnackbarBaseline from "./SnackbarBaseline";
+//require('exif-stripper')
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true)
