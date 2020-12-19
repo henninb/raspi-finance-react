@@ -136,13 +136,20 @@ export default function TransactionTable() {
     const changeTransactionStateToCleared = useCallback(async (guid) => {
         const CancelToken = axios.CancelToken
         const source = CancelToken.source()
-        const response = await axios.put(
-            endpointUrl() + "/transaction/state/update/" + guid + "/Cleared",
-            {cancelToken: source.token}
-        )
-        if (response.data !== "transaction state updated") {
-            console.log("changeTransactionStateToCleared - failure")
+        try {
+            const response = await axios.put(
+                endpointUrl() + "/transaction/state/update/" + guid + "/Cleared",
+                {cancelToken: source.token}
+            )
+
             console.log(response.data)
+            console.log('typeOf(response.data)=' + typeOf(response.data))
+            //let obj = JSON.parse(response.data)
+            //console.log('typeOf(obj)=' + typeOf(obj))
+            //console.log("\nobj\n" + obj.data['transactions'])
+
+        } catch( error) {
+            handleError(error, 'changeTransactionStateToCleared', true)
         }
         return () => {
             source.cancel()
