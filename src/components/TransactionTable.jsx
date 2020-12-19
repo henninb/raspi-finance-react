@@ -142,19 +142,30 @@ export default function TransactionTable() {
                 {cancelToken: source.token}
             )
 
-            console.log(response.data)
-            console.log('typeOf(response.data)=' + typeOf(response.data))
-            //let obj = JSON.parse(response.data)
-            //console.log('typeOf(obj)=' + typeOf(obj))
-            //console.log("\nobj\n" + obj.data['transactions'])
-
+            if( response.data['transactions'] !== undefined && JSON.parse(response.data['transactions']) !== undefined ) {
+                const transactions = JSON.parse(response.data['transactions'])
+                if( transactions.length === 2 ) {
+                    data.unshift(transactions[1])
+                    setData(data)
+                    // TODO: the code in comments below is not working
+                    //setData(    [transactions[1], ...data])
+                    setMessage(`inserted new record: ${JSON.stringify(transactions[1])}`)
+                    setOpen(true)
+                } else {
+                    setMessage(`response: ${response.data.message}`)
+                    setOpen(true)
+                }
+            } else {
+                setMessage(`response from the server: ${response.data}`)
+                setOpen(true)
+            }
         } catch( error) {
             handleError(error, 'changeTransactionStateToCleared', true)
         }
         return () => {
             source.cancel()
         }
-    }, [])
+    }, [data])
 
     const fetchTotals = useCallback(async () => {
         const CancelToken = axios.CancelToken
@@ -318,8 +329,6 @@ export default function TransactionTable() {
             }, 1000)
         })
     }
-
-
 
     const addRow = (newData) => {
         return new Promise((resolve, reject) => {
@@ -597,7 +606,7 @@ export default function TransactionTable() {
                                     //let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
                                     let receiptImage = ""
                                     //let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
-                                    if (rowData['receiptImage'] !== undefined) {
+                                    if (rowData['receiptImage'] !== undefined ) {
                                         receiptImage = rowData.receiptImage.jpgImage
                                         //data.receiptImage.jpgImage =
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
