@@ -10,7 +10,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/react-select": "^3.0.28",
     "@types/uuid": "^8.3.0",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "datejs": "^1.0.0-rc3",
     "dotenv": "^8.2.0",
     "invariant": "^2.2.4",

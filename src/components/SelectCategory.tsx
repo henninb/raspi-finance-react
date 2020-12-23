@@ -29,11 +29,14 @@ export default function SelectCategory({
             return categories
         } catch (error) {
             if (error.response) {
-                if (error.response.status === 404) {
-                } else {
-                    alert("fetchCategoryData" + JSON.stringify(error.response.data))
-                }
+                // if (error.response.status === 404) {
+                // } else {
+                //     alert("fetchCategoryData" + JSON.stringify(error.response.data))
+                // }
             }
+            //setOptions([])
+        } finally {
+
         }
     }, [])
 

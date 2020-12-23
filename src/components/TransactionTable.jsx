@@ -260,10 +260,17 @@ export default function TransactionTable() {
                     },
                 }
             )
+            if(response.data.length > 0 ) {
+                setData(response.data)
+            } else {
 
-            setData(response.data)
-
+            }
         } catch (error) {
+            if (error.response) {
+                if (error.response.status === 404) {
+
+                }
+            }
             handleError(error, 'fetchAccountData', true)
         } finally {
             setLoadSpinner(false)
