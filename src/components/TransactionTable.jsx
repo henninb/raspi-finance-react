@@ -7,7 +7,7 @@ import "./master.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, endpointUrl, typeOf} from "./Common"
+import {currencyFormat, endpointUrl, formatDate, typeOf} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -370,8 +370,7 @@ export default function TransactionTable() {
 
             //TODO: bh 8/28/2020 - need to address any date conversion issues
             //TODO: bh 10/31/2020 - set a timezone based on a parameter
-            let buildTransactionDateString =
-                payload.transactionDate.toISOString().split("T")[0] + "T12:00:00.000"
+            let buildTransactionDateString = formatDate(payload.transactionDate)
             let newPayload = {
                 guid: uuidv4(),
                 transactionDate: buildTransactionDateString,

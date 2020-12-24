@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react'
 import {v4 as uuidv4} from "uuid"
-import {endpointUrl} from "./Common"
+import {endpointUrl, formatDate} from "./Common"
 import axios from "axios"
 import os from "os"
 import "./master.scss"
@@ -150,7 +150,7 @@ export default function FreeForm() {
 
                 let transaction = {
                     accountNameOwner: accountNameOwner,
-                    transactionDate: Date.parse(transactionDate).toISOString().split("T")[0] + "T12:00:00.000",
+                    transactionDate: formatDate(transactionDate),
                     description: description,
                     amount: parseFloat(amount),
                     guid: uuidv4(),
