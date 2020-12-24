@@ -12,6 +12,7 @@ import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
 import SnackbarBaseline from "./SnackbarBaseline";
+import DatePicker from "react-datepicker";
 //require('exif-stripper')
 
 export default function TransactionTable() {
@@ -480,6 +481,18 @@ export default function TransactionTable() {
                                 field: "transactionDate",
                                 type: "date",
                                 cellStyle: {whiteSpace: "nowrap"},
+                                editComponent: props => (
+
+                                        <DatePicker
+                                            format="dd/MM/yyyy"
+                                            value={props.value || null}
+                                            onChange={props.onChange}
+                                            clearable
+                                        />
+
+                                )
+
+
                             },
                             {
                                 title: "description",
