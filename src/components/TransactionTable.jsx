@@ -480,16 +480,16 @@ export default function TransactionTable() {
                                 field: "transactionDate",
                                 type: "date",
                                 cellStyle: {whiteSpace: "nowrap"},
-                                editComponent: props => (
-
-                                        <DatePicker
-                                            format="dd/MM/yyyy"
-                                            value={props.value || null}
-                                            onChange={props.onChange}
-                                            clearable
-                                        />
-
-                                )
+                                // editComponent: props => (
+                                //
+                                //         <DatePicker
+                                //             format="yyyy-MM-dd"
+                                //             value={props.value || null}
+                                //             onChange={props.onChange}
+                                //             clearable
+                                //         />
+                                //
+                                // )
 
 
                             },
