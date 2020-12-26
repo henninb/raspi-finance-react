@@ -490,8 +490,6 @@ export default function TransactionTable() {
                                 //         />
                                 //
                                 // )
-
-
                             },
                             {
                                 title: "description",
