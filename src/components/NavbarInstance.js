@@ -17,6 +17,11 @@ export default function NavbarInstance() {
                             Payments
                         </Link>
                     </li>
+                    <li className="nav-item font-weight-bold">
+                        <Link className="nav-link" to="/payment/required">
+                            PaymentRequired
+                        </Link>
+                    </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/freeform">FreeForm</Link>
                     </li>

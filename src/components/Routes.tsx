@@ -3,9 +3,9 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
 import TransactionTable from "./TransactionTable"
 import AccountSummaryTable from "./AccountSummaryTable"
 import PaymentTable from "./PaymentTable"
-import CloneTable from "./CloneTable"
 import FreeForm from "./FreeForm"
 import NavbarInstance from "./NavbarInstance"
+import PaymentRequired from "./PaymentRequired";
 
 export default function Routes() {
     //let Test = () => <div className="table-formatting"><h1>test</h1></div>
@@ -18,7 +18,7 @@ export default function Routes() {
                 <Switch>
                     <Route path="/payments" exact component={PaymentTable}/>
                     <Route path="/freeform" exact component={FreeForm}/>
-                    <Route path="/clone" exact component={CloneTable}/>
+                    <Route path="/payment/required" exact component={PaymentRequired}/>
                     <Route
                         path="/transactions/:account"
                         exact
