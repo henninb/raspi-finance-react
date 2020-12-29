@@ -36,8 +36,9 @@ export default function PaymentRequired() {
     }, [])
 
     useEffect(() => {
-        //setLoading(false)
-        fetchData()
+        if (data.length === 0) {
+            fetchData()
+        }
     })
 
     return (
