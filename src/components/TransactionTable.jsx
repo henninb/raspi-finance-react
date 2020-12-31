@@ -284,15 +284,11 @@ export default function TransactionTable() {
     const putCall = useCallback(async (newData, oldData) => {
         let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
         delete newData["tableData"]
-
-        //TODO: do I need this?
+        
+        newData["transactionDate"] = formatDate(newData.transactionDate)
         if (oldData.transactionState === undefined) {
             newData["transactionState"] = "undefined"
         }
-
-        //newData["dateUpdated"] = toEpochDateAsMillis(new Date())
-        //TODO: ought not use set the dateAdded()
-        //newData["dateAdded"] = toEpochDateAsMillis(new Date())
 
         await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
