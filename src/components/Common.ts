@@ -1,4 +1,7 @@
+import moment from "moment";
+
 export const formatDate = (date: any) => {
+    //moment(props.value).format('YYYY-MM-DD')
     let d = new Date(date)
     let month = "" + (d.getMonth() + 1)
     let day = "" + d.getDate()
@@ -10,13 +13,23 @@ export const formatDate = (date: any) => {
     return [year, month, day].join("-")
 }
 
-export const toEpochDateAsMillis = (transactionDate: any) => {
-    let date_val = new Date(transactionDate)
-    let utc_val = new Date(
-        date_val.getTime() + date_val.getTimezoneOffset() * 60000
-    )
+export const fetchTimeZone = () => {
+    let timeZone = process.env.REACT_APP_TIMEZONE
+    console.log('timezone=' + timeZone)
+    //return 'America/Chicago'
+    return timeZone
+}
 
-    return utc_val.valueOf()
+//TODO: change this to moment
+export const toEpochDateAsMillis = (transactionDate: any) => {
+    // @ts-ignore
+    return moment(transactionDate).tz(fetchTimeZone()).toDate().valueOf()
+    // let date_val = new Date(transactionDate)
+    // let utc_val = new Date(
+    //     date_val.getTime() + date_val.getTimezoneOffset() * 60000
+    // )
+    //
+    // return utc_val.valueOf()
 }
 
 export const currencyFormat = (inputData: string) => {
@@ -25,7 +38,6 @@ export const currencyFormat = (inputData: string) => {
 }
 
 export const endpointUrl = () => {
-    //TODO: figure this out
     let port = process.env.REACT_APP_ENDPOINT_PORT
     let server = process.env.REACT_APP_ENDPOINT_SERVER
     let httpEnabled = process.env.REACT_APP_ENDPOINT_SSL_ENABLED

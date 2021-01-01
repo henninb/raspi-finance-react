@@ -7,12 +7,12 @@ import "./master.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, endpointUrl, formatDate, typeOf, toEpochDateAsMillis} from "./Common"
+import {currencyFormat, endpointUrl, formatDate, typeOf, fetchTimeZone} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
 import SnackbarBaseline from "./SnackbarBaseline";
-import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers'
+import {MuiPickersUtilsProvider} from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -477,13 +477,13 @@ export default function TransactionTable() {
                                 type: "date",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 editComponent: (props) => (
-                                    
+
                                     <MuiPickersUtilsProvider utils={MomentUtils}
                                                              locale={props.dateTimePickerLocalization}>
                                         <DatePicker
                                             placeholderText='yyyy-MM-dd'
-                                            //format="yyyy-MM-dd"
-                                            selected={moment(props.value).tz('America/Chicago').toDate()}
+                                            format="yyyy-MM-dd"
+                                            selected={moment(props.value).tz(fetchTimeZone()).toDate()}
                                             value={props.value
                                                 ? moment(props.value).format('YYYY-MM-DD') : null}
                                             onChange={props.onChange}
