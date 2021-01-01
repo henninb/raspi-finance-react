@@ -32,6 +32,9 @@ yarn add react-material-snackbar
 yarn add lodash
 yarn global add npm-check-updates
 yarn add env-cmd -g
+yarn add moment
+yarn add moment-timezone
+yarn add @date-io/moment@1.x moment
 ```
 
 ## strict ssl turned off

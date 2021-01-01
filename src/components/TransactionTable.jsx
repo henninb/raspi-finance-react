@@ -12,6 +12,8 @@ import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
 import SnackbarBaseline from "./SnackbarBaseline";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import MomentUtils from '@date-io/moment'
 import DatePicker from "react-datepicker";
 //require('exif-stripper')
 
@@ -476,7 +478,25 @@ export default function TransactionTable() {
                                 field: "transactionDate",
                                 type: "date",
                                 cellStyle: {whiteSpace: "nowrap"},
-                                // editComponent: props => (
+                                editComponent: (props) => (
+
+                                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                                        <KeyboardDatePicker
+                                            disableToolbar={true}
+                                            variant="inline"
+                                            format="yyyy-MM-dd"
+                                            showTodayButton={true}
+                                            margin="normal"
+                                            id="date-picker-inline"
+                                            value={props.value || null}
+                                            onChange={props.onChange}
+                                            // onChange={handleDateChange}
+                                            KeyboardButtonProps={{
+                                                'aria-label': 'change date'
+                                            }}
+
+                                        />
+                                    </MuiPickersUtilsProvider>
                                 //
                                 //         <DatePicker
                                 //             format="yyyy-MM-dd"
@@ -485,7 +505,7 @@ export default function TransactionTable() {
                                 //             clearable
                                 //         />
                                 //
-                                // )
+                                 )
                             },
                             {
                                 title: "description",
