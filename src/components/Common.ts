@@ -8,8 +8,6 @@ export const formatDate = (date: any) => {
     day = ("0" + day).slice(-2)
 
     return [year, month, day].join("-")
-    //TODO: potentially use this
-    // return date.toISOString().split('T')[0] + "T12:00:00.000"
 }
 
 export const toEpochDateAsMillis = (transactionDate: any) => {

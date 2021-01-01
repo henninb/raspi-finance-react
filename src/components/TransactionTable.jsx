@@ -7,14 +7,15 @@ import "./master.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, endpointUrl, formatDate, typeOf} from "./Common"
+import {currencyFormat, endpointUrl, formatDate, typeOf, toEpochDateAsMillis} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
 import SnackbarBaseline from "./SnackbarBaseline";
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import DatePicker from "react-datepicker";
+import moment from "moment";
 //require('exif-stripper')
 
 export default function TransactionTable() {
@@ -34,7 +35,7 @@ export default function TransactionTable() {
         setOpen(false);
     };
 
-    const handleError = (error, moduleName, throwIt) =>  {
+    const handleError = (error, moduleName, throwIt) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -145,9 +146,9 @@ export default function TransactionTable() {
                 {cancelToken: source.token}
             )
 
-            if( response.data['transactions'] !== undefined && JSON.parse(response.data['transactions']) !== undefined ) {
+            if (response.data['transactions'] !== undefined && JSON.parse(response.data['transactions']) !== undefined) {
                 const transactions = JSON.parse(response.data['transactions'])
-                if( transactions.length === 2 ) {
+                if (transactions.length === 2) {
                     data.unshift(transactions[1])
                     setData(data)
                     // TODO: the code in comments below is not working
@@ -162,7 +163,7 @@ export default function TransactionTable() {
                 setMessage(`response from the server: ${response.data}`)
                 setOpen(true)
             }
-        } catch( error) {
+        } catch (error) {
             handleError(error, 'changeTransactionStateToCleared', true)
         }
         return () => {
@@ -263,7 +264,7 @@ export default function TransactionTable() {
                     },
                 }
             )
-            if(response.data.length > 0 ) {
+            if (response.data.length > 0) {
                 setData(response.data)
             } else {
 
@@ -286,7 +287,7 @@ export default function TransactionTable() {
     const putCall = useCallback(async (newData, oldData) => {
         let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
         delete newData["tableData"]
-        
+
         newData["transactionDate"] = formatDate(newData.transactionDate)
         if (oldData.transactionState === undefined) {
             newData["transactionState"] = "undefined"
@@ -463,9 +464,6 @@ export default function TransactionTable() {
         }
     }, [totals, data, fetchTotals, fetchAccountData, downHandler, upHandler, fileContent, currentGuid, insertReceiptImage])
 
-    //SELECT octet_length(receipt_image) FROM t_transaction where receipt_image is not null;
-    //select encode(receipt_image::bytea, 'hex') from t_transaction where guid='6c7fda78-5f87-4a67-8870-29b2fbf9ebee';
-
     return (
         <div>
             {!loadSpinner ? (
@@ -479,33 +477,20 @@ export default function TransactionTable() {
                                 type: "date",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 editComponent: (props) => (
-
-                                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                                        <KeyboardDatePicker
-                                            disableToolbar={true}
-                                            variant="inline"
-                                            format="yyyy-MM-dd"
-                                            showTodayButton={true}
-                                            margin="normal"
-                                            id="date-picker-inline"
-                                            value={props.value || null}
+                                    
+                                    <MuiPickersUtilsProvider utils={MomentUtils}
+                                                             locale={props.dateTimePickerLocalization}>
+                                        <DatePicker
+                                            placeholderText='yyyy-MM-dd'
+                                            //format="yyyy-MM-dd"
+                                            selected={moment(props.value).tz('America/Chicago').toDate()}
+                                            value={props.value
+                                                ? moment(props.value).format('YYYY-MM-DD') : null}
                                             onChange={props.onChange}
-                                            // onChange={handleDateChange}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change date'
-                                            }}
-
+                                            clearable
                                         />
                                     </MuiPickersUtilsProvider>
-                                //
-                                //         <DatePicker
-                                //             format="yyyy-MM-dd"
-                                //             value={props.value || null}
-                                //             onChange={props.onChange}
-                                //             clearable
-                                //         />
-                                //
-                                 )
+                                )
                             },
                             {
                                 title: "description",
@@ -639,7 +624,7 @@ export default function TransactionTable() {
                                     //let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
                                     let receiptImage = ""
                                     //let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
-                                    if (rowData['receiptImage'] !== undefined ) {
+                                    if (rowData['receiptImage'] !== undefined) {
                                         receiptImage = rowData.receiptImage.jpgImage
                                         //data.receiptImage.jpgImage =
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
