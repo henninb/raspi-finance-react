@@ -65,6 +65,7 @@ export default function TransactionMove({
         const data = await Promise.all(files.map(utils.loadFile))
         //const strImage = data.replace(/^data:image\/[a-z]+;base64,/, "");
         // @ts-ignore
+
         setFileContent(data)
     }, [files])
 

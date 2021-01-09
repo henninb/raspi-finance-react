@@ -85,8 +85,6 @@ export default function TransactionTable() {
             reader.readAsDataURL(file)
             reader.onload = () => {
                 setFileContent(reader.result.toString())
-
-                //data["receiptImage"] = 'blah'
                 return reader.result
             }
             reader.onerror = (error) => {
@@ -625,10 +623,15 @@ export default function TransactionTable() {
                                     let receiptImage = ""
                                     //let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
                                     if (rowData['receiptImage'] !== undefined) {
-                                        receiptImage = rowData.receiptImage.jpgImage
+                                        if(rowData.receiptImage.jpgImage.startsWith("data") ) {
+                                            receiptImage = rowData.receiptImage.jpgImage
+                                        } else {
+                                            const formatType = rowData.receiptImage.imageFormatType
+                                            receiptImage = 'data:image/'+ formatType + ';base64,' + rowData.receiptImage.jpgImage
+                                        }
                                         //data.receiptImage.jpgImage =
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
-                                        console.log('receiptImageValue=' + receiptImage)
+                                        //console.log('receiptImageValue=' + receiptImage)
                                     }
                                     //
                                     //<a href={receiptImage} title="click here to see the full sized image"><img src={receiptImage} alt="your alt description here" /></a>
@@ -637,7 +640,7 @@ export default function TransactionTable() {
                                         <div>
                                             {rowData['receiptImage'] !== undefined ?
                                                 <img className="receipt-image" alt="receipt"
-                                                     src={'data:image/jpeg;base64, ' + receiptImage}/> : null}
+                                                     src={receiptImage}/> : null}
                                         </div>
                                     )
                                 }
