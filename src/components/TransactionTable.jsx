@@ -113,7 +113,7 @@ export default function TransactionTable() {
                 }
 
                 //if (fileList[0].type.match('image.*')) {
-                if (fileList[0].type.match('image/jpeg')) {
+                if (fileList[0].type.match('image/jpeg') || fileList[0].type.match('image/png') ) {
                     if (fileList[0] instanceof Blob) {
                         console.log(`file ${fileList[0].name} is file type ${fileList[0].type}.`)
                         // image/jpeg
