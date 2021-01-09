@@ -32,6 +32,7 @@ export default function TransactionMove({
 
         const response = await axios.put(
             endpointUrl() + "/transaction/update/receipt/image/" + transactionGuid,
+            //fileContent.replace(/^data:image\/[a-z]+;base64,/, ""),
             fileContent,
             {
                 cancelToken: source.token,
@@ -62,7 +63,7 @@ export default function TransactionMove({
     const fetchFileData = useCallback(async (): Promise<void> => {
         // @ts-ignore
         const data = await Promise.all(files.map(utils.loadFile))
-
+        //const strImage = data.replace(/^data:image\/[a-z]+;base64,/, "");
         // @ts-ignore
         setFileContent(data)
     }, [files])

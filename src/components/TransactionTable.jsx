@@ -637,7 +637,7 @@ export default function TransactionTable() {
                                         <div>
                                             {rowData['receiptImage'] !== undefined ?
                                                 <img className="receipt-image" alt="receipt"
-                                                     src={receiptImage}/> : null}
+                                                     src={'data:image/jpeg;base64, ' + receiptImage}/> : null}
                                         </div>
                                     )
                                 }
