@@ -444,7 +444,7 @@ export default function TransactionTable() {
 
             let foundObject = data.filter((obj) => obj.guid === currentGuid)
             if (foundObject.length === 1) {
-                foundObject[0].receiptImage = {"jpgImage": fileContent}
+                foundObject[0].receiptImage = {"image": fileContent}
             }
             console.log(`objects found: ${foundObject.length}`)
 
@@ -623,13 +623,13 @@ export default function TransactionTable() {
                                     let receiptImage = ""
                                     //let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
                                     if (rowData['receiptImage'] !== undefined) {
-                                        if(rowData.receiptImage.jpgImage.startsWith("data") ) {
-                                            receiptImage = rowData.receiptImage.jpgImage
+                                        if(rowData.receiptImage.image.startsWith("data") ) {
+                                            receiptImage = rowData.receiptImage.image
                                         } else {
                                             const formatType = rowData.receiptImage.imageFormatType
-                                            receiptImage = 'data:image/'+ formatType + ';base64,' + rowData.receiptImage.jpgImage
+                                            receiptImage = 'data:image/'+ formatType + ';base64,' + rowData.receiptImage.image
                                         }
-                                        //data.receiptImage.jpgImage =
+                                        //data.receiptImage.image =
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
                                         //console.log('receiptImageValue=' + receiptImage)
                                     }
