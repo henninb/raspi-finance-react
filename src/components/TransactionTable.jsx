@@ -286,7 +286,6 @@ export default function TransactionTable() {
         let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
         delete newData["tableData"]
 
-        newData["transactionDate"] = formatDate(newData.transactionDate)
         if (oldData.transactionState === undefined) {
             newData["transactionState"] = "undefined"
         }
