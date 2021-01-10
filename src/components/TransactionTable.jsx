@@ -285,7 +285,14 @@ export default function TransactionTable() {
     const putCall = useCallback(async (newData, oldData) => {
         let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
         delete newData["tableData"]
+        // delete newData["receiptImage"]
 
+        console.log(JSON.stringify(newData))
+
+        newData['receiptImage'].image.replace(/^data:image\/[a-z]+;base64,/, "")
+
+        //newData["receiptImageId"] = oldData["receiptImage"].receiptImageId
+        //console.log(oldData["receiptImage"].receiptImageId)
         newData["transactionDate"] = formatDate(newData.transactionDate)
         if (oldData.transactionState === undefined) {
             newData["transactionState"] = "undefined"
@@ -294,6 +301,8 @@ export default function TransactionTable() {
         await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
             headers: {"Content-Type": "application/json"},
+            //headers: {"Content-Type": "text/plain"},
+            // headers: {"Content-Type": "application/octet-stream;base64"},
         })
     }, [])
 
@@ -613,7 +622,7 @@ export default function TransactionTable() {
                                 cellStyle: {whiteSpace: "nowrap"},
                             },
                             {
-                                title: "receipt",
+                                title: "image",
                                 field: "receiptImage",
                                 editable: "never",
                                 filtering: false,
