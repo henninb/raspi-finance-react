@@ -1,16 +1,45 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {v4 as uuidv4} from "uuid"
 import {endpointUrl, formatDate} from "./Common"
 import axios from "axios"
 import os from "os"
 import "./master.scss"
 import SnackbarBaseline from "./SnackbarBaseline"
+import Select from "react-select";
 
 require('datejs') //momentjs - look into this
 
 export default function FreeForm() {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
+    const [accountTypeOptions, setAccountTypeOptions] = useState([])
+    const [selectedOption, setSelectedOption] = useState('')
+
+    const fetchAccountTypeOptions = useCallback(async () => {
+        try {
+            const response = await axios.get(endpointUrl() + "/account/select/active")
+
+            let optionList = []
+            response.data.forEach((element) => {
+                optionList = optionList.concat({
+                    value: element.accountNameOwner,
+                    label: element.accountNameOwner,
+                })
+            })
+            if (optionList.length > 0) {
+                setAccountTypeOptions(optionList)
+            }
+        } catch (error) {
+            if (error.response) {
+                alert(
+                    "fetchAccountTypeOptions - status: " +
+                    error.response.status +
+                    " - " +
+                    JSON.stringify(error.response.data)
+                )
+            }
+        }
+    }, [])
 
     const handleSnackbarClose = () => {
         setOpen(false);
@@ -56,8 +85,9 @@ export default function FreeForm() {
 
     const handlePrefix = () => {
         let text = document.getElementById("textArea").value.trim()
-        let prefix = document.getElementById("prefix").value.trim()
         let prefixedText = ""
+
+        const prefix = selectedOption
 
         if (prefix === '') {
             setMessage('fix empty prefix')
@@ -69,7 +99,6 @@ export default function FreeForm() {
             prefixedText += prefix + "," + str.trim() + "\n"
         })
         document.getElementById("textArea").value = prefixedText.trim()
-        document.getElementById("prefix").value = ""
         setMessage('prefixed added')
         setOpen(true)
     }
@@ -82,8 +111,6 @@ export default function FreeForm() {
                 setOpen(true)
             }
         })
-        //setMessage('looks good')
-        //setOpen(true)
     }
 
     const handleError = (error, moduleName, throwIt) => {
@@ -162,30 +189,37 @@ export default function FreeForm() {
                     reoccurring: false,
                     reoccurringType: "undefined",
                 }
-                //console.log(transaction)
                 try {
                     await postCall(transaction)
                 } catch (error) {
                     handleError(error, 'handleChange', false)
                 }
-                //console.log(`processed:${line}`)
 
             } else {
                 console.log(`column count off - skipped:${line}`)
             }
-
         }
-        // setMessage('all records are submitted.')
-        // setOpen(true)
     }
 
-    //select 'centerpoint_brian', (transaction_date + interval '1 year'), 'centerpoint energy', abs(amount) from t_transaction
-    // where description like '%centerpoint%' and extract(year from transaction_date) = 2020
+    const onSelectChange = ({value}) => {
+        setSelectedOption(value)
+    }
 
-    //select 'xcel-energy_brian', (transaction_date + interval '1 year'), 'centerpoint energy', abs(amount) from t_transaction
-    // where description like '%xcel%' and extract(year from transaction_date) = 2020
+    useEffect(() => {
+        const CancelToken = axios.CancelToken
+        const source = CancelToken.source()
 
-    //
+        if (accountTypeOptions.length === 0) {
+            let response = fetchAccountTypeOptions()
+            console.log(response)
+        }
+
+        return () => {
+            source.cancel()
+        }
+    }, [accountTypeOptions, fetchAccountTypeOptions])
+
+
     return (
         <div className="freeform">
 
@@ -193,7 +227,14 @@ export default function FreeForm() {
                 <textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""
                           onPaste={(event) => handlePaste(event)}/>
                 <p>
-                    <input type="text" id="prefix"/>
+                    <Select
+                        name="account-select"
+                        multi={true}
+                        native={true}
+                        options={accountTypeOptions}
+                        onChange={onSelectChange}
+                    />
+
                 </p>
                 <p>
                     <input type="button" value="clean" onClick={() => handleCleanUp()}/>
