@@ -61,16 +61,10 @@ export default function TransactionTable() {
                     cancelToken: source.token,
                     timeout: 0,
                     headers: {"Content-Type": "text/plain"},
-                    //headers: {"Content-Type": "base64/QUOTED-PRINTABLE"}
                 }
             )
 
-            if (response.data !== "transaction receipt image updated") {
-                console.log("changeReceiptImage - failure")
-                console.log(response.data)
-            } else {
-                console.log("transaction receipt image updated")
-            }
+            console.log(response.data)
 
             return () => {
                 source.cancel()
@@ -285,14 +279,10 @@ export default function TransactionTable() {
     const putCall = useCallback(async (newData, oldData) => {
         let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
         delete newData["tableData"]
-        // delete newData["receiptImage"]
 
-        console.log(JSON.stringify(newData))
-
-        newData['receiptImage'].image.replace(/^data:image\/[a-z]+;base64,/, "")
-
-        //newData["receiptImageId"] = oldData["receiptImage"].receiptImageId
-        //console.log(oldData["receiptImage"].receiptImageId)
+        newData['receiptImage'].image = newData['receiptImage'].image.replace(/^data:image\/[a-z]+;base64,/, "")
+        console.log('should be gone.')
+        console.log(newData['receiptImage'].image)
         newData["transactionDate"] = formatDate(newData.transactionDate)
         if (oldData.transactionState === undefined) {
             newData["transactionState"] = "undefined"
@@ -301,8 +291,6 @@ export default function TransactionTable() {
         await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
             headers: {"Content-Type": "application/json"},
-            //headers: {"Content-Type": "text/plain"},
-            // headers: {"Content-Type": "application/octet-stream;base64"},
         })
     }, [])
 
@@ -628,9 +616,7 @@ export default function TransactionTable() {
                                 filtering: false,
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    //let receiptImage = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
                                     let receiptImage = ""
-                                    //let receiptImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMYfj/HwAEVwJUeAAUQgAAAABJRU5ErkJggg=="
                                     if (rowData['receiptImage'] !== undefined) {
                                         if(rowData.receiptImage.image.startsWith("data") ) {
                                             receiptImage = rowData.receiptImage.image
@@ -638,9 +624,7 @@ export default function TransactionTable() {
                                             const formatType = rowData.receiptImage.imageFormatType
                                             receiptImage = 'data:image/'+ formatType + ';base64,' + rowData.receiptImage.image
                                         }
-                                        //data.receiptImage.image =
                                         console.log('typeOf receiptImage=' + typeOf(receiptImage))
-                                        //console.log('receiptImageValue=' + receiptImage)
                                     }
                                     //
                                     //<a href={receiptImage} title="click here to see the full sized image"><img src={receiptImage} alt="your alt description here" /></a>

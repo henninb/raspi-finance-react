@@ -32,7 +32,6 @@ export default function TransactionMove({
 
         const response = await axios.put(
             endpointUrl() + "/transaction/update/receipt/image/" + transactionGuid,
-            //fileContent.replace(/^data:image\/[a-z]+;base64,/, ""),
             fileContent,
             {
                 cancelToken: source.token,
@@ -40,10 +39,8 @@ export default function TransactionMove({
                 headers: {"Content-Type": "text/plain"},
             }
         )
-        if (response.data !== "transaction receipt image updated") {
-            console.log("changeReceiptImage - failure")
-            console.log(response.data)
-        }
+
+        console.log(response.data.receiptImageId)
 
         return () => {
             source.cancel()
