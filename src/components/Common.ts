@@ -1,8 +1,18 @@
 import moment from "moment";
 
+export const convertUTCDateToLocalDate = (date: any) => {
+    let newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000)
+
+    let offset = date.getTimezoneOffset() / 60
+    let hours = date.getHours()
+
+    newDate.setHours(hours - offset)
+    return newDate
+}
+
 export const formatDate = (date: any) => {
     //moment(props.value).format('YYYY-MM-DD')
-    let d = new Date(date)
+    let d = convertUTCDateToLocalDate(new Date(date))
     let month = "" + (d.getMonth() + 1)
     let day = "" + d.getDate()
     let year = d.getFullYear()

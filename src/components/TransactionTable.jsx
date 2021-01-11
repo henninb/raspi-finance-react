@@ -280,7 +280,8 @@ export default function TransactionTable() {
         let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
         delete newData["tableData"]
 
-        newData["transactionDate"] = formatDate(newData.transactionDate)
+        //TODO: this is where the date bug occurred
+        //newData["transactionDate"] = formatDate(newData.transactionDate)
         if (newData.receiptImage !== undefined) {
             newData['receiptImage'].image = newData['receiptImage'].image.replace(/^data:image\/[a-z]+;base64,/, "")
         }
@@ -368,6 +369,7 @@ export default function TransactionTable() {
             let newPayload = {
                 guid: uuidv4(),
                 transactionDate: buildTransactionDateString,
+                dueDate: payload.dueDate,
                 description: payload.description,
                 category: payload.category === undefined ? "undefined" : payload.category,
                 notes: payload.notes === undefined ? "" : payload.notes,
@@ -486,6 +488,12 @@ export default function TransactionTable() {
                                         />
                                     </MuiPickersUtilsProvider>
                                 )
+                            },
+                            {
+                                title: "due",
+                                field: "dueDate",
+                                type: "date",
+                                cellStyle: {whiteSpace: "nowrap"},
                             },
                             {
                                 title: "description",
