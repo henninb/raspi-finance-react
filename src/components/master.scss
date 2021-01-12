@@ -8,6 +8,16 @@ $pulse-duration: 750ms;
 
 //$theme-colors: ( "primary":#ffd800);
 
+.container{
+  display: flex;
+}
+.fixed{
+  width: 200px;
+}
+.flex-item{
+  flex-grow: 1;
+}
+
 .snackbar {
   visibility: hidden;
   min-width: 250px;

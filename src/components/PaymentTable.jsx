@@ -4,16 +4,21 @@ import "./master.scss"
 import axios from "axios"
 import SelectAccountNameOwnerCredit from "./SelectAccountNameOwnerCredit"
 import Spinner from "./Spinner"
-import {endpointUrl, formatDate} from "./Common"
+import {endpointUrl, fetchTimeZone, formatDate} from "./Common"
 import {useHistory} from "react-router-dom"
 import Button from "@material-ui/core/Button"
 import SnackbarBaseline from "./SnackbarBaseline";
+import moment from "moment";
+import {MuiPickersUtilsProvider} from "@material-ui/pickers";
+import MomentUtils from "@date-io/moment";
+import DatePicker from "react-datepicker";
 
 export default function PaymentTable() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
+    const [paymentAccount, setPaymentAccount] = useState('undefined')
 
     const history = useHistory()
 
@@ -26,7 +31,7 @@ export default function PaymentTable() {
         history.go(0)
     }
 
-    const handleError = (error, moduleName, throwIt) =>  {
+    const handleError = (error, moduleName, throwIt) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -59,6 +64,30 @@ export default function PaymentTable() {
             }, 1000)
         })
     }
+
+    const fetchParameterValue = useCallback(async () => {
+        try {
+            const response = await axios.get(endpointUrl() + "/parm/select/payment_account",
+                {
+                    timeout: 0,
+                    headers: {"Content-Type": "application/json"},
+                }
+            )
+
+            if (response.data) {
+               setPaymentAccount(response.data.parameterValue)
+               setMessage(`${response.data.parameterValue}`)
+               setOpen(true)
+            } else {
+                console.log('payment_account parameter needs to be set.')
+            }
+
+        } catch (error) {
+            handleError(error, 'fetchParameterValue', true)
+        } finally {
+            //setLoading(false)
+        }
+    }, [])
 
     const fetchData = useCallback(async () => {
         try {
@@ -105,7 +134,7 @@ export default function PaymentTable() {
             })
             console.log(response.data)
             return newPayload
-        }catch (error) {
+        } catch (error) {
             handleError(error, 'postCallPayment', true)
         }
     }, [])
@@ -131,6 +160,11 @@ export default function PaymentTable() {
             console.log("data is undefined")
         }
 
+        if ( paymentAccount === 'undefined' ) {
+            let response = fetchParameterValue()
+            console.log(response)
+        }
+
         if (data.length === 0) {
             let response = fetchData()
             console.log(response)
@@ -139,7 +173,9 @@ export default function PaymentTable() {
         return () => {
             source.cancel()
         }
-    }, [data, fetchData])
+    }, [data, fetchData, fetchParameterValue, paymentAccount])
+
+    let today = moment(new Date().toDateString()).format('YYYY-MM-DD')
 
     return (
 
@@ -153,7 +189,25 @@ export default function PaymentTable() {
                                 title: "transactionDate",
                                 field: "transactionDate",
                                 type: "date",
+                                initialEditValue: today,
                                 cellStyle: {whiteSpace: "nowrap"},
+
+                                editComponent: (props) => (
+
+                                    <MuiPickersUtilsProvider utils={MomentUtils}
+                                                             locale={props.dateTimePickerLocalization}>
+                                        <DatePicker
+                                            placeholderText='yyyy-MM-dd'
+                                            format="yyyy-MM-dd"
+                                            selected={moment(props.value).tz(fetchTimeZone()).toDate()}
+                                            value={props.value
+                                                ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
+                                            onChange={props.onChange}
+                                            clearable
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                ),
+
                                 render: (rowData) => {
                                     return <div>{formatDate(rowData.transactionDate)}</div>
                                 },
@@ -161,7 +215,14 @@ export default function PaymentTable() {
                             {
                                 title: "accountNameOwner",
                                 field: "accountNameOwner",
-                                cellStyle: {whiteSpace: "nowrap"},
+
+                                cellStyle: {
+                                    whiteSpace: "nowrap",
+                                },
+
+                                headerStyle: {
+                                },
+
                                 render: (rowData) => {
                                     return (
                                         <Button
@@ -176,12 +237,24 @@ export default function PaymentTable() {
                                 },
                                 editComponent: (props) => {
                                     return (
-                                        <SelectAccountNameOwnerCredit
-                                            onChangeFunction={props.onChange}
-                                            currentValue={props.value}
-                                        />
+                                        <div className="container">
+                                            <div>
+                                                <SelectAccountNameOwnerCredit
+                                                    onChangeFunction={props.onChange}
+                                                    currentValue={props.value}
+                                                />
+                                            </div>
+                                        </div>
                                     )
                                 },
+                            },
+
+                            {
+                                title: "source",
+                                field: "sourceAccount",
+                                type: "string",
+                                initialEditValue: paymentAccount,
+                                cellStyle: {whiteSpace: "nowrap"},
                             },
                             {
                                 title: "amount",
@@ -206,6 +279,7 @@ export default function PaymentTable() {
                             rowStyle: {
                                 fontSize: ".6rem",
                             },
+
                         }}
                         editable={{
                             onRowAdd: addRow,

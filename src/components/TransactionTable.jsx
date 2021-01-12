@@ -463,6 +463,8 @@ export default function TransactionTable() {
         }
     }, [totals, data, fetchTotals, fetchAccountData, downHandler, upHandler, fileContent, currentGuid, insertReceiptImage])
 
+    let today = moment(new Date().toDateString()).format('YYYY-MM-DD')
+
     return (
         <div>
             {!loadSpinner ? (
@@ -474,6 +476,7 @@ export default function TransactionTable() {
                                 title: "date",
                                 field: "transactionDate",
                                 type: "date",
+                                initialEditValue: today,
                                 cellStyle: {whiteSpace: "nowrap"},
                                 editComponent: (props) => (
 
@@ -621,7 +624,6 @@ export default function TransactionTable() {
                                             placeholderText='yyyy-MM-dd'
                                             format="yyyy-MM-dd"
                                             selected={moment(props.value).tz(fetchTimeZone()).toDate()}
-                                            // value={props.value  ? moment(props.value).format('YYYY-MM-DD') : null}
                                             value={props.value  ? moment(props.value).format('YYYY-MM-DD') : ""}
                                             onChange={props.onChange}
                                             clearable
@@ -641,24 +643,31 @@ export default function TransactionTable() {
                                 filtering: false,
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    let receiptImage = ""
+                                    let image = ""
                                     if (rowData['receiptImage'] !== undefined) {
+                                        if( rowData['receiptImage'].thumbnail === undefined) {
+                                            rowData['receiptImage'].thumbnail = rowData['receiptImage'].image
+                                        }
+
                                         if(rowData.receiptImage.image.startsWith("data") ) {
-                                            receiptImage = rowData.receiptImage.image
+                                            image = rowData.receiptImage.thumbnail
                                         } else {
                                             const formatType = rowData.receiptImage.imageFormatType
-                                            receiptImage = 'data:image/'+ formatType + ';base64,' + rowData.receiptImage.image
+                                            console.log('formatType=' + formatType)
+                                            image = 'data:image/'+ formatType + ';base64,' + rowData.receiptImage.thumbnail
                                         }
-                                        console.log('typeOf receiptImage=' + typeOf(receiptImage))
+                                        console.log('typeOf image=' + typeOf(image))
+                                    } else {
+                                        setMessage(`issue loading the image`)
+                                        console.log(`issue loading the image`)
+                                        setOpen(true)
                                     }
-                                    //
-                                    //<a href={receiptImage} title="click here to see the full sized image"><img src={receiptImage} alt="your alt description here" /></a>
 
                                     return (
                                         <div>
                                             {rowData['receiptImage'] !== undefined ?
                                                 <img className="receipt-image" alt="receipt"
-                                                     src={receiptImage}/> : null}
+                                                     src={image}/> : null}
                                         </div>
                                     )
                                 }
