@@ -12,6 +12,7 @@ export const convertUTCDateToLocalDate = (date: any) => {
 
 export const formatDate = (date: any) => {
     //moment(props.value).format('YYYY-MM-DD')
+    //TODO: use moment here
     let d = convertUTCDateToLocalDate(new Date(date))
     let month = "" + (d.getMonth() + 1)
     let day = "" + d.getDate()
@@ -24,10 +25,7 @@ export const formatDate = (date: any) => {
 }
 
 export const fetchTimeZone = () => {
-    let timeZone = process.env.REACT_APP_TIMEZONE
-    console.log('timezone=' + timeZone)
-    //return 'America/Chicago'
-    return timeZone
+    return process.env.REACT_APP_TIMEZONE
 }
 
 //TODO: change this to moment

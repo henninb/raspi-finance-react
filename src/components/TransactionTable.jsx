@@ -251,8 +251,7 @@ export default function TransactionTable() {
                     timeout: 0,
                     headers: {
                         "Content-Type": "application/json",
-                        //"Accept": "application/json; charset=utf-8"
-                        "Accept": "application/json"
+                        "Accept": "application/json",
                     },
                 }
             )
@@ -291,7 +290,10 @@ export default function TransactionTable() {
 
         await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
-            headers: {"Content-Type": "application/json"},
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
         })
     }, [])
 
@@ -363,15 +365,19 @@ export default function TransactionTable() {
         async (payload) => {
             let endpoint = endpointUrl() + "/transaction/insert/"
 
+            if( payload['dueDate'] === "" ) {
+                delete payload['dueDate']
+            }
+
             //TODO: bh 8/28/2020 - need to address any date conversion issues
             //TODO: bh 10/31/2020 - set a timezone based on a parameter
             let buildTransactionDateString = formatDate(payload.transactionDate)
             let newPayload = {
                 guid: uuidv4(),
                 transactionDate: buildTransactionDateString,
-                dueDate: payload.dueDate,
                 description: payload.description,
                 category: payload.category === undefined ? "undefined" : payload.category,
+                //dueDate: payload.dueDate = payload.dueDate,
                 notes: payload.notes === undefined ? "" : payload.notes,
                 amount: payload.amount,
                 transactionState:
@@ -388,6 +394,10 @@ export default function TransactionTable() {
                 accountNameOwner: match.params["account"],
             }
 
+            if( payload['dueDate'] !== "" ) {
+                newPayload['dueDate'] = payload.dueDate
+            }
+
             await axios.post(endpoint, newPayload, {
                 timeout: 0,
                 headers: {"Content-Type": "application/json"},
@@ -396,14 +406,6 @@ export default function TransactionTable() {
         },
         [match.params]
     )
-
-    // const unwrapImage = async (rowData) => {
-    //     let response  = fetchImage(rowData['receiptImageId'])
-    //     return await response.then(async (result) => {
-    //             return result
-    //         }
-    //     )
-    // }
 
     const downHandler = useCallback(
         ({key}) => {
@@ -482,18 +484,12 @@ export default function TransactionTable() {
                                             format="yyyy-MM-dd"
                                             selected={moment(props.value).tz(fetchTimeZone()).toDate()}
                                             value={props.value
-                                                ? moment(props.value).format('YYYY-MM-DD') : null}
+                                                ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
                                             onChange={props.onChange}
                                             clearable
                                         />
                                     </MuiPickersUtilsProvider>
-                                )
-                            },
-                            {
-                                title: "due",
-                                field: "dueDate",
-                                type: "date",
-                                cellStyle: {whiteSpace: "nowrap"},
+                                ),
                             },
                             {
                                 title: "description",
@@ -611,6 +607,27 @@ export default function TransactionTable() {
                                         />
                                     )
                                 },
+                            },
+                            {
+                                title: "due",
+                                field: "dueDate",
+                                type: "date",
+                                cellStyle: {whiteSpace: "nowrap"},
+                                editComponent: (props) => (
+
+                                    <MuiPickersUtilsProvider utils={MomentUtils}
+                                                             locale={props.dateTimePickerLocalization}>
+                                        <DatePicker
+                                            placeholderText='yyyy-MM-dd'
+                                            format="yyyy-MM-dd"
+                                            selected={moment(props.value).tz(fetchTimeZone()).toDate()}
+                                            // value={props.value  ? moment(props.value).format('YYYY-MM-DD') : null}
+                                            value={props.value  ? moment(props.value).format('YYYY-MM-DD') : ""}
+                                            onChange={props.onChange}
+                                            clearable
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                )
                             },
                             {
                                 title: "notes",

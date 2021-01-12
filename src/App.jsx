@@ -3,7 +3,7 @@ import Routes from './components/Routes'
 
 import moment from 'moment'
 
-let launchMoment = require('moment')
+require('moment')
 require('moment-timezone')
 moment.tz.setDefault('America/Chicago')
 
