@@ -75,7 +75,7 @@ export default function FreeForm() {
         e.preventDefault();
         document.getElementById("textArea").value = transformText(text).trim()
     }
-    
+
     const handleCleanUp = () => {
         let text = document.getElementById("textArea").value
         document.getElementById("textArea").value = transformText(text).trim()
@@ -99,18 +99,21 @@ export default function FreeForm() {
             prefixedText += prefix + "," + str.trim() + "\n"
         })
         document.getElementById("textArea").value = prefixedText.trim()
-        setMessage('prefixed added')
+        setMessage(`prefixed added:  ${prefixedText.trim()}`)
         setOpen(true)
     }
 
     const validateData = () => {
         let text = document.getElementById("textArea").value.trim()
+        let flag = true
         text.split(/\r?\n/).forEach((str) => {
             if (str.split(',').length !== 4) {
                 setMessage("invalid record count= " + str.split(',').length + " ='" + str + "'")
                 setOpen(true)
+                flag = false
             }
         })
+        return flag
     }
 
     const handleError = (error, moduleName, throwIt) => {
@@ -153,6 +156,10 @@ export default function FreeForm() {
         let sanitizedText = text.replace(/\t/g, ',')
         sanitizedText = sanitizedText.toLowerCase()
         const lines = sanitizedText.split(os.EOL)
+
+        if( !validateData() ) {
+            return
+        }
 
         for (const line of lines) {
             const columns = line.trim().split(',')
@@ -227,19 +234,20 @@ export default function FreeForm() {
                 <textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""
                           onPaste={(event) => handlePaste(event)}/>
                 <p>
-                    <Select
-                        name="account-select"
-                        multi={true}
-                        native={true}
-                        options={accountTypeOptions}
-                        onChange={onSelectChange}
-                    />
-
+                    <div style={{width: '300px'}}>
+                        <Select
+                            name="account-select"
+                            multi={true}
+                            native={true}
+                            options={accountTypeOptions}
+                            onChange={onSelectChange}
+                        />
+                    </div>
                 </p>
                 <p>
                     <input type="button" value="clean" onClick={() => handleCleanUp()}/>
                     <input type="button" value="prefix" onClick={() => handlePrefix()}/>
-                    <input type="button" value="validate" onClick={() => validateData()}/>
+                    {/*<input type="button" value="validate" onClick={() => validateData()}/>*/}
                     <input type="submit" value="submit" onClick={() => handleChange()}/>
                 </p>
             </div>
