@@ -658,9 +658,9 @@ export default function TransactionTable() {
                                         }
                                         console.log('typeOf image=' + typeOf(image))
                                     } else {
-                                        setMessage(`issue loading the image`)
-                                        console.log(`issue loading the image`)
-                                        setOpen(true)
+                                        // setMessage(`issue loading the image`)
+                                        // console.log(`issue loading the image`)
+                                        // setOpen(true)
                                     }
 
                                     return (
