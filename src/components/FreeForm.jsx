@@ -247,7 +247,6 @@ export default function FreeForm() {
                 <p>
                     <input type="button" value="clean" onClick={() => handleCleanUp()}/>
                     <input type="button" value="prefix" onClick={() => handlePrefix()}/>
-                    {/*<input type="button" value="validate" onClick={() => validateData()}/>*/}
                     <input type="submit" value="submit" onClick={() => handleChange()}/>
                 </p>
             </div>
