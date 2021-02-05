@@ -248,18 +248,17 @@ export default function PaymentTable() {
                                     )
                                 },
                             },
-
+                            {
+                                title: "amount",
+                                field: "amount",
+                                type: "currency",
+                                cellStyle: {whiteSpace: "nowrap"},
+                            },
                             {
                                 title: "source",
                                 field: "sourceAccount",
                                 type: "string",
                                 initialEditValue: paymentAccount,
-                                cellStyle: {whiteSpace: "nowrap"},
-                            },
-                            {
-                                title: "amount",
-                                field: "amount",
-                                type: "currency",
                                 cellStyle: {whiteSpace: "nowrap"},
                             },
                         ]}

@@ -612,6 +612,11 @@ export default function TransactionTable() {
                                 },
                             },
                             {
+                                title: "notes",
+                                field: "notes",
+                                cellStyle: {whiteSpace: "nowrap"},
+                            },
+                            {
                                 title: "due",
                                 field: "dueDate",
                                 type: "date",
@@ -630,11 +635,6 @@ export default function TransactionTable() {
                                         />
                                     </MuiPickersUtilsProvider>
                                 )
-                            },
-                            {
-                                title: "notes",
-                                field: "notes",
-                                cellStyle: {whiteSpace: "nowrap"},
                             },
                             {
                                 title: "image",
