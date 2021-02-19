@@ -25,7 +25,7 @@ fi
 # "$OSTYPE" == "darwin"*
 if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Raspbian GNU/Linux" ]; then
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
-elif [ "$OS" = "Arch Linux" ]; then
+elif [ "$OS" = "Arch Linux" ] || [ "$OS" = "ArcoLinux" ]; then
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
 elif [ "$OS" = "openSUSE Tumbleweed" ]; then
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
@@ -71,8 +71,12 @@ if [ "$ENV" = "prod" ]; then
   # docker build -t my-react-app -f Dockerfile-nginx .
   # docker run -it -p 80:80 --rm my-react-app
 else
-  echo yarn global add npm-check-updates
-  ncu -u
+  if [ -x "$(command -v ncu)" ]; then
+    ncu -u
+  else
+    echo yarn global add npm-check-updates
+    yarn global add npm-check-updates
+  fi
   yarn install
   echo yarn upgrade
   yarn start
