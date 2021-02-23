@@ -7,7 +7,7 @@ import "./master.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, endpointUrl, formatDate, typeOf, fetchTimeZone} from "./Common"
+import {currencyFormat, endpointUrl, typeOf, fetchTimeZone} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -371,10 +371,11 @@ export default function TransactionTable() {
 
             //TODO: bh 8/28/2020 - need to address any date conversion issues
             //TODO: bh 10/31/2020 - set a timezone based on a parameter
-            let buildTransactionDateString = formatDate(payload.transactionDate)
+            //let buildTransactionDateString = formatDate(payload.transactionDate)
+            console.log('buildTransactionDateString: ' + payload.transactionDate)
             let newPayload = {
                 guid: uuidv4(),
-                transactionDate: buildTransactionDateString,
+                transactionDate: payload.transactionDate,
                 description: payload.description,
                 category: payload.category === undefined ? "undefined" : payload.category,
                 //dueDate: payload.dueDate = payload.dueDate,
@@ -480,6 +481,7 @@ export default function TransactionTable() {
                                 cellStyle: {whiteSpace: "nowrap"},
                                 editComponent: (props) => (
 
+                                    <div>
                                     <MuiPickersUtilsProvider utils={MomentUtils}
                                                              locale={props.dateTimePickerLocalization}>
                                         <DatePicker
@@ -487,11 +489,12 @@ export default function TransactionTable() {
                                             format="yyyy-MM-dd"
                                             selected={moment(props.value).tz(fetchTimeZone()).toDate()}
                                             value={props.value
-                                                ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
+                                                ? moment(props.value).toISOString() : moment(new Date().toDateString()).toISOString()}
                                             onChange={props.onChange}
                                             clearable
                                         />
                                     </MuiPickersUtilsProvider>
+                                    </div>
                                 ),
                             },
                             {

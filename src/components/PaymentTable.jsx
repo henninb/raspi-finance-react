@@ -4,7 +4,7 @@ import "./master.scss"
 import axios from "axios"
 import SelectAccountNameOwnerCredit from "./SelectAccountNameOwnerCredit"
 import Spinner from "./Spinner"
-import {endpointUrl, fetchTimeZone, formatDate} from "./Common"
+import {endpointUrl, fetchTimeZone} from "./Common"
 import {useHistory} from "react-router-dom"
 import Button from "@material-ui/core/Button"
 import SnackbarBaseline from "./SnackbarBaseline";
@@ -123,7 +123,7 @@ export default function PaymentTable() {
         let newPayload = {
             accountNameOwner: payload.accountNameOwner,
             amount: payload.amount,
-            transactionDate: payload.transactionDate,
+            transactionDate: payload.transactionDate.toISOString(),
         }
 
         try {
@@ -200,8 +200,11 @@ export default function PaymentTable() {
                                             placeholderText='yyyy-MM-dd'
                                             format="yyyy-MM-dd"
                                             selected={moment(props.value).tz(fetchTimeZone()).toDate()}
+
                                             value={props.value
-                                                ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
+                                                ? moment(props.value).toISOString() : moment(new Date().toDateString()).toISOString()}
+                                            // value={props.value
+                                            //     ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
                                             onChange={props.onChange}
                                             clearable
                                         />
@@ -209,7 +212,7 @@ export default function PaymentTable() {
                                 ),
 
                                 render: (rowData) => {
-                                    return <div>{formatDate(rowData.transactionDate)}</div>
+                                    return <div>{rowData.transactionDate}</div>
                                 },
                             },
                             {
