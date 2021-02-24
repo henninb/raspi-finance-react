@@ -10,13 +10,10 @@ export const convertUTCDateToLocalDate = (date: any) => {
     return newDate
 }
 
-export const formatDate = (date: any) => {
-    //moment(props.value).format('YYYY-MM-DD')
-    //TODO: use moment here
-    let d = convertUTCDateToLocalDate(new Date(date))
-    let month = "" + (d.getMonth() + 1)
-    let day = "" + d.getDate()
-    let year = d.getFullYear()
+export const formatDate = (date: Date) => {
+    let month = "" + (date.getMonth() + 1)
+    let day = "" + date.getDate()
+    let year = date.getFullYear()
 
     month = ("0" + month).slice(-2)
     day = ("0" + day).slice(-2)

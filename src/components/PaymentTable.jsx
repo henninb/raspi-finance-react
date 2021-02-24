@@ -202,9 +202,7 @@ export default function PaymentTable() {
                                             selected={moment(props.value).tz(fetchTimeZone()).toDate()}
 
                                             value={props.value
-                                                ? moment(props.value).toISOString() : moment(new Date().toDateString()).toISOString()}
-                                            // value={props.value
-                                            //     ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
+                                                ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
                                             onChange={props.onChange}
                                             clearable
                                         />

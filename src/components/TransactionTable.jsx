@@ -7,7 +7,7 @@ import "./master.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, endpointUrl, typeOf, fetchTimeZone} from "./Common"
+import {currencyFormat, endpointUrl, typeOf, fetchTimeZone, formatDate} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -210,7 +210,7 @@ export default function TransactionTable() {
                 reoccurring,
                 {cancelToken: source.token}
             )
-
+            console.log(response)
             return () => {
                 source.cancel()
             }
@@ -279,14 +279,14 @@ export default function TransactionTable() {
         let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
         delete newData["tableData"]
 
-        //TODO: this is where the date bug occurred
-        //newData["transactionDate"] = formatDate(newData.transactionDate)
+        newData["transactionDate"] = newData.transactionDate.toISOString()
         if (newData.receiptImage !== undefined) {
             newData['receiptImage'].image = newData['receiptImage'].image.replace(/^data:image\/[a-z]+;base64,/, "")
         }
         if (oldData.transactionState === undefined) {
             newData["transactionState"] = "undefined"
         }
+        console.log(newData)
 
         await axios.put(endpoint, JSON.stringify(newData), {
             timeout: 0,
@@ -369,13 +369,9 @@ export default function TransactionTable() {
                 delete payload['dueDate']
             }
 
-            //TODO: bh 8/28/2020 - need to address any date conversion issues
-            //TODO: bh 10/31/2020 - set a timezone based on a parameter
-            //let buildTransactionDateString = formatDate(payload.transactionDate)
-            console.log('buildTransactionDateString: ' + payload.transactionDate)
             let newPayload = {
                 guid: uuidv4(),
-                transactionDate: payload.transactionDate,
+                transactionDate: formatDate(payload.transactionDate), //.toISOString(),
                 description: payload.description,
                 category: payload.category === undefined ? "undefined" : payload.category,
                 //dueDate: payload.dueDate = payload.dueDate,
@@ -398,6 +394,10 @@ export default function TransactionTable() {
             if( payload['dueDate'] !== "" ) {
                 newPayload['dueDate'] = payload.dueDate
             }
+
+            console.log("newPayload transactionDate:" + newPayload.transactionDate)
+            console.log("newPayload:" + JSON.stringify(newPayload))
+
 
             await axios.post(endpoint, newPayload, {
                 timeout: 0,
@@ -489,7 +489,7 @@ export default function TransactionTable() {
                                             format="yyyy-MM-dd"
                                             selected={moment(props.value).tz(fetchTimeZone()).toDate()}
                                             value={props.value
-                                                ? moment(props.value).toISOString() : moment(new Date().toDateString()).toISOString()}
+                                                ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
                                             onChange={props.onChange}
                                             clearable
                                         />
