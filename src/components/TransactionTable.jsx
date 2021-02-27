@@ -370,7 +370,7 @@ export default function TransactionTable() {
 
             let newPayload = {
                 guid: uuidv4(),
-                transactionDate: formatDate(payload.transactionDate), //.toISOString(),
+                transactionDate: payload.transactionDate, //.toISOString(),
                 description: payload.description,
                 category: payload.category === undefined ? "undefined" : payload.category,
                 //dueDate: payload.dueDate = payload.dueDate,
