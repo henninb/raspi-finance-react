@@ -8,13 +8,15 @@ $pulse-duration: 750ms;
 
 //$theme-colors: ( "primary":#ffd800);
 
-.container{
+.container {
   display: flex;
 }
-.fixed{
+
+.fixed {
   width: 200px;
 }
-.flex-item{
+
+.flex-item {
   flex-grow: 1;
 }
 

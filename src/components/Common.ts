@@ -29,12 +29,7 @@ export const fetchTimeZone = () => {
 export const toEpochDateAsMillis = (transactionDate: any) => {
     // @ts-ignore
     return moment(transactionDate).tz(fetchTimeZone()).toDate().valueOf()
-    // let date_val = new Date(transactionDate)
-    // let utc_val = new Date(
-    //     date_val.getTime() + date_val.getTimezoneOffset() * 60000
-    // )
-    //
-    // return utc_val.valueOf()
+
 }
 
 export const currencyFormat = (inputData: string) => {
