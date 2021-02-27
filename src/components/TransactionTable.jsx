@@ -279,7 +279,6 @@ export default function TransactionTable() {
         let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
         delete newData["tableData"]
 
-        //newData["transactionDate"] = formatDate(newData.transactionDate)
         if (newData.receiptImage !== undefined) {
             newData['receiptImage'].image = newData['receiptImage'].image.replace(/^data:image\/[a-z]+;base64,/, "")
         }
