@@ -35,6 +35,8 @@ elif [ "$OS" = "Fedora" ]; then
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
 elif [ "$OS" = "Darwin" ]; then
   HOST_IP=$(ipconfig getifaddr en0)
+elif [ "$OS" = "FreeBSD" ]; then
+  echo
 elif [ "$OS" = "void" ]; then
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
 elif [ "$OS" = "Gentoo" ]; then
