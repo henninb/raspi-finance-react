@@ -109,11 +109,7 @@ export default function PaymentTable() {
     }, [])
 
     const verifyData = (newData) => {
-        if (isNaN(newData.amount)) return false
-        // if(newData.amount === undefined) return false;
-        // if(newData.transactionDate === undefined) return false;
-        // return newData.accountNameOwner !== undefined;
-        return true
+        return !isNaN(newData.amount);
     }
 
     const postCallPayment = useCallback(async (payload) => {
@@ -209,9 +205,9 @@ export default function PaymentTable() {
                                     </MuiPickersUtilsProvider>
                                 ),
 
-                                render: (rowData) => {
-                                    return <div>{rowData.transactionDate}</div>
-                                },
+                                // render: (rowData) => {
+                                //     return <div>{rowData.transactionDate}</div>
+                                // },
                             },
                             {
                                 title: "accountNameOwner",
@@ -274,7 +270,6 @@ export default function PaymentTable() {
                             headerStyle: {
                                 backgroundColor: "#9965f4",
                                 color: "#FFF",
-                                // position: 'sticky', top: 0
                             },
                             rowStyle: {
                                 fontSize: ".6rem",

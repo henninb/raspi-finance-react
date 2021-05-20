@@ -7,7 +7,7 @@ import "./master.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, endpointUrl, fetchTimeZone, formatDate, typeOf} from "./Common"
+import {currencyFormat, endpointUrl, fetchTimeZone, typeOf} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -16,7 +16,6 @@ import {MuiPickersUtilsProvider} from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import DatePicker from "react-datepicker";
 import moment from "moment";
-//require('exif-stripper')
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true)
@@ -104,7 +103,6 @@ export default function TransactionTable() {
                     return
                 }
 
-                //if (fileList[0].type.match('image.*')) {
                 if (fileList[0].type.match('image/jpeg') || fileList[0].type.match('image/png') ) {
                     if (fileList[0] instanceof Blob) {
                         console.log(`file ${fileList[0].name} is file type ${fileList[0].type}.`)
@@ -370,7 +368,7 @@ export default function TransactionTable() {
 
             let newPayload = {
                 guid: uuidv4(),
-                transactionDate: payload.transactionDate, //.toISOString(),
+                transactionDate: payload.transactionDate,
                 description: payload.description,
                 category: payload.category === undefined ? "undefined" : payload.category,
                 //dueDate: payload.dueDate = payload.dueDate,

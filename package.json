@@ -61,7 +61,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
-    "@testing-library/react-hooks": "^5.1.2",
+    "@testing-library/react-hooks": "^6.0.0",
     "@testing-library/user-event": "^13.1.9",
     "jest-dom": "^4.0.0",
     "react-test-renderer": "^17.0.2",
