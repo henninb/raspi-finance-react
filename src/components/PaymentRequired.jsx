@@ -90,6 +90,7 @@ export default function PaymentRequired() {
                             },
                         ]}
                         data={data}
+                        title="Payment Required"
                         options={{
                             paging: false,
                             search: true,
