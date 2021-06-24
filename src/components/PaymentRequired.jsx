@@ -96,11 +96,16 @@ export default function PaymentRequired() {
                                 cellStyle: {whiteSpace: "nowrap"},
                             },
                             {
-                                title: "aftertime",
-                                field: "totals",
+                                title: "aftermath",
                                 type: "currency",
                                 editable: "never",
                                 cellStyle: {whiteSpace: "nowrap"},
+                                render: (rowData) => {
+                                    return (rowData.cleared  + rowData.outstanding + rowData.future).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD',
+                                    });
+                                },
                             },
                         ]}
                         data={data}
