@@ -12,6 +12,7 @@ import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
 import SnackbarBaseline from "./SnackbarBaseline";
+import ToggleButtons from "./ToggleButtons";
 import {MuiPickersUtilsProvider} from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import DatePicker from "react-datepicker";
@@ -553,6 +554,7 @@ export default function TransactionTable() {
                                     } else {
                                         return (
                                             <div>
+                                                <ToggleButtons />
                                                 <Checkbox
                                                     checked={false}
                                                     style={{color: "#9965f4"}}

@@ -35,6 +35,7 @@ yarn add env-cmd -g
 yarn add moment
 yarn add moment-timezone
 yarn add @date-io/moment@1.x moment
+yarn add @material-ui/icons
 ```
 
 ## strict ssl turned off

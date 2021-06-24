@@ -6,14 +6,6 @@ import Alert from "@material-ui/lab/Alert";
 export default function SnackbarBaseline({message, state, handleSnackbarClose}) {
     const [open, setOpen] = useState(false)
 
-    // const handleClose = (event, reason) => {
-    //     if (reason === 'clickaway') {
-    //         return;
-    //     }
-    //
-    //     setOpen(false);
-    // };
-
     useEffect(() => {
         setOpen(state)
     }, [state])
@@ -36,12 +28,6 @@ export default function SnackbarBaseline({message, state, handleSnackbarClose}) 
             >
                 <Alert severity="info">{message}</Alert>
             </Snackbar>
-
-            {/*<Alert severity="error">This is an error message!</Alert>*/}
-            {/*<Alert severity="warning">This is a warning message!</Alert>*/}
-            {/*<Alert severity="info">This is an information message!</Alert>*/}
-            {/*<Alert severity="success">This is a success message!</Alert>*/}
-
         </div>
     )
 }
