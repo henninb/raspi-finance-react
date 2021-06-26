@@ -175,15 +175,15 @@ export default function TransactionTable() {
         }
     }, [match])
 
-    const handlerForUpdatingTransactionState = useCallback(
-        async (guid) => {
+    const handlerToUpdateTransactionState = useCallback(
+        async (guid, transactionState) => {
             try {
                 await changeTransactionStateToCleared(guid)
                 let map = data.map((element) => {
                     if (element["guid"] === guid) {
                         fetchTotals()
                         // @ts-ignore
-                        return {...element, transactionState: "cleared"}
+                        return {...element, transactionState: transactionState}
                     } else {
                         return element
                     }
@@ -549,23 +549,14 @@ export default function TransactionTable() {
                                 field: "transactionState",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    if (rowData.transactionState === "cleared") {
-                                        return <div>{rowData.transactionState}</div>
-                                    } else {
-                                        return (
-                                            <div>
-                                                <ToggleButtons />
-                                                <Checkbox
-                                                    checked={false}
-                                                    style={{color: "#9965f4"}}
-                                                    onChange={() =>
-                                                        handlerForUpdatingTransactionState(rowData.guid)
-                                                    }
-                                                />
-                                                {rowData.transactionState}
-                                            </div>
-                                        )
-                                    }
+                                    return (
+                                        <div>
+                                            <ToggleButtons transactionState={rowData.transactionState}
+                                                           guid={rowData.guid}
+                                                           handlerToUpdateTransactionState={handlerToUpdateTransactionState}
+                                            />
+                                        </div>
+                                    )
                                 },
                                 editComponent: (props) => {
                                     return (

@@ -36,6 +36,7 @@ yarn add moment
 yarn add moment-timezone
 yarn add @date-io/moment@1.x moment
 yarn add @material-ui/icons
+yarn add react-tooltip
 ```
 
 ## strict ssl turned off
