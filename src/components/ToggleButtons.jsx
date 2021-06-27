@@ -1,11 +1,8 @@
 import React from 'react';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import {DoneAllRounded} from "@material-ui/icons";
 import ReactTooltip from "react-tooltip";
 import AttachMoneyRounded from '@material-ui/icons/AttachMoneyRounded';
-//import green from "@material-ui/core/colors/green";
-//import grey from "@material-ui/core/colors/grey";
 
 export default function ToggleButtons({ transactionState, guid, handlerToUpdateTransactionState }) {
     const colorOn = "green";
@@ -18,21 +15,21 @@ export default function ToggleButtons({ transactionState, guid, handlerToUpdateT
         return colorOff;
     }
     const [transactionType, setTransactionType] = React.useState(transactionState);
-    const [clearedColor, setClearedColor] = React.useState( determineColor('cleared'));
-    const [outstandingColor, setOutStandingColor] = React.useState( determineColor('outstanding'));
-    const [futureColor, setFutureColor] = React.useState( determineColor('future'));
+    const [clearedColor, setClearedColor] = React.useState( determineColor('Cleared'));
+    const [outstandingColor, setOutStandingColor] = React.useState( determineColor('Outstanding'));
+    const [futureColor, setFutureColor] = React.useState( determineColor('Future'));
 
     const handleTransactionType = (event, newTransactionType) => {
 
-        if( newTransactionType === 'cleared') {
+        if( newTransactionType === 'Cleared') {
             setClearedColor( colorOn);
             setOutStandingColor(colorOff);
             setFutureColor(colorOff);
-        } else if( newTransactionType === 'future') {
+        } else if( newTransactionType === 'Future') {
             setClearedColor( colorOff);
             setOutStandingColor(colorOff);
             setFutureColor(colorOn);
-        } else if( newTransactionType === 'outstanding') {
+        } else if( newTransactionType === 'Outstanding') {
             setClearedColor( colorOff);
             setOutStandingColor(colorOn);
             setFutureColor(colorOff);
@@ -49,27 +46,26 @@ export default function ToggleButtons({ transactionState, guid, handlerToUpdateT
             aria-label="text transactionType"
         >
 
-            <ToggleButton value="future" aria-label="future">
+            <ToggleButton value="Future">
                 <a data-tip="future transaction">
                 <AttachMoneyRounded style={{ color: futureColor }} />
                 </a>
                 <ReactTooltip effect="solid"  />
             </ToggleButton>
 
-            <ToggleButton value="outstanding" aria-label="outstanding">
+            <ToggleButton value="Outstanding">
                 <a data-tip="outstanding transaction">
                 <AttachMoneyRounded style={{ color: outstandingColor }} />
                 </a>
                 <ReactTooltip effect="solid"  />
             </ToggleButton>
 
-            <ToggleButton value="cleared" aria-label="cleared">
+            <ToggleButton value="Cleared">
                 <a data-tip="cleared transaction">
                     <AttachMoneyRounded style={{ color: clearedColor }} />
                 </a>
-                <ReactTooltip effect="solid"  />
+                <ReactTooltip effect="solid" />
             </ToggleButton>
-
 
         </ToggleButtonGroup>
     );

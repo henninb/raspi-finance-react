@@ -55,3 +55,7 @@ export const endpointUrl = () => {
 export const typeOf = (obj: any) => {
     return {}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();
 }
+
+export const noNaN = (n: any) => {
+    return isNaN( n ) ? 0 : n;
+}

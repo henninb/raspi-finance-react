@@ -5,7 +5,7 @@ import "./master.scss"
 import axios from "axios"
 import Button from "@material-ui/core/Button"
 import {useHistory} from "react-router-dom"
-import {endpointUrl} from "./Common"
+import {currencyFormat, endpointUrl, noNaN} from "./Common"
 import SnackbarBaseline from "./SnackbarBaseline";
 
 export default function AccountSummaryTable() {
@@ -222,9 +222,7 @@ export default function AccountSummaryTable() {
                             },
                         ]}
                         data={accountData}
-                        title={` [ $${currencyFormat(
-                            totals["totalsCleared"]
-                        )} ], [ $${currencyFormat(totals["totals"])} ]`}
+                        title={`[ $${currencyFormat(noNaN(totals["totals"]))} ] [ $${currencyFormat(noNaN(totals["totalsCleared"]))} ]  [ $${currencyFormat(noNaN(totals["totalsOutstanding"]))} ] [ $${currencyFormat(noNaN(totals["totalsFuture"]))} ]`}
                         options={{
                             paging: false,
                             search: true,

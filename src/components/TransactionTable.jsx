@@ -7,7 +7,7 @@ import "./master.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, endpointUrl, fetchTimeZone, typeOf} from "./Common"
+import {currencyFormat, endpointUrl, fetchTimeZone, noNaN, typeOf} from "./Common"
 import Checkbox from "@material-ui/core/Checkbox"
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -128,12 +128,12 @@ export default function TransactionTable() {
         [storeTheFileContent]
     )
 
-    const changeTransactionStateToCleared = useCallback(async (guid) => {
+    const changeTransactionState = useCallback(async (guid, transactionState) => {
         const CancelToken = axios.CancelToken
         const source = CancelToken.source()
         try {
             const response = await axios.put(
-                endpointUrl() + "/transaction/state/update/" + guid + "/Cleared",
+                endpointUrl() + "/transaction/state/update/" + guid + "/" + transactionState,
                 {cancelToken: source.token}
             )
 
@@ -155,7 +155,7 @@ export default function TransactionTable() {
                 setOpen(true)
             }
         } catch (error) {
-            handleError(error, 'changeTransactionStateToCleared', true)
+            handleError(error, 'changeTransactionState', true)
         }
         return () => {
             source.cancel()
@@ -178,11 +178,12 @@ export default function TransactionTable() {
     const handlerToUpdateTransactionState = useCallback(
         async (guid, transactionState) => {
             try {
-                await changeTransactionStateToCleared(guid)
+                await changeTransactionState(guid, transactionState)
                 let map = data.map((element) => {
                     if (element["guid"] === guid) {
                         fetchTotals()
                         // @ts-ignore
+                        console.log('transactionState updated to: ' + transactionState)
                         return {...element, transactionState: transactionState}
                     } else {
                         return element
@@ -194,7 +195,7 @@ export default function TransactionTable() {
                 handleError(error, 'updateTransactionState', false)
             }
         },
-        [data, changeTransactionStateToCleared, fetchTotals]
+        [data, changeTransactionState, fetchTotals]
     )
 
     const changeTransactionReoccurringStatus = useCallback(
@@ -551,7 +552,8 @@ export default function TransactionTable() {
                                 render: (rowData) => {
                                     return (
                                         <div>
-                                            <ToggleButtons transactionState={rowData.transactionState}
+                                            {/*capitalize the first letter of the string */}
+                                            <ToggleButtons transactionState={rowData.transactionState.replace(/^\w/, c => c.toUpperCase())}
                                                            guid={rowData.guid}
                                                            handlerToUpdateTransactionState={handlerToUpdateTransactionState}
                                             />
@@ -668,9 +670,7 @@ export default function TransactionTable() {
                             },
                         ]}
                         data={data}
-                        title={`[${match.params["account"]}] [ $${currencyFormat(
-                            totals["totalsCleared"]
-                        )} ], [ $${currencyFormat(totals["totals"])} ]`}
+                        title={`[${match.params["account"]}] [ $${currencyFormat(noNaN(totals["totals"]))} ] [ $${currencyFormat(noNaN(totals["totalsCleared"]))} ]  [ $${currencyFormat(noNaN(totals["totalsOutstanding"]))} ] [ $${currencyFormat(noNaN(totals["totalsFuture"]))} ]`}
                         options={{
                             filtering: true,
                             // selection: true,
@@ -684,20 +684,27 @@ export default function TransactionTable() {
                                 color: "#FFF",
                             },
                             rowStyle: (rowData) => {
-                                if (rowData.transactionState === "cleared") {
+                                if (rowData.transactionState.toLowerCase() === "cleared") {
                                     return {fontSize: ".6rem"}
-                                } else if (rowData.transactionState === "future") {
+                                } else if (rowData.transactionState.toLowerCase() === "future") {
                                     return {
                                         fontSize: ".6rem",
                                         fontWeight: "bold",
                                         backgroundColor: "#5800f9",
                                         color: "#FFF",
                                     }
-                                } else {
+                                } else if (rowData.transactionState.toLowerCase() === "outstanding") {
                                     return {
                                         fontSize: ".6rem",
                                         fontWeight: "bold",
                                         backgroundColor: "#4000f1",
+                                        color: "#FFF",
+                                    }
+                                } else {
+                                    return {
+                                        fontSize: ".6rem",
+                                        fontWeight: "bold",
+                                        backgroundColor: "#000000",
                                         color: "#FFF",
                                     }
                                 }
