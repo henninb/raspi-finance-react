@@ -17,6 +17,7 @@ import {MuiPickersUtilsProvider} from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import DatePicker from "react-datepicker";
 import moment from "moment";
+import SelectReoccurringType from "./SelectReoccurringType";
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true)
@@ -218,26 +219,26 @@ export default function TransactionTable() {
         []
     )
 
-    const toggleReoccurring = useCallback(
-        async (guid, reoccurring) => {
-            try {
-                await changeTransactionReoccurringStatus(guid, !reoccurring)
-                let map = data.map((elem) => {
-                    if (elem["guid"] === guid) {
-                        // @ts-ignore
-                        return {...elem, reoccurring: !elem.reoccurring}
-                    } else {
-                        return elem
-                    }
-                })
-                // @ts-ignore
-                setData(map)
-            } catch (error) {
-                handleError(error, 'toggleReoccurring', false)
-            }
-        },
-        [data, changeTransactionReoccurringStatus]
-    )
+    // const toggleReoccurring = useCallback(
+    //     async (guid, reoccurring) => {
+    //         try {
+    //             await changeTransactionReoccurringStatus(guid, !reoccurring)
+    //             let map = data.map((elem) => {
+    //                 if (elem["guid"] === guid) {
+    //                     // @ts-ignore
+    //                     return {...elem, reoccurring: !elem.reoccurring}
+    //                 } else {
+    //                     return elem
+    //                 }
+    //             })
+    //             // @ts-ignore
+    //             setData(map)
+    //         } catch (error) {
+    //             handleError(error, 'toggleReoccurring', false)
+    //         }
+    //     },
+    //     [data, changeTransactionReoccurringStatus]
+    // )
 
     const fetchAccountData = useCallback(async () => {
         const CancelToken = axios.CancelToken
@@ -551,13 +552,13 @@ export default function TransactionTable() {
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     return (
-                                        <div>
+                                        <>
                                             {/*capitalize the first letter of the string */}
                                             <ToggleButtons transactionState={rowData.transactionState.replace(/^\w/, c => c.toUpperCase())}
                                                            guid={rowData.guid}
                                                            handlerToUpdateTransactionState={handlerToUpdateTransactionState}
                                             />
-                                        </div>
+                                        </>
                                     )
                                 },
                                 editComponent: (props) => {
@@ -579,30 +580,23 @@ export default function TransactionTable() {
                             },
                             {
                                 title: "reoccur",
-                                field: "reoccurring",
+                                field: "reoccurringType",
                                 cellStyle: {whiteSpace: "nowrap"},
-                                render: (rowData) => {
-                                    return (
-                                        <Checkbox
-                                            checked={rowData.reoccurring}
-                                            style={{color: "#9965f4"}}
-                                            onChange={() =>
-                                                toggleReoccurring(rowData.guid, rowData.reoccurring)
-                                            }
-                                        />
-                                    )
-                                },
                                 editComponent: (props) => {
                                     return (
-                                        <Checkbox
-                                            checked={props.rowData.reoccurring}
-                                            style={{color: "#9965f4"}}
-                                            onChange={(e) => {
-                                                props.onChange(e.target.checked)
-                                                props.rowData.reoccurring = e.target.checked
-                                                console.log("state:", e.target.checked)
-                                            }}
-                                        />
+                                        <>
+                                            <SelectReoccurringType
+                                                newAccountType = {props.rowData.accountType}
+                                                onChangeFunction={props.onChange}
+                                                currentValue={() => {
+                                                    if (props.value) {
+                                                        return props.value
+                                                    } else {
+                                                        return "onetime"
+                                                    }
+                                                }}
+                                            />
+                                        </>
                                     )
                                 },
                             },
