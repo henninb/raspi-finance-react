@@ -6,7 +6,7 @@ import axios from "axios"
 import Button from "@material-ui/core/Button"
 import {useHistory} from "react-router-dom"
 import {currencyFormat, endpointUrl, noNaN} from "./Common"
-import SnackbarBaseline from "./SnackbarBaseline";
+import SnackbarBaseline from "./SnackbarBaseline"
 
 export default function AccountSummaryTable() {
     const [totals, setTotals] = useState([])

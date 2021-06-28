@@ -8,16 +8,17 @@ import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
 import {currencyFormat, endpointUrl, fetchTimeZone, noNaN, typeOf} from "./Common"
-import Checkbox from "@material-ui/core/Checkbox"
+import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded'
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
-import SnackbarBaseline from "./SnackbarBaseline";
-import ToggleButtons from "./ToggleButtons";
+import SnackbarBaseline from "./SnackbarBaseline"
+import ToggleButtons from "./ToggleButtons"
 import {MuiPickersUtilsProvider} from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
-import DatePicker from "react-datepicker";
-import moment from "moment";
-import SelectReoccurringType from "./SelectReoccurringType";
+import DatePicker from "react-datepicker"
+import moment from "moment"
+import SelectReoccurringType from "./SelectReoccurringType"
+import Button from "@material-ui/core/Button"
 
 export default function TransactionTable() {
     const [loadSpinner, setLoadSpinner] = useState(true)
@@ -34,7 +35,13 @@ export default function TransactionTable() {
 
     const handleSnackbarClose = () => {
         setOpen(false);
-    };
+    }
+
+    const handleButtonClickLink = (rowData) => {
+        alert(rowData)
+        //history.push("/transactions/" + accountNameOwner)
+        //history.go(0)
+    }
 
     const handleError = (error, moduleName, throwIt) => {
         if (error.response) {
@@ -582,6 +589,29 @@ export default function TransactionTable() {
                                 title: "reoccur",
                                 field: "reoccurringType",
                                 cellStyle: {whiteSpace: "nowrap"},
+                                render: (rowData) => {
+                                    if( rowData.reoccurringType === 'onetime' || rowData.reoccurringType === 'undefined' ) {
+                                        return (
+                                            <>
+                                                {rowData.reoccurringType}
+                                            </>
+                                        )
+                                    } else {
+                                        return (
+                                            <>
+                                                {rowData.reoccurringType}
+                                                <Button
+                                                    styles = {{width: 50}}
+                                                    onClick={() =>
+                                                        handleButtonClickLink(rowData)
+                                                    }
+                                                >
+                                                <ChevronRightRoundedIcon/>
+                                                </Button>
+                                            </>
+                                        )
+                                    }
+                                },
                                 editComponent: (props) => {
                                     return (
                                         <>
@@ -678,29 +708,33 @@ export default function TransactionTable() {
                                 color: "#FFF",
                             },
                             rowStyle: (rowData) => {
-                                if (rowData.transactionState.toLowerCase() === "cleared") {
-                                    return {fontSize: ".6rem"}
-                                } else if (rowData.transactionState.toLowerCase() === "future") {
-                                    return {
-                                        fontSize: ".6rem",
-                                        fontWeight: "bold",
-                                        backgroundColor: "#5800f9",
-                                        color: "#FFF",
-                                    }
-                                } else if (rowData.transactionState.toLowerCase() === "outstanding") {
-                                    return {
-                                        fontSize: ".6rem",
-                                        fontWeight: "bold",
-                                        backgroundColor: "#4000f1",
-                                        color: "#FFF",
+                                if( rowData.transactionState !== null ) {
+                                    if (rowData.transactionState.toLowerCase() === "cleared") {
+                                        return {fontSize: ".6rem"}
+                                    } else if (rowData.transactionState.toLowerCase() === "future") {
+                                        return {
+                                            fontSize: ".6rem",
+                                            fontWeight: "bold",
+                                            backgroundColor: "#5800f9",
+                                            color: "#FFF",
+                                        }
+                                    } else if (rowData.transactionState.toLowerCase() === "outstanding") {
+                                        return {
+                                            fontSize: ".6rem",
+                                            fontWeight: "bold",
+                                            backgroundColor: "#4000f1",
+                                            color: "#FFF",
+                                        }
+                                    } else {
+                                        return {
+                                            fontSize: ".6rem",
+                                            fontWeight: "bold",
+                                            backgroundColor: "#000000",
+                                            color: "#FFF",
+                                        }
                                     }
                                 } else {
-                                    return {
-                                        fontSize: ".6rem",
-                                        fontWeight: "bold",
-                                        backgroundColor: "#000000",
-                                        color: "#FFF",
-                                    }
+                                    console.log("rowData.transactionState is a null value.")
                                 }
                             },
                         }}

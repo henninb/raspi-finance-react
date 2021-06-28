@@ -1,12 +1,12 @@
-import React from 'react';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import ReactTooltip from "react-tooltip";
-import AttachMoneyRounded from '@material-ui/icons/AttachMoneyRounded';
+import React from 'react'
+import ToggleButton from '@material-ui/lab/ToggleButton'
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
+import ReactTooltip from "react-tooltip"
+import AttachMoneyRounded from '@material-ui/icons/AttachMoneyRounded'
 
 export default function ToggleButtons({ transactionState, guid, handlerToUpdateTransactionState }) {
-    const colorOn = "green";
-    const colorOff = "grey";
+    const colorOn = "green"
+    const colorOff = "grey"
 
     const determineColor  = (transactionState) => {
         if( transactionType === transactionState) {
