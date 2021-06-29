@@ -37,12 +37,6 @@ export default function TransactionTable() {
         setOpen(false);
     }
 
-    const handleButtonClickLink = (rowData) => {
-        alert(rowData)
-        //history.push("/transactions/" + accountNameOwner)
-        //history.go(0)
-    }
-
     const handleError = (error, moduleName, throwIt) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -206,47 +200,6 @@ export default function TransactionTable() {
         [data, changeTransactionState, fetchTotals]
     )
 
-    const changeTransactionReoccurringStatus = useCallback(
-        async (guid, reoccurring) => {
-            const CancelToken = axios.CancelToken
-            const source = CancelToken.source()
-            const response = await axios.put(
-                endpointUrl() +
-                "/transaction/reoccurring/update/" +
-                guid +
-                "/" +
-                reoccurring,
-                {cancelToken: source.token}
-            )
-            console.log(response)
-            return () => {
-                source.cancel()
-            }
-        },
-        []
-    )
-
-    // const toggleReoccurring = useCallback(
-    //     async (guid, reoccurring) => {
-    //         try {
-    //             await changeTransactionReoccurringStatus(guid, !reoccurring)
-    //             let map = data.map((elem) => {
-    //                 if (elem["guid"] === guid) {
-    //                     // @ts-ignore
-    //                     return {...elem, reoccurring: !elem.reoccurring}
-    //                 } else {
-    //                     return elem
-    //                 }
-    //             })
-    //             // @ts-ignore
-    //             setData(map)
-    //         } catch (error) {
-    //             handleError(error, 'toggleReoccurring', false)
-    //         }
-    //     },
-    //     [data, changeTransactionReoccurringStatus]
-    // )
-
     const fetchAccountData = useCallback(async () => {
         const CancelToken = axios.CancelToken
         const source = CancelToken.source()
@@ -346,7 +299,7 @@ export default function TransactionTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    const newPayload = await postCall(newData)
+                    const newPayload = await transactionInsertPostCall(newData)
                     setData([newPayload, ...data])
                     await fetchTotals()
                     resolve()
@@ -368,7 +321,7 @@ export default function TransactionTable() {
         console.log(response.data)
     }, [])
 
-    const postCall = useCallback(
+    const transactionInsertPostCall = useCallback(
         async (payload) => {
             let endpoint = endpointUrl() + "/transaction/insert/"
 
@@ -413,6 +366,63 @@ export default function TransactionTable() {
             return newPayload
         },
         [match.params]
+    )
+
+    const futureTransactionInsertPostCall = useCallback(
+        async (payload) => {
+            let endpoint = endpointUrl() + "/transaction/future/insert/"
+
+            if( payload['dueDate'] === "" ) {
+                delete payload['dueDate']
+            }
+
+            let newPayload = {
+                guid: uuidv4(),
+                transactionDate: payload.transactionDate,
+                description: payload.description,
+                category: payload.category === undefined ? "undefined" : payload.category,
+                //dueDate: payload.dueDate = payload.dueDate,
+                notes: payload.notes === undefined ? "" : payload.notes,
+                amount: payload.amount,
+                transactionState:
+                    payload.transactionState === undefined
+                        ? "outstanding"
+                        : payload.transactionState,
+                activeStatus: true,
+                accountType: "undefined",
+                reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
+                reoccurringType:
+                    payload.reoccurringType === undefined
+                        ? "undefined"
+                        : payload.reoccurringType,
+                accountNameOwner: match.params["account"],
+            }
+
+            if( payload['dueDate'] !== "" ) {
+                newPayload['dueDate'] = payload.dueDate
+            }
+
+            let response = await axios.post(endpoint, newPayload, {
+                timeout: 0,
+                headers: {"Content-Type": "application/json"},
+            })
+            console.log('response: ' + JSON.stringify(response))
+            return response.data
+        },
+        [match.params]
+    )
+
+    const handleButtonClickLink = useCallback(
+        async (rowData) => {
+            try {
+                const newPayload = await futureTransactionInsertPostCall(rowData)
+                console.log("futureNewPayload:" + JSON.stringify(newPayload))
+                setData([newPayload, ...data])
+                await fetchTotals()
+            } catch (error) {
+                handleError(error, 'futureTransactionInsertPostCall', false);
+            }
+        },[futureTransactionInsertPostCall, data, fetchTotals, setData]
     )
 
     const downHandler = useCallback(
