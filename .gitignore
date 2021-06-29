@@ -18,12 +18,9 @@
 *old
 .eslintcache
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 *.bak
 .idea
 ssl/
 *.tar
 *.zip
+*.log

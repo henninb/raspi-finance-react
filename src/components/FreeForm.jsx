@@ -50,13 +50,28 @@ export default function FreeForm() {
         text = text.replace(/[^\S\r\n]+$/gm, "")
         text = text.replace(/\nHOUSEHOLD/g, "\n")
         text = text.replace(/\nHousehold/g, "\n")
+        text = text.replace(/SQ \*/g, "\n")
+        text = text.replace(/MCDONALD'S/g, "McDonalds")
+        text = text.replace(/MIKE'S DISCOUNT FOODS/g, "Mikes Discount Foods")
+        text = text.replace(/LADYBUG'S BLING/g, "Ladybugs Bling")
         text = text.replace(/\nFood & drink\s+\$/g, ",")
+        text = text.replace(/\nBills & utilities\s+\$/g, ",")
         text = text.replace(/\nShopping\s+\$/g, ",")
         text = text.replace(/\nGroceries\s+\$/g, ",")
+        text = text.replace(/\nHome\s+\$/g, ",")
+        text = text.replace(/\s+Pay with My Chase Plan./g, "")
+        text = text.replace(/\nTravel\s+\$/g, ",")
+        text = text.replace(/\nAutomotive\s+\$/g, ",")
+        text = text.replace(/\nGifts & donations\s+\$/g, ",")
+        text = text.replace(/\nGas\s+\$/g, ",")
+        text = text.replace(/\nEntertainment\s+\$/g, ",")
+        text = text.replace(/\nHealth & wellness\s+\$/g, ",")
         text = text.replace(/\nPersonal\s+\$/g, ",")
         text = text.replace(/CENTRAL CHECKOUT/g, "TARGET - ")
         text = text.replace(/ 800-591-3869\n\$/g, ",")
         text = text.replace(/\nTARGET.COM,/g, ",TARGET.COM,")
+        text = text.replace(/[0-9]+:[0-9][0-9] [AP]M/g, "")
+        text = text.replace(/\nTARGET 3991\n\$/g, "TARGET.COM,")
         text = text.replaceAll(" 800-591-3869", "")
         text = text.replaceAll(" 00:00:00", "")
         text = text.replaceAll("See details about this transaction", "")
@@ -194,7 +209,7 @@ export default function FreeForm() {
                     activeStatus: true,
                     accountType: "credit",
                     reoccurring: false,
-                    reoccurringType: "undefined",
+                    reoccurringType: "onetime",
                 }
                 try {
                     await postCall(transaction)
