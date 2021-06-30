@@ -6,6 +6,7 @@ import os from "os"
 import "./master.scss"
 import SnackbarBaseline from "./SnackbarBaseline"
 import Select from "react-select";
+import FreeFormTable from "./FreeFormTable";
 
 require('datejs') //momentjs - look into this
 
@@ -14,6 +15,7 @@ export default function FreeForm() {
     const [open, setOpen] = useState(false)
     const [accountTypeOptions, setAccountTypeOptions] = useState([])
     const [selectedOption, setSelectedOption] = useState('')
+    const [loadFreeFormTable, setLoadFreeFormTable] = useState(false)
 
     const fetchAccountTypeOptions = useCallback(async () => {
         try {
@@ -43,6 +45,10 @@ export default function FreeForm() {
 
     const handleSnackbarClose = () => {
         setOpen(false);
+    }
+
+    const displayList = () => {
+        setLoadFreeFormTable(true)
     }
 
     const transformText = (text) => {
@@ -91,12 +97,12 @@ export default function FreeForm() {
         document.getElementById("textArea").value = transformText(text).trim()
     }
 
-    const handleCleanUp = () => {
-        let text = document.getElementById("textArea").value
-        document.getElementById("textArea").value = transformText(text).trim()
-        setMessage('data cleaned')
-        setOpen(true)
-    }
+    // const handleCleanUp = () => {
+    //     let text = document.getElementById("textArea").value
+    //     document.getElementById("textArea").value = transformText(text).trim()
+    //     setMessage('data cleaned')
+    //     setOpen(true)
+    // }
 
     const handlePrefix = () => {
         let text = document.getElementById("textArea").value.trim()
@@ -243,6 +249,8 @@ export default function FreeForm() {
 
 
     return (
+        <div>
+            {!loadFreeFormTable ? (
         <div className="freeform">
 
             <div>
@@ -260,13 +268,18 @@ export default function FreeForm() {
                     </div>
                 </p>
                 <p>
-                    <input type="button" value="clean" onClick={() => handleCleanUp()}/>
+                    {/*<input type="button" value="clean" onClick={() => handleCleanUp()}/>*/}
                     <input type="button" value="prefix" onClick={() => handlePrefix()}/>
                     <input type="submit" value="submit" onClick={() => handleChange()}/>
+                    <input type="button" value="toList" onClick={() => displayList()}/>
                 </p>
-            </div>
 
+            </div>
             <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
+        </div>) : (<FreeFormTable />) }
+
+
+
         </div>
     )
 }
