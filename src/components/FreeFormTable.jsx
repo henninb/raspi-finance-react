@@ -1,8 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import DataGrid from 'react-data-grid';
-import {endpointUrl} from "./Common";
-import axios from "axios";
-import SnackbarBaseline from "./SnackbarBaseline";
+import DataGrid from 'react-data-grid'
+import {endpointUrl} from "./Common"
+import axios from "axios"
+import SnackbarBaseline from "./SnackbarBaseline"
+import {useMutation, useQuery} from "react-query"
 
 export default function FreeFormTable({data, toggleDisplayList}) {
     const [message, setMessage] = useState('')
@@ -56,6 +57,13 @@ export default function FreeFormTable({data, toggleDisplayList}) {
         },
         []
     )
+
+    //const { isLoading, isError, data1, error } = useQuery('movies', postCall)
+    const { isLoading, isError, error, data1, isSuccess } = useMutation(postCall, {
+        onSuccess: () => {
+            //queryClient.invalidateQueries('movies');
+        },
+    });
 
     const handleChange = async () => {
         for (const transaction of data) {

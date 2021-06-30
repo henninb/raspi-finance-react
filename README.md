@@ -38,6 +38,7 @@ yarn add @date-io/moment@1.x moment
 yarn add @material-ui/icons
 yarn add react-tooltip
 yarn add react-data-grid
+yarn add react-query
 ```
 
 ## strict ssl turned off

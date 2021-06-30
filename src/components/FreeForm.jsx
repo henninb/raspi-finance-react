@@ -262,7 +262,6 @@ export default function FreeForm() {
                 <p>
                     <input type="button" value="prefix" onClick={() => handlePrefix()}/>
                     <input type="submit" value="submit" onClick={() => handleChange()}/>
-                    <input type="button" value="toList" onClick={() => toggleDisplayList()}/>
                 </p>
 
             </div>
@@ -274,7 +273,6 @@ export default function FreeForm() {
                    />
 
              </div>) }
-
         </div>
     )
 }
