@@ -4250,7 +4250,7 @@ clone-response@^1.0.2:
   dependencies:
     mimic-response "^1.0.0"
 
-clsx@^1.0.2, clsx@^1.0.4:
+clsx@^1.0.2, clsx@^1.0.4, clsx@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
   integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
@@ -10938,6 +10938,13 @@ react-beautiful-dnd@13.0.0:
     react-redux "^7.1.1"
     redux "^4.0.4"
     use-memo-one "^1.1.1"
+
+react-data-grid@^7.0.0-canary.49:
+  version "7.0.0-canary.49"
+  resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-7.0.0-canary.49.tgz#31625d271b6c7e48b2f3d12fb2cae378f619744d"
+  integrity sha512-Jg83CRnJtnv8FF7XeByke0KiJBdfXbnrsS08yxHcqyfTEICFmMdtQXFK8SCH7prYR3HiGtI6NqYcju/Te2Kl6w==
+  dependencies:
+    clsx "^1.1.1"
 
 react-datepicker@^4.1.1:
   version "4.1.1"

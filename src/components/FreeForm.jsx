@@ -16,6 +16,7 @@ export default function FreeForm() {
     const [accountTypeOptions, setAccountTypeOptions] = useState([])
     const [selectedOption, setSelectedOption] = useState('')
     const [loadFreeFormTable, setLoadFreeFormTable] = useState(false)
+    const [data, setData] = useState([])
 
     const fetchAccountTypeOptions = useCallback(async () => {
         try {
@@ -47,8 +48,8 @@ export default function FreeForm() {
         setOpen(false);
     }
 
-    const displayList = () => {
-        setLoadFreeFormTable(true)
+    const toggleDisplayList = () => {
+        setLoadFreeFormTable(!loadFreeFormTable)
     }
 
     const transformText = (text) => {
@@ -96,13 +97,6 @@ export default function FreeForm() {
         e.preventDefault();
         document.getElementById("textArea").value = transformText(text).trim()
     }
-
-    // const handleCleanUp = () => {
-    //     let text = document.getElementById("textArea").value
-    //     document.getElementById("textArea").value = transformText(text).trim()
-    //     setMessage('data cleaned')
-    //     setOpen(true)
-    // }
 
     const handlePrefix = () => {
         let text = document.getElementById("textArea").value.trim()
@@ -152,31 +146,32 @@ export default function FreeForm() {
         }
     }
 
-    const postCall = useCallback(
-        async (payload) => {
-
-            let endpoint = endpointUrl() + "/transaction/insert/"
-
-            try {
-                let response = await axios.post(endpoint, payload, {
-                    timeout: 0,
-                    headers: {"Content-Type": "application/json"},
-                })
-
-                setOpen(true)
-                return response
-            } catch (error) {
-                handleError(error, 'postCall', false)
-            }
-        },
-        []
-    )
+    // const postCall = useCallback(
+    //     async (payload) => {
+    //
+    //         let endpoint = endpointUrl() + "/transaction/insert/"
+    //
+    //         try {
+    //             let response = await axios.post(endpoint, payload, {
+    //                 timeout: 0,
+    //                 headers: {"Content-Type": "application/json"},
+    //             })
+    //
+    //             setOpen(true)
+    //             return response
+    //         } catch (error) {
+    //             handleError(error, 'postCall', false)
+    //         }
+    //     },
+    //     []
+    // )
 
     const handleChange = async () => {
         const text = document.getElementById("textArea").value;
         let sanitizedText = text.replace(/\t/g, ',')
         sanitizedText = sanitizedText.toLowerCase()
         const lines = sanitizedText.split(os.EOL)
+        let transactions = []
 
         if( !validateData() ) {
             return
@@ -217,16 +212,13 @@ export default function FreeForm() {
                     reoccurring: false,
                     reoccurringType: "onetime",
                 }
-                try {
-                    await postCall(transaction)
-                } catch (error) {
-                    handleError(error, 'handleChange', false)
-                }
-
+                transactions.push(transaction)
             } else {
                 console.log(`column count off - skipped:${line}`)
             }
         }
+        setData(transactions)
+        setLoadFreeFormTable(true)
     }
 
     const onSelectChange = ({value}) => {
@@ -268,17 +260,20 @@ export default function FreeForm() {
                     </div>
                 </p>
                 <p>
-                    {/*<input type="button" value="clean" onClick={() => handleCleanUp()}/>*/}
                     <input type="button" value="prefix" onClick={() => handlePrefix()}/>
                     <input type="submit" value="submit" onClick={() => handleChange()}/>
-                    <input type="button" value="toList" onClick={() => displayList()}/>
+                    <input type="button" value="toList" onClick={() => toggleDisplayList()}/>
                 </p>
 
             </div>
             <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
-        </div>) : (<FreeFormTable />) }
+        </div>) : (<div className="freeform">
+                <FreeFormTable
+                toggleDisplayList={toggleDisplayList}
+                data={data}
+                   />
 
-
+             </div>) }
 
         </div>
     )
