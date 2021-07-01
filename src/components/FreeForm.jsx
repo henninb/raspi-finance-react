@@ -3,7 +3,7 @@ import {v4 as uuidv4} from "uuid"
 import {endpointUrl} from "./Common"
 import axios from "axios"
 import os from "os"
-import "./master.scss"
+import "./main.scss"
 import SnackbarBaseline from "./SnackbarBaseline"
 import Select from "react-select";
 import FreeFormTable from "./FreeFormTable";

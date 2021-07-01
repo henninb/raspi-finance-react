@@ -1,7 +1,7 @@
 import React from "react"
 import SelectAccounts from "./SelectAccounts"
 import {Link} from "react-router-dom"
-import "./master.scss"
+import "./main.scss"
 
 export default function NavbarInstance() {
     return (

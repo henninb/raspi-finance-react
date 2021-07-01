@@ -3,7 +3,7 @@ import MaterialTable from "material-table"
 import axios from "axios"
 import {v4 as uuidv4} from "uuid"
 import Spinner from "./Spinner"
-import "./master.scss"
+import "./main.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
@@ -19,19 +19,31 @@ import DatePicker from "react-datepicker"
 import moment from "moment"
 import SelectReoccurringType from "./SelectReoccurringType"
 import Button from "@material-ui/core/Button"
+import useAccountDataQuery from "./queries/useAccountDataQuery";
 
 export default function TransactionTable() {
-    const [loadSpinner, setLoadSpinner] = useState(true)
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
     const [currentGuid, setCurrentGuid] = useState("")
     const [totals, setTotals] = useState([])
-    const [data, setData] = useState([])
     const [keyPressed, setKeyPressed] = useState(false)
     const [fileContent, setFileContent] = useState("")
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
 
     let match = useRouteMatch("/transactions/:account")
+    const {data, isSuccess, isLoading, isError} = useAccountDataQuery(match.params["account"])
+    //const [data, setData] = useState(data)
+
+    const setData = (data1) => {
+        //data = data1
+
+    //     DefaultClientAPI.client.writeQuery({
+    //         query: SET_CONFIG_CACHE_QUERY,
+    //         data: {
+    //             config: handleConfigOuput(data)
+    //         }
+    //     });
+    }
 
     const handleSnackbarClose = () => {
         setOpen(false);
@@ -197,44 +209,8 @@ export default function TransactionTable() {
                 handleError(error, 'updateTransactionState', false)
             }
         },
-        [data, changeTransactionState, fetchTotals]
+        [data, changeTransactionState, fetchTotals, setData]
     )
-
-    const fetchAccountData = useCallback(async () => {
-        const CancelToken = axios.CancelToken
-        const source = CancelToken.source()
-
-        try {
-            const response = await axios.get(
-                endpointUrl() + "/transaction/account/select/" + match.params["account"],
-                {
-                    cancelToken: source.token,
-                    timeout: 0,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json",
-                    },
-                }
-            )
-            if (response.data.length > 0) {
-                setData(response.data)
-            } else {
-
-            }
-        } catch (error) {
-            if (error.response) {
-                if (error.response.status === 404) {
-
-                }
-            }
-            handleError(error, 'fetchAccountData', true)
-        } finally {
-            setLoadSpinner(false)
-        }
-        return () => {
-            source.cancel()
-        }
-    }, [match])
 
     const putCall = useCallback(async (newData, oldData) => {
         let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
@@ -453,11 +429,6 @@ export default function TransactionTable() {
         window.addEventListener("keydown", downHandler)
         window.addEventListener("keyup", upHandler)
 
-        if (data.length === 0) {
-            let response = fetchAccountData()
-            console.log(response)
-        }
-
         if (fileContent !== "") {
             console.log(`current transactionId = ${currentGuid}`)
             const response = insertReceiptImage()
@@ -481,13 +452,13 @@ export default function TransactionTable() {
             window.removeEventListener("keydown", downHandler)
             window.removeEventListener("keyup", upHandler)
         }
-    }, [totals, data, fetchTotals, fetchAccountData, downHandler, upHandler, fileContent, currentGuid, insertReceiptImage])
+    }, [totals, data, fetchTotals, downHandler, upHandler, fileContent, currentGuid, insertReceiptImage])
 
     let today = moment(new Date().toDateString()).format('YYYY-MM-DD')
 
     return (
         <div>
-            {!loadSpinner ? (
+            {!isLoading && isSuccess ? (
                 <div className="table-formatting">
 
                     <MaterialTable

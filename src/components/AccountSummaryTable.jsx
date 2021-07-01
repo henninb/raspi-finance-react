@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react"
 import MaterialTable from "material-table"
 import Spinner from "./Spinner"
-import "./master.scss"
+import "./main.scss"
 import axios from "axios"
 import Button from "@material-ui/core/Button"
 import {useHistory} from "react-router-dom"

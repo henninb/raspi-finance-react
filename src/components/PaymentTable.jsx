@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react"
 import MaterialTable from "material-table"
-import "./master.scss"
+import "./main.scss"
 import axios from "axios"
 import SelectAccountNameOwnerCredit from "./SelectAccountNameOwnerCredit"
 import Spinner from "./Spinner"

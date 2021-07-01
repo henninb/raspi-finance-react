@@ -6,9 +6,10 @@ import PaymentTable from "./PaymentTable"
 import FreeForm from "./FreeForm"
 import NavbarInstance from "./NavbarInstance"
 import PaymentRequired from "./PaymentRequired";
+import {QueryClient, QueryClientProvider} from "react-query";
 
 export default function Routes() {
-    //let Test = () => <div className="table-formatting"><h1>test</h1></div>
+    const queryClient = new QueryClient()
     return (
         <div>
             <Router>
@@ -16,15 +17,17 @@ export default function Routes() {
                     <NavbarInstance/>
                 </div>
                 <Switch>
-                    <Route path="/payments" exact component={PaymentTable}/>
-                    <Route path="/freeform" exact component={FreeForm}/>
-                    <Route path="/payment/required" exact component={PaymentRequired}/>
-                    <Route
-                        path="/transactions/:account"
-                        exact
-                        component={TransactionTable}
-                    />
-                    <Route path="/" exact component={AccountSummaryTable}/>
+                    <QueryClientProvider client={queryClient}>
+                        <Route path="/payments" exact component={PaymentTable}/>
+                        <Route path="/freeform" exact component={FreeForm}/>
+                        <Route path="/payment/required" exact component={PaymentRequired}/>
+                        <Route
+                            path="/transactions/:account"
+                            exact
+                            component={TransactionTable}
+                        />
+                        <Route path="/" exact component={AccountSummaryTable}/>
+                    </QueryClientProvider>
                 </Switch>
             </Router>
         </div>
