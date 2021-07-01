@@ -113,3 +113,10 @@ The character encoding of the page must be declared in the document or in the tr
 docker save -o raspi-finance-react-docker.tar raspi-finance-react:latest
 docker load -i raspi-finance-react-docker.tar
 ```
+
+
+issue
+```
+warning @types/react-loader-spinner@4.0.0: This is a stub types definition. react-loader-spinner provides its own type definitions, so you do not need this installed.
+warning react-scripts > babel-eslint@10.1.0: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
+warning react-scripts > webpack-dev-server > chokidar > fsevents@1.2.13: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
