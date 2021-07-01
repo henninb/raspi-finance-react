@@ -359,11 +359,13 @@ export default function TransactionTable() {
             console.log("newPayload:" + JSON.stringify(newPayload))
 
 
-            await axios.post(endpoint, newPayload, {
+            let response = await axios.post(endpoint, newPayload, {
                 timeout: 0,
                 headers: {"Content-Type": "application/json"},
             })
-            return newPayload
+
+            console.log('response: ' + JSON.stringify(response))
+            return response.data
         },
         [match.params]
     )
@@ -571,9 +573,11 @@ export default function TransactionTable() {
                                     return (
                                         <>
                                             {/*capitalize the first letter of the string */}
-                                            <ToggleButtons transactionState={rowData.transactionState.replace(/^\w/, c => c.toUpperCase())}
-                                                           guid={rowData.guid}
-                                                           handlerToUpdateTransactionState={handlerToUpdateTransactionState}
+                                            <ToggleButtons
+                                                // transactionState={rowData.transactionState.replace(/^\w/, c => c.toUpperCase())}
+                                                transactionState={rowData.transactionState}
+                                                guid={rowData.guid}
+                                                handlerToUpdateTransactionState={handlerToUpdateTransactionState}
                                             />
                                         </>
                                     )
@@ -719,16 +723,16 @@ export default function TransactionTable() {
                             },
                             rowStyle: (rowData) => {
                                 if( rowData.transactionState !== null ) {
-                                    if (rowData.transactionState.toLowerCase() === "cleared") {
+                                    if ( rowData.transactionState === "cleared" || rowData.transactionState.toLowerCase() === "cleared" ) {
                                         return {fontSize: ".6rem"}
-                                    } else if (rowData.transactionState.toLowerCase() === "future") {
+                                    } else if (rowData.transactionState === "future" || rowData.transactionState.toLowerCase() === "future" ) {
                                         return {
                                             fontSize: ".6rem",
                                             fontWeight: "bold",
                                             backgroundColor: "#5800f9",
                                             color: "#FFF",
                                         }
-                                    } else if (rowData.transactionState.toLowerCase() === "outstanding") {
+                                    } else if ( rowData.transactionState === "outstanding" || rowData.transactionState.toLowerCase() === "outstanding" ) {
                                         return {
                                             fontSize: ".6rem",
                                             fontWeight: "bold",

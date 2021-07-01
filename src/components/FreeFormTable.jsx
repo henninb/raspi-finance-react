@@ -50,7 +50,7 @@ export default function FreeFormTable({data, toggleDisplayList}) {
                 })
 
                 setOpen(true)
-                return response
+                return response.data
             } catch (error) {
                 handleError(error, 'postCall', false)
             }

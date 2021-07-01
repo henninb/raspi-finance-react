@@ -15,21 +15,21 @@ export default function ToggleButtons({ transactionState, guid, handlerToUpdateT
         return colorOff;
     }
     const [transactionType, setTransactionType] = React.useState(transactionState);
-    const [clearedColor, setClearedColor] = React.useState( determineColor('Cleared'));
-    const [outstandingColor, setOutStandingColor] = React.useState( determineColor('Outstanding'));
-    const [futureColor, setFutureColor] = React.useState( determineColor('Future'));
+    const [clearedColor, setClearedColor] = React.useState( determineColor('cleared'));
+    const [outstandingColor, setOutStandingColor] = React.useState( determineColor('outstanding'));
+    const [futureColor, setFutureColor] = React.useState( determineColor('future'));
 
     const handleTransactionType = (event, newTransactionType) => {
 
-        if( newTransactionType === 'Cleared') {
+        if( newTransactionType === 'cleared' || newTransactionType.toLowerCase() === 'cleared' ) {
             setClearedColor( colorOn);
             setOutStandingColor(colorOff);
             setFutureColor(colorOff);
-        } else if( newTransactionType === 'Future') {
+        } else if( newTransactionType === 'future' || newTransactionType.toLowerCase() === 'future' ) {
             setClearedColor( colorOff);
             setOutStandingColor(colorOff);
             setFutureColor(colorOn);
-        } else if( newTransactionType === 'Outstanding') {
+        } else if( newTransactionType === 'outstanding' || newTransactionType.toLowerCase() === 'outstanding' ) {
             setClearedColor( colorOff);
             setOutStandingColor(colorOn);
             setFutureColor(colorOff);
@@ -46,21 +46,21 @@ export default function ToggleButtons({ transactionState, guid, handlerToUpdateT
             aria-label="text transactionType"
         >
 
-            <ToggleButton value="Future">
+            <ToggleButton value="future">
                 <a data-tip="future transaction">
                 <AttachMoneyRounded style={{ color: futureColor }} />
                 </a>
                 <ReactTooltip effect="solid"  />
             </ToggleButton>
 
-            <ToggleButton value="Outstanding">
+            <ToggleButton value="outstanding">
                 <a data-tip="outstanding transaction">
                 <AttachMoneyRounded style={{ color: outstandingColor }} />
                 </a>
                 <ReactTooltip effect="solid"  />
             </ToggleButton>
 
-            <ToggleButton value="Cleared">
+            <ToggleButton value="cleared">
                 <a data-tip="cleared transaction">
                     <AttachMoneyRounded style={{ color: clearedColor }} />
                 </a>
