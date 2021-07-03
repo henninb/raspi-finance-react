@@ -1,8 +1,7 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import TextField from "@material-ui/core/TextField"
-import axios from "axios"
-import {endpointUrl} from "./Common"
+import useFetchCategory from "./queries/useFetchCategory";
 
 interface Props {
     onChangeFunction: any
@@ -18,29 +17,9 @@ export default function SelectCategory({
     const [inputValue, setInputValue] = useState("")
     const [keyPressValue, setKeyPressValue] = useState("")
 
-    const fetchCategoryData = useCallback(async () => {
-        try {
-            const response = await axios.get(
-                endpointUrl() + "/category/select/active"
-            )
-            const categories: any[] = extracted(response)
-            // @ts-ignore
-            setOptions(categories)
-            return categories
-        } catch (error) {
-            if (error.response) {
-                // if (error.response.status === 404) {
-                // } else {
-                //     alert("fetchCategoryData" + JSON.stringify(error.response.data))
-                // }
-            }
-            //setOptions([])
-        } finally {
+    const {data, isSuccess} = useFetchCategory()
 
-        }
-    }, [])
-
-    const extracted = (response: any) => {
+    const extractedCategoryField = (response: any) => {
         let categories: any[] = []
         response.data.forEach((element: any) => {
             categories.push(element.category)
@@ -49,11 +28,14 @@ export default function SelectCategory({
     }
 
     useEffect(() => {
-        const response = fetchCategoryData()
-        console.log(response)
+        if( isSuccess ) {
+            const response: any = extractedCategoryField(data) //fetchCategoryData()
+            //console.log(response)
+            setOptions(response)
+        }
 
         setValue(inputValue)
-    }, [value, fetchCategoryData, currentValue, inputValue])
+    }, [value, data, currentValue, inputValue, isSuccess])
 
     const handleKeyDown = (event: any) => {
         if (event.key === "Tab") {
