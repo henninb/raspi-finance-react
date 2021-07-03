@@ -24,7 +24,7 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default (accountNameOwner) => {
+export default function useTransactionDelete(accountNameOwner) {
     const queryClient = useQueryClient()
     queryClient.getQueryData(getAccountKey(accountNameOwner))
 

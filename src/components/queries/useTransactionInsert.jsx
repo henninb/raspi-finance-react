@@ -4,12 +4,8 @@ import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
-const insertTransaction = (accountNameOwner, payload) => {
-    let endpoint = endpointUrl() + "/transaction/insert/"
 
-    if (payload['dueDate'] === "") {
-        delete payload['dueDate']
-    }
+const setupNewTransaction = (payload, accountNameOwner) => {
 
     let newPayload = {
         guid: uuidv4(),
@@ -33,9 +29,20 @@ const insertTransaction = (accountNameOwner, payload) => {
         accountNameOwner: accountNameOwner,
     }
 
+    if (payload['dueDate'] === "") {
+        delete payload['dueDate']
+    }
+
     if (payload['dueDate'] !== "") {
         newPayload['dueDate'] = payload.dueDate
     }
+    return newPayload
+}
+
+const insertTransaction = (accountNameOwner, payload) => {
+    let endpoint = endpointUrl() + "/transaction/insert/"
+
+    let newPayload = setupNewTransaction(payload, accountNameOwner)
 
     return axios.post(endpoint, newPayload, {
         timeout: 0,
@@ -54,15 +61,16 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default (accountNameOwner) => {
+export default function useTransactionInsert (accountNameOwner) {
     const queryClient = useQueryClient()
     queryClient.getQueryData(getAccountKey(accountNameOwner))
 
-    return useMutation(['insertTransaction'], (variables) => insertTransaction(variables.accountNameOwner, variables.newRow), {onError: catchError,
+    return useMutation(['insertTransaction'], (variables) => insertTransaction(accountNameOwner, variables.newRow), {onError: catchError,
 
         onSuccess: (response, variables) => {
             let oldData = queryClient.getQueryData(getAccountKey(accountNameOwner))
-            let newData = [variables.newRow, ...oldData]
+            let updatedNewRow = setupNewTransaction(variables.newRow, accountNameOwner)
+            let newData = [updatedNewRow, ...oldData]
             queryClient.setQueryData(getAccountKey(accountNameOwner), newData)
         }})
 }

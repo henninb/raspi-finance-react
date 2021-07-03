@@ -19,10 +19,11 @@ import DatePicker from "react-datepicker"
 import moment from "moment"
 import SelectReoccurringType from "./SelectReoccurringType"
 import Button from "@material-ui/core/Button"
-import useAccountDataQuery from "./queries/useAccountDataQuery";
-import useChangeTransactionState from "./queries/useChangeTransactionState";
-import useMyUpdateTransaction from "./queries/useMyUpdateTransaction";
-import useDeleteTransaction from "./queries/useDeleteTransaction";
+import useFetchTransactionByAccount from "./queries/useFetchTransactionByAccount";
+import useChangeTransactionState from "./queries/useTransactionStateUpdate";
+import useTransactionUpdate from "./queries/useTransactionUpdate";
+import useTransactionDelete from "./queries/useTransactionDelete";
+import useTransactionInsert from "./queries/useTransactionInsert";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -34,11 +35,11 @@ export default function TransactionTable() {
     const [open, setOpen] = useState(false)
 
     let routeMatch = useRouteMatch("/transactions/:account")
-    const {data, isSuccess, isLoading, isError} = useAccountDataQuery(routeMatch.params["account"])
-    //const {mutate:{updateTransactionState1}} = useChangeTransactionState(routeMatch.params["account"])
-    const {mutate} = useChangeTransactionState(routeMatch.params["account"])
-    const {mutate: updateTransaction } = useMyUpdateTransaction(routeMatch.params["account"])
-    const {mutate: deleteTransaction } = useDeleteTransaction(routeMatch.params["account"])
+    const {data, isSuccess, isLoading} = useFetchTransactionByAccount(routeMatch.params["account"])
+    const {mutate: updateTransactionState} = useChangeTransactionState(routeMatch.params["account"])
+    const {mutate: updateTransaction} = useTransactionUpdate(routeMatch.params["account"])
+    const {mutate: deleteTransaction} = useTransactionDelete(routeMatch.params["account"])
+    const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
 
     const setData = (data1) => {
         //data = data1
@@ -164,14 +165,14 @@ export default function TransactionTable() {
     const handlerToUpdateTransactionState = useCallback(
         async (guid, accountNameOwner, transactionState) => {
             try {
-                await mutate({ guid: guid, transactionState: transactionState })
+                await updateTransactionState({ guid: guid, transactionState: transactionState })
                 fetchTotals()
             } catch (error) {
                 console.log(error)
                 handleError(error, 'updateTransactionState1', false)
             }
         },
-        [data, mutate, fetchTotals]
+        [data, updateTransactionState, fetchTotals]
     )
 
     const updateRow = (newData, oldData) => {
@@ -208,8 +209,7 @@ export default function TransactionTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    const newPayload = await transactionInsertPostCall(newData)
-                    setData([newPayload, ...data])
+                    await insertTransaction({newRow: newData})
                     await fetchTotals()
                     resolve()
                 } catch (error) {
@@ -220,54 +220,54 @@ export default function TransactionTable() {
         })
     }
 
-    const transactionInsertPostCall = useCallback(
-        async (payload) => {
-            let endpoint = endpointUrl() + "/transaction/insert/"
-
-            if (payload['dueDate'] === "") {
-                delete payload['dueDate']
-            }
-
-            let newPayload = {
-                guid: uuidv4(),
-                transactionDate: payload.transactionDate,
-                description: payload.description,
-                category: payload.category === undefined ? "undefined" : payload.category,
-                //dueDate: payload.dueDate = payload.dueDate,
-                notes: payload.notes === undefined ? "" : payload.notes,
-                amount: payload.amount,
-                transactionState:
-                    payload.transactionState === undefined
-                        ? "outstanding"
-                        : payload.transactionState,
-                activeStatus: true,
-                accountType: "undefined",
-                reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
-                reoccurringType:
-                    payload.reoccurringType === undefined
-                        ? "onetime"
-                        : payload.reoccurringType,
-                accountNameOwner: routeMatch.params["account"],
-            }
-
-            if (payload['dueDate'] !== "") {
-                newPayload['dueDate'] = payload.dueDate
-            }
-
-            console.log("newPayload transactionDate:" + newPayload.transactionDate)
-            console.log("newPayload:" + JSON.stringify(newPayload))
-
-
-            let response = await axios.post(endpoint, newPayload, {
-                timeout: 0,
-                headers: {"Content-Type": "application/json"},
-            })
-
-            console.log('response: ' + JSON.stringify(response))
-            return response.data
-        },
-        [routeMatch.params]
-    )
+    // const transactionInsertPostCall = useCallback(
+    //     async (payload) => {
+    //         let endpoint = endpointUrl() + "/transaction/insert/"
+    //
+    //         if (payload['dueDate'] === "") {
+    //             delete payload['dueDate']
+    //         }
+    //
+    //         let newPayload = {
+    //             guid: uuidv4(),
+    //             transactionDate: payload.transactionDate,
+    //             description: payload.description,
+    //             category: payload.category === undefined ? "undefined" : payload.category,
+    //             //dueDate: payload.dueDate = payload.dueDate,
+    //             notes: payload.notes === undefined ? "" : payload.notes,
+    //             amount: payload.amount,
+    //             transactionState:
+    //                 payload.transactionState === undefined
+    //                     ? "outstanding"
+    //                     : payload.transactionState,
+    //             activeStatus: true,
+    //             accountType: "undefined",
+    //             reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
+    //             reoccurringType:
+    //                 payload.reoccurringType === undefined
+    //                     ? "onetime"
+    //                     : payload.reoccurringType,
+    //             accountNameOwner: routeMatch.params["account"],
+    //         }
+    //
+    //         if (payload['dueDate'] !== "") {
+    //             newPayload['dueDate'] = payload.dueDate
+    //         }
+    //
+    //         console.log("newPayload transactionDate:" + newPayload.transactionDate)
+    //         console.log("newPayload:" + JSON.stringify(newPayload))
+    //
+    //
+    //         let response = await axios.post(endpoint, newPayload, {
+    //             timeout: 0,
+    //             headers: {"Content-Type": "application/json"},
+    //         })
+    //
+    //         console.log('response: ' + JSON.stringify(response))
+    //         return response.data
+    //     },
+    //     [routeMatch.params]
+    // )
 
     const futureTransactionInsertPostCall = useCallback(
         async (payload) => {

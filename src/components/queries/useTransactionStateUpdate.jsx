@@ -30,7 +30,7 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default (accountNameOwner) => {
+export default function useTransactionStateUpdate (accountNameOwner) {
     const queryClient = useQueryClient()
     console.log('update cache for accountNameOwner: ' + accountNameOwner)
     queryClient.getQueryData(getAccountKey(accountNameOwner))

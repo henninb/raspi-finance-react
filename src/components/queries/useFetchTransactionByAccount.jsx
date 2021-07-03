@@ -24,6 +24,6 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default (accountNameOwner) => {
+export default function useFetchTransactionByAccount (accountNameOwner) {
     return useQuery(['accounts', accountNameOwner], () => fetchAccountData(accountNameOwner), {onError: catchError})
 }
