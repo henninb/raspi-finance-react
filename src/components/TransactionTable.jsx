@@ -40,17 +40,6 @@ export default function TransactionTable() {
     const {mutate: deleteTransaction} = useTransactionDelete(routeMatch.params["account"])
     const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
 
-    const setData = (data1) => {
-        //data = data1
-
-        //     DefaultClientAPI.client.writeQuery({
-        //         query: SET_CONFIG_CACHE_QUERY,
-        //         data: {
-        //             config: handleConfigOuput(data)
-        //         }
-        //     });
-    }
-
     const handleSnackbarClose = () => {
         setOpen(false);
     }
@@ -171,7 +160,7 @@ export default function TransactionTable() {
                 handleError(error, 'updateTransactionState1', false)
             }
         },
-        [data, updateTransactionState, fetchTotals]
+        [updateTransactionState, fetchTotals]
     )
 
     const updateRow = (newData, oldData) => {
@@ -222,15 +211,12 @@ export default function TransactionTable() {
     const handleButtonClickLink = useCallback(
         async (newData) => {
             try {
-                //const newPayload = await futureTransactionInsertPostCall(rowData)
-                //console.log("futureNewPayload:" + JSON.stringify(newPayload))
-                //setData([newPayload, ...data])
                 await insertTransaction({newRow: newData, isFutureTransaction: true})
                 await fetchTotals()
             } catch (error) {
                 handleError(error, 'futureTransactionInsertPostCall', false);
             }
-        }, [insertTransaction, data, fetchTotals, setData]
+        }, [insertTransaction, fetchTotals]
     )
 
     const downHandler = useCallback(
@@ -583,8 +569,8 @@ export default function TransactionTable() {
                             closeDialog={() => {
                                 setLoadMoveDialog(false)
                                 console.log('delete guid:' + currentGuid)
-                                const newData = data.filter((obj) => obj.guid !== currentGuid)
-                                setData(newData)
+                                //const newData = data.filter((obj) => obj.guid !== currentGuid)
+                                //setData(newData)
                             }}
                             transactionGuid={currentGuid}
                         />
