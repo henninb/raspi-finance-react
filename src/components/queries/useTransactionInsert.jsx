@@ -39,8 +39,12 @@ const setupNewTransaction = (payload, accountNameOwner) => {
     return newPayload
 }
 
-const insertTransaction = (accountNameOwner, payload) => {
+const insertTransaction = (accountNameOwner, payload, isFutureTransaction) => {
     let endpoint = endpointUrl() + "/transaction/insert/"
+    if( isFutureTransaction) {
+        endpoint = endpointUrl() + "/transaction/future/insert/"
+        console.log("will insert futureTransaction")
+    }
 
     let newPayload = setupNewTransaction(payload, accountNameOwner)
 
@@ -65,11 +69,15 @@ export default function useTransactionInsert (accountNameOwner) {
     const queryClient = useQueryClient()
     queryClient.getQueryData(getAccountKey(accountNameOwner))
 
-    return useMutation(['insertTransaction'], (variables) => insertTransaction(accountNameOwner, variables.newRow), {onError: catchError,
+    return useMutation(['insertTransaction'], (variables) => insertTransaction(accountNameOwner, variables.newRow, variables.isFutureTransaction), {onError: catchError,
 
         onSuccess: (response, variables) => {
             let oldData = queryClient.getQueryData(getAccountKey(accountNameOwner))
             let updatedNewRow = setupNewTransaction(variables.newRow, accountNameOwner)
+            //TODO: 7-3-2021 fix this so I do not have branching logic here, the line above should be deprecated
+            if( variables.isFutureTransaction ) {
+               updatedNewRow = response
+            }
             let newData = [updatedNewRow, ...oldData]
             queryClient.setQueryData(getAccountKey(accountNameOwner), newData)
         }})

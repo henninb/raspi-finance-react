@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react"
 import MaterialTable from "material-table"
 import axios from "axios"
-import {v4 as uuidv4} from "uuid"
 import Spinner from "./Spinner"
 import "./main.scss"
 import {useRouteMatch} from "react-router-dom"
@@ -209,7 +208,7 @@ export default function TransactionTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    await insertTransaction({newRow: newData})
+                    await insertTransaction({newRow: newData, isFutureTransaction: false})
                     await fetchTotals()
                     resolve()
                 } catch (error) {
@@ -220,110 +219,18 @@ export default function TransactionTable() {
         })
     }
 
-    // const transactionInsertPostCall = useCallback(
-    //     async (payload) => {
-    //         let endpoint = endpointUrl() + "/transaction/insert/"
-    //
-    //         if (payload['dueDate'] === "") {
-    //             delete payload['dueDate']
-    //         }
-    //
-    //         let newPayload = {
-    //             guid: uuidv4(),
-    //             transactionDate: payload.transactionDate,
-    //             description: payload.description,
-    //             category: payload.category === undefined ? "undefined" : payload.category,
-    //             //dueDate: payload.dueDate = payload.dueDate,
-    //             notes: payload.notes === undefined ? "" : payload.notes,
-    //             amount: payload.amount,
-    //             transactionState:
-    //                 payload.transactionState === undefined
-    //                     ? "outstanding"
-    //                     : payload.transactionState,
-    //             activeStatus: true,
-    //             accountType: "undefined",
-    //             reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
-    //             reoccurringType:
-    //                 payload.reoccurringType === undefined
-    //                     ? "onetime"
-    //                     : payload.reoccurringType,
-    //             accountNameOwner: routeMatch.params["account"],
-    //         }
-    //
-    //         if (payload['dueDate'] !== "") {
-    //             newPayload['dueDate'] = payload.dueDate
-    //         }
-    //
-    //         console.log("newPayload transactionDate:" + newPayload.transactionDate)
-    //         console.log("newPayload:" + JSON.stringify(newPayload))
-    //
-    //
-    //         let response = await axios.post(endpoint, newPayload, {
-    //             timeout: 0,
-    //             headers: {"Content-Type": "application/json"},
-    //         })
-    //
-    //         console.log('response: ' + JSON.stringify(response))
-    //         return response.data
-    //     },
-    //     [routeMatch.params]
-    // )
-
-    const futureTransactionInsertPostCall = useCallback(
-        async (payload) => {
-            let endpoint = endpointUrl() + "/transaction/future/insert/"
-
-            if (payload['dueDate'] === "") {
-                delete payload['dueDate']
-            }
-
-            let newPayload = {
-                guid: uuidv4(),
-                transactionDate: payload.transactionDate,
-                description: payload.description,
-                category: payload.category === undefined ? "undefined" : payload.category,
-                //dueDate: payload.dueDate = payload.dueDate,
-                notes: payload.notes === undefined ? "" : payload.notes,
-                amount: payload.amount,
-                transactionState:
-                    payload.transactionState === undefined
-                        ? "outstanding"
-                        : payload.transactionState,
-                activeStatus: true,
-                accountType: "undefined",
-                reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
-                reoccurringType:
-                    payload.reoccurringType === undefined
-                        ? "undefined"
-                        : payload.reoccurringType,
-                accountNameOwner: routeMatch.params["account"],
-            }
-
-            if (payload['dueDate'] !== "") {
-                newPayload['dueDate'] = payload.dueDate
-            }
-
-            let response = await axios.post(endpoint, newPayload, {
-                timeout: 0,
-                headers: {"Content-Type": "application/json"},
-            })
-            console.log('response: ' + JSON.stringify(response))
-            return response.data
-        },
-        [routeMatch.params]
-    )
-
     const handleButtonClickLink = useCallback(
-        async (rowData) => {
+        async (newData) => {
             try {
-                const newPayload = await futureTransactionInsertPostCall(rowData)
-                console.log("futureNewPayload:" + JSON.stringify(newPayload))
-                setData([newPayload, ...data])
+                //const newPayload = await futureTransactionInsertPostCall(rowData)
+                //console.log("futureNewPayload:" + JSON.stringify(newPayload))
+                //setData([newPayload, ...data])
+                await insertTransaction({newRow: newData, isFutureTransaction: true})
                 await fetchTotals()
             } catch (error) {
                 handleError(error, 'futureTransactionInsertPostCall', false);
             }
-        }, [futureTransactionInsertPostCall, data, fetchTotals, setData]
+        }, [insertTransaction, data, fetchTotals, setData]
     )
 
     const downHandler = useCallback(
