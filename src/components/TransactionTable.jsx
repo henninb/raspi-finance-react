@@ -20,6 +20,9 @@ import moment from "moment"
 import SelectReoccurringType from "./SelectReoccurringType"
 import Button from "@material-ui/core/Button"
 import useAccountDataQuery from "./queries/useAccountDataQuery";
+import useChangeTransactionState from "./queries/useChangeTransactionState";
+import useMyUpdateTransaction from "./queries/useMyUpdateTransaction";
+import useDeleteTransaction from "./queries/useDeleteTransaction";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -30,19 +33,22 @@ export default function TransactionTable() {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
 
-    let match = useRouteMatch("/transactions/:account")
-    const {data, isSuccess, isLoading, isError} = useAccountDataQuery(match.params["account"])
-    //const [data, setData] = useState(data)
+    let routeMatch = useRouteMatch("/transactions/:account")
+    const {data, isSuccess, isLoading, isError} = useAccountDataQuery(routeMatch.params["account"])
+    //const {mutate:{updateTransactionState1}} = useChangeTransactionState(routeMatch.params["account"])
+    const {mutate} = useChangeTransactionState(routeMatch.params["account"])
+    const {mutate: updateTransaction } = useMyUpdateTransaction(routeMatch.params["account"])
+    const {mutate: deleteTransaction } = useDeleteTransaction(routeMatch.params["account"])
 
     const setData = (data1) => {
         //data = data1
 
-    //     DefaultClientAPI.client.writeQuery({
-    //         query: SET_CONFIG_CACHE_QUERY,
-    //         data: {
-    //             config: handleConfigOuput(data)
-    //         }
-    //     });
+        //     DefaultClientAPI.client.writeQuery({
+        //         query: SET_CONFIG_CACHE_QUERY,
+        //         data: {
+        //             config: handleConfigOuput(data)
+        //         }
+        //     });
     }
 
     const handleSnackbarClose = () => {
@@ -118,7 +124,7 @@ export default function TransactionTable() {
                     return
                 }
 
-                if (fileList[0].type.match('image/jpeg') || fileList[0].type.match('image/png') ) {
+                if (fileList[0].type.match('image/jpeg') || fileList[0].type.match('image/png')) {
                     if (fileList[0] instanceof Blob) {
                         console.log(`file ${fileList[0].name} is file type ${fileList[0].type}.`)
                         // image/jpeg
@@ -142,107 +148,38 @@ export default function TransactionTable() {
         [storeTheFileContent]
     )
 
-    const changeTransactionState = useCallback(async (guid, transactionState) => {
-        const CancelToken = axios.CancelToken
-        const source = CancelToken.source()
-        try {
-            const response = await axios.put(
-                endpointUrl() + "/transaction/state/update/" + guid + "/" + transactionState,
-                {cancelToken: source.token}
-            )
-
-            if (response.data['transactions'] !== undefined && JSON.parse(response.data['transactions']) !== undefined) {
-                const transactions = JSON.parse(response.data['transactions'])
-                if (transactions.length === 2) {
-                    data.unshift(transactions[1])
-                    setData(data)
-                    // TODO: the code in comments below is not working
-                    //setData(    [transactions[1], ...data])
-                    setMessage(`inserted new record: ${JSON.stringify(transactions[1])}`)
-                    setOpen(true)
-                } else {
-                    setMessage(`response: ${response.data.message}`)
-                    setOpen(true)
-                }
-            } else {
-                setMessage(`response from the server: ${response.data}`)
-                setOpen(true)
-            }
-        } catch (error) {
-            handleError(error, 'changeTransactionState', true)
-        }
-        return () => {
-            source.cancel()
-        }
-    }, [data])
-
     const fetchTotals = useCallback(async () => {
         const CancelToken = axios.CancelToken
         const source = CancelToken.source()
         const response = await axios.get(
-            endpointUrl() + "/transaction/account/totals/" + match.params["account"],
+            endpointUrl() + "/transaction/account/totals/" + routeMatch.params["account"],
             {cancelToken: source.token}
         )
         setTotals(response.data)
         return () => {
             source.cancel()
         }
-    }, [match])
+    }, [routeMatch])
 
     const handlerToUpdateTransactionState = useCallback(
-        async (guid, transactionState) => {
+        async (guid, accountNameOwner, transactionState) => {
             try {
-                await changeTransactionState(guid, transactionState)
-                let map = data.map((element) => {
-                    if (element["guid"] === guid) {
-                        fetchTotals()
-                        // @ts-ignore
-                        console.log('transactionState updated to: ' + transactionState)
-                        return {...element, transactionState: transactionState}
-                    } else {
-                        return element
-                    }
-                })
-                // @ts-ignore
-                setData(map)
+                await mutate({ guid: guid, transactionState: transactionState })
+                fetchTotals()
             } catch (error) {
-                handleError(error, 'updateTransactionState', false)
+                console.log(error)
+                handleError(error, 'updateTransactionState1', false)
             }
         },
-        [data, changeTransactionState, fetchTotals, setData]
+        [data, mutate, fetchTotals]
     )
-
-    const putCall = useCallback(async (newData, oldData) => {
-        let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
-        delete newData["tableData"]
-
-        if (newData.receiptImage !== undefined) {
-            newData['receiptImage'].image = newData['receiptImage'].image.replace(/^data:image\/[a-z]+;base64,/, "")
-        }
-        if (oldData.transactionState === undefined) {
-            newData["transactionState"] = "undefined"
-        }
-        console.log(newData)
-
-        await axios.put(endpoint, JSON.stringify(newData), {
-            timeout: 0,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-        })
-    }, [])
 
     const updateRow = (newData, oldData) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
-                const dataUpdate = [...data]
-                const index = oldData.tableData.id
-                dataUpdate[index] = newData
                 try {
-                    await putCall(newData, oldData)
+                    await updateTransaction({newRow: newData, oldRow: oldData})
                     await fetchTotals()
-                    setData([...dataUpdate])
                     resolve()
                 } catch (error) {
                     handleError(error, 'updateRow', false)
@@ -255,13 +192,9 @@ export default function TransactionTable() {
     const deleteRow = (oldData) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
-                const dataDelete = [...data]
-                const index = oldData.tableData.id
-                dataDelete.splice(index, 1)
                 try {
-                    await deleteCall(oldData)
+                    deleteTransaction({oldRow: oldData})
                     await fetchTotals()
-                    setData([...dataDelete])
                     resolve()
                 } catch (error) {
                     handleError(error, 'deleteRow', false)
@@ -287,21 +220,11 @@ export default function TransactionTable() {
         })
     }
 
-    const deleteCall = useCallback(async (payload) => {
-        let endpoint = endpointUrl() + "/transaction/delete/" + payload.guid
-
-        let response = await axios.delete(endpoint, {
-            timeout: 0,
-            headers: {"Content-Type": "application/json"},
-        })
-        console.log(response.data)
-    }, [])
-
     const transactionInsertPostCall = useCallback(
         async (payload) => {
             let endpoint = endpointUrl() + "/transaction/insert/"
 
-            if( payload['dueDate'] === "" ) {
+            if (payload['dueDate'] === "") {
                 delete payload['dueDate']
             }
 
@@ -322,12 +245,12 @@ export default function TransactionTable() {
                 reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
                 reoccurringType:
                     payload.reoccurringType === undefined
-                        ? "undefined"
+                        ? "onetime"
                         : payload.reoccurringType,
-                accountNameOwner: match.params["account"],
+                accountNameOwner: routeMatch.params["account"],
             }
 
-            if( payload['dueDate'] !== "" ) {
+            if (payload['dueDate'] !== "") {
                 newPayload['dueDate'] = payload.dueDate
             }
 
@@ -343,14 +266,14 @@ export default function TransactionTable() {
             console.log('response: ' + JSON.stringify(response))
             return response.data
         },
-        [match.params]
+        [routeMatch.params]
     )
 
     const futureTransactionInsertPostCall = useCallback(
         async (payload) => {
             let endpoint = endpointUrl() + "/transaction/future/insert/"
 
-            if( payload['dueDate'] === "" ) {
+            if (payload['dueDate'] === "") {
                 delete payload['dueDate']
             }
 
@@ -373,10 +296,10 @@ export default function TransactionTable() {
                     payload.reoccurringType === undefined
                         ? "undefined"
                         : payload.reoccurringType,
-                accountNameOwner: match.params["account"],
+                accountNameOwner: routeMatch.params["account"],
             }
 
-            if( payload['dueDate'] !== "" ) {
+            if (payload['dueDate'] !== "") {
                 newPayload['dueDate'] = payload.dueDate
             }
 
@@ -387,7 +310,7 @@ export default function TransactionTable() {
             console.log('response: ' + JSON.stringify(response))
             return response.data
         },
-        [match.params]
+        [routeMatch.params]
     )
 
     const handleButtonClickLink = useCallback(
@@ -400,7 +323,7 @@ export default function TransactionTable() {
             } catch (error) {
                 handleError(error, 'futureTransactionInsertPostCall', false);
             }
-        },[futureTransactionInsertPostCall, data, fetchTotals, setData]
+        }, [futureTransactionInsertPostCall, data, fetchTotals, setData]
     )
 
     const downHandler = useCallback(
@@ -472,18 +395,18 @@ export default function TransactionTable() {
                                 editComponent: (props) => (
 
                                     <div>
-                                    <MuiPickersUtilsProvider utils={MomentUtils}
-                                                             locale={props.dateTimePickerLocalization}>
-                                        <DatePicker
-                                            placeholderText='yyyy-MM-dd'
-                                            format="yyyy-MM-dd"
-                                            selected={moment(props.value).tz(fetchTimeZone()).toDate()}
-                                            value={props.value
-                                                ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
-                                            onChange={props.onChange}
-                                            clearable
-                                        />
-                                    </MuiPickersUtilsProvider>
+                                        <MuiPickersUtilsProvider utils={MomentUtils}
+                                                                 locale={props.dateTimePickerLocalization}>
+                                            <DatePicker
+                                                placeholderText='yyyy-MM-dd'
+                                                format="yyyy-MM-dd"
+                                                selected={moment(props.value).tz(fetchTimeZone()).toDate()}
+                                                value={props.value
+                                                    ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
+                                                onChange={props.onChange}
+                                                clearable
+                                            />
+                                        </MuiPickersUtilsProvider>
                                     </div>
                                 ),
                             },
@@ -543,11 +466,10 @@ export default function TransactionTable() {
                                 render: (rowData) => {
                                     return (
                                         <>
-                                            {/*capitalize the first letter of the string */}
                                             <ToggleButtons
-                                                // transactionState={rowData.transactionState.replace(/^\w/, c => c.toUpperCase())}
                                                 transactionState={rowData.transactionState}
                                                 guid={rowData.guid}
+                                                accountNameOwner={rowData.accountNameOwner}
                                                 handlerToUpdateTransactionState={handlerToUpdateTransactionState}
                                             />
                                         </>
@@ -575,7 +497,7 @@ export default function TransactionTable() {
                                 field: "reoccurringType",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    if( rowData.reoccurringType === 'onetime' || rowData.reoccurringType === 'undefined' ) {
+                                    if (rowData.reoccurringType === 'onetime' || rowData.reoccurringType === 'undefined') {
                                         return (
                                             <>
                                                 {rowData.reoccurringType}
@@ -586,12 +508,12 @@ export default function TransactionTable() {
                                             <>
                                                 {rowData.reoccurringType}
                                                 <Button
-                                                    styles = {{width: 50}}
+                                                    styles={{width: 50}}
                                                     onClick={() =>
                                                         handleButtonClickLink(rowData)
                                                     }
                                                 >
-                                                <ChevronRightRoundedIcon/>
+                                                    <ChevronRightRoundedIcon/>
                                                 </Button>
                                             </>
                                         )
@@ -601,7 +523,7 @@ export default function TransactionTable() {
                                     return (
                                         <>
                                             <SelectReoccurringType
-                                                newAccountType = {props.rowData.accountType}
+                                                newAccountType={props.rowData.accountType}
                                                 onChangeFunction={props.onChange}
                                                 currentValue={() => {
                                                     if (props.value) {
@@ -633,7 +555,7 @@ export default function TransactionTable() {
                                             placeholderText='yyyy-MM-dd'
                                             format="yyyy-MM-dd"
                                             selected={moment(props.value).tz(fetchTimeZone()).toDate()}
-                                            value={props.value  ? moment(props.value).format('YYYY-MM-DD') : ""}
+                                            value={props.value ? moment(props.value).format('YYYY-MM-DD') : ""}
                                             onChange={props.onChange}
                                             clearable
                                         />
@@ -649,16 +571,16 @@ export default function TransactionTable() {
                                 render: (rowData) => {
                                     let image = ""
                                     if (rowData['receiptImage'] !== undefined) {
-                                        if( rowData['receiptImage'].thumbnail === undefined) {
+                                        if (rowData['receiptImage'].thumbnail === undefined) {
                                             rowData['receiptImage'].thumbnail = rowData['receiptImage'].image
                                         }
 
-                                        if(rowData.receiptImage.image.startsWith("data") ) {
+                                        if (rowData.receiptImage.image.startsWith("data")) {
                                             image = rowData.receiptImage.thumbnail
                                         } else {
                                             const formatType = rowData.receiptImage.imageFormatType
                                             console.log('formatType=' + formatType)
-                                            image = 'data:image/'+ formatType + ';base64,' + rowData.receiptImage.thumbnail
+                                            image = 'data:image/' + formatType + ';base64,' + rowData.receiptImage.thumbnail
                                         }
                                         console.log('typeOf image=' + typeOf(image))
                                     } else {
@@ -679,7 +601,7 @@ export default function TransactionTable() {
                             },
                         ]}
                         data={data}
-                        title={`[${match.params["account"]}] [ $${currencyFormat(noNaN(totals["totals"]))} ] [ $${currencyFormat(noNaN(totals["totalsCleared"]))} ]  [ $${currencyFormat(noNaN(totals["totalsOutstanding"]))} ] [ $${currencyFormat(noNaN(totals["totalsFuture"]))} ]`}
+                        title={`[${routeMatch.params["account"]}] [ $${currencyFormat(noNaN(totals["totals"]))} ] [ $${currencyFormat(noNaN(totals["totalsCleared"]))} ]  [ $${currencyFormat(noNaN(totals["totalsOutstanding"]))} ] [ $${currencyFormat(noNaN(totals["totalsFuture"]))} ]`}
                         options={{
                             filtering: true,
                             // selection: true,
@@ -693,17 +615,17 @@ export default function TransactionTable() {
                                 color: "#FFF",
                             },
                             rowStyle: (rowData) => {
-                                if( rowData.transactionState !== null ) {
-                                    if ( rowData.transactionState === "cleared" || rowData.transactionState.toLowerCase() === "cleared" ) {
+                                if (rowData.transactionState !== null) {
+                                    if (rowData.transactionState === "cleared") {
                                         return {fontSize: ".6rem"}
-                                    } else if (rowData.transactionState === "future" || rowData.transactionState.toLowerCase() === "future" ) {
+                                    } else if (rowData.transactionState === "future") {
                                         return {
                                             fontSize: ".6rem",
                                             fontWeight: "bold",
                                             backgroundColor: "#5800f9",
                                             color: "#FFF",
                                         }
-                                    } else if ( rowData.transactionState === "outstanding" || rowData.transactionState.toLowerCase() === "outstanding" ) {
+                                    } else if (rowData.transactionState === "outstanding") {
                                         return {
                                             fontSize: ".6rem",
                                             fontWeight: "bold",

@@ -4,7 +4,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import ReactTooltip from "react-tooltip"
 import AttachMoneyRounded from '@material-ui/icons/AttachMoneyRounded'
 
-export default function ToggleButtons({ transactionState, guid, handlerToUpdateTransactionState }) {
+export default function ToggleButtons({ transactionState, guid, accountNameOwner, handlerToUpdateTransactionState }) {
     const colorOn = "green"
     const colorOff = "grey"
 
@@ -19,23 +19,23 @@ export default function ToggleButtons({ transactionState, guid, handlerToUpdateT
     const [outstandingColor, setOutStandingColor] = React.useState( determineColor('outstanding'));
     const [futureColor, setFutureColor] = React.useState( determineColor('future'));
 
-    const handleTransactionType = (event, newTransactionType) => {
-
-        if( newTransactionType === 'cleared' || newTransactionType.toLowerCase() === 'cleared' ) {
-            setClearedColor( colorOn);
+    const handleTransactionType = (event, newTransactionState) => {
+        console.log(newTransactionState)
+        if( newTransactionState === 'cleared' || newTransactionState.toLowerCase() === 'cleared' ) {
+            setClearedColor(colorOn);
             setOutStandingColor(colorOff);
             setFutureColor(colorOff);
-        } else if( newTransactionType === 'future' || newTransactionType.toLowerCase() === 'future' ) {
+        } else if( newTransactionState === 'future' || newTransactionState.toLowerCase() === 'future' ) {
             setClearedColor( colorOff);
             setOutStandingColor(colorOff);
             setFutureColor(colorOn);
-        } else if( newTransactionType === 'outstanding' || newTransactionType.toLowerCase() === 'outstanding' ) {
-            setClearedColor( colorOff);
+        } else if( newTransactionState === 'outstanding' || newTransactionState.toLowerCase() === 'outstanding' ) {
+            setClearedColor(colorOff);
             setOutStandingColor(colorOn);
             setFutureColor(colorOff);
         }
-        handlerToUpdateTransactionState(guid, newTransactionType);
-        setTransactionType(newTransactionType);
+        handlerToUpdateTransactionState(guid, accountNameOwner, newTransactionState);
+        setTransactionType(newTransactionState);
     };
 
     return (

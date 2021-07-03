@@ -2,7 +2,6 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-
 const fetchAccountData = (accountNameOwner) => {
     return axios.get(
         endpointUrl() + "/transaction/account/select/" + accountNameOwner,
@@ -24,10 +23,6 @@ const catchError = (error) => {
     }
     //handleError(error, 'fetchAccountData', true)
 }
-
-// const myUpdate = () => {
-//              queryClient.invalidateQueries('accounts')
-// }
 
 export default (accountNameOwner) => {
     return useQuery(['accounts', accountNameOwner], () => fetchAccountData(accountNameOwner), {onError: catchError})
