@@ -2,9 +2,9 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchCategoryData = () => {
+const fetchDescriptionData = () => {
     return axios.get(
-        endpointUrl() + "/category/select/active",
+        endpointUrl() + '/description/select/all',
         {
             timeout: 0,
             headers: {
@@ -24,6 +24,6 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useFetchCategory () {
-    return useQuery('category', () => fetchCategoryData(), {onError: catchError})
+export default function useFetchDescription (accountNameOwner) {
+    return useQuery('description', () => fetchDescriptionData(), {onError: catchError})
 }

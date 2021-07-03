@@ -23,6 +23,7 @@ import useChangeTransactionState from "./queries/useTransactionStateUpdate";
 import useTransactionUpdate from "./queries/useTransactionUpdate";
 import useTransactionDelete from "./queries/useTransactionDelete";
 import useTransactionInsert from "./queries/useTransactionInsert";
+import useFetchTotals from "./queries/useFetchTotals";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -35,6 +36,7 @@ export default function TransactionTable() {
 
     let routeMatch = useRouteMatch("/transactions/:account")
     const {data, isSuccess, isLoading} = useFetchTransactionByAccount(routeMatch.params["account"])
+    const {data: dataTotals, isSuccess: isSuccessTotals} = useFetchTotals(routeMatch.params["account"])
     const {mutate: updateTransactionState} = useChangeTransactionState(routeMatch.params["account"])
     const {mutate: updateTransaction} = useTransactionUpdate(routeMatch.params["account"])
     const {mutate: deleteTransaction} = useTransactionDelete(routeMatch.params["account"])

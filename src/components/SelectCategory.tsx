@@ -29,8 +29,7 @@ export default function SelectCategory({
 
     useEffect(() => {
         if( isSuccess ) {
-            const response: any = extractedCategoryField(data) //fetchCategoryData()
-            //console.log(response)
+            const response: any = extractedCategoryField(data)
             setOptions(response)
         }
 

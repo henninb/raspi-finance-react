@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import axios from "axios";
-import {endpointUrl} from "./Common";
+import React, {useCallback, useEffect, useState} from 'react'
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import TextField from '@material-ui/core/TextField'
+import useFetchDescription from "./queries/useFetchDescription"
+import useDescriptionInsert from "./queries/useDescriptionInsert"
 
 interface Props {
     onChangeFunction: any,
@@ -15,48 +15,10 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
     const [inputValue, setInputValue] = useState('');
     const [keyPressValue, setKeyPressValue] = useState('');
 
-    const postDescription = useCallback(async (payload: any) => {
-        let CancelToken = axios.CancelToken;
-        let source = CancelToken.source();
-        let endpoint = endpointUrl() + '/description/insert/';
-        let newPayload = {
-            description: payload,
-            activeStatus: true
-        };
+    const {data, isSuccess} = useFetchDescription()
+    const {mutate: insertDescription} = useDescriptionInsert()
 
-        let response = await axios.post(endpoint, newPayload, {
-            timeout: 0,
-            headers: {'Content-Type': 'application/json'},
-            cancelToken: source.token
-        });
-        console.log(response.data)
-        return newPayload;
-    }, []);
-
-    const fetchDescriptionData = useCallback(async () => {
-        try {
-            const response = await axios.get(endpointUrl() + '/description/select/all',
-                {
-                    timeout: 0,
-                    headers: {"Content-Type": "application/json"},
-                }
-            )
-            const descriptions = extracted(response)
-            // @ts-ignore
-            setOptions(descriptions)
-            return descriptions
-        } catch (error) {
-            if (error.response) {
-                if (error.response.status === 404) {
-                } else {
-                    //TODO: swap out alert for another means
-                    alert("fetchDescriptionData" + JSON.stringify(error.response.data))
-                }
-            }
-        }
-    }, [])
-
-    const extracted = (response: any) => {
+    const extractedDescriptionField = (response: any) => {
         // @ts-ignore
         let descriptions: any[] = []
         response.data.forEach((element: any) => {
@@ -66,11 +28,13 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
     };
 
     useEffect(() => {
-        const response = fetchDescriptionData()
-        console.log(response)
+        if( isSuccess ) {
+            const response: any = extractedDescriptionField(data)
+            setOptions(response)
+        }
 
         setValue(inputValue)
-    }, [value, fetchDescriptionData, currentValue, inputValue])
+    }, [value, data, currentValue, inputValue, isSuccess])
 
     const handleKeyDown = (event: any) => {
         if (event.key === 'Tab') {
@@ -85,9 +49,11 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
             } else {
                 setKeyPressValue(inputValue);
                 onChangeFunction(inputValue);
-                let response = postDescription(inputValue);
-                console.log(response);
-                return inputValue;
+                // @ts-ignore
+                insertDescription({descriptionName: inputValue})
+                //let response = postDescription(inputValue)
+                //console.log(response);
+                return inputValue
             }
         }
     }

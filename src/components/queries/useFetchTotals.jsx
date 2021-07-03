@@ -1,10 +1,10 @@
-import axios from "axios"
 import {endpointUrl} from "../Common"
 import {useQuery} from "react-query"
+import axios from "axios"
 
-const fetchAccountData = (accountNameOwner) => {
+const fetchTotals = (accountNameOwner) => {
     return axios.get(
-        endpointUrl() + "/transaction/account/select/" + accountNameOwner,
+        endpointUrl() + "/transaction/account/totals/" + accountNameOwner,
         {
             timeout: 0,
             headers: {
@@ -12,7 +12,7 @@ const fetchAccountData = (accountNameOwner) => {
                 "Accept": "application/json",
             },
         }
-    ).then(response => response.data)
+    )
 }
 
 const catchError = (error) => {
@@ -24,6 +24,6 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useFetchTransactionByAccount (accountNameOwner) {
-    return useQuery(['accounts', accountNameOwner], () => fetchAccountData(accountNameOwner), {onError: catchError})
+export default function useFetchTotals (accountNameOwner) {
+    return useQuery(['totals', accountNameOwner], () => fetchTotals(accountNameOwner), {onError: catchError})
 }
