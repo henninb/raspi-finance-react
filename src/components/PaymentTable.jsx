@@ -12,15 +12,20 @@ import moment from "moment";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import DatePicker from "react-datepicker";
+import useFetchPayment from "./queries/useFetchPayment";
+import usePaymentInsert from "./queries/usePaymentInsert";
+import usePaymentDelete from "./queries/usePaymentDelete";
 
 export default function PaymentTable() {
-    const [data, setData] = useState([])
-    const [loading, setLoading] = useState(true)
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
     const [paymentAccount, setPaymentAccount] = useState('undefined')
 
     const history = useHistory()
+
+    const {data, isSuccess, isLoading} = useFetchPayment()
+    const {mutate: insertPayment} = usePaymentInsert()
+    const {mutate: deletePayment} = usePaymentDelete()
 
     const handleSnackbarClose = () => {
         setOpen(false);
@@ -50,12 +55,7 @@ export default function PaymentTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    const newPayload = await postCallPayment(newData)
-                    if (!verifyData(newPayload)) {
-                        reject()
-                    }
-                    // @ts-ignore
-                    setData([newPayload, ...data])
+                    await insertPayment({payload: newData})
                     resolve()
                 } catch (error) {
                     handleError(error, 'addRow', false)
@@ -89,52 +89,6 @@ export default function PaymentTable() {
         }
     }, [])
 
-    const fetchData = useCallback(async () => {
-        try {
-            const response = await axios.get(endpointUrl() + "/payment/select",
-                {
-                    timeout: 0,
-                    headers: {"Content-Type": "application/json"},
-                }
-            )
-            if (response.data.length > 0) {
-                setData(response.data)
-            }
-
-        } catch (error) {
-            handleError(error, 'fetchData', true)
-        } finally {
-            setLoading(false)
-        }
-    }, [])
-
-    const verifyData = (newData) => {
-        return !isNaN(newData.amount);
-    }
-
-    const postCallPayment = useCallback(async (payload) => {
-        let CancelToken = axios.CancelToken
-        let source = CancelToken.source()
-        let endpoint = endpointUrl() + "/payment/insert/"
-        let newPayload = {
-            accountNameOwner: payload.accountNameOwner,
-            amount: payload.amount,
-            transactionDate: payload.transactionDate.toISOString(),
-        }
-
-        try {
-            let response = await axios.post(endpoint, newPayload, {
-                timeout: 0,
-                headers: {"Content-Type": "application/json"},
-                cancelToken: source.token,
-            })
-            console.log(response.data)
-            return newPayload
-        } catch (error) {
-            handleError(error, 'postCallPayment', true)
-        }
-    }, [])
-
     const deleteCall = useCallback(async (payload) => {
         let endpoint = endpointUrl() + "/payment/delete/" + payload["paymentId"]
 
@@ -149,34 +103,21 @@ export default function PaymentTable() {
     }, [])
 
     useEffect(() => {
-        const CancelToken = axios.CancelToken
-        const source = CancelToken.source()
-
-        if (data === undefined) {
-            console.log("data is undefined")
-        }
-
         if ( paymentAccount === 'undefined' ) {
             let response = fetchParameterValue()
             console.log(response)
         }
 
-        if (data.length === 0) {
-            let response = fetchData()
-            console.log(response)
-        }
-
         return () => {
-            source.cancel()
         }
-    }, [data, fetchData, fetchParameterValue, paymentAccount])
+    }, [fetchParameterValue, paymentAccount])
 
     let today = moment(new Date().toDateString()).format('YYYY-MM-DD')
 
     return (
 
         <div>
-            {!loading ? (
+            {!isLoading && isSuccess ? (
                 <div className="table-formatting">
                     <MaterialTable
                         data-testid="payment-table"
@@ -281,12 +222,9 @@ export default function PaymentTable() {
                             onRowDelete: (oldData) =>
                                 new Promise((resolve, reject) => {
                                     setTimeout(async () => {
-                                        const dataDelete = [...data]
-                                        const index = oldData.tableData.id
-                                        dataDelete.splice(index, 1)
                                         try {
                                             await deleteCall(oldData)
-                                            setData([...dataDelete])
+                                            await deletePayment({payload: oldData})
                                             resolve()
                                         } catch (error) {
                                             handleError(error, 'onRowDelete', false)

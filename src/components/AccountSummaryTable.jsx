@@ -99,7 +99,7 @@ export default function AccountSummaryTable() {
 
     return (
         <div>
-            { !isLoading && isSuccess   ? (
+            { !isLoading && isSuccess ? (
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
