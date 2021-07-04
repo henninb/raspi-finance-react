@@ -31,8 +31,8 @@ export default function PaymentTable() {
         setOpen(false);
     }
 
-    const handleButtonClickLink = (accountNameOwner) => {
-        history.push("/transactions/" + accountNameOwner)
+    const handleButtonClickLink = (oldRow) => {
+        history.push("/transactions/" + oldRow.accountNameOwner)
         history.go(0)
     }
 
@@ -112,7 +112,7 @@ export default function PaymentTable() {
                                         <Button
                                             style={{fontSize: ".6rem"}}
                                             onClick={() =>
-                                                handleButtonClickLink(rowData.accountNameOwner)
+                                                handleButtonClickLink(rowData)
                                             }
                                         >
                                             {rowData.accountNameOwner}
@@ -170,7 +170,8 @@ export default function PaymentTable() {
                                 new Promise((resolve, reject) => {
                                     setTimeout(async () => {
                                         try {
-                                            await deletePayment({payload: oldData})
+                                            console.log("oldData: " + JSON.stringify(oldData))
+                                            await deletePayment({oldRow: oldData})
                                             resolve()
                                         } catch (error) {
                                             handleError(error, 'onRowDelete', false)

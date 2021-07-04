@@ -24,6 +24,7 @@ import useTransactionUpdate from "./queries/useTransactionUpdate";
 import useTransactionDelete from "./queries/useTransactionDelete";
 import useTransactionInsert from "./queries/useTransactionInsert";
 import useFetchTotals from "./queries/useFetchTotals";
+import useReceiptImageUpdate from "./queries/useReceiptImageUpdate";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -40,6 +41,8 @@ export default function TransactionTable() {
     const {mutate: updateTransactionState} = useChangeTransactionState(routeMatch.params["account"])
     const {mutate: updateTransaction} = useTransactionUpdate()
     const {mutate: deleteTransaction} = useTransactionDelete()
+    const {mutate: insertReceiptImage} = useReceiptImageUpdate()
+
     const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
 
     const handleSnackbarClose = () => {
@@ -61,28 +64,28 @@ export default function TransactionTable() {
         }
     }
 
-    const insertReceiptImage = useCallback(
-        async () => {
-            const CancelToken = axios.CancelToken
-            const source = CancelToken.source()
-            const response = await axios.put(
-                endpointUrl() + "/transaction/update/receipt/image/" + currentTransaction.guid,
-                fileContent,
-                {
-                    cancelToken: source.token,
-                    timeout: 0,
-                    headers: {"Content-Type": "text/plain"},
-                }
-            )
-
-            console.log(response.data)
-
-            return () => {
-                source.cancel()
-            }
-        },
-        [fileContent, currentTransaction]
-    )
+    // const insertReceiptImage = useCallback(
+    //     async () => {
+    //         const CancelToken = axios.CancelToken
+    //         const source = CancelToken.source()
+    //         const response = await axios.put(
+    //             endpointUrl() + "/transaction/update/receipt/image/" + currentTransaction.guid,
+    //             fileContent,
+    //             {
+    //                 cancelToken: source.token,
+    //                 timeout: 0,
+    //                 headers: {"Content-Type": "text/plain"},
+    //             }
+    //         )
+    //
+    //         console.log(response.data)
+    //
+    //         return () => {
+    //             source.cancel()
+    //         }
+    //     },
+    //     [fileContent, currentTransaction]
+    // )
 
     const storeTheFileContent = useCallback(
         async (file) => {
@@ -252,8 +255,8 @@ export default function TransactionTable() {
 
         if (fileContent !== "") {
             console.log(`current transactionId = ${currentTransaction.guid}`)
-            const response = insertReceiptImage()
-            console.log(response)
+            //const response = insertReceiptImage()
+            insertReceiptImage({oldRow: currentTransaction, fileContent: fileContent})
 
             let foundObject = data.filter((obj) => obj.guid === currentTransaction.guid)
             if (foundObject.length === 1) {
