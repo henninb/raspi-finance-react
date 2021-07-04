@@ -1,8 +1,6 @@
 import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
-import {getAccountKey} from "./KeyFile";
-
 
 const deleteAccount = (payload) => {
     let endpoint = endpointUrl() + "/account/delete/" + payload.accountNameOwner
@@ -32,11 +30,10 @@ export default function useAccountDelete() {
 
         onSuccess: (response, variables) => {
             let oldData = queryClient.getQueryData('account')
-            // const dataDelete = [...oldData]
-            // const index = variables.oldRow.tableData.id
-            // dataDelete.splice(index, 1)
-            // let newData = [...dataDelete]
-            let newData = oldData
+            const dataDelete = [...oldData]
+            const index = variables.oldRow.tableData.id
+            dataDelete.splice(index, 1)
+            let newData = [...dataDelete]
             queryClient.setQueryData('account', newData)
         }})
 }

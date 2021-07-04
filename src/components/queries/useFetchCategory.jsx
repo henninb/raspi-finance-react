@@ -12,7 +12,7 @@ const fetchCategoryData = () => {
                 "Accept": "application/json",
             },
         }
-    )
+    ).then(response => response.data)
 }
 
 const catchError = (error) => {

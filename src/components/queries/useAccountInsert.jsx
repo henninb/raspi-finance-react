@@ -1,9 +1,6 @@
 import {endpointUrl} from "../Common";
-import {v4 as uuidv4} from "uuid";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
-import {getAccountKey} from "./KeyFile";
-import {useCallback} from "react";
 
 const setupNewAccount = (payload) => {
     const now = new Date()
@@ -46,13 +43,9 @@ export default function useAccountInsert () {
     return useMutation(['insertAccount'], (variables) => insertAccount(variables.payload), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            // let oldData = queryClient.getQueryData('account)
-            // let updatedNewRow = setupNewAccount(variables.payload)
-            // //TODO: 7-3-2021 fix this so I do not have branching logic here, the line above should be deprecated
-            // if( variables.isFutureTransaction ) {
-            //    updatedNewRow = response
-            // }
-            // let newData = [updatedNewRow, ...oldData]
-            // queryClient.setQueryData('account, newData)
+            let oldData = queryClient.getQueryData('account')
+            let updatedNewRow = setupNewAccount(variables.payload)
+            let newData = [updatedNewRow, ...oldData]
+            queryClient.setQueryData('account', newData)
         }})
 }

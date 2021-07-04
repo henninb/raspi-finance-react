@@ -12,7 +12,7 @@ const fetchAccountData = () => {
                 "Accept": "application/json",
             },
         }
-    )
+    ).then(response => response.data)
 }
 
 const catchError = (error) => {

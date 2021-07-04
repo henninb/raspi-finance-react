@@ -12,7 +12,7 @@ const fetchTotals = (accountNameOwner) => {
                 "Accept": "application/json",
             },
         }
-    )
+    ).then(response => response.data)
 }
 
 const catchError = (error) => {
