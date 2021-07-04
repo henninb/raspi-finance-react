@@ -156,13 +156,16 @@ export default function TransactionTable() {
         async (guid, accountNameOwner, transactionState) => {
             try {
                 await updateTransactionState({ guid: guid, transactionState: transactionState })
-                fetchTotals()
+                if (isSuccessTotals) {
+
+                }
+                await fetchTotals()
             } catch (error) {
                 console.log(error)
                 handleError(error, 'updateTransactionState1', false)
             }
         },
-        [updateTransactionState, fetchTotals]
+        [updateTransactionState]
     )
 
     const updateRow = (newData, oldData) => {
@@ -184,7 +187,7 @@ export default function TransactionTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    deleteTransaction({oldRow: oldData})
+                    await deleteTransaction({oldRow: oldData})
                     await fetchTotals()
                     resolve()
                 } catch (error) {

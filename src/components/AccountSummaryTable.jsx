@@ -7,6 +7,9 @@ import Button from "@material-ui/core/Button"
 import {useHistory} from "react-router-dom"
 import {currencyFormat, endpointUrl, noNaN} from "./Common"
 import SnackbarBaseline from "./SnackbarBaseline"
+import useFetchAccount from "./queries/useFetchAccount";
+import useAccountInsert from "./queries/useAccountInsert";
+import useAccountDelete from "./queries/useAccountDelete";
 
 export default function AccountSummaryTable() {
     const [totals, setTotals] = useState([])
@@ -15,6 +18,10 @@ export default function AccountSummaryTable() {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
     const history = useHistory()
+
+    const {data} = useFetchAccount()
+    const {mutate: insertAccount} = useAccountInsert()
+    const {mutate: deleteAccount} = useAccountDelete()
 
     const handleButtonClickLink = (accountNameOwner) => {
         history.push("/transactions/" + accountNameOwner)
@@ -46,7 +53,7 @@ export default function AccountSummaryTable() {
                 try {
                     const newPayload = await postCall(newData)
                     if (newPayload) {
-                        setData([newPayload, ...accountData])
+                        await setData([newPayload, ...accountData])
                     }
                     resolve()
                 } catch (error) {
@@ -83,10 +90,10 @@ export default function AccountSummaryTable() {
         }
     }, [])
 
-    const currencyFormat = (inputData) => {
-        inputData = parseFloat(inputData).toFixed(2)
-        return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    }
+    // const currencyFormat = (inputData) => {
+    //     inputData = parseFloat(inputData).toFixed(2)
+    //     return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    // }
 
     const deleteCall = useCallback(async (payload) => {
         let endpoint = endpointUrl() + "/account/delete/" + payload.accountNameOwner

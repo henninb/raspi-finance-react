@@ -63,7 +63,10 @@ export default function TransactionMove({
 
     const fetchActiveAccounts = useCallback(async () => {
         try {
-            const response = await axios.get(endpointUrl() + "/account/select/active")
+            const response = await axios.get(endpointUrl() + "/account/select/active", {
+                timeout: 0,
+                headers: {"Content-Type": "application/json"},
+            })
             await findAccountTypeForGuid()
             console.log(accountType)
 

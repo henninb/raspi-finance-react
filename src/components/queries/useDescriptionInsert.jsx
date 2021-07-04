@@ -4,12 +4,7 @@ import {useMutation, useQueryClient} from "react-query";
 
 const insertDescription = (descriptionName) => {
     let endpoint = endpointUrl() + '/description/insert/'
-
-    //console.log("payload: " + payload)
-    //payload["activeStatus"] = "true"
-    //console.log("payload: " + JSON.stringify(payload))
     let payload = {description: descriptionName, activeStatus:true}
-    console.log("payload: " + payload)
 
     return axios.post(endpoint, payload, {
         timeout: 0,

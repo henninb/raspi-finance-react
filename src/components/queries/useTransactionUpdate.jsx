@@ -4,7 +4,6 @@ import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
 const updateTransaction = (newData, oldData) => {
-    console.log("updateTransaction called.")
     let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
     delete newData["tableData"]
 
