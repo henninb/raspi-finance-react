@@ -21,7 +21,7 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
     const extractedDescriptionField = (response: any) => {
         // @ts-ignore
         let descriptions: any[] = []
-        response.data.forEach((element: any) => {
+        data.forEach((element: any) => {
             descriptions.push(element.description)
         })
         return descriptions

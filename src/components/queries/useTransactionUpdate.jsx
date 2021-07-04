@@ -10,7 +10,7 @@ const updateTransaction = (newData, oldData) => {
     if (newData.receiptImage !== undefined) {
         newData['receiptImage'].image = newData['receiptImage'].image.replace(/^data:image\/[a-z]+;base64,/, "")
     }
-    console.log("newData:" + newData)
+    console.log("newData:" + JSON.stringify(newData))
 
     return axios.put(endpoint, JSON.stringify(newData), {
         timeout: 0,
@@ -32,19 +32,28 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useTransactionUpdate (accountNameOwner) {
+export default function useTransactionUpdate () {
     const queryClient = useQueryClient()
-    queryClient.getQueryData(getAccountKey(accountNameOwner))
+    //queryClient.getQueryData(getAccountKey(accountNameOwner))
 
     return useMutation(['updateTransaction'], (variables) => updateTransaction(variables.newRow, variables.oldRow), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            let oldData = queryClient.getQueryData(getAccountKey(accountNameOwner))
-            const dataUpdate = [...oldData]
-            const index = variables.oldRow.tableData.id
-            dataUpdate[index] = variables.newRow
-            let newData = [...dataUpdate]
+            let oldData = queryClient.getQueryData(getAccountKey(variables.oldRow.accountNameOwner))
+            let newData
+            if( variables.oldRow.accountNameOwner === variables.newRow.accountNameOwner ) {
+                const dataUpdate = [...oldData]
+                const index = variables.oldRow.tableData.id
+                dataUpdate[index] = variables.newRow
+                newData = [...dataUpdate]
+            } else {
+                const dataDelete = [...oldData]
+                const index = variables.oldRow.tableData.id
+                dataDelete.splice(index, 1)
+                newData = [...dataDelete]
+                //TODO: add to other accountNameOwner list
+            }
 
-            queryClient.setQueryData(getAccountKey(accountNameOwner), newData)
+            queryClient.setQueryData(getAccountKey(variables.oldRow.accountNameOwner), newData)
         }})
 }

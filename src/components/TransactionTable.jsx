@@ -27,19 +27,19 @@ import useFetchTotals from "./queries/useFetchTotals";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
-    const [currentGuid, setCurrentGuid] = useState("")
+    const [currentTransaction, setCurrentTransaction] = useState({})
     const [totals, setTotals] = useState([])
     const [keyPressed, setKeyPressed] = useState(false)
     const [fileContent, setFileContent] = useState("")
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
 
-    let routeMatch = useRouteMatch("/transactions/:account")
+    const routeMatch = useRouteMatch("/transactions/:account")
     const {data, isSuccess, isLoading} = useFetchTransactionByAccount(routeMatch.params["account"])
     const {data: dataTotals, isSuccess: isSuccessTotals} = useFetchTotals(routeMatch.params["account"])
     const {mutate: updateTransactionState} = useChangeTransactionState(routeMatch.params["account"])
-    const {mutate: updateTransaction} = useTransactionUpdate(routeMatch.params["account"])
-    const {mutate: deleteTransaction} = useTransactionDelete(routeMatch.params["account"])
+    const {mutate: updateTransaction} = useTransactionUpdate()
+    const {mutate: deleteTransaction} = useTransactionDelete()
     const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
 
     const handleSnackbarClose = () => {
@@ -66,7 +66,7 @@ export default function TransactionTable() {
             const CancelToken = axios.CancelToken
             const source = CancelToken.source()
             const response = await axios.put(
-                endpointUrl() + "/transaction/update/receipt/image/" + currentGuid,
+                endpointUrl() + "/transaction/update/receipt/image/" + currentTransaction.guid,
                 fileContent,
                 {
                     cancelToken: source.token,
@@ -81,7 +81,7 @@ export default function TransactionTable() {
                 source.cancel()
             }
         },
-        [fileContent, currentGuid]
+        [fileContent, currentTransaction]
     )
 
     const storeTheFileContent = useCallback(
@@ -100,7 +100,7 @@ export default function TransactionTable() {
     )
 
     const getImageFileContents = useCallback(
-        async (guid) => {
+        async (currentRow) => {
             console.log("onClick photo-add")
 
             const fileSelector = document.createElement("input")
@@ -122,7 +122,7 @@ export default function TransactionTable() {
                         // image/png
                         // image/gif
                         // image/webp
-                        setCurrentGuid(guid)
+                        setCurrentTransaction(currentRow)
                         let response = storeTheFileContent(fileList[0])
                         console.log(response)
 
@@ -251,11 +251,11 @@ export default function TransactionTable() {
         window.addEventListener("keyup", upHandler)
 
         if (fileContent !== "") {
-            console.log(`current transactionId = ${currentGuid}`)
+            console.log(`current transactionId = ${currentTransaction.guid}`)
             const response = insertReceiptImage()
             console.log(response)
 
-            let foundObject = data.filter((obj) => obj.guid === currentGuid)
+            let foundObject = data.filter((obj) => obj.guid === currentTransaction.guid)
             if (foundObject.length === 1) {
                 foundObject[0].receiptImage = {"image": fileContent}
             }
@@ -273,7 +273,7 @@ export default function TransactionTable() {
             window.removeEventListener("keydown", downHandler)
             window.removeEventListener("keyup", upHandler)
         }
-    }, [totals, data, fetchTotals, downHandler, upHandler, fileContent, currentGuid, insertReceiptImage])
+    }, [totals, data, fetchTotals, downHandler, upHandler, fileContent, currentTransaction, insertReceiptImage])
 
     let today = moment(new Date().toDateString()).format('YYYY-MM-DD')
 
@@ -553,7 +553,7 @@ export default function TransactionTable() {
                                 icon: "send",
                                 tooltip: "Move",
                                 onClick: (_event, rowData) => {
-                                    setCurrentGuid(rowData.guid)
+                                    setCurrentTransaction(rowData)
                                     setLoadMoveDialog(true)
                                 },
                             },
@@ -573,11 +573,11 @@ export default function TransactionTable() {
                         <TransactionMove
                             closeDialog={() => {
                                 setLoadMoveDialog(false)
-                                console.log('delete guid:' + currentGuid)
-                                //const newData = data.filter((obj) => obj.guid !== currentGuid)
+                                //console.log('delete guid:' + currentTransaction)
+                                //const newData = data.filter((obj) => obj.guid !== currentTransaction)
                                 //setData(newData)
                             }}
-                            transactionGuid={currentGuid}
+                            currentTransaction={currentTransaction}
                         />
                     ) : null}
                     <div>

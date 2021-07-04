@@ -21,7 +21,7 @@ export default function SelectCategory({
 
     const extractedCategoryField = (response: any) => {
         let categories: any[] = []
-        response.data.forEach((element: any) => {
+        data.forEach((element: any) => {
             categories.push(element.category)
         })
         return categories

@@ -24,6 +24,6 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useFetchDescription (accountNameOwner) {
+export default function useFetchDescription () {
     return useQuery('description', () => fetchDescriptionData(), {onError: catchError})
 }

@@ -25,7 +25,7 @@ const catchError = (error) => {
 
 export default function useDescriptionInsert () {
     const queryClient = useQueryClient()
-    queryClient.getQueryData('description')
+    //queryClient.getQueryData('description')
 
     return useMutation(['insertDescription'], (variables) => insertDescription(variables.descriptionName), {onError: catchError,
 

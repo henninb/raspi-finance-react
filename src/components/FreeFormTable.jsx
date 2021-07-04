@@ -3,10 +3,15 @@ import DataGrid from 'react-data-grid'
 import {endpointUrl} from "./Common"
 import axios from "axios"
 import SnackbarBaseline from "./SnackbarBaseline"
+import useTransactionInsert from "./queries/useTransactionInsert";
+import {useRouteMatch} from "react-router-dom";
 
 export default function FreeFormTable({data, toggleDisplayList}) {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
+
+    const routeMatch = useRouteMatch("/transactions/:account")
+    const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
 
     // const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
     //     this.setState(state => {
@@ -56,13 +61,6 @@ export default function FreeFormTable({data, toggleDisplayList}) {
         },
         []
     )
-
-    // //const { isLoading, isError, data1, error } = useQuery('movies', postCall)
-    // const { isLoading, isError, error, data1, isSuccess } = useMutation(postCall, {
-    //     onSuccess: () => {
-    //         //queryClient.invalidateQueries('movies');
-    //     },
-    // });
 
     const handleChange = async () => {
         for (const transaction of data) {

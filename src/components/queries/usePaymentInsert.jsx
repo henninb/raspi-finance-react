@@ -34,7 +34,7 @@ const catchError = (error) => {
 
 export default function usePaymentInsert () {
     const queryClient = useQueryClient()
-    queryClient.getQueryData('payment')
+    //queryClient.getQueryData('payment')
 
     return useMutation(['insertPayment'], (variables) => insertPayment(variables.payload), {onError: catchError,
 

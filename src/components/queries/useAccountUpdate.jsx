@@ -1,7 +1,6 @@
 import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
-import {getAccountKey} from "./KeyFile";
 
 const updateAccount =  (oldRow, newRow) => {
     let endpoint = endpointUrl() + "/transaction/update/" + oldRow.guid
@@ -28,18 +27,14 @@ const catchError = (error) => {
 //TODO: not used
 export default function useAccountUpdate() {
     const queryClient = useQueryClient()
-    queryClient.getQueryData('account')
+    //queryClient.getQueryData('account')
 
     return useMutation(['updateAccount'], (variables) => updateAccount(variables.oldRow, variables.newRow), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            // let oldData = queryClient.getQueryData(getAccountKey(accountNameOwner))
-            // let updatedNewRow = setupNewAccount(variables.payload)
+            //let oldData = queryClient.getQueryData('account')
             // //TODO: 7-3-2021 fix this so I do not have branching logic here, the line above should be deprecated
-            // if( variables.isFutureTransaction ) {
-            //    updatedNewRow = response
-            // }
             // let newData = [updatedNewRow, ...oldData]
-            // queryClient.setQueryData(getAccountKey(accountNameOwner), newData)
+            //queryClient.setQueryData('account', newData)
         }})
 }

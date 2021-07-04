@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from "react"
-import axios from "axios"
 import Button from "@material-ui/core/Button"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import TextField from "@material-ui/core/TextField"
@@ -8,24 +7,29 @@ import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
-import {endpointUrl} from "./Common"
 import SnackbarBaseline from "./SnackbarBaseline";
+import useFetchAccount from "./queries/useFetchAccount";
+import useTransactionUpdate from "./queries/useTransactionUpdate";
 
 interface Props {
     closeDialog: any
-    transactionGuid: any
+    currentTransaction: any
 }
 
 export default function TransactionMove({
                                             closeDialog,
-                                            transactionGuid,
+                                            currentTransaction,
                                         }: Props) {
     const [options, setOptions] = useState([])
     const [value, setValue] = useState(options[0])
     const [inputValue, setInputValue] = useState("")
-    const [accountType, setAccountType] = useState([])
+    const [accountType, setAccountType] = useState("")
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
+
+    const {data, isSuccess} = useFetchAccount()
+    //const {mutate: updateAccount} = useAccountUpdate()
+    const {mutate: updateTransaction} = useTransactionUpdate()
 
     const handleError = (error: any, moduleName: string, throwIt: boolean) => {
         if (error.response) {
@@ -46,85 +50,35 @@ export default function TransactionMove({
         setOpen(false);
     }
 
-    const findAccountTypeForGuid = useCallback(async () => {
-        let endpoint = endpointUrl() + "/transaction/select/"
-
+    const handleButtonClick = useCallback(async (currentTransaction) => {
         try {
-            let response = await axios.get(endpoint + transactionGuid, {
-                timeout: 0,
-                headers: {"Content-Type": "application/json"},
-            })
-            setAccountType(response.data.accountType)
-            return response.data
+            console.log("old:" + JSON.stringify(currentTransaction))
+            //let newTransaction = currentTransaction
+            let newTransaction = Object.assign({}, currentTransaction)
+            newTransaction.accountNameOwner = value
+            console.log("new:" + JSON.stringify(newTransaction))
+            // @ts-ignore
+            updateTransaction({oldRow: currentTransaction, newRow: newTransaction})
+            closeDialog()
         } catch (error) {
-            handleError(error, 'findAccountTypeForGuid', true)
+            handleError(error, 'updateAccountByGuid', true)
         }
-    }, [transactionGuid])
+    }, [closeDialog, value, currentTransaction])
 
-    const fetchActiveAccounts = useCallback(async () => {
-        try {
-            const response = await axios.get(endpointUrl() + "/account/select/active", {
-                timeout: 0,
-                headers: {"Content-Type": "application/json"},
-            })
-            await findAccountTypeForGuid()
-            console.log(accountType)
-
+    useEffect( () => {
+        if( isSuccess) {
+            setAccountType(currentTransaction.accountType)
             let accounts: any[] = []
-            response.data.forEach((element: any) => {
+            data.forEach((element: any) => {
                 if (element.accountType === accountType) {
                     accounts.push(element.accountNameOwner)
                 }
             })
             // @ts-ignore
             setOptions(accounts)
-        } catch (error) {
-            handleError(error, 'findAccountTypeForGuid', true)
-        }
-    }, [accountType, findAccountTypeForGuid])
-
-    const updateAccountByGuid = useCallback(
-        async (accountNameOwner: any) => {
-            let endpoint = endpointUrl() + "/transaction/update/account"
-            let newData = {
-                accountNameOwner: accountNameOwner,
-                guid: transactionGuid,
-            }
-
-            try {
-                let response = await axios.put(endpoint, JSON.stringify(newData), {
-                    timeout: 0,
-                    headers: {"Content-Type": "application/json"},
-                })
-
-                console.log(response.data)
-                return response.data
-            } catch (error) {
-                handleError(error, 'updateAccountByGuid', true)
-            }
-        },
-        [transactionGuid]
-    )
-
-    const handleButtonClick = useCallback(async () => {
-        try {
-            let response = await updateAccountByGuid(value)
-            console.log(response)
-            closeDialog()
-        } catch (error) {
-            handleError(error, 'updateAccountByGuid', true)
-        }
-    }, [closeDialog, value, updateAccountByGuid])
-
-    useEffect(() => {
-        if (options.length === 0) {
-            let response = fetchActiveAccounts()
-            console.log("accounts: " + response)
         }
 
-        return () => {
-        }
-    }, [options, fetchActiveAccounts])
+    }, [accountType, currentTransaction, data, isSuccess])
 
     return (
         <div>
@@ -136,10 +90,10 @@ export default function TransactionMove({
                 aria-labelledby="form-dialog-title"
                 open={true}
             >
-                <DialogTitle id="form-dialog-title">Move a transaction</DialogTitle>
+                <DialogTitle id="form-dialog-title">Move a transaction from one account to another</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Please enter the new account {transactionGuid} is moving to.
+                        Please enter the new account {currentTransaction.guid} is moving to.
                     </DialogContentText>
                     <Autocomplete
                         value={value}
@@ -161,7 +115,7 @@ export default function TransactionMove({
                     <Button onClick={closeDialog} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleButtonClick} color="primary">
+                    <Button onClick={() => handleButtonClick(currentTransaction)} color="primary">
                         Move
                     </Button>
                 </DialogActions>

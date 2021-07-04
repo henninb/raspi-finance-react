@@ -24,19 +24,19 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useTransactionDelete(accountNameOwner) {
+export default function useTransactionDelete() {
     const queryClient = useQueryClient()
-    queryClient.getQueryData(getAccountKey(accountNameOwner))
+    //queryClient.getQueryData(getAccountKey(accountNameOwner))
 
     return useMutation(['deleteTransaction'], (variables) => deleteTransaction(variables.oldRow), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            let oldData = queryClient.getQueryData(getAccountKey(accountNameOwner))
+            let oldData = queryClient.getQueryData(getAccountKey(variables.oldRow.accountNameOwner))
             const dataDelete = [...oldData]
             const index = variables.oldRow.tableData.id
             dataDelete.splice(index, 1)
             let newData = [...dataDelete]
 
-            queryClient.setQueryData(getAccountKey(accountNameOwner), newData)
+            queryClient.setQueryData(getAccountKey(variables.oldRow.accountNameOwner), newData)
         }})
 }

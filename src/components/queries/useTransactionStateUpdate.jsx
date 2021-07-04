@@ -32,8 +32,8 @@ const catchError = (error) => {
 
 export default function useTransactionStateUpdate (accountNameOwner) {
     const queryClient = useQueryClient()
-    console.log('update cache for accountNameOwner: ' + accountNameOwner)
-    queryClient.getQueryData(getAccountKey(accountNameOwner))
+    // console.log('update cache for accountNameOwner: ' + accountNameOwner)
+    // queryClient.getQueryData(getAccountKey(accountNameOwner))
 
     return useMutation(['transactionState'], (variables) => changeTransactionState(variables.guid, variables.transactionState), {onError: catchError,
 
