@@ -1,8 +1,7 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import Select from "react-select"
-import axios from "axios"
 import {useHistory} from "react-router-dom"
-import {endpointUrl} from "./Common"
+import useFetchAccount from "./queries/useFetchAccount";
 
 export default function SelectAccounts() {
     const [options, setOptions] = useState([])
@@ -13,40 +12,25 @@ export default function SelectAccounts() {
     }
 
     const history = useHistory()
-
-    const fetchData = useCallback(async () => {
-        try {
-            const response = await axios.get(endpointUrl() + "/account/select/active")
-
-            let optionList = []
-            response.data.forEach((element) => {
-                optionList = optionList.concat({
-                    value: element.accountNameOwner,
-                    label: element.accountNameOwner,
-                })
-            })
-
-            setOptions(optionList)
-            return optionList
-        } catch (error) {
-            if (error.response) {
-                if (error.response.status === 404) {
-                } else {
-                    alert("fetchData" + JSON.stringify(error.response.data))
-                }
-            }
-        }
-    }, [])
+    const {data, isSuccess} = useFetchAccount()
 
     useEffect(() => {
-        if (options.length === 0) {
-            let response = fetchData()
-            console.log(response)
+        if( isSuccess ) {
+            let optionList = []
+            data.forEach((element) => {
+                    optionList = optionList.concat({
+                        value: element.accountNameOwner,
+                        label: element.accountNameOwner,
+                    })
+            })
+            if (optionList.length > 0) {
+                setOptions(optionList)
+            }
         }
 
         return () => {
         }
-    }, [options, fetchData])
+    }, [isSuccess, data])
 
     return (
         <div className="select-formatting">

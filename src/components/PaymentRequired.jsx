@@ -1,50 +1,23 @@
 import Spinner from "./Spinner";
-import React, {useCallback, useEffect, useState} from "react";
-import axios from "axios";
-import {endpointUrl} from "./Common";
+import React from "react";
 import MaterialTable from "material-table";
 import Button from "@material-ui/core/Button";
 import {useHistory} from "react-router-dom";
+import useFetchPaymentRequired from "./queries/useFetchPaymentRequired";
 
 export default function PaymentRequired() {
-    const [loading, setLoading] = useState(true)
-    const [data, setData] = useState([])
     const history = useHistory()
+
+    const {data, isSuccess, isLoading} = useFetchPaymentRequired()
 
     const handleButtonClickLink = (accountNameOwner) => {
         history.push("/transactions/" + accountNameOwner)
         history.go(0)
     }
 
-    const fetchData = useCallback(async () => {
-        try {
-            const response = await axios.get(endpointUrl() + "/transaction/payment/required",
-                {
-                    timeout: 0,
-                    headers: {"Content-Type": "application/json"},
-                }
-            )
-            if (response.data.length > 0) {
-                setData(response.data)
-            }
-
-        } catch (error) {
-            //handleError(error, 'fetchData', true)
-        } finally {
-            setLoading(false)
-        }
-    }, [])
-
-    useEffect(() => {
-        if (data.length === 0) {
-            fetchData()
-        }
-    })
-
     return (
-
         <div>
-            {!loading ? (
+            {!isLoading && isSuccess ? (
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[

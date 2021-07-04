@@ -1,10 +1,9 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useState} from "react"
 import MaterialTable from "material-table"
 import "./main.scss"
-import axios from "axios"
 import SelectAccountNameOwnerCredit from "./SelectAccountNameOwnerCredit"
 import Spinner from "./Spinner"
-import {endpointUrl, fetchTimeZone} from "./Common"
+import {fetchTimeZone} from "./Common"
 import {useHistory} from "react-router-dom"
 import Button from "@material-ui/core/Button"
 import SnackbarBaseline from "./SnackbarBaseline";
@@ -15,21 +14,22 @@ import DatePicker from "react-datepicker";
 import useFetchPayment from "./queries/useFetchPayment";
 import usePaymentInsert from "./queries/usePaymentInsert";
 import usePaymentDelete from "./queries/usePaymentDelete";
+import useFetchParameter from "./queries/useFetchParameter";
 
 export default function PaymentTable() {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
-    const [paymentAccount, setPaymentAccount] = useState('undefined')
 
     const history = useHistory()
 
-    const {data, isSuccess, isLoading} = useFetchPayment()
+    const {data, isSuccess} = useFetchPayment()
+    const {data: parmData, isSuccess: parmSuccess} = useFetchParameter('payment_account')
     const {mutate: insertPayment} = usePaymentInsert()
     const {mutate: deletePayment} = usePaymentDelete()
 
     const handleSnackbarClose = () => {
         setOpen(false);
-    };
+    }
 
     const handleButtonClickLink = (accountNameOwner) => {
         history.push("/transactions/" + accountNameOwner)
@@ -65,59 +65,9 @@ export default function PaymentTable() {
         })
     }
 
-    const fetchParameterValue = useCallback(async () => {
-        try {
-            const response = await axios.get(endpointUrl() + "/parm/select/payment_account",
-                {
-                    timeout: 0,
-                    headers: {"Content-Type": "application/json"},
-                }
-            )
-
-            if (response.data) {
-               setPaymentAccount(response.data.parameterValue)
-               setMessage(`${response.data.parameterValue}`)
-               setOpen(true)
-            } else {
-                console.log('payment_account parameter needs to be set.')
-            }
-
-        } catch (error) {
-            handleError(error, 'fetchParameterValue', true)
-        } finally {
-            //setLoading(false)
-        }
-    }, [])
-
-    const deleteCall = useCallback(async (payload) => {
-        let endpoint = endpointUrl() + "/payment/delete/" + payload["paymentId"]
-
-        try {
-            await axios.delete(endpoint, {
-                timeout: 0,
-                headers: {"Content-Type": "application/json"},
-            })
-        } catch (error) {
-            handleError(error, 'postCallPayment', true)
-        }
-    }, [])
-
-    useEffect(() => {
-        if ( paymentAccount === 'undefined' ) {
-            let response = fetchParameterValue()
-            console.log(response)
-        }
-
-        return () => {
-        }
-    }, [fetchParameterValue, paymentAccount])
-
-    let today = moment(new Date().toDateString()).format('YYYY-MM-DD')
-
     return (
-
         <div>
-            {!isLoading && isSuccess ? (
+            {isSuccess && parmSuccess ? (
                 <div className="table-formatting">
                     <MaterialTable
                         data-testid="payment-table"
@@ -126,7 +76,7 @@ export default function PaymentTable() {
                                 title: "transactionDate",
                                 field: "transactionDate",
                                 type: "date",
-                                initialEditValue: today,
+                                initialEditValue: moment(new Date().toDateString()).format('YYYY-MM-DD'),
                                 cellStyle: {whiteSpace: "nowrap"},
 
                                 editComponent: (props) => (
@@ -145,10 +95,6 @@ export default function PaymentTable() {
                                         />
                                     </MuiPickersUtilsProvider>
                                 ),
-
-                                // render: (rowData) => {
-                                //     return <div>{rowData.transactionDate}</div>
-                                // },
                             },
                             {
                                 title: "accountNameOwner",
@@ -196,7 +142,8 @@ export default function PaymentTable() {
                                 title: "source",
                                 field: "sourceAccount",
                                 type: "string",
-                                initialEditValue: paymentAccount,
+                                initialEditValue: (parmData) ? parmData.parameterValue: "undefined parmData"
+                                ,
                                 cellStyle: {whiteSpace: "nowrap"},
                             },
                         ]}
@@ -223,7 +170,6 @@ export default function PaymentTable() {
                                 new Promise((resolve, reject) => {
                                     setTimeout(async () => {
                                         try {
-                                            await deleteCall(oldData)
                                             await deletePayment({payload: oldData})
                                             resolve()
                                         } catch (error) {

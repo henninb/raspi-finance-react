@@ -13,11 +13,11 @@ export default function Routes() {
     return (
         <div>
             <Router>
+                <QueryClientProvider client={queryClient}>
                 <div>
                     <NavbarInstance/>
                 </div>
                 <Switch>
-                    <QueryClientProvider client={queryClient}>
                         <Route path="/payments" exact component={PaymentTable}/>
                         <Route path="/freeform" exact component={FreeForm}/>
                         <Route path="/payment/required" exact component={PaymentRequired}/>
@@ -27,8 +27,9 @@ export default function Routes() {
                             component={TransactionTable}
                         />
                         <Route path="/" exact component={AccountSummaryTable}/>
-                    </QueryClientProvider>
+
                 </Switch>
+                </QueryClientProvider>
             </Router>
         </div>
     )
