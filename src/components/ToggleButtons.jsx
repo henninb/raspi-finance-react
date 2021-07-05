@@ -21,15 +21,15 @@ export default function ToggleButtons({ transactionState, guid, accountNameOwner
 
     const handleTransactionType = (event, newTransactionState) => {
         console.log(newTransactionState)
-        if( newTransactionState === 'cleared' || newTransactionState.toLowerCase() === 'cleared' ) {
+        if( newTransactionState === 'cleared' ) {
             setClearedColor(colorOn);
             setOutStandingColor(colorOff);
             setFutureColor(colorOff);
-        } else if( newTransactionState === 'future' || newTransactionState.toLowerCase() === 'future' ) {
+        } else if( newTransactionState === 'future' ) {
             setClearedColor( colorOff);
             setOutStandingColor(colorOff);
             setFutureColor(colorOn);
-        } else if( newTransactionState === 'outstanding' || newTransactionState.toLowerCase() === 'outstanding' ) {
+        } else if( newTransactionState === 'outstanding' ) {
             setClearedColor(colorOff);
             setOutStandingColor(colorOn);
             setFutureColor(colorOff);
@@ -47,6 +47,7 @@ export default function ToggleButtons({ transactionState, guid, accountNameOwner
         >
 
             <ToggleButton value="future">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a data-tip="future transaction">
                 <AttachMoneyRounded style={{ color: futureColor }} />
                 </a>
@@ -54,6 +55,7 @@ export default function ToggleButtons({ transactionState, guid, accountNameOwner
             </ToggleButton>
 
             <ToggleButton value="outstanding">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a data-tip="outstanding transaction">
                 <AttachMoneyRounded style={{ color: outstandingColor }} />
                 </a>
@@ -61,6 +63,7 @@ export default function ToggleButtons({ transactionState, guid, accountNameOwner
             </ToggleButton>
 
             <ToggleButton value="cleared">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a data-tip="cleared transaction">
                     <AttachMoneyRounded style={{ color: clearedColor }} />
                 </a>

@@ -1,12 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {v4 as uuidv4} from "uuid"
-import {endpointUrl} from "./Common"
-import axios from "axios"
 import os from "os"
 import "./main.scss"
 import SnackbarBaseline from "./SnackbarBaseline"
 import Select from "react-select";
 import FreeFormTable from "./FreeFormTable";
+import useFetchAccount from "./queries/useFetchAccount";
 
 require('datejs') //momentjs - look into this
 
@@ -18,31 +17,7 @@ export default function FreeForm() {
     const [loadFreeFormTable, setLoadFreeFormTable] = useState(false)
     const [data, setData] = useState([])
 
-    const fetchAccountTypeOptions = useCallback(async () => {
-        try {
-            const response = await axios.get(endpointUrl() + "/account/select/active")
-
-            let optionList = []
-            response.data.forEach((element) => {
-                optionList = optionList.concat({
-                    value: element.accountNameOwner,
-                    label: element.accountNameOwner,
-                })
-            })
-            if (optionList.length > 0) {
-                setAccountTypeOptions(optionList)
-            }
-        } catch (error) {
-            if (error.response) {
-                alert(
-                    "fetchAccountTypeOptions - status: " +
-                    error.response.status +
-                    " - " +
-                    JSON.stringify(error.response.data)
-                )
-            }
-        }
-    }, [])
+    const {data: dataAccount, isSuccess: accountSuccess} = useFetchAccount()
 
     const handleSnackbarClose = () => {
         setOpen(false);
@@ -131,41 +106,6 @@ export default function FreeForm() {
         return flag
     }
 
-    const handleError = (error, moduleName, throwIt) => {
-        if (error.response) {
-            setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-            console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
-            setOpen(true)
-        } else {
-            setMessage(`${moduleName}: failure`)
-            console.log(`${moduleName}: failure`)
-            setOpen(true)
-            if (throwIt) {
-                throw  error
-            }
-        }
-    }
-
-    // const postCall = useCallback(
-    //     async (payload) => {
-    //
-    //         let endpoint = endpointUrl() + "/transaction/insert/"
-    //
-    //         try {
-    //             let response = await axios.post(endpoint, payload, {
-    //                 timeout: 0,
-    //                 headers: {"Content-Type": "application/json"},
-    //             })
-    //
-    //             setOpen(true)
-    //             return response
-    //         } catch (error) {
-    //             handleError(error, 'postCall', false)
-    //         }
-    //     },
-    //     []
-    // )
-
     const handleChange = async () => {
         const text = document.getElementById("textArea").value;
         let sanitizedText = text.replace(/\t/g, ',')
@@ -226,19 +166,19 @@ export default function FreeForm() {
     }
 
     useEffect(() => {
-        const CancelToken = axios.CancelToken
-        const source = CancelToken.source()
-
-        if (accountTypeOptions.length === 0) {
-            let response = fetchAccountTypeOptions()
-            console.log(response)
+        if( accountSuccess ) {
+            let optionList = []
+            dataAccount.forEach((element) => {
+                optionList = optionList.concat({
+                    value: element.accountNameOwner,
+                    label: element.accountNameOwner,
+                })
+            })
+            if (optionList.length > 0) {
+                setAccountTypeOptions(optionList)
+            }
         }
-
-        return () => {
-            source.cancel()
-        }
-    }, [accountTypeOptions, fetchAccountTypeOptions])
-
+    }, [accountSuccess, accountTypeOptions, dataAccount])
 
     return (
         <div>

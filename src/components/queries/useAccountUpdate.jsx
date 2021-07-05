@@ -24,10 +24,8 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-//TODO: not used
 export default function useAccountUpdate() {
     const queryClient = useQueryClient()
-    //queryClient.getQueryData('account')
 
     return useMutation(['updateAccount'], (variables) => updateAccount(variables.oldRow, variables.newRow), {onError: catchError,
 

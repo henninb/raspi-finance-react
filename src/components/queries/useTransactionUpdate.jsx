@@ -34,7 +34,6 @@ const catchError = (error) => {
 
 export default function useTransactionUpdate () {
     const queryClient = useQueryClient()
-    //queryClient.getQueryData(getAccountKey(accountNameOwner))
 
     return useMutation(['updateTransaction'], (variables) => updateTransaction(variables.newRow, variables.oldRow), {onError: catchError,
 

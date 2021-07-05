@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import TextField from '@material-ui/core/TextField'
 import useFetchDescription from "./queries/useFetchDescription"
@@ -18,16 +18,18 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
     const {data, isSuccess} = useFetchDescription()
     const {mutate: insertDescription} = useDescriptionInsert()
 
-    const extractedDescriptionField = (response: any) => {
-        // @ts-ignore
-        let descriptions: any[] = []
-        data.forEach((element: any) => {
-            descriptions.push(element.description)
-        })
-        return descriptions
-    };
+
 
     useEffect(() => {
+        const extractedDescriptionField = (response: any) => {
+            // @ts-ignore
+            let descriptions: any[] = []
+            data.forEach((element: any) => {
+                descriptions.push(element.description)
+            })
+            return descriptions
+        }
+
         if( isSuccess ) {
             const response: any = extractedDescriptionField(data)
             setOptions(response)

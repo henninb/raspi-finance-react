@@ -27,9 +27,6 @@ export default function SelectAccounts() {
                 setOptions(optionList)
             }
         }
-
-        return () => {
-        }
     }, [isSuccess, data])
 
     return (

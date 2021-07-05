@@ -25,7 +25,6 @@ const catchError = (error) => {
 
 export default function useReceiptImageUpdate () {
     const queryClient = useQueryClient()
-    //queryClient.getQueryData(getAccountKey(accountNameOwner))
 
     return useMutation(['insertReceiptImage'], (variables) => insertReceiptImage(variables.oldRow, variables.fileContent), {onError: catchError,
 

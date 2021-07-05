@@ -26,7 +26,6 @@ const catchError = (error) => {
 
 export default function useTransactionDelete() {
     const queryClient = useQueryClient()
-    //queryClient.getQueryData(getAccountKey(accountNameOwner))
 
     return useMutation(['deleteTransaction'], (variables) => deleteTransaction(variables.oldRow), {onError: catchError,
 

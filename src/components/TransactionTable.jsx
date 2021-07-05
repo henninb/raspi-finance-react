@@ -1,12 +1,11 @@
 import React, {useCallback, useEffect, useState} from "react"
 import MaterialTable from "material-table"
-import axios from "axios"
 import Spinner from "./Spinner"
 import "./main.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, endpointUrl, fetchTimeZone, noNaN, typeOf} from "./Common"
+import {currencyFormat, fetchTimeZone, noNaN, typeOf} from "./Common"
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded'
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -23,13 +22,12 @@ import useChangeTransactionState from "./queries/useTransactionStateUpdate";
 import useTransactionUpdate from "./queries/useTransactionUpdate";
 import useTransactionDelete from "./queries/useTransactionDelete";
 import useTransactionInsert from "./queries/useTransactionInsert";
-import useFetchTotals from "./queries/useFetchTotals";
+import useFetchTotalsPerAccount from "./queries/useFetchTotalsPerAccount";
 import useReceiptImageUpdate from "./queries/useReceiptImageUpdate";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
     const [currentTransaction, setCurrentTransaction] = useState({})
-    const [totals, setTotals] = useState([])
     const [keyPressed, setKeyPressed] = useState(false)
     const [fileContent, setFileContent] = useState("")
     const [message, setMessage] = useState('')
@@ -37,7 +35,7 @@ export default function TransactionTable() {
 
     const routeMatch = useRouteMatch("/transactions/:account")
     const {data, isSuccess, isLoading} = useFetchTransactionByAccount(routeMatch.params["account"])
-    const {data: dataTotals, isSuccess: isSuccessTotals} = useFetchTotals(routeMatch.params["account"])
+    const {data: totals, isSuccess: isSuccessTotals} = useFetchTotalsPerAccount(routeMatch.params["account"])
     const {mutate: updateTransactionState} = useChangeTransactionState(routeMatch.params["account"])
     const {mutate: updateTransaction} = useTransactionUpdate()
     const {mutate: deleteTransaction} = useTransactionDelete()
@@ -63,29 +61,6 @@ export default function TransactionTable() {
             }
         }
     }
-
-    // const insertReceiptImage = useCallback(
-    //     async () => {
-    //         const CancelToken = axios.CancelToken
-    //         const source = CancelToken.source()
-    //         const response = await axios.put(
-    //             endpointUrl() + "/transaction/update/receipt/image/" + currentTransaction.guid,
-    //             fileContent,
-    //             {
-    //                 cancelToken: source.token,
-    //                 timeout: 0,
-    //                 headers: {"Content-Type": "text/plain"},
-    //             }
-    //         )
-    //
-    //         console.log(response.data)
-    //
-    //         return () => {
-    //             source.cancel()
-    //         }
-    //     },
-    //     [fileContent, currentTransaction]
-    // )
 
     const storeTheFileContent = useCallback(
         async (file) => {
@@ -142,27 +117,21 @@ export default function TransactionTable() {
         [storeTheFileContent]
     )
 
-    const fetchTotals = useCallback(async () => {
-        const CancelToken = axios.CancelToken
-        const source = CancelToken.source()
-        const response = await axios.get(
-            endpointUrl() + "/transaction/account/totals/" + routeMatch.params["account"],
-            {cancelToken: source.token}
-        )
-        setTotals(response.data)
-        return () => {
-            source.cancel()
-        }
-    }, [routeMatch])
+    // const fetchTotals = useCallback(async () => {
+    //     const CancelToken = axios.CancelToken
+    //     const source = CancelToken.source()
+    //     const response = await axios.get(
+    //         endpointUrl() + "/transaction/account/totals/" + routeMatch.params["account"],
+    //         {cancelToken: source.token}
+    //     )
+    //     setTotals(response.data)
+    // }, [routeMatch])
 
     const handlerToUpdateTransactionState = useCallback(
         async (guid, accountNameOwner, transactionState) => {
             try {
                 await updateTransactionState({ guid: guid, transactionState: transactionState })
-                if (isSuccessTotals) {
-
-                }
-                await fetchTotals()
+                //await fetchTotals()
             } catch (error) {
                 console.log(error)
                 handleError(error, 'updateTransactionState1', false)
@@ -176,7 +145,6 @@ export default function TransactionTable() {
             setTimeout(async () => {
                 try {
                     await updateTransaction({newRow: newData, oldRow: oldData})
-                    await fetchTotals()
                     resolve()
                 } catch (error) {
                     handleError(error, 'updateRow', false)
@@ -191,7 +159,6 @@ export default function TransactionTable() {
             setTimeout(async () => {
                 try {
                     await deleteTransaction({oldRow: oldData})
-                    await fetchTotals()
                     resolve()
                 } catch (error) {
                     handleError(error, 'deleteRow', false)
@@ -206,7 +173,7 @@ export default function TransactionTable() {
             setTimeout(async () => {
                 try {
                     await insertTransaction({newRow: newData, isFutureTransaction: false})
-                    await fetchTotals()
+
                     resolve()
                 } catch (error) {
                     handleError(error, 'addRow', false);
@@ -220,11 +187,10 @@ export default function TransactionTable() {
         async (newData) => {
             try {
                 await insertTransaction({newRow: newData, isFutureTransaction: true})
-                await fetchTotals()
             } catch (error) {
                 handleError(error, 'futureTransactionInsertPostCall', false);
             }
-        }, [insertTransaction, fetchTotals]
+        }, [insertTransaction]
     )
 
     const downHandler = useCallback(
@@ -267,22 +233,17 @@ export default function TransactionTable() {
             setFileContent("")
         }
 
-        if (totals.length === 0) {
-            let response = fetchTotals()
-            console.log(response)
-        }
-
         return () => {
             window.removeEventListener("keydown", downHandler)
             window.removeEventListener("keyup", upHandler)
         }
-    }, [totals, data, fetchTotals, downHandler, upHandler, fileContent, currentTransaction, insertReceiptImage])
+    }, [ data, downHandler, upHandler, fileContent, currentTransaction, insertReceiptImage])
 
     let today = moment(new Date().toDateString()).format('YYYY-MM-DD')
 
     return (
         <div>
-            {!isLoading && isSuccess ? (
+            {!isLoading && isSuccess && isSuccessTotals ? (
                 <div className="table-formatting">
 
                     <MaterialTable

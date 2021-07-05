@@ -24,7 +24,6 @@ const catchError = (error) => {
 
 export default function usePaymentDelete() {
     const queryClient = useQueryClient()
-    //queryClient.getQueryData('payment')
 
     return useMutation(['deletePayment'], (variables) => deletePayment(variables.oldRow), {onError: catchError,
 

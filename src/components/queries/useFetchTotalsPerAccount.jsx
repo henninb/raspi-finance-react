@@ -2,9 +2,9 @@ import {endpointUrl} from "../Common"
 import {useQuery} from "react-query"
 import axios from "axios"
 
-const fetchTotals = () => {
+const fetchTotalsPerAccount = (accountNameOwner) => {
     return axios.get(
-        endpointUrl() + "/account/totals",
+        endpointUrl() + "/transaction/account/totals/" + accountNameOwner,
         {
             timeout: 0,
             headers: {
@@ -24,6 +24,6 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useFetchTotals () {
-    return useQuery(['all_totals'], () => fetchTotals(), {onError: catchError})
+export default function useFetchTotalsPerAccount (accountNameOwner) {
+    return useQuery(['totals', accountNameOwner], () => fetchTotalsPerAccount(accountNameOwner), {onError: catchError})
 }

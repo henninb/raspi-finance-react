@@ -1,10 +1,8 @@
-import React, {useCallback, useState} from 'react'
+import React, {useState} from 'react'
 import DataGrid from 'react-data-grid'
-import {endpointUrl} from "./Common"
-import axios from "axios"
 import SnackbarBaseline from "./SnackbarBaseline"
-import useTransactionInsert from "./queries/useTransactionInsert";
-import {useRouteMatch} from "react-router-dom";
+import useTransactionInsert from "./queries/useTransactionInsert"
+import {useRouteMatch} from "react-router-dom"
 
 export default function FreeFormTable({data, toggleDisplayList}) {
     const [message, setMessage] = useState('')
@@ -42,30 +40,11 @@ export default function FreeFormTable({data, toggleDisplayList}) {
         }
     }
 
-    const postCall = useCallback(
-        async (payload) => {
-
-            let endpoint = endpointUrl() + "/transaction/insert/"
-
-            try {
-                let response = await axios.post(endpoint, payload, {
-                    timeout: 0,
-                    headers: {"Content-Type": "application/json"},
-                })
-
-                setOpen(true)
-                return response.data
-            } catch (error) {
-                handleError(error, 'postCall', false)
-            }
-        },
-        []
-    )
-
     const handleChange = async () => {
         for (const transaction of data) {
             try {
-                await postCall(transaction)
+                await insertTransaction({ payload: transaction, isFutureTransaction: false})
+                //await postCall(transaction)
             } catch (error) {
                 handleError(error, 'handleChange', false)
             }
@@ -76,10 +55,8 @@ export default function FreeFormTable({data, toggleDisplayList}) {
     return (
         <div>
                 <div>
-
                     <DataGrid style={{width: '1024px'}}
                         rows={data}
-                        //data={data}
                         columns={[
                             {
                                 header: 'Account Name Owner',
@@ -156,9 +133,7 @@ export default function FreeFormTable({data, toggleDisplayList}) {
                         actions={[
                         ]}
                     />
-
                 </div>
-
             <p>
                 {/*<input type="button" value="toFreeForm" onClick={() => toggleDisplayList()}/>*/}
                 <input type="submit" value="submit" onClick={() => handleChange()}/>

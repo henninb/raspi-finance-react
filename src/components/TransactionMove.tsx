@@ -28,7 +28,6 @@ export default function TransactionMove({
     const [open, setOpen] = useState(false)
 
     const {data, isSuccess} = useFetchAccount()
-    //const {mutate: updateAccount} = useAccountUpdate()
     const {mutate: updateTransaction} = useTransactionUpdate()
 
     const handleError = (error: any, moduleName: string, throwIt: boolean) => {
@@ -52,18 +51,15 @@ export default function TransactionMove({
 
     const handleButtonClick = useCallback(async (currentTransaction) => {
         try {
-            console.log("old:" + JSON.stringify(currentTransaction))
-            //let newTransaction = currentTransaction
             let newTransaction = Object.assign({}, currentTransaction)
             newTransaction.accountNameOwner = value
-            console.log("new:" + JSON.stringify(newTransaction))
             // @ts-ignore
             updateTransaction({oldRow: currentTransaction, newRow: newTransaction})
             closeDialog()
         } catch (error) {
             handleError(error, 'updateAccountByGuid', true)
         }
-    }, [closeDialog, value, currentTransaction])
+    }, [value, updateTransaction, closeDialog])
 
     useEffect( () => {
         if( isSuccess) {

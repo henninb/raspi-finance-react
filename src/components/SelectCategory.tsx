@@ -19,15 +19,17 @@ export default function SelectCategory({
 
     const {data, isSuccess} = useFetchCategory()
 
-    const extractedCategoryField = (response: any) => {
-        let categories: any[] = []
-        data.forEach((element: any) => {
-            categories.push(element.category)
-        })
-        return categories
-    }
+
 
     useEffect(() => {
+        const extractedCategoryField = (response: any) => {
+            let categories: any[] = []
+            data.forEach((element: any) => {
+                categories.push(element.category)
+            })
+            return categories
+        }
+
         if( isSuccess ) {
             const response: any = extractedCategoryField(data)
             setOptions(response)
