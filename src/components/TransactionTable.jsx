@@ -282,11 +282,7 @@ export default function TransactionTable() {
                                             <SelectDescription
                                                 onChangeFunction={props.onChange}
                                                 currentValue={() => {
-                                                    if (props.value) {
-                                                        return props.value
-                                                    } else {
-                                                        return "undefined"
-                                                    }
+                                                    return (props.value) ? props.value : 'undefined'
                                                 }}
                                             />
                                         </>
@@ -304,11 +300,7 @@ export default function TransactionTable() {
                                             <SelectCategory
                                                 onChangeFunction={props.onChange}
                                                 currentValue={() => {
-                                                    if (props.value) {
-                                                        return props.value
-                                                    } else {
-                                                        return "none"
-                                                    }
+                                                    return (props.value) ? props.value : 'none'
                                                 }}
                                             />
                                         </>
@@ -343,11 +335,7 @@ export default function TransactionTable() {
                                             <SelectTransactionState
                                                 onChangeFunction={props.onChange}
                                                 currentValue={() => {
-                                                    if (props.value) {
-                                                        return props.value
-                                                    } else {
-                                                        return "outstanding"
-                                                    }
+                                                    return (props.value) ? props.value : 'outstanding'
                                                 }}
                                             />
                                         </>
