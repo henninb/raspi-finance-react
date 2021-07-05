@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
@@ -7,19 +7,18 @@ interface Props {
     currentValue: any
 }
 
+// interface TransactionStateOptionType {
+//     title: string
+// }
+
 export default function SelectTransactionState({onChangeFunction, currentValue}: Props) {
+   // const [value, setValue] = useState<TransactionStateOptionType | null>(null);
+
     const [value, setValue] = useState(currentValue)
-    const [inputValue, setInputValue] = useState('')
-    const [keyPressValue, setKeyPressValue] = useState('')
+    const [inputValue, setInputValue] = useState('undefined')
+    const [keyPressValue, setKeyPressValue] = useState('undefined')
 
     const options = ['future', 'outstanding', 'cleared']
-
-    useEffect(() => {
-        // @ts-ignore
-        console.log(`transactionState - inputValue:'${inputValue}'`)
-        console.log(`transactionState - value:'${value}'`)
-        setValue(inputValue || '')
-    }, [currentValue, inputValue, value])
 
     const handleKeyDown = (event: any) => {
         if (event.key === 'Tab') {
@@ -31,37 +30,62 @@ export default function SelectTransactionState({onChangeFunction, currentValue}:
                     return state;
                 })
             } else {
-                setKeyPressValue('')
+                setKeyPressValue('undefined')
                 onChangeFunction(inputValue)
                 return inputValue
             }
         }
     }
 
+    // const myOptions = [
+    //     { title: 'future' },
+    //     { title: 'outstanding'},
+    //     { title: 'cleared' },
+    // ]
+
+    // const defaultProps = {
+    //
+    // }
+
     return (
         <div>
+
+            {/*<Autocomplete*/}
+            {/*    //{...defaultProps}*/}
+            {/*    options = {myOptions}*/}
+            {/*    getOptionLabel = { (option: TransactionStateOptionType) => option.title}*/}
+            {/*    defaultValue={(value) ? value: 'undefined'}*/}
+            {/*    id="my-transaction-state"*/}
+            {/*    debug*/}
+            {/*    renderInput={(params) => <TextField {...params} margin="normal" />}*/}
+            {/*/>*/}
+
             <Autocomplete
-                //value={value || 'undefined'}
                 defaultValue={(value) ? value: 'undefined'}
+                value={(value) ? value: 'undefined'}
+
                 onChange={(_event, newValue) => {
-                    console.log(`newValue: '${newValue}'`)
+                    console.log(`onChange newValue: '${newValue}'`)
                     setValue(newValue)
                     onChangeFunction(newValue)
                 }}
 
                 inputValue={inputValue || 'undefined'}
                 onInputChange={(_event, newInputValue) => {
-                    if (keyPressValue === '') {
+                    if (keyPressValue === 'undefined') {
                         setInputValue(newInputValue)
                     } else {
                         setInputValue(keyPressValue)
-                        setKeyPressValue('')
+                        setKeyPressValue('undefined')
                     }
                 }}
                 style={{width: 140}}
                 options={options}
 
-                renderInput={(params) => <TextField {...params} onKeyDown={(e) => handleKeyDown(e)}/>}
+                renderInput={(parms) => {
+                    console.log(`params: ${parms.id}`)
+                    return <TextField {...parms}  name="transaction-state" onKeyDown={(e) => handleKeyDown(e)}/>
+                }}
             />
         </div>
     )

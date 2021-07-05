@@ -35,7 +35,6 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
             setOptions(response)
         }
 
-        setValue(inputValue)
     }, [value, data, currentValue, inputValue, isSuccess])
 
     const handleKeyDown = (event: any) => {
@@ -63,7 +62,7 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
     return (
         <div>
             <Autocomplete
-                //value={''}
+                value={value || ''}
                 defaultValue={value || ''}
                 onChange={(_event, newValue) => {
                     setValue(newValue);

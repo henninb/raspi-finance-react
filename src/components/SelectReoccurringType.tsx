@@ -18,8 +18,6 @@ export default function SelectReoccurringType({newAccountType, onChangeFunction,
 
 
     useEffect(() => {
-        console.log("accountType: " + accountType)
-
         if( accountType === 'debit') {
             // @ts-ignore
             setOptions(['fortnightly', 'monthly', 'onetime'])
@@ -28,10 +26,6 @@ export default function SelectReoccurringType({newAccountType, onChangeFunction,
             setOptions(['annually', 'bi-annually', 'fortnightly', 'monthly', 'quarterly', 'onetime'])
         }
 
-
-        console.log(`reoccurringType - inputValue ${inputValue}`)
-        console.log(`reoccurringType - value ${value}`)
-        setValue(inputValue.toLowerCase())
     }, [accountType, currentValue, inputValue, value])
 
     const handleKeyDown = (event: any) => {
@@ -55,8 +49,8 @@ export default function SelectReoccurringType({newAccountType, onChangeFunction,
     return (
         <div>
             <Autocomplete
-                //value={''}
-                defaultValue={value || ''}
+                value={value || ''}
+               // defaultValue={value || ''}
                 onChange={(_event, newValue) => {
                     setValue(newValue);
                     onChangeFunction(newValue);

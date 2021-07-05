@@ -19,8 +19,6 @@ export default function SelectCategory({
 
     const {data, isSuccess} = useFetchCategory()
 
-
-
     useEffect(() => {
         const extractedCategoryField = (response: any) => {
             let categories: any[] = []
@@ -35,7 +33,6 @@ export default function SelectCategory({
             setOptions(response)
         }
 
-        setValue(inputValue)
     }, [value, data, currentValue, inputValue, isSuccess])
 
     const handleKeyDown = (event: any) => {
@@ -61,7 +58,7 @@ export default function SelectCategory({
     return (
         <div>
             <Autocomplete
-                //value={''}
+                value={value || ''}
                 defaultValue={value || ''}
                 onChange={(_event, newValue) => {
                     setValue(newValue)
