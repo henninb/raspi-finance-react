@@ -1,7 +1,7 @@
 import axios from "axios";
-import {endpointUrl} from "../Common";
+import {capitalizeFirstChar, endpointUrl, noNaN} from "../Common";
 import {useMutation, useQueryClient} from "react-query";
-import {getAccountKey} from "./KeyFile";
+import {getAccountKey, getTotalsKey} from "./KeyFile";
 
 const updateTransaction = (newData, oldData) => {
     let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
@@ -45,12 +45,31 @@ export default function useTransactionUpdate () {
                 const index = variables.oldRow.tableData.id
                 dataUpdate[index] = variables.newRow
                 newData = [...dataUpdate]
+                //TODO: update accountTotals if amounts are different
+                if( variables.oldRow.amount !== variables.newRow.amount ) {
+                    let totals = queryClient.getQueryData(getTotalsKey(variables.newRow.accountNameOwner))
+                    let oldTransactionStateKey = "totals" + capitalizeFirstChar(variables.oldRow.transactionState)
+                    let newTransactionStateKey = "totals" + capitalizeFirstChar(variables.newRow.transactionState)
+                    const difference = variables.newRow.amount - variables.oldRow.amount
+                    totals.totals += difference
+                    if( variables.newRow.transactionState === variables.oldRow.transactionState) {
+                        totals[newTransactionStateKey] += difference
+                        queryClient.setQueryData(getTotalsKey(variables.newRow.accountNameOwner), totals)
+                    } else {
+                        totals[oldTransactionStateKey] = (noNaN(totals[oldTransactionStateKey])) - (variables.oldRow.amount)
+                        totals[newTransactionStateKey] = (noNaN(totals[newTransactionStateKey])) + (variables.oldRow.amount) + (difference)
+                        console.log(JSON.stringify(totals))
+                        queryClient.setQueryData(getTotalsKey(variables.newRow.accountNameOwner), totals)
+                    }
+                }
             } else {
                 const dataDelete = [...oldData]
                 const index = variables.oldRow.tableData.id
                 dataDelete.splice(index, 1)
                 newData = [...dataDelete]
                 //TODO: add to other accountNameOwner list
+                //TODO: update accountTotals (subtract)
+
             }
 
             queryClient.setQueryData(getAccountKey(variables.oldRow.accountNameOwner), newData)

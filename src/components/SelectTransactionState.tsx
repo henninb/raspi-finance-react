@@ -42,7 +42,7 @@ export default function SelectTransactionState({onChangeFunction, currentValue}:
     return (
         <div>
             <Autocomplete
-                defaultValue={value}
+                defaultValue={(value) ? value: ''}
                 onChange={(_event, newValue) => {
                     setValue(newValue);
                     onChangeFunction(newValue);
@@ -60,8 +60,8 @@ export default function SelectTransactionState({onChangeFunction, currentValue}:
                 style={{width: 140}}
                 options={options}
 
-                renderInput={(params) => <TextField {...params} onKeyDown={(e) => handleKeyDown(e)}/>}
+                renderInput={(params) => <TextField {...params} value={''} onKeyDown={(e) => handleKeyDown(e)}/>}
             />
         </div>
-    );
+    )
 }

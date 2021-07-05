@@ -57,5 +57,14 @@ export const typeOf = (obj: any) => {
 }
 
 export const noNaN = (n: any) => {
-    return isNaN( n ) ? 0 : n;
+    return isNaN( n ) ? 0.0 : n;
+}
+
+export const capitalizeFirstChar = (inString: String) => {
+    return inString.charAt(0).toUpperCase() + inString.slice(1)
+}
+
+
+export function isFloat(n: number) {
+    return Number(n) === n && n % 1 !== 0;
 }

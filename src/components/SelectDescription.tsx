@@ -81,8 +81,8 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
                 style={{width: 140}}
                 options={options}
 
-                renderInput={(params) => <TextField {...params} onKeyDown={(e) => handleKeyDown(e)}/>}
+                renderInput={(params) => <TextField {...params} value={''} onKeyDown={(e) => handleKeyDown(e)}/>}
             />
         </div>
-    );
+    )
 }
