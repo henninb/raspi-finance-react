@@ -55,13 +55,14 @@ export default function SelectReoccurringType({newAccountType, onChangeFunction,
     return (
         <div>
             <Autocomplete
-                defaultValue={value}
+                //value={''}
+                defaultValue={value || ''}
                 onChange={(_event, newValue) => {
                     setValue(newValue);
                     onChangeFunction(newValue);
                 }}
 
-                inputValue={inputValue}
+                inputValue={inputValue || ''}
                 onInputChange={(_event, newInputValue) => {
                     if (keyPressValue === '') {
                         setInputValue(newInputValue);
@@ -73,7 +74,7 @@ export default function SelectReoccurringType({newAccountType, onChangeFunction,
                 style={{width: 140}}
                 options={options}
 
-                renderInput={(params) => <TextField {...params} value={''} onKeyDown={(e) => handleKeyDown(e)}/>}
+                renderInput={(params) => <TextField {...params} onKeyDown={(e) => handleKeyDown(e)}/>}
             />
         </div>
     )

@@ -63,13 +63,14 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
     return (
         <div>
             <Autocomplete
-                defaultValue={value}
+                //value={''}
+                defaultValue={value || ''}
                 onChange={(_event, newValue) => {
                     setValue(newValue);
                     onChangeFunction(newValue);
                 }}
 
-                inputValue={inputValue}
+                inputValue={inputValue || ''}
                 onInputChange={(_event, newInputValue) => {
                     if (keyPressValue === '') {
                         setInputValue(newInputValue);

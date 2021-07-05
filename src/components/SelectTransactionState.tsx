@@ -8,23 +8,22 @@ interface Props {
 }
 
 export default function SelectTransactionState({onChangeFunction, currentValue}: Props) {
-    const [options, setOptions] = useState([]);
-    const [value, setValue] = useState(currentValue);
-    const [inputValue, setInputValue] = useState('');
-    const [keyPressValue, setKeyPressValue] = useState('');
+    const [value, setValue] = useState(currentValue)
+    const [inputValue, setInputValue] = useState('')
+    const [keyPressValue, setKeyPressValue] = useState('')
+
+    const options = ['future', 'outstanding', 'cleared']
 
     useEffect(() => {
         // @ts-ignore
-        setOptions(['future', 'outstanding', 'cleared']);
-        console.log(`transactionState - inputValue ${inputValue}`);
-        console.log(`transactionState - value ${value}`);
-        setValue(inputValue.toLowerCase());
-    }, [currentValue, inputValue, value]);
+        console.log(`transactionState - inputValue:'${inputValue}'`)
+        console.log(`transactionState - value:'${value}'`)
+        setValue(inputValue || '')
+    }, [currentValue, inputValue, value])
 
     const handleKeyDown = (event: any) => {
         if (event.key === 'Tab') {
-            // @ts-ignore
-            let filteredOptions = options.filter((state) => state.includes(inputValue));
+            let filteredOptions = options.filter((state) => state.includes(inputValue))
             if (filteredOptions.length > 0) {
                 return filteredOptions.find((state) => {
                     setKeyPressValue(state);
@@ -32,7 +31,7 @@ export default function SelectTransactionState({onChangeFunction, currentValue}:
                     return state;
                 })
             } else {
-                setKeyPressValue('undefined')
+                setKeyPressValue('')
                 onChangeFunction(inputValue)
                 return inputValue
             }
@@ -42,25 +41,27 @@ export default function SelectTransactionState({onChangeFunction, currentValue}:
     return (
         <div>
             <Autocomplete
-                defaultValue={(value) ? value: ''}
+                //value={value || 'undefined'}
+                defaultValue={(value) ? value: 'undefined'}
                 onChange={(_event, newValue) => {
-                    setValue(newValue);
-                    onChangeFunction(newValue);
+                    console.log(`newValue: '${newValue}'`)
+                    setValue(newValue)
+                    onChangeFunction(newValue)
                 }}
 
-                inputValue={inputValue}
+                inputValue={inputValue || 'undefined'}
                 onInputChange={(_event, newInputValue) => {
                     if (keyPressValue === '') {
-                        setInputValue(newInputValue);
+                        setInputValue(newInputValue)
                     } else {
-                        setInputValue(keyPressValue);
-                        setKeyPressValue('');
+                        setInputValue(keyPressValue)
+                        setKeyPressValue('')
                     }
                 }}
                 style={{width: 140}}
                 options={options}
 
-                renderInput={(params) => <TextField {...params} value={''} onKeyDown={(e) => handleKeyDown(e)}/>}
+                renderInput={(params) => <TextField {...params} onKeyDown={(e) => handleKeyDown(e)}/>}
             />
         </div>
     )
