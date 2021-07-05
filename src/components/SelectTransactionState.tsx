@@ -82,8 +82,8 @@ export default function SelectTransactionState({onChangeFunction, currentValue}:
                 style={{width: 140}}
                 options={options}
 
-                renderInput={(parms) => {
-                    return <TextField {...parms} onKeyDown={(e) => handleKeyDown(e)}/>
+                renderInput={(params) => {
+                    return <TextField {...params} onKeyDown={(e) => handleKeyDown(e)}/>
                 }}
             />
         </div>
