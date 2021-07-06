@@ -11,7 +11,6 @@ const setupNewTransaction = (payload, accountNameOwner) => {
         transactionDate: payload.transactionDate,
         description: payload.description,
         category: payload.category === undefined ? "undefined" : payload.category,
-        //dueDate: payload.dueDate = payload.dueDate,
         notes: payload.notes === undefined ? "" : payload.notes,
         amount: payload.amount,
         transactionState:
@@ -20,7 +19,6 @@ const setupNewTransaction = (payload, accountNameOwner) => {
                 : payload.transactionState,
         activeStatus: true,
         accountType: "undefined",
-        reoccurring: payload.reoccurring === undefined ? false : payload.reoccurring,
         reoccurringType:
             payload.reoccurringType === undefined
                 ? "onetime"
@@ -39,8 +37,6 @@ const setupNewTransaction = (payload, accountNameOwner) => {
 }
 
 const insertTransaction = (accountNameOwner, payload, isFutureTransaction) => {
-    console.log("accountNameOwner:" + accountNameOwner)
-
     let endpoint = endpointUrl() + "/transaction/insert/"
     if( isFutureTransaction) {
         endpoint = endpointUrl() + "/transaction/future/insert/"
@@ -79,7 +75,7 @@ export default function useTransactionInsert (accountNameOwner) {
             if( variables.isFutureTransaction ) {
                updatedNewRow = response
             }
-            if( oldData) {
+            if( oldData ) {
                 let newData = [updatedNewRow, ...oldData]
                 queryClient.setQueryData(getAccountKey(accountNameOwner), newData)
             }
