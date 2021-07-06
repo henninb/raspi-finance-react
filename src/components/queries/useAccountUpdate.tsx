@@ -2,7 +2,7 @@ import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 
-const updateAccount =  (oldRow, newRow) => {
+const updateAccount =  (oldRow:any, newRow:any) => {
     let endpoint = endpointUrl() + "/transaction/update/" + oldRow.guid
     delete newRow["tableData"]
 
@@ -13,7 +13,7 @@ const updateAccount =  (oldRow, newRow) => {
 
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     console.log(error.response)
     console.log(JSON.stringify(error.response))
     if (error.response) {
@@ -27,7 +27,7 @@ const catchError = (error) => {
 export default function useAccountUpdate() {
     const queryClient = useQueryClient()
 
-    return useMutation(['updateAccount'], (variables) => updateAccount(variables.oldRow, variables.newRow), {onError: catchError,
+    return useMutation(['updateAccount'], (variables:any) => updateAccount(variables.oldRow, variables.newRow), {onError: catchError,
 
         onSuccess: (response, variables) => {
             //let oldData = queryClient.getQueryData('account')

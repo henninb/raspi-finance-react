@@ -3,7 +3,7 @@ import {endpointUrl} from "../Common";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
-const insertReceiptImage = (currentTransaction, fileContent) => {
+const insertReceiptImage = (currentTransaction:any, fileContent:any) => {
     let endpoint = endpointUrl() + "/transaction/update/receipt/image/" + currentTransaction.guid
 
     return axios.put(endpoint, fileContent, {
@@ -12,7 +12,7 @@ const insertReceiptImage = (currentTransaction, fileContent) => {
         }).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     console.log(error.response)
     console.log(JSON.stringify(error.response))
     if (error.response) {
@@ -26,10 +26,10 @@ const catchError = (error) => {
 export default function useReceiptImageUpdate () {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertReceiptImage'], (variables) => insertReceiptImage(variables.oldRow, variables.fileContent), {onError: catchError,
+    return useMutation(['insertReceiptImage'], (variables:any) => insertReceiptImage(variables.oldRow, variables.fileContent), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            let oldData = queryClient.getQueryData(getAccountKey(variables.oldRow.accountNameOwner))
+            let oldData: any = queryClient.getQueryData(getAccountKey(variables.oldRow.accountNameOwner))
 
             const dataUpdate = [...oldData]
             const index = variables.oldRow.tableData.id

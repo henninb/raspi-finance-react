@@ -2,7 +2,7 @@ import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 
-const setupNewPayment = (payload) => {
+const setupNewPayment = (payload:any) => {
     return {
         accountNameOwner: payload.accountNameOwner,
         amount: payload.amount,
@@ -10,7 +10,7 @@ const setupNewPayment = (payload) => {
     }
 }
 
-const insertPayment =  (payload) => {
+const insertPayment =  (payload:any) => {
     let endpoint = endpointUrl() + '/payment/insert/'
     let newPayload = setupNewPayment(payload)
 
@@ -21,7 +21,7 @@ const insertPayment =  (payload) => {
 
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     console.log(error.response)
     console.log(JSON.stringify(error.response))
     if (error.response) {
@@ -35,10 +35,10 @@ const catchError = (error) => {
 export default function usePaymentInsert () {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertPayment'], (variables) => insertPayment(variables.payload), {onError: catchError,
+    return useMutation(['insertPayment'], (variables:any) => insertPayment(variables.payload), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            let oldData = queryClient.getQueryData('payment')
+            let oldData : any = queryClient.getQueryData('payment')
             let updatedNewRow = setupNewPayment(variables.payload)
             let newData = [updatedNewRow, ...oldData]
             queryClient.setQueryData('payment', newData)

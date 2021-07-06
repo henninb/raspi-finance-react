@@ -2,7 +2,7 @@ import axios from "axios"
 import {endpointUrl} from "../Common"
 import {useQuery} from "react-query"
 
-const fetchAccountData = (accountNameOwner) => {
+const fetchAccountData = (accountNameOwner:any) => {
     return axios.get(
         endpointUrl() + "/transaction/account/select/" + accountNameOwner,
         {
@@ -15,7 +15,7 @@ const fetchAccountData = (accountNameOwner) => {
     ).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     if (error.response) {
         if (error.response.status === 404) {
 
@@ -24,6 +24,6 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useFetchTransactionByAccount (accountNameOwner) {
+export default function useFetchTransactionByAccount (accountNameOwner:any) {
     return useQuery(['accounts', accountNameOwner], () => fetchAccountData(accountNameOwner), {onError: catchError})
 }

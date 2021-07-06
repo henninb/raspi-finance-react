@@ -2,7 +2,7 @@ import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 
-const insertDescription = (descriptionName) => {
+const insertDescription = (descriptionName: any) => {
     let endpoint = endpointUrl() + '/description/insert/'
     let payload = {description: descriptionName, activeStatus:true}
 
@@ -12,7 +12,7 @@ const insertDescription = (descriptionName) => {
     }).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     console.log(error.response)
     console.log(JSON.stringify(error.response))
     if (error.response) {
@@ -26,11 +26,11 @@ const catchError = (error) => {
 export default function useDescriptionInsert () {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertDescription'], (variables) => insertDescription(variables.descriptionName), {onError: catchError,
+    return useMutation(['insertDescription'], (variables:any) => insertDescription(variables.descriptionName), {onError: catchError,
 
         onSuccess: (response, variables) => {
             let oldData = queryClient.getQueryData('description')
-           // let newData = oldData
+            let newData = oldData
             //TODO: add description to the list
             queryClient.setQueryData('description', newData)
         }})

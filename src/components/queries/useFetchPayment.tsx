@@ -2,9 +2,9 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchPaymentRequiredData = () => {
+const fetchPaymentData = () => {
     return axios.get(
-    endpointUrl() + "/transaction/payment/required",
+        endpointUrl() + '/payment/select',
         {
             timeout: 0,
             headers: {
@@ -15,15 +15,15 @@ const fetchPaymentRequiredData = () => {
     ).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     if (error.response) {
         if (error.response.status === 404) {
 
         }
     }
-    //handleError(error, 'fetchPaymentRequiredData', true)
+    //handleError(error, 'fetchPaymentData', true)
 }
 
-export default function useFetchPaymentRequired () {
-    return useQuery('payment_required', () => fetchPaymentRequiredData(), {onError: catchError})
+export default function useFetchPayment () {
+    return useQuery('payment', () => fetchPaymentData(), {onError: catchError})
 }

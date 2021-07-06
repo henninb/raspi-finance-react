@@ -3,7 +3,7 @@ import {capitalizeFirstChar, endpointUrl, noNaN} from "../Common";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey, getTotalsKey} from "./KeyFile";
 
-const updateTransaction = (newData, oldData) => {
+const updateTransaction = (newData: any, oldData: any) => {
     let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
     delete newData["tableData"]
 
@@ -21,7 +21,7 @@ const updateTransaction = (newData, oldData) => {
     }).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error: any) => {
     console.log(error.response)
     console.log(JSON.stringify(error.response))
     if (error.response) {
@@ -35,10 +35,10 @@ const catchError = (error) => {
 export default function useTransactionUpdate () {
     const queryClient = useQueryClient()
 
-    return useMutation(['updateTransaction'], (variables) => updateTransaction(variables.newRow, variables.oldRow), {onError: catchError,
+    return useMutation(['updateTransaction'], (variables:any) => updateTransaction(variables.newRow, variables.oldRow), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            let oldData = queryClient.getQueryData(getAccountKey(variables.oldRow.accountNameOwner))
+            let oldData: any = queryClient.getQueryData(getAccountKey(variables.oldRow.accountNameOwner))
             let newData
             if( variables.oldRow.accountNameOwner === variables.newRow.accountNameOwner ) {
                 const dataUpdate = [...oldData]
@@ -47,7 +47,7 @@ export default function useTransactionUpdate () {
                 newData = [...dataUpdate]
                 //TODO: update accountTotals if amounts are different
                 if( variables.oldRow.amount !== variables.newRow.amount ) {
-                    let totals = queryClient.getQueryData(getTotalsKey(variables.newRow.accountNameOwner))
+                    let totals : any = queryClient.getQueryData(getTotalsKey(variables.newRow.accountNameOwner))
                     let oldTransactionStateKey = "totals" + capitalizeFirstChar(variables.oldRow.transactionState)
                     let newTransactionStateKey = "totals" + capitalizeFirstChar(variables.newRow.transactionState)
                     const difference = variables.newRow.amount - variables.oldRow.amount

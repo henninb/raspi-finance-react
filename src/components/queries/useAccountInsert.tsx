@@ -2,7 +2,7 @@ import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 
-const setupNewAccount = (payload) => {
+const setupNewAccount = (payload: any) => {
     const now = new Date()
     payload.cleared = 0.0
     payload.future = 0.0
@@ -14,7 +14,7 @@ const setupNewAccount = (payload) => {
     return payload
 }
 
-const insertAccount =  (payload) => {
+const insertAccount =  (payload : any) => {
     let endpoint = endpointUrl() + '/account/insert/'
     let newPayload = setupNewAccount(payload)
 
@@ -25,7 +25,7 @@ const insertAccount =  (payload) => {
 
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     console.log(error.response)
     console.log(JSON.stringify(error.response))
     if (error.response) {
@@ -39,10 +39,10 @@ const catchError = (error) => {
 export default function useAccountInsert () {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertAccount'], (variables) => insertAccount(variables.payload), {onError: catchError,
+    return useMutation(['insertAccount'], (variables:any) => insertAccount(variables.payload), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            let oldData = queryClient.getQueryData('account')
+            let oldData: any = queryClient.getQueryData('account')
             let updatedNewRow = setupNewAccount(variables.payload)
             let newData = [updatedNewRow, ...oldData]
             queryClient.setQueryData('account', newData)

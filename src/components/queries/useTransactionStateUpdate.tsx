@@ -4,7 +4,7 @@ import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
 
-const changeTransactionState =  (guid, newTransactionState) => {
+const changeTransactionState =  (guid : any, newTransactionState: any) => {
     console.log('guid:' + guid)
     console.log('newTransactionState:' + newTransactionState)
 
@@ -19,7 +19,7 @@ const changeTransactionState =  (guid, newTransactionState) => {
     ).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error: any) => {
     console.log(error.response)
     console.log(JSON.stringify(error.response))
     if (error.response) {
@@ -30,15 +30,15 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useTransactionStateUpdate (accountNameOwner) {
+export default function useTransactionStateUpdate (accountNameOwner: any) {
     const queryClient = useQueryClient()
 
-    return useMutation(['transactionState'], (variables) => changeTransactionState(variables.guid, variables.transactionState), {onError: catchError,
+    return useMutation(['transactionState'], (variables: any) => changeTransactionState(variables.guid, variables.transactionState), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            let oldData = queryClient.getQueryData(getAccountKey(accountNameOwner))
+            let oldData :any = queryClient.getQueryData(getAccountKey(accountNameOwner))
 
-            let newData = oldData.map((element) => {
+            let newData = oldData.map((element: any) => {
                 if (element["guid"] === variables.guid) {
                     return {...element, transactionState: variables.transactionState}
                 } else {

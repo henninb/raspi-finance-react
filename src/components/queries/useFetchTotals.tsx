@@ -1,10 +1,10 @@
-import axios from "axios";
-import {endpointUrl} from "../Common";
-import {useQuery} from "react-query";
+import {endpointUrl} from "../Common"
+import {useQuery} from "react-query"
+import axios from "axios"
 
-const fetchCategoryData = () => {
+const fetchTotals = () => {
     return axios.get(
-        endpointUrl() + "/category/select/active",
+        endpointUrl() + "/account/totals",
         {
             timeout: 0,
             headers: {
@@ -15,7 +15,7 @@ const fetchCategoryData = () => {
     ).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     if (error.response) {
         if (error.response.status === 404) {
 
@@ -24,6 +24,6 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useFetchCategory () {
-    return useQuery('category', () => fetchCategoryData(), {onError: catchError})
+export default function useFetchTotals () {
+    return useQuery(['all_totals'], () => fetchTotals(), {onError: catchError})
 }

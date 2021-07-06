@@ -4,9 +4,9 @@ import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
-const setupNewTransaction = (payload, accountNameOwner) => {
+const setupNewTransaction = (payload:any, accountNameOwner:string) => {
 
-    let newPayload = {
+    let newPayload: any = {
         guid: uuidv4(),
         transactionDate: payload.transactionDate,
         description: payload.description,
@@ -36,7 +36,7 @@ const setupNewTransaction = (payload, accountNameOwner) => {
     return newPayload
 }
 
-const insertTransaction = (accountNameOwner, payload, isFutureTransaction) => {
+const insertTransaction = (accountNameOwner:any, payload:any, isFutureTransaction: Boolean) => {
     let endpoint = endpointUrl() + "/transaction/insert/"
     if( isFutureTransaction) {
         endpoint = endpointUrl() + "/transaction/future/insert/"
@@ -51,7 +51,7 @@ const insertTransaction = (accountNameOwner, payload, isFutureTransaction) => {
     }).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error: any) => {
     console.log(error.response)
     console.log(JSON.stringify(error.response))
     if (error.response) {
@@ -62,13 +62,13 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useTransactionInsert (accountNameOwner) {
+export default function useTransactionInsert (accountNameOwner: any) {
     const queryClient = useQueryClient()
-    
-    return useMutation(['insertTransaction'], (variables) => insertTransaction( accountNameOwner, variables.newRow, variables.isFutureTransaction), {onError: catchError,
+
+    return useMutation(['insertTransaction'], (variables : any) => insertTransaction( accountNameOwner, variables.newRow, variables.isFutureTransaction), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            let oldData = queryClient.getQueryData(getAccountKey(accountNameOwner))
+            let oldData : any = queryClient.getQueryData(getAccountKey(accountNameOwner))
             let updatedNewRow = setupNewTransaction(variables.newRow, accountNameOwner)
             //TODO: 7-3-2021 fix this so I do not have branching logic here, the line above should be deprecated
             if( variables.isFutureTransaction ) {

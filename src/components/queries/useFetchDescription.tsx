@@ -2,9 +2,9 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchAccountData = () => {
+const fetchDescriptionData = () => {
     return axios.get(
-        endpointUrl() + '/account/select/active',
+        endpointUrl() + '/description/select/all',
         {
             timeout: 0,
             headers: {
@@ -15,7 +15,7 @@ const fetchAccountData = () => {
     ).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     if (error.response) {
         if (error.response.status === 404) {
 
@@ -24,6 +24,6 @@ const catchError = (error) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useFetchAccount () {
-    return useQuery('account', () => fetchAccountData(), {onError: catchError})
+export default function useFetchDescription () {
+    return useQuery('description', () => fetchDescriptionData(), {onError: catchError})
 }

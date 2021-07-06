@@ -1,11 +1,9 @@
 import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
-import {getAccountKey} from "./KeyFile";
 
-
-const deleteTransaction = (payload) => {
-    let endpoint = endpointUrl() + "/transaction/delete/" + payload.guid
+const deletePayment = (payload:any) => {
+    let endpoint = endpointUrl() + "/payment/delete/" + payload.paymentId
 
     return axios.delete(endpoint, {
         timeout: 0,
@@ -13,7 +11,7 @@ const deleteTransaction = (payload) => {
     }).then(response => response.data)
 }
 
-const catchError = (error) => {
+const catchError = (error:any) => {
     console.log(error.response)
     console.log(JSON.stringify(error.response))
     if (error.response) {
@@ -21,21 +19,20 @@ const catchError = (error) => {
 
         }
     }
-    //handleError(error, 'fetchAccountData', true)
+    //handleError(error, 'fetchPaymentData', true)
 }
 
-export default function useTransactionDelete() {
+export default function usePaymentDelete() {
     const queryClient = useQueryClient()
 
-    return useMutation(['deleteTransaction'], (variables) => deleteTransaction(variables.oldRow), {onError: catchError,
+    return useMutation(['deletePayment'], (variables:any) => deletePayment(variables.oldRow), {onError: catchError,
 
         onSuccess: (response, variables) => {
-            let oldData = queryClient.getQueryData(getAccountKey(variables.oldRow.accountNameOwner))
-            const dataDelete = [...oldData]
+            let oldData : any = queryClient.getQueryData('payment')
+            const dataDelete : any = [...oldData]
             const index = variables.oldRow.tableData.id
             dataDelete.splice(index, 1)
             let newData = [...dataDelete]
-
-            queryClient.setQueryData(getAccountKey(variables.oldRow.accountNameOwner), newData)
+            queryClient.setQueryData('payment', newData)
         }})
 }
