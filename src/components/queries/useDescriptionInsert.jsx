@@ -30,7 +30,7 @@ export default function useDescriptionInsert () {
 
         onSuccess: (response, variables) => {
             let oldData = queryClient.getQueryData('description')
-            let newData = oldData
+           // let newData = oldData
             //TODO: add description to the list
             queryClient.setQueryData('description', newData)
         }})

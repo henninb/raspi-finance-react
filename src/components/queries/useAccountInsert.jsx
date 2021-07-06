@@ -38,7 +38,6 @@ const catchError = (error) => {
 
 export default function useAccountInsert () {
     const queryClient = useQueryClient()
-    //queryClient.getQueryData('account')
 
     return useMutation(['insertAccount'], (variables) => insertAccount(variables.payload), {onError: catchError,
 
