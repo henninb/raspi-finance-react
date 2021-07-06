@@ -6,6 +6,7 @@ import SnackbarBaseline from "./SnackbarBaseline"
 import Select from "react-select";
 import FreeFormTable from "./FreeFormTable";
 import useFetchAccount from "./queries/useFetchAccount";
+import moment from "moment";
 
 require('datejs') //momentjs - look into this
 
@@ -138,9 +139,12 @@ export default function FreeForm() {
                     continue;
                 }
 
+                let dateFormat = 'YYYY-MM-DD'
+
                 let transaction = {
                     accountNameOwner: accountNameOwner,
-                    transactionDate: Date.parse(transactionDate).toISOString(),
+                    //transactionDate: Date.parse(transactionDate).toISOString(),
+                    transactionDate: moment(transactionDate).format(dateFormat),
                     description: description,
                     amount: parseFloat(amount),
                     guid: uuidv4(),
@@ -149,7 +153,6 @@ export default function FreeForm() {
                     transactionState: "outstanding",
                     activeStatus: true,
                     accountType: "credit",
-                    reoccurring: false,
                     reoccurringType: "onetime",
                 }
                 transactions.push(transaction)

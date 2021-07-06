@@ -4,7 +4,6 @@ import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
-
 const setupNewTransaction = (payload, accountNameOwner) => {
 
     let newPayload = {
@@ -40,6 +39,8 @@ const setupNewTransaction = (payload, accountNameOwner) => {
 }
 
 const insertTransaction = (accountNameOwner, payload, isFutureTransaction) => {
+    console.log("accountNameOwner:" + accountNameOwner)
+
     let endpoint = endpointUrl() + "/transaction/insert/"
     if( isFutureTransaction) {
         endpoint = endpointUrl() + "/transaction/future/insert/"
@@ -67,8 +68,9 @@ const catchError = (error) => {
 
 export default function useTransactionInsert (accountNameOwner) {
     const queryClient = useQueryClient()
+    console.log("accountNameOwner:" + accountNameOwner)
 
-    return useMutation(['insertTransaction'], (variables) => insertTransaction(accountNameOwner || variables.newRow.accountNameOwner, variables.newRow, variables.isFutureTransaction), {onError: catchError,
+    return useMutation(['insertTransaction'], (variables) => insertTransaction( accountNameOwner, variables.newRow, variables.isFutureTransaction), {onError: catchError,
 
         onSuccess: (response, variables) => {
             let oldData = queryClient.getQueryData(getAccountKey(accountNameOwner))
@@ -77,7 +79,9 @@ export default function useTransactionInsert (accountNameOwner) {
             if( variables.isFutureTransaction ) {
                updatedNewRow = response
             }
-            let newData = [updatedNewRow, ...oldData]
-            queryClient.setQueryData(getAccountKey(accountNameOwner), newData)
+            if( oldData) {
+                let newData = [updatedNewRow, ...oldData]
+                queryClient.setQueryData(getAccountKey(accountNameOwner), newData)
+            }
         }})
 }

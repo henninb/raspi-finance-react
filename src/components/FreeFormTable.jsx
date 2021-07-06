@@ -7,7 +7,7 @@ export default function FreeFormTable({data, toggleDisplayList}) {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
 
-    const {mutate: insertTransaction} = useTransactionInsert()
+    const {mutate: insertTransaction} = useTransactionInsert(data[0].accountNameOwner)
 
     // const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
     //     this.setState(state => {
@@ -41,8 +41,8 @@ export default function FreeFormTable({data, toggleDisplayList}) {
     const handleChange = async () => {
         for (const transaction of data) {
             try {
-                await insertTransaction({ payload: transaction, isFutureTransaction: false})
-                //await postCall(transaction)
+                console.log("transaction:" + JSON.stringify(transaction))
+                insertTransaction({ newRow: transaction, isFutureTransaction: false})
             } catch (error) {
                 handleError(error, 'handleChange', false)
             }
