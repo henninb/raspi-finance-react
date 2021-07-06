@@ -239,7 +239,12 @@ export default function TransactionTable() {
         }
     }, [ data, downHandler, upHandler, fileContent, currentTransaction, insertReceiptImage])
 
-    let today = moment(new Date().toDateString()).format('YYYY-MM-DD')
+
+    //// "2014-09-08T08:02:17-05:00"
+    let dateFormat = 'YYYY-MM-DD'
+    //let dateFormat = 'YYYY-MM-DDTHH:mm:ssZ'
+
+    let today = moment(new Date().toDateString()).format(dateFormat)
 
     return (
         <div>
@@ -264,9 +269,12 @@ export default function TransactionTable() {
                                                 format="yyyy-MM-dd"
                                                 selected={moment(props.value).tz(fetchTimeZone()).toDate()}
                                                 value={props.value
-                                                    ? moment(props.value).format('YYYY-MM-DD') : moment(new Date().toDateString()).format('YYYY-MM-DD')}
+                                                    ? moment(props.value).format(dateFormat) : moment(new Date().toDateString()).format(dateFormat)}
                                                 onChange={props.onChange}
                                                 clearable
+                                                //constrainInput: false
+                                                readOnly={false}
+
                                             />
                                         </MuiPickersUtilsProvider>
                                     </div>
@@ -405,7 +413,7 @@ export default function TransactionTable() {
                                             placeholderText='yyyy-MM-dd'
                                             format="yyyy-MM-dd"
                                             selected={moment(props.value).tz(fetchTimeZone()).toDate()}
-                                            value={props.value ? moment(props.value).format('YYYY-MM-DD') : ""}
+                                            value={props.value ? moment(props.value).format(dateFormat) : ""}
                                             onChange={props.onChange}
                                             clearable
                                         />

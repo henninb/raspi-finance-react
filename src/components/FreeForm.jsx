@@ -166,7 +166,7 @@ export default function FreeForm() {
     }
 
     useEffect(() => {
-        if( accountSuccess ) {
+        if( accountSuccess  && accountTypeOptions.length === 0 ) {
             let optionList = []
             dataAccount.forEach((element) => {
                 optionList = optionList.concat({
@@ -188,7 +188,7 @@ export default function FreeForm() {
             <div>
                 <textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""
                           onPaste={(event) => handlePaste(event)}/>
-                <p>
+
                     <div style={{width: '300px'}}>
                         <Select
                             name="account-select"
@@ -198,12 +198,10 @@ export default function FreeForm() {
                             onChange={onSelectChange}
                         />
                     </div>
-                </p>
-                <p>
+                    <div>
                     <input type="button" value="prefix" onClick={() => handlePrefix()}/>
                     <input type="submit" value="submit" onClick={() => handleChange()}/>
-                </p>
-
+                    </div>
             </div>
             <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
         </div>) : (<div className="freeform">

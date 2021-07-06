@@ -68,7 +68,7 @@ const catchError = (error) => {
 export default function useTransactionInsert (accountNameOwner) {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertTransaction'], (variables) => insertTransaction(accountNameOwner, variables.newRow, variables.isFutureTransaction), {onError: catchError,
+    return useMutation(['insertTransaction'], (variables) => insertTransaction(accountNameOwner || variables.newRow.accountNameOwner, variables.newRow, variables.isFutureTransaction), {onError: catchError,
 
         onSuccess: (response, variables) => {
             let oldData = queryClient.getQueryData(getAccountKey(accountNameOwner))

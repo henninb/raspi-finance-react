@@ -2,14 +2,12 @@ import React, {useState} from 'react'
 import DataGrid from 'react-data-grid'
 import SnackbarBaseline from "./SnackbarBaseline"
 import useTransactionInsert from "./queries/useTransactionInsert"
-import {useRouteMatch} from "react-router-dom"
 
 export default function FreeFormTable({data, toggleDisplayList}) {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
 
-    const routeMatch = useRouteMatch("/transactions/:account")
-    const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
+    const {mutate: insertTransaction} = useTransactionInsert()
 
     // const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
     //     this.setState(state => {
@@ -134,10 +132,10 @@ export default function FreeFormTable({data, toggleDisplayList}) {
                         ]}
                     />
                 </div>
-            <p>
+            <div>
                 {/*<input type="button" value="toFreeForm" onClick={() => toggleDisplayList()}/>*/}
                 <input type="submit" value="submit" onClick={() => handleChange()}/>
-            </p>
+            </div>
             <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
         </div>
     )
