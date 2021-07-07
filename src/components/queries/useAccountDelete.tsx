@@ -12,13 +12,10 @@ const deleteAccount = (payload: any) => {
 }
 
 const catchError = (error: any) => {
-    console.log(error.response)
-    console.log(JSON.stringify(error.response))
-    if (error.response) {
-        if (error.response.status === 404) {
+    console.log(error ? error: "error is undefined.")
+    console.log(error.response ? error.response: "error.response is undefined.")
+    console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
 
-        }
-    }
     //handleError(error, 'fetchAccountData', true)
 }
 
