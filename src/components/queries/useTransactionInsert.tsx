@@ -10,19 +10,13 @@ const setupNewTransaction = (payload:any, accountNameOwner:string) => {
         guid: uuidv4(),
         transactionDate: payload.transactionDate,
         description: payload.description,
-        category: payload.category === undefined ? "undefined" : payload.category,
+        category: payload.category ? payload.category : 'undefined',
         notes: payload.notes === undefined ? "" : payload.notes,
         amount: payload.amount,
-        transactionState:
-            payload.transactionState === undefined
-                ? "outstanding"
-                : payload.transactionState,
+        transactionState:  payload.transactionState ? payload.transactionState : 'outstanding',
         activeStatus: true,
-        accountType: "undefined",
-        reoccurringType:
-            payload.reoccurringType === undefined
-                ? "onetime"
-                : payload.reoccurringType,
+        accountType: payload.accountType ? payload.accountType : "undefined",
+        reoccurringType: payload.reoccurringType  ?  payload.reoccurringType : 'onetime',
         accountNameOwner: accountNameOwner,
     }
 
@@ -65,7 +59,7 @@ const catchError = (error: any) => {
 export default function useTransactionInsert (accountNameOwner: any) {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertTransaction'], (variables : any) => insertTransaction( accountNameOwner, variables.newRow, variables.isFutureTransaction), {onError: catchError,
+    return useMutation(['insertTransaction'], (variables : any) => insertTransaction( accountNameOwner, variables.newRow, variables.isFutureTransaction ), {onError: catchError,
 
         onSuccess: (response, variables) => {
             let oldData : any = queryClient.getQueryData(getAccountKey(accountNameOwner))

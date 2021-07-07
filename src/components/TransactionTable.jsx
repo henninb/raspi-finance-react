@@ -24,6 +24,7 @@ import useTransactionDelete from "./queries/useTransactionDelete";
 import useTransactionInsert from "./queries/useTransactionInsert";
 import useFetchTotalsPerAccount from "./queries/useFetchTotalsPerAccount";
 import useReceiptImageUpdate from "./queries/useReceiptImageUpdate";
+import useFetchAccount from "./queries/useFetchAccount";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -362,6 +363,7 @@ export default function TransactionTable() {
                                     } else {
                                         return (
                                             <>
+                                                {/*future transactions*/}
                                                 {rowData.reoccurringType}
                                                 <Button
                                                     styles={{width: 50}}
