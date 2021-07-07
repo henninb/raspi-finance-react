@@ -3,7 +3,7 @@ import DataGrid from 'react-data-grid'
 import SnackbarBaseline from "./SnackbarBaseline"
 import useTransactionInsert from "./queries/useTransactionInsert"
 
-export default function FreeFormTable({data, toggleDisplayList}) {
+export default function FreeFormTable({data, toggleDisplayList}: any) {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
 
@@ -23,7 +23,7 @@ export default function FreeFormTable({data, toggleDisplayList}) {
         setOpen(false);
     }
 
-    const handleError = (error, moduleName, throwIt) => {
+    const handleError = (error: any, moduleName: any, throwIt: any) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -50,6 +50,7 @@ export default function FreeFormTable({data, toggleDisplayList}) {
         toggleDisplayList()
     }
 
+    // @ts-ignore
     return (
         <div>
                 <div>
@@ -57,78 +58,50 @@ export default function FreeFormTable({data, toggleDisplayList}) {
                         rows={data}
                         columns={[
                             {
-                                header: 'Account Name Owner',
                                 name: "accountNameOwner",
                                 key: "accountNameOwner",
                                 editable: true,
                             },
                             {
-                                header: 'Account Name Owner',
                                 name: "date",
                                 key: "transactionDate",
-                                type: "date",
                                 editable: true,
                             },
                             {
-                                header: "description",
                                 name: "description",
                                 key: "description",
                                 editable: true,
                             },
                             {
-                                header: "category",
                                 name: "category",
                                 key: "category",
                                 editable: true,
                             },
                             {
-                                header: "Amount",
                                 name: "amount",
                                 key: "amount",
-                                type: "currency",
                                 editable: true,
                             },
                             {
-                                header: "State",
                                 name: "state",
                                 key: "transactionState",
                                 editable: true,
                             },
                             {
-                                header: "",
                                 name: "reoccur",
                                 key: "reoccurringType",
                                 editable: true,
                             },
                             {
-                                header: "",
                                 name: "notes",
                                 key: "notes",
                                 editable: true,
                             },
                             {
-                                header: "",
                                 name: "due",
                                 key: "dueDate",
-                                type: "date",
                                 editable: true,
                             },
-                        ]}
-                        options={{
-                            filtering: true,
-                            // selection: true,
-                            paging: false,
-                            //pageSize: 20,
-                            addRowPosition: "first",
-                            search: true,
-                            paginationPosition: "both",
-                            headerStyle: {
-                                backgroundColor: "#9965f4",
-                                color: "#FFF",
-                            },
-                        }}
-
-                        actions={[
                         ]}
                     />
                 </div>

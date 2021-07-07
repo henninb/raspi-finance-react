@@ -1,6 +1,6 @@
-import {endpointUrl} from "../Common";
-import axios from "axios";
-import {useMutation, useQueryClient} from "react-query";
+import {endpointUrl} from "../Common"
+import axios from "axios"
+import {useMutation, useQueryClient} from "react-query"
 
 const setupNewPayment = (payload:any) => {
     return {

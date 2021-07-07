@@ -28,7 +28,7 @@ export default function FreeForm() {
         setLoadFreeFormTable(!loadFreeFormTable)
     }
 
-    const transformText = (text) => {
+    const transformText = (text: any) => {
         const year = new Date().getFullYear().toString()
         text = text.replace(/[^\S\r\n]+$/gm, "")
         text = text.replace(/\nHOUSEHOLD/g, "\n")
@@ -68,13 +68,15 @@ export default function FreeForm() {
         return text
     }
 
-    const handlePaste = (e) => {
+    const handlePaste = (e: any) => {
         let text = e.clipboardData.getData('Text')
         e.preventDefault();
+        // @ts-ignore
         document.getElementById("textArea").value = transformText(text).trim()
     }
 
     const handlePrefix = () => {
+        // @ts-ignore
         let text = document.getElementById("textArea").value.trim()
         let prefixedText = ""
 
@@ -86,18 +88,21 @@ export default function FreeForm() {
             return
         }
 
-        text.split(/\r?\n/).forEach((str) => {
+        text.split(/\r?\n/).forEach((str: any) => {
             prefixedText += prefix + "," + str.trim() + "\n"
         })
+
+        // @ts-ignore
         document.getElementById("textArea").value = prefixedText.trim()
         setMessage(`prefixed added:  ${prefixedText.trim()}`)
         setOpen(true)
     }
 
     const validateData = () => {
+        // @ts-ignore
         let text = document.getElementById("textArea").value.trim()
         let flag = true
-        text.split(/\r?\n/).forEach((str) => {
+        text.split(/\r?\n/).forEach((str: any) => {
             if (str.split(',').length !== 4) {
                 setMessage("invalid record count= " + str.split(',').length + " ='" + str + "'")
                 setOpen(true)
@@ -108,11 +113,12 @@ export default function FreeForm() {
     }
 
     const handleChange = async () => {
+        // @ts-ignore
         const text = document.getElementById("textArea").value;
         let sanitizedText = text.replace(/\t/g, ',')
         sanitizedText = sanitizedText.toLowerCase()
         const lines = sanitizedText.split(os.EOL)
-        let transactions = []
+        let transactions :any = []
 
         if( !validateData() ) {
             return
@@ -134,6 +140,7 @@ export default function FreeForm() {
                     continue;
                 }
 
+                // @ts-ignore
                 if (isNaN(Date.parse(transactionDate))) {
                     console.log(`bad date - skipped:${line}`)
                     continue;
@@ -164,14 +171,14 @@ export default function FreeForm() {
         setLoadFreeFormTable(true)
     }
 
-    const onSelectChange = ({value}) => {
+    const onSelectChange = ({value} : any) => {
         setSelectedOption(value)
     }
 
     useEffect(() => {
         if( accountSuccess  && accountTypeOptions.length === 0 ) {
-            let optionList = []
-            dataAccount.forEach((element) => {
+            let optionList : any = []
+            dataAccount.forEach((element: any) => {
                 optionList = optionList.concat({
                     value: element.accountNameOwner,
                     label: element.accountNameOwner,
@@ -189,7 +196,8 @@ export default function FreeForm() {
         <div className="freeform">
 
             <div>
-                <textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""
+                {/*<textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""*/}
+                <textarea name="comment" form="transactions" id="textArea" defaultValue=""
                           onPaste={(event) => handlePaste(event)}/>
 
                     <div style={{width: '300px'}}>

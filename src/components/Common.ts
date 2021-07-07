@@ -1,5 +1,3 @@
-import moment from "moment";
-
 export const convertUTCDateToLocalDate = (date: any) => {
     let newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000)
 
@@ -25,13 +23,6 @@ export const fetchTimeZone = () => {
     return process.env.REACT_APP_TIMEZONE
 }
 
-//TODO: change this to moment
-export const toEpochDateAsMillis = (transactionDate: any) => {
-    // @ts-ignore
-    return moment(transactionDate).tz(fetchTimeZone()).toDate().valueOf()
-
-}
-
 export const currencyFormat = (inputData: string) => {
     inputData = parseFloat(inputData).toFixed(2)
     return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -42,13 +33,9 @@ export const endpointUrl = () => {
     let server = process.env.REACT_APP_ENDPOINT_SERVER
     let httpEnabled = process.env.REACT_APP_ENDPOINT_SSL_ENABLED
 
-    console.log(typeOf(httpEnabled))
-    console.log(httpEnabled)
     if (httpEnabled === 'true') {
-        console.log(server + ":" + port)
         return "https://" + server + ":" + port
     }
-    console.log(server + ":" + port)
     return "http://" + server + ":" + port
 }
 

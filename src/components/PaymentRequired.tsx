@@ -10,7 +10,7 @@ export default function PaymentRequired() {
 
     const {data, isSuccess, isLoading} = useFetchPaymentRequired()
 
-    const handleButtonClickLink = (accountNameOwner) => {
+    const handleButtonClickLink = (accountNameOwner: any) => {
         history.push("/transactions/" + accountNameOwner)
         history.go(0)
     }

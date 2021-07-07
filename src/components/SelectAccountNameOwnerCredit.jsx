@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import Select from "react-select"
-import useFetchAccount from "./queries/useFetchAccount";
+import useFetchAccount from "./queries/useFetchAccount"
 
 export default function SelectAccountNameOwnerCredit({
                                                          onChangeFunction,
@@ -27,10 +27,6 @@ export default function SelectAccountNameOwnerCredit({
                     }
         }
 
-
-        return () => {
-
-        }
     }, [data, isSuccess])
 
     const onSelectChange = ({value}) => {

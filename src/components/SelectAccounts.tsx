@@ -6,7 +6,7 @@ import useFetchAccount from "./queries/useFetchAccount";
 export default function SelectAccounts() {
     const [options, setOptions] = useState([])
 
-    const handleChange = (selectedOption) => {
+    const handleChange = (selectedOption: any) => {
         history.push("/transactions/" + selectedOption.value)
         history.go(0)
     }
@@ -16,8 +16,8 @@ export default function SelectAccounts() {
 
     useEffect(() => {
         if( isSuccess ) {
-            let optionList = []
-            data.forEach((element) => {
+            let optionList : any = []
+            data.forEach((element: any) => {
                     optionList = optionList.concat({
                         value: element.accountNameOwner,
                         label: element.accountNameOwner,

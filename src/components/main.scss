@@ -20,6 +20,12 @@ $pulse-duration: 750ms;
   flex-grow: 1;
 }
 
+textarea {
+  height: 200px;
+  width: 1024px;
+  //width: 100%;
+}
+
 .snackbar {
   visibility: hidden;
   min-width: 250px;

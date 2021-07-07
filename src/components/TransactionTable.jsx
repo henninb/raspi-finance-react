@@ -5,7 +5,7 @@ import "./main.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, fetchTimeZone, noNaN, typeOf} from "./Common"
+import {currencyFormat, noNaN, typeOf} from "./Common"
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded'
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -244,8 +244,6 @@ export default function TransactionTable() {
     let dateFormat = 'YYYY-MM-DD'
     //let dateFormat = 'YYYY-MM-DDTHH:mm:ssZ'
 
-    let today = moment(new Date().toDateString()).format(dateFormat)
-
     return (
         <div>
             {!isLoading && isSuccess && isSuccessTotals ? (
@@ -257,22 +255,22 @@ export default function TransactionTable() {
                                 title: "date",
                                 field: "transactionDate",
                                 type: "date",
-                                initialEditValue: today,
+                                //initialEditValue: moment(new Date().toDateString()).format(dateFormat),
+                                initialEditValue: moment().format(dateFormat),
                                 cellStyle: {whiteSpace: "nowrap"},
                                 editComponent: (props) => (
 
                                     <div>
-                                        <MuiPickersUtilsProvider utils={MomentUtils}
-                                                                 locale={props.dateTimePickerLocalization}>
+                                        <MuiPickersUtilsProvider
+                                            utils={MomentUtils}
+                                            //locale={props.dateTimePickerLocalization}
+                                        >
                                             <DatePicker
-                                                placeholderText='yyyy-MM-dd'
                                                 format="yyyy-MM-dd"
-                                                selected={moment(props.value).tz(fetchTimeZone()).toDate()}
                                                 value={props.value
-                                                    ? moment(props.value).format(dateFormat) : moment(new Date().toDateString()).format(dateFormat)}
+                                                    ? moment(props.value).format(dateFormat) : moment().format(dateFormat)}
                                                 onChange={props.onChange}
                                                 clearable
-                                                //constrainInput: false
                                                 readOnly={false}
 
                                             />
@@ -407,12 +405,12 @@ export default function TransactionTable() {
                                 cellStyle: {whiteSpace: "nowrap"},
                                 editComponent: (props) => (
 
-                                    <MuiPickersUtilsProvider utils={MomentUtils}
-                                                             locale={props.dateTimePickerLocalization}>
+                                    <MuiPickersUtilsProvider
+                                        utils={MomentUtils}
+                                        //locale={props.dateTimePickerLocalization}
+                                    >
                                         <DatePicker
-                                            placeholderText='yyyy-MM-dd'
                                             format="yyyy-MM-dd"
-                                            selected={moment(props.value).tz(fetchTimeZone()).toDate()}
                                             value={props.value ? moment(props.value).format(dateFormat) : ""}
                                             onChange={props.onChange}
                                             clearable

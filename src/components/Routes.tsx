@@ -5,8 +5,8 @@ import AccountSummaryTable from "./AccountSummaryTable"
 import PaymentTable from "./PaymentTable"
 import FreeForm from "./FreeForm"
 import NavbarInstance from "./NavbarInstance"
-import PaymentRequired from "./PaymentRequired";
-import {QueryClient, QueryClientProvider} from "react-query";
+import PaymentRequired from "./PaymentRequired"
+import {QueryClient, QueryClientProvider} from "react-query"
 
 export default function Routes() {
     const queryClient = new QueryClient()
