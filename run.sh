@@ -74,7 +74,7 @@ if [ "$ENV" = "prod" ]; then
   # docker run -it -p 80:80 --rm my-react-app
 else
   if [ -x "$(command -v ncu)" ]; then
-    ncu -u
+    echo ncu -u
   else
     echo yarn global add npm-check-updates
     yarn global add npm-check-updates
