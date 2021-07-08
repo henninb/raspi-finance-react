@@ -4,11 +4,11 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import ReactTooltip from "react-tooltip"
 import AttachMoneyRounded from '@material-ui/icons/AttachMoneyRounded'
 
-export default function ToggleButtons({ transactionState, guid, accountNameOwner, handlerToUpdateTransactionState }) {
+export default function ToggleButtons({ transactionState, guid, accountNameOwner, handlerToUpdateTransactionState } : any) {
     const colorOn = "green"
     const colorOff = "grey"
 
-    const determineColor  = (transactionState) => {
+    const determineColor  = (transactionState: any) => {
         if( transactionType === transactionState) {
             return colorOn;
         }
@@ -19,7 +19,7 @@ export default function ToggleButtons({ transactionState, guid, accountNameOwner
     const [outstandingColor, setOutStandingColor] = React.useState( determineColor('outstanding'));
     const [futureColor, setFutureColor] = React.useState( determineColor('future'));
 
-    const handleTransactionType = (event, newTransactionState) => {
+    const handleTransactionType = (event: any, newTransactionState: any) => {
         console.log(newTransactionState)
         if( newTransactionState === 'cleared' ) {
             setClearedColor(colorOn);
@@ -36,7 +36,7 @@ export default function ToggleButtons({ transactionState, guid, accountNameOwner
         }
         handlerToUpdateTransactionState(guid, accountNameOwner, newTransactionState);
         setTransactionType(newTransactionState);
-    };
+    }
 
     return (
         <ToggleButtonGroup

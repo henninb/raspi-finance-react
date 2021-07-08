@@ -30,12 +30,12 @@ export default function PaymentTable() {
         setOpen(false);
     }
 
-    const handleButtonClickLink = (oldRow) => {
+    const handleButtonClickLink = (oldRow: any) => {
         history.push("/transactions/" + oldRow.accountNameOwner)
         history.go(0)
     }
 
-    const handleError = (error, moduleName, throwIt) => {
+    const handleError = (error: any, moduleName:any, throwIt:any) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -50,11 +50,12 @@ export default function PaymentTable() {
         }
     }
 
-    const addRow = (newData) => {
+    const addRow = (newData:any) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
                     await insertPayment({payload: newData})
+                    // @ts-ignore
                     resolve()
                 } catch (error) {
                     handleError(error, 'addRow', false)
@@ -85,11 +86,10 @@ export default function PaymentTable() {
                                         //locale={props.dateTimePickerLocalization}
                                     >
                                         <DatePicker
-                                            format="yyyy-MM-dd"
                                             value={props.value
                                                 ? moment(props.value).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')}
                                             onChange={props.onChange}
-                                            clearable
+
                                         />
                                     </MuiPickersUtilsProvider>
                                 ),
@@ -170,6 +170,7 @@ export default function PaymentTable() {
                                         try {
                                             console.log("oldData: " + JSON.stringify(oldData))
                                             await deletePayment({oldRow: oldData})
+                                            // @ts-ignore
                                             resolve()
                                         } catch (error) {
                                             handleError(error, 'onRowDelete', false)

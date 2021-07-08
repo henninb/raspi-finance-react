@@ -9,6 +9,7 @@
     "@material-ui/lab": "^4.0.0-alpha.59",
     "@material-ui/pickers": "^3.3.10",
     "@types/datejs": "^0.0.31",
+    "@types/react-datepicker": "^4.1.2",
     "@types/react-loader-spinner": "^4.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-select": "^4.0.16",

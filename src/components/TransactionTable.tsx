@@ -25,7 +25,6 @@ import useTransactionInsert from "./queries/useTransactionInsert";
 import useFetchTotalsPerAccount from "./queries/useFetchTotalsPerAccount";
 import useReceiptImageUpdate from "./queries/useReceiptImageUpdate";
 import {TablePagination} from "@material-ui/core";
-//import {ChevronLeft, ChevronRight, Clear, FirstPage, LastPage, Search} from "@material-ui/icons";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -35,21 +34,20 @@ export default function TransactionTable() {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
 
-    const routeMatch = useRouteMatch("/transactions/:account")
+    const routeMatch :any = useRouteMatch("/transactions/:account")
     const {data, isSuccess, isLoading} = useFetchTransactionByAccount(routeMatch.params["account"])
     const {data: totals, isSuccess: isSuccessTotals} = useFetchTotalsPerAccount(routeMatch.params["account"])
     const {mutate: updateTransactionState} = useChangeTransactionState(routeMatch.params["account"])
     const {mutate: updateTransaction} = useTransactionUpdate()
     const {mutate: deleteTransaction} = useTransactionDelete()
     const {mutate: insertReceiptImage} = useReceiptImageUpdate()
-
     const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
 
     const handleSnackbarClose = () => {
         setOpen(false);
     }
 
-    const handleError = (error, moduleName, throwIt) => {
+    const handleError = (error: any, moduleName: any, throwIt:any ) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -66,13 +64,13 @@ export default function TransactionTable() {
 
     const storeTheFileContent = useCallback(
         async (file) => {
-            let reader = new FileReader()
+            let reader :any = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
                 setFileContent(reader.result.toString())
                 return reader.result
             }
-            reader.onerror = (error) => {
+            reader.onerror = (error: any) => {
                 handleError(error, 'storeTheFile', false)
             }
         },
@@ -85,7 +83,7 @@ export default function TransactionTable() {
 
             const fileSelector = document.createElement("input")
             fileSelector.setAttribute("type", "file")
-            fileSelector.addEventListener("change", (event) => {
+            fileSelector.addEventListener("change", (event:any) => {
                 console.log('addEventListener is called.')
                 //let file1 : any = event.target.files[0]
                 let fileList = event.target.files
@@ -97,6 +95,7 @@ export default function TransactionTable() {
 
                 if (fileList[0].type.match('image/jpeg') || fileList[0].type.match('image/png')) {
                     if (fileList[0] instanceof Blob) {
+                        // @ts-ignore
                         console.log(`file ${fileList[0].name} is file type ${fileList[0].type}.`)
                         // image/jpeg
                         // image/png
@@ -142,11 +141,12 @@ export default function TransactionTable() {
         [updateTransactionState]
     )
 
-    const updateRow = (newData, oldData) => {
+    const updateRow = (newData :any, oldData: any) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
                     await updateTransaction({newRow: newData, oldRow: oldData})
+                    // @ts-ignore
                     resolve()
                 } catch (error) {
                     handleError(error, 'updateRow', false)
@@ -156,11 +156,12 @@ export default function TransactionTable() {
         })
     }
 
-    const deleteRow = (oldData) => {
+    const deleteRow = (oldData: any) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
                     await deleteTransaction({oldRow: oldData})
+                    // @ts-ignore
                     resolve()
                 } catch (error) {
                     handleError(error, 'deleteRow', false)
@@ -170,12 +171,12 @@ export default function TransactionTable() {
         })
     }
 
-    const addRow = (newData) => {
+    const addRow = (newData: any) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
                     await insertTransaction({newRow: newData, isFutureTransaction: false})
-
+                    // @ts-ignore
                     resolve()
                 } catch (error) {
                     handleError(error, 'addRow', false);
@@ -222,11 +223,13 @@ export default function TransactionTable() {
         window.addEventListener("keyup", upHandler)
 
         if (fileContent !== "") {
+            // @ts-ignore
             console.log(`current transactionId = ${currentTransaction.guid}`)
             //const response = insertReceiptImage()
             insertReceiptImage({oldRow: currentTransaction, fileContent: fileContent})
 
-            let foundObject = data.filter((obj) => obj.guid === currentTransaction.guid)
+            // @ts-ignore
+            let foundObject = data.filter((obj:any) => obj.guid === currentTransaction.guid)
             if (foundObject.length === 1) {
                 foundObject[0].receiptImage = {"image": fileContent}
             }
@@ -246,65 +249,13 @@ export default function TransactionTable() {
     let dateFormat = 'YYYY-MM-DD'
     //let dateFormat = 'YYYY-MM-DDTHH:mm:ssZ'
 
+    // @ts-ignore
+    // @ts-ignore
     return (
         <div>
             {!isLoading && isSuccess && isSuccessTotals ? (
                 <div className="table-formatting">
-
-                    {/*<Paper*/}
-                    {/*    style={{margin: "2vh", height: "70vh", width: "60vw", overflow: "auto"}}*/}
-                    {/*    elevation={4}*/}
-                    {/*>*/}
-                    {/*    <TablePagination*/}
-                    {/*        rowsPerPageOptions={[25,50,75,100]}*/}
-                    {/*        component="div"*/}
-                    {/*        count={props.count}*/}
-                    {/*        rowsPerPage={50}*/}
-                    {/*        page={props.page}*/}
-                    {/*        backIconButtonProps={{*/}
-                    {/*            'aria-label': 'Previous Page',*/}
-                    {/*        }}*/}
-                    {/*        nextIconButtonProps={{*/}
-                    {/*            'aria-label': 'Next Page',*/}
-                    {/*        }}*/}
-                    {/*        onPageChange={props.onPageChange}*/}
-                    {/*        onRowsPerPageChange={props.onRowsPerPageChange}*/}
-                    {/*    />*/}
-
-                             {/*<TablePagination*/}
-                             {/*    component="tr"*/}
-                             {/*    count={3}*/}
-                             {/*    page={0}*/}
-                             {/*    rowsPerPage={50}*/}
-                             {/*    onPageChange={() => console.log('handlePageChange')}*/}
-                             {/*    onRowsPerPageChange={() => console.log('handleChangePageSize')}*/}
-
-                             {/*/>*/}
-
-
                     <MaterialTable
-
-
-                        //icons={tableIcons}
-                        // localization={{
-                        //     pagination: {
-                        //         labelDisplayedRows: '{from}-{to}',
-                        //         labelRowsPerPage:'{ 25, 50, 100}'
-                        //     },
-                        // //
-                        // }}
-                        //onSelectionChange={() => alert('me')}
-                        //onPageChange={() => alert('me')}
-                        //onSelectionChange={onSelectionChange}
-                        //onChangePage={onPageChange}
-
-
-                        // onChangeRowsPerPage={() => console.log('changeRowPerPage')}
-                        // onChangePage={() => console.log('changePage')}
-                        // onSearchChange={() => console.log('searchChange')}
-                        // onPageChange={() => console.log('pageChange')}
-
-
                         columns={[
                             {
                                 title: "date",
@@ -315,20 +266,18 @@ export default function TransactionTable() {
                                 initialEditValue: moment().format(dateFormat),
                                 cellStyle: {whiteSpace: "nowrap"},
                                 editComponent: (props) => (
-
                                     <div>
                                         <MuiPickersUtilsProvider
                                             utils={MomentUtils}
                                             //locale={props.dateTimePickerLocalization}
                                         >
                                             <DatePicker
-                                                format="yyyy-MM-dd"
+                                                //format="yyyy-MM-dd"
                                                 value={props.value
                                                     ? moment(props.value).format(dateFormat) : moment().format(dateFormat)}
                                                 onChange={props.onChange}
-                                                clearable
+                                                //clearable
                                                 readOnly={false}
-
                                             />
                                         </MuiPickersUtilsProvider>
                                     </div>
@@ -421,14 +370,8 @@ export default function TransactionTable() {
                                     } else {
                                         return (
                                             <>
-                                                {/*future transactions*/}
                                                 {rowData.reoccurringType}
-                                                <Button
-                                                    styles={{width: 50}}
-                                                    onClick={() =>
-                                                        handleButtonClickLink(rowData)
-                                                    }
-                                                >
+                                                <Button style={{width: 50}} onClick={() => handleButtonClickLink(rowData)}>
                                                     <ChevronRightRoundedIcon/>
                                                 </Button>
                                             </>
@@ -467,13 +410,10 @@ export default function TransactionTable() {
 
                                     <MuiPickersUtilsProvider
                                         utils={MomentUtils}
-                                        //locale={props.dateTimePickerLocalization}
                                     >
                                         <DatePicker
-                                            format="yyyy-MM-dd"
                                             value={props.value ? moment(props.value).format(dateFormat) : ""}
                                             onChange={props.onChange}
-                                            clearable
                                         />
                                     </MuiPickersUtilsProvider>
                                 )
@@ -521,37 +461,24 @@ export default function TransactionTable() {
 
                         components={{
                             Pagination: (props) => {
-                                console.log('props.count:' + props.count)
-                                console.log('props.page:' + props.page)
-                                console.log('props.rowsperpage:' + props.rowsPerPage)
-                                return (
-                                // <div>
-                                <TablePagination
-
+                                return (<TablePagination
                                     component="div"
                                     count={props.count}
                                     page={props.page}
-                                    //rowsPerPage={props.perPage}
                                     rowsPerPage={props.rowsPerPage}
-                                    rowsPerPageOptions={[25,50,75,100]}
-
-                                     //onRowsPerPageChange={props.onRowsPerPageChange}
-                                    //TODO: these are the old version of the function and need to be updated
-                                     onChangeRowsPerPage={props.onChangeRowsPerPage}
-                                     onChangePage={props.onChangePage}
-                                    //onChangePage={props.onPageChange}
-                                   //onPageChange={props.onPageChange}
-                                />
-                            )}
-                                //</div>
-                        }
-                        }
+                                    rowsPerPageOptions={[25, 50, 75, 100]}
+                                    onChangeRowsPerPage={props.onChangeRowsPerPage}
+                                    onChangePage={props.onChangePage}
+                                    onPageChange={props.onChangePage}
+                                />)
+                            }
+                        }}
 
                         options={{
                             filtering: true,
                             // selection: true,
                             paging: true,
-                            pageSize: 50,
+                            pageSize: 25,
                             pageSizeOptions : [25, 50, 75, 100],
                             addRowPosition: "first",
                             search: true,
@@ -563,7 +490,7 @@ export default function TransactionTable() {
                                 color: "#FFF",
                             },
 
-                            rowStyle: (rowData) => {
+                            rowStyle: (rowData ) :any => {
                                 if (rowData.transactionState !== null) {
                                     if (rowData.transactionState === "cleared") {
                                         return {fontSize: ".6rem"}

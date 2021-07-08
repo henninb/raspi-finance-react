@@ -39,6 +39,7 @@ yarn add @material-ui/icons
 yarn add react-tooltip
 yarn add react-data-grid
 yarn add react-query
+yarn add @types/react-datepicker
 ```
 
 ## strict ssl turned off
