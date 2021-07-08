@@ -24,6 +24,8 @@ import useTransactionDelete from "./queries/useTransactionDelete";
 import useTransactionInsert from "./queries/useTransactionInsert";
 import useFetchTotalsPerAccount from "./queries/useFetchTotalsPerAccount";
 import useReceiptImageUpdate from "./queries/useReceiptImageUpdate";
+import {TablePagination} from "@material-ui/core";
+//import {ChevronLeft, ChevronRight, Clear, FirstPage, LastPage, Search} from "@material-ui/icons";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -249,18 +251,65 @@ export default function TransactionTable() {
             {!isLoading && isSuccess && isSuccessTotals ? (
                 <div className="table-formatting">
 
+                    {/*<Paper*/}
+                    {/*    style={{margin: "2vh", height: "70vh", width: "60vw", overflow: "auto"}}*/}
+                    {/*    elevation={4}*/}
+                    {/*>*/}
+                    {/*    <TablePagination*/}
+                    {/*        rowsPerPageOptions={[25,50,75,100]}*/}
+                    {/*        component="div"*/}
+                    {/*        count={props.count}*/}
+                    {/*        rowsPerPage={50}*/}
+                    {/*        page={props.page}*/}
+                    {/*        backIconButtonProps={{*/}
+                    {/*            'aria-label': 'Previous Page',*/}
+                    {/*        }}*/}
+                    {/*        nextIconButtonProps={{*/}
+                    {/*            'aria-label': 'Next Page',*/}
+                    {/*        }}*/}
+                    {/*        onPageChange={props.onPageChange}*/}
+                    {/*        onRowsPerPageChange={props.onRowsPerPageChange}*/}
+                    {/*    />*/}
+
+                             {/*<TablePagination*/}
+                             {/*    component="tr"*/}
+                             {/*    count={3}*/}
+                             {/*    page={0}*/}
+                             {/*    rowsPerPage={50}*/}
+                             {/*    onPageChange={() => console.log('handlePageChange')}*/}
+                             {/*    onRowsPerPageChange={() => console.log('handleChangePageSize')}*/}
+
+                             {/*/>*/}
+
+
                     <MaterialTable
+
+
+                        //icons={tableIcons}
                         // localization={{
                         //     pagination: {
                         //         labelDisplayedRows: '{from}-{to}',
                         //         labelRowsPerPage:'{ 25, 50, 100}'
                         //     },
-                        //
+                        // //
                         // }}
+                        //onSelectionChange={() => alert('me')}
+                        //onPageChange={() => alert('me')}
+                        //onSelectionChange={onSelectionChange}
+                        //onChangePage={onPageChange}
+
+
+                        // onChangeRowsPerPage={() => console.log('changeRowPerPage')}
+                        // onChangePage={() => console.log('changePage')}
+                        // onSearchChange={() => console.log('searchChange')}
+                        // onPageChange={() => console.log('pageChange')}
+
+
                         columns={[
                             {
                                 title: "date",
                                 field: "transactionDate",
+                                sorting: true,
                                 type: "date",
                                 //initialEditValue: moment(new Date().toDateString()).format(dateFormat),
                                 initialEditValue: moment().format(dateFormat),
@@ -358,6 +407,9 @@ export default function TransactionTable() {
                             {
                                 title: "reoccur",
                                 field: "reoccurringType",
+                                //TODO: Look into these options
+                                //defaultSort: "asc",
+                                //customSort: (a, b): number => a.remaining - b.remaining,
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
                                     if (rowData.reoccurringType === 'onetime' || rowData.reoccurringType === 'undefined') {
@@ -466,15 +518,46 @@ export default function TransactionTable() {
                         ]}
                         data={data}
                         title={`[${routeMatch.params["account"]}] [ $${currencyFormat(noNaN(totals["totals"]))} ] [ $${currencyFormat(noNaN(totals["totalsCleared"]))} ]  [ $${currencyFormat(noNaN(totals["totalsOutstanding"]))} ] [ $${currencyFormat(noNaN(totals["totalsFuture"]))} ]`}
+
+                        components={{
+                            Pagination: (props) => {
+                                console.log('props.count:' + props.count)
+                                console.log('props.page:' + props.page)
+                                console.log('props.rowsperpage:' + props.rowsPerPage)
+                                return (
+                                // <div>
+                                <TablePagination
+
+                                    component="div"
+                                    count={props.count}
+                                    page={props.page}
+                                    //rowsPerPage={props.perPage}
+                                    rowsPerPage={props.rowsPerPage}
+                                    rowsPerPageOptions={[25,50,75,100]}
+
+                                     //onRowsPerPageChange={props.onRowsPerPageChange}
+                                    //TODO: these are the old version of the function and need to be updated
+                                     onChangeRowsPerPage={props.onChangeRowsPerPage}
+                                     onChangePage={props.onChangePage}
+                                    //onChangePage={props.onPageChange}
+                                   //onPageChange={props.onPageChange}
+                                />
+                            )}
+                                //</div>
+                        }
+                        }
+
                         options={{
                             filtering: true,
                             // selection: true,
                             paging: true,
-                            pageSize: 20,
-                            //pageSizeOptions : [50, 100, 200],
+                            pageSize: 50,
+                            pageSizeOptions : [25, 50, 75, 100],
                             addRowPosition: "first",
                             search: true,
+                            toolbar: true,
                             paginationPosition: "both",
+                            emptyRowsWhenPaging: false,
                             headerStyle: {
                                 backgroundColor: "#9965f4",
                                 color: "#FFF",
@@ -537,6 +620,7 @@ export default function TransactionTable() {
                             },
                         ]}
                     />
+                    {/*</Paper>*/}
                     {loadMoveDialog ? (
                         <TransactionMove
                             closeDialog={() => {
