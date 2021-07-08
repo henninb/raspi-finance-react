@@ -250,6 +250,13 @@ export default function TransactionTable() {
                 <div className="table-formatting">
 
                     <MaterialTable
+                        // localization={{
+                        //     pagination: {
+                        //         labelDisplayedRows: '{from}-{to}',
+                        //         labelRowsPerPage:'{ 25, 50, 100}'
+                        //     },
+                        //
+                        // }}
                         columns={[
                             {
                                 title: "date",
@@ -464,6 +471,7 @@ export default function TransactionTable() {
                             // selection: true,
                             paging: true,
                             pageSize: 20,
+                            //pageSizeOptions : [50, 100, 200],
                             addRowPosition: "first",
                             search: true,
                             paginationPosition: "both",
@@ -471,6 +479,7 @@ export default function TransactionTable() {
                                 backgroundColor: "#9965f4",
                                 color: "#FFF",
                             },
+
                             rowStyle: (rowData) => {
                                 if (rowData.transactionState !== null) {
                                     if (rowData.transactionState === "cleared") {
