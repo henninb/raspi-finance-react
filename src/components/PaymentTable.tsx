@@ -14,6 +14,7 @@ import usePaymentInsert from "./queries/usePaymentInsert"
 import usePaymentDelete from "./queries/usePaymentDelete"
 import useFetchParameter from "./queries/useFetchParameter"
 import DatePicker from "react-datepicker"
+import {TablePagination} from "@material-ui/core";
 
 export default function PaymentTable() {
     const [message, setMessage] = useState('')
@@ -147,10 +148,29 @@ export default function PaymentTable() {
                         ]}
                         data={data}
                         title="Payments"
+
+                        components={{
+                            Pagination: (props) => {
+                                return (
+                                    <td className="right">
+                                        <TablePagination
+                                            component="div"
+                                            count={props.count}
+                                            page={props.page}
+                                            rowsPerPage={props.rowsPerPage}
+                                            rowsPerPageOptions={[25, 50, 75, 100]}
+                                            onRowsPerPageChange={props.onChangeRowsPerPage}
+                                            onPageChange={props.onChangePage}
+                                        />
+                                    </td>
+                                )
+                            }
+                        }}
+
                         options={{
                             paging: true,
                             paginationPosition: "both",
-                            pageSize: 20,
+                            pageSize: 25,
                             addRowPosition: "first",
                             search: false,
                             headerStyle: {

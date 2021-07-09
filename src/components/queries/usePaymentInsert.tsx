@@ -10,7 +10,7 @@ const setupNewPayment = (payload:any) => {
     }
 }
 
-const insertPayment =  (payload:any) => {
+const insertPayment =  (payload:any) : Promise<any> => {
     let endpoint = endpointUrl() + '/payment/insert/'
     let newPayload = setupNewPayment(payload)
 

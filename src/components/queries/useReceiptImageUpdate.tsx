@@ -3,7 +3,7 @@ import {endpointUrl} from "../Common";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
-const insertReceiptImage = (currentTransaction:any, fileContent:any) => {
+const insertReceiptImage = (currentTransaction:any, fileContent:any) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/update/receipt/image/" + currentTransaction.guid
 
     return axios.put(endpoint, fileContent, {

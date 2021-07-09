@@ -2,7 +2,7 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchPaymentRequiredData = () => {
+const fetchPaymentRequiredData = () : Promise<any> => {
     return axios.get(
     endpointUrl() + "/transaction/payment/required",
         {

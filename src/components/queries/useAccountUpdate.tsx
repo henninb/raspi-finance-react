@@ -2,7 +2,7 @@ import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 
-const updateAccount =  (oldRow:any, newRow:any) => {
+const updateAccount =  (oldRow:any, newRow:any) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/update/" + oldRow.guid
     delete newRow["tableData"]
 

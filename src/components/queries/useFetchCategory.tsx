@@ -2,7 +2,7 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchCategoryData = () => {
+const fetchCategoryData = () : Promise<any> => {
     return axios.get(
         endpointUrl() + "/category/select/active",
         {

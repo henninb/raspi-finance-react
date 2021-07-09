@@ -30,7 +30,7 @@ const setupNewTransaction = (payload:any, accountNameOwner:string) => {
     return newPayload
 }
 
-const insertTransaction = (accountNameOwner:any, payload:any, isFutureTransaction: Boolean) => {
+const insertTransaction = (accountNameOwner:any, payload:any, isFutureTransaction: Boolean) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/insert/"
     if( isFutureTransaction) {
         endpoint = endpointUrl() + "/transaction/future/insert/"

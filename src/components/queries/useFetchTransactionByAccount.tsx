@@ -1,8 +1,11 @@
 import axios from "axios"
 import {endpointUrl} from "../Common"
 import {useQuery} from "react-query"
+import Transaction from "../model/Transaction";
 
-const fetchAccountData = (accountNameOwner:any) => {
+//interfaces in a models dir
+
+const fetchAccountData = (accountNameOwner:String): Promise<any> => {
     return axios.get(
         endpointUrl() + "/transaction/account/select/" + accountNameOwner,
         {
@@ -15,7 +18,7 @@ const fetchAccountData = (accountNameOwner:any) => {
     ).then(response => response.data)
 }
 
-const catchError = (error:any) => {
+const catchError = ( error:any ) => {
     if (error.response) {
         if (error.response.status === 404) {
 

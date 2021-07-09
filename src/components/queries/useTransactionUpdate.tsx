@@ -3,7 +3,7 @@ import {capitalizeFirstChar, endpointUrl, noNaN} from "../Common";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey, getTotalsKey} from "./KeyFile";
 
-const updateTransaction = (newData: any, oldData: any) => {
+const updateTransaction = (newData: any, oldData: any) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
     delete newData["tableData"]
 

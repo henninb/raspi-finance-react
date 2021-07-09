@@ -2,7 +2,7 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchParameterData = (parameterName:any) => {
+const fetchParameterData = (parameterName:any) : Promise<any> => {
     console.log('parm select called: ' + parameterName)
     return axios.get(
     endpointUrl() + "/parm/select/" + parameterName,

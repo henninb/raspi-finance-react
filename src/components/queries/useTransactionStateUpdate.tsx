@@ -4,7 +4,7 @@ import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
 
-const changeTransactionState =  (guid : any, newTransactionState: any) => {
+const changeTransactionState =  (guid : any, newTransactionState: any) : Promise<any> => {
     console.log('guid:' + guid)
     console.log('newTransactionState:' + newTransactionState)
 

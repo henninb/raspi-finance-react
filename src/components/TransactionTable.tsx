@@ -5,7 +5,7 @@ import "./main.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {currencyFormat, noNaN, typeOf} from "./Common"
+import {convertUTCDateToLocalDate, currencyFormat, noNaN, typeOf} from "./Common"
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded'
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -118,16 +118,6 @@ export default function TransactionTable() {
         [storeTheFileContent]
     )
 
-    // const fetchTotals = useCallback(async () => {
-    //     const CancelToken = axios.CancelToken
-    //     const source = CancelToken.source()
-    //     const response = await axios.get(
-    //         endpointUrl() + "/transaction/account/totals/" + routeMatch.params["account"],
-    //         {cancelToken: source.token}
-    //     )
-    //     setTotals(response.data)
-    // }, [routeMatch])
-
     const handlerToUpdateTransactionState = useCallback(
         async (guid, accountNameOwner, transactionState) => {
             try {
@@ -141,7 +131,7 @@ export default function TransactionTable() {
         [updateTransactionState]
     )
 
-    const updateRow = (newData :any, oldData: any) => {
+    const updateRow = (newData : any, oldData: any) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
@@ -249,8 +239,6 @@ export default function TransactionTable() {
     let dateFormat = 'YYYY-MM-DD'
     //let dateFormat = 'YYYY-MM-DDTHH:mm:ssZ'
 
-    // @ts-ignore
-    // @ts-ignore
     return (
         <div>
             {!isLoading && isSuccess && isSuccessTotals ? (
@@ -272,7 +260,7 @@ export default function TransactionTable() {
                                             //locale={props.dateTimePickerLocalization}
                                         >
                                             <DatePicker
-                                                //format="yyyy-MM-dd"
+                                                selected={props.value? convertUTCDateToLocalDate(new Date(props.value)) : new Date()}
                                                 value={props.value
                                                     ? moment(props.value).format(dateFormat) : moment().format(dateFormat)}
                                                 onChange={props.onChange}
@@ -469,8 +457,7 @@ export default function TransactionTable() {
                                     page={props.page}
                                     rowsPerPage={props.rowsPerPage}
                                     rowsPerPageOptions={[25, 50, 75, 100]}
-                                    onChangeRowsPerPage={props.onChangeRowsPerPage}
-                                    onChangePage={props.onChangePage}
+                                    onRowsPerPageChange={props.onChangeRowsPerPage}
                                     onPageChange={props.onChangePage}
                                 />
                                     </td>

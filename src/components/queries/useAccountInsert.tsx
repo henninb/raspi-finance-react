@@ -14,7 +14,7 @@ const setupNewAccount = (payload: any) => {
     return payload
 }
 
-const insertAccount =  (payload : any) => {
+const insertAccount =  (payload : any) : Promise<any> => {
     let endpoint = endpointUrl() + '/account/insert/'
     let newPayload = setupNewAccount(payload)
 

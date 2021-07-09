@@ -2,7 +2,7 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchDescriptionData = () => {
+const fetchDescriptionData = () : Promise<any> => {
     return axios.get(
         endpointUrl() + '/description/select/all',
         {

@@ -4,7 +4,7 @@ import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
 
-const deleteTransaction = (payload : any) => {
+const deleteTransaction = (payload : any) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/delete/" + payload.guid
 
     return axios.delete(endpoint, {

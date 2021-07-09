@@ -2,7 +2,7 @@ import {endpointUrl} from "../Common"
 import {useQuery} from "react-query"
 import axios from "axios"
 
-const fetchTotalsPerAccount = (accountNameOwner:any) => {
+const fetchTotalsPerAccount = (accountNameOwner:any) : Promise<any> => {
     return axios.get(
         endpointUrl() + "/transaction/account/totals/" + accountNameOwner,
         {

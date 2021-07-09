@@ -51,7 +51,6 @@ export const capitalizeFirstChar = (inString: String) => {
     return inString.charAt(0).toUpperCase() + inString.slice(1)
 }
 
-
 export function isFloat(n: number) {
     return Number(n) === n && n % 1 !== 0;
 }

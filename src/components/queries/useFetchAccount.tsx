@@ -2,7 +2,7 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchAccountData = () => {
+const fetchAccountData = () : Promise<any> => {
     return axios.get(
         endpointUrl() + '/account/select/active',
         {
