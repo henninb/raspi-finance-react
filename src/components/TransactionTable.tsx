@@ -461,7 +461,9 @@ export default function TransactionTable() {
 
                         components={{
                             Pagination: (props) => {
-                                return (<TablePagination
+                                return (
+                                    <td className="right">
+                                    <TablePagination
                                     component="div"
                                     count={props.count}
                                     page={props.page}
@@ -470,7 +472,9 @@ export default function TransactionTable() {
                                     onChangeRowsPerPage={props.onChangeRowsPerPage}
                                     onChangePage={props.onChangePage}
                                     onPageChange={props.onChangePage}
-                                />)
+                                />
+                                    </td>
+                                )
                             }
                         }}
 
