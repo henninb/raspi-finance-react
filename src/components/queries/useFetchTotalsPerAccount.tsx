@@ -2,8 +2,8 @@ import {endpointUrl} from "../Common"
 import {useQuery} from "react-query"
 import axios from "axios"
 
-const fetchTotalsPerAccount = (accountNameOwner:any) : Promise<any> => {
-    return axios.get(
+const fetchTotalsPerAccount = async (accountNameOwner:any) : Promise<any> => {
+    const response = await axios.get(
         endpointUrl() + "/transaction/account/totals/" + accountNameOwner,
         {
             timeout: 0,
@@ -12,7 +12,8 @@ const fetchTotalsPerAccount = (accountNameOwner:any) : Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    ).then(response => response.data)
+    )
+    return response.data
 }
 
 const catchError = (error:any) => {

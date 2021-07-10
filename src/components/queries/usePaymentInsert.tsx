@@ -11,14 +11,15 @@ const setupNewPayment = (payload:any) => {
     }
 }
 
-const insertPayment =  (payload : Payment) : Promise<any> => {
+const insertPayment =  async (payload : Payment) : Promise<any> => {
     let endpoint = endpointUrl() + '/payment/insert/'
     let newPayload = setupNewPayment(payload)
 
-    return axios.post(endpoint, newPayload, {
+    const response = await axios.post(endpoint, newPayload, {
         timeout: 0,
-        headers: {"Content-Type": "application/json"},
-    }).then(response => response.data)
+        headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
 
 }
 

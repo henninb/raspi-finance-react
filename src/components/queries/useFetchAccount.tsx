@@ -3,8 +3,8 @@ import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 import Account from "../model/Account";
 
-const fetchAccountData = () : Promise<any> => {
-    return axios.get(
+const fetchAccountData = async () : Promise<any> => {
+    const response = await axios.get(
         endpointUrl() + '/account/select/active',
         {
             timeout: 0,
@@ -13,7 +13,8 @@ const fetchAccountData = () : Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    ).then(response => response.data)
+    );
+    return response.data;
 }
 
 const catchError = (error:any) => {

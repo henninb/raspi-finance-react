@@ -4,7 +4,7 @@ import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey, getTotalsKey} from "./KeyFile";
 import Transaction from "../model/Transaction";
 
-const updateTransaction = (newData: Transaction, oldData: Transaction) : Promise<any> => {
+const updateTransaction = async (newData: Transaction, oldData: Transaction) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
     //delete newData["tableData"]
 
@@ -13,13 +13,14 @@ const updateTransaction = (newData: Transaction, oldData: Transaction) : Promise
     }
     console.log("newData:" + JSON.stringify(newData))
 
-    return axios.put(endpoint, JSON.stringify(newData), {
+    const response = await axios.put(endpoint, JSON.stringify(newData), {
         timeout: 0,
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
         },
-    }).then(response => response.data)
+    });
+    return response.data;
 }
 
 const catchError = (error: any) => {

@@ -2,10 +2,10 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchParameterData = (parameterName:any) : Promise<any> => {
+const fetchParameterData = async (parameterName:any) : Promise<any> => {
     console.log('parm select called: ' + parameterName)
-    return axios.get(
-    endpointUrl() + "/parm/select/" + parameterName,
+    const response = await axios.get(
+        endpointUrl() + "/parm/select/" + parameterName,
         {
             timeout: 0,
             headers: {
@@ -13,7 +13,8 @@ const fetchParameterData = (parameterName:any) : Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    ).then(response => response.data)
+    );
+    return response.data;
 }
 
 const catchError = (error:any) => {

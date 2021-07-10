@@ -3,14 +3,15 @@ import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import Description from "../model/Description";
 
-const insertDescription = (descriptionName: any) : Promise<any> => {
+const insertDescription = async (descriptionName: any) : Promise<any> => {
     let endpoint = endpointUrl() + '/description/insert/'
     let payload = {description: descriptionName, activeStatus:true}
 
-    return axios.post(endpoint, payload, {
+    const response = await axios.post(endpoint, payload, {
         timeout: 0,
-        headers: {"Content-Type": "application/json"},
-    }).then(response => response.data)
+        headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
 }
 
 const catchError = (error:any) => {

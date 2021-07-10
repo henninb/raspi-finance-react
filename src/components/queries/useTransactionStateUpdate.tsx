@@ -5,19 +5,20 @@ import {getAccountKey} from "./KeyFile";
 import {TransactionState} from "../model/TransactionState";
 
 
-const changeTransactionState =  (guid : String, newTransactionState: TransactionState) : Promise<any> => {
+const changeTransactionState =  async (guid : String, newTransactionState: TransactionState) : Promise<any> => {
     console.log('guid:' + guid)
     console.log('newTransactionState:' + newTransactionState)
 
-    return axios.put(
+    const response = await axios.put(
         endpointUrl() + "/transaction/state/update/" + guid + "/" + newTransactionState, "{}", {
-            timeout: 0,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-        }
-    ).then(response => response.data)
+        timeout: 0,
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+    }
+    );
+    return response.data;
 }
 
 const catchError = (error: any) => {

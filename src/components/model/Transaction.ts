@@ -4,9 +4,9 @@ import {ReoccurringType} from "./ReoccurringType";
 import ReceiptImage from "./ReceiptImage";
 
 export default interface Transaction {
-    transactionId: number;
+    transactionId?: number;
     guid: String;
-    accountId: number;
+    accountId?: number;
     accountType: AccountType;
     accountNameOwner: String;
     transactionDate: Date;
@@ -17,5 +17,5 @@ export default interface Transaction {
     activeStatus: Boolean;
     reoccurringType: ReoccurringType;
     notes: String;
-    receiptImage: ReceiptImage;
+    receiptImage?: ReceiptImage;
 }

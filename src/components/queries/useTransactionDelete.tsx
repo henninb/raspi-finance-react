@@ -5,13 +5,14 @@ import {getAccountKey} from "./KeyFile";
 import Transaction from "../model/Transaction";
 
 
-const deleteTransaction = (payload : Transaction) : Promise<any> => {
+const deleteTransaction = async (payload : Transaction) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/delete/" + payload.guid
 
-    return axios.delete(endpoint, {
+    const response = await axios.delete(endpoint, {
         timeout: 0,
-        headers: {"Content-Type": "application/json"},
-    }).then(response => response.data)
+        headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
 }
 
 const catchError = (error:any) => {

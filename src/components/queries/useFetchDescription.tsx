@@ -2,8 +2,8 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchDescriptionData = () : Promise<any> => {
-    return axios.get(
+const fetchDescriptionData = async () : Promise<any> => {
+    const response = await axios.get(
         endpointUrl() + '/description/select/all',
         {
             timeout: 0,
@@ -12,7 +12,8 @@ const fetchDescriptionData = () : Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    ).then(response => response.data)
+    );
+    return response.data;
 }
 
 const catchError = (error:any) => {

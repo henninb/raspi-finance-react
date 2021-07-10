@@ -2,8 +2,8 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchCategoryData = () : Promise<any> => {
-    return axios.get(
+const fetchCategoryData = async () : Promise<any> => {
+    const response = await axios.get(
         endpointUrl() + "/category/select/active",
         {
             timeout: 0,
@@ -12,7 +12,8 @@ const fetchCategoryData = () : Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    ).then(response => response.data)
+    );
+    return response.data;
 }
 
 const catchError = (error:any) => {

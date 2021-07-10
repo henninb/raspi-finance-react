@@ -1,18 +1,18 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import MaterialTable from "material-table"
 import Spinner from "./Spinner"
 import "./main.scss"
 import Button from "@material-ui/core/Button"
 import {useHistory} from "react-router-dom"
-import {currencyFormat, endpointUrl, noNaN} from "./Common"
+import {currencyFormat, noNaN} from "./Common"
 import SnackbarBaseline from "./SnackbarBaseline"
 import useFetchAccount from "./queries/useFetchAccount";
 import useAccountInsert from "./queries/useAccountInsert";
 import useAccountDelete from "./queries/useAccountDelete";
 import useFetchTotals from "./queries/useFetchTotals";
+import Account from "./model/Account"
 
 export default function AccountSummaryTable() {
-    //const [totals, setTotals] = useState([])
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
     const history = useHistory()
@@ -27,7 +27,7 @@ export default function AccountSummaryTable() {
         history.go(0)
     }
 
-    const handleError = (error: any, moduleName: any, throwIt: any) =>  {
+    const handleError = (error: any, moduleName: String, throwIt: any) =>  {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -46,7 +46,7 @@ export default function AccountSummaryTable() {
         setOpen(false);
     }
 
-    const addRow = (newData: any) => {
+    const addRow = (newData: Account) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {

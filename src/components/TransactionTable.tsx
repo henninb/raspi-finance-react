@@ -25,6 +25,7 @@ import useTransactionInsert from "./queries/useTransactionInsert";
 import useFetchTotalsPerAccount from "./queries/useFetchTotalsPerAccount";
 import useReceiptImageUpdate from "./queries/useReceiptImageUpdate";
 import {TablePagination} from "@material-ui/core";
+import Transaction from "./model/Transaction"
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -63,7 +64,7 @@ export default function TransactionTable() {
     }
 
     const storeTheFileContent = useCallback(
-        async (file) => {
+        async (file: any) => {
             let reader :any = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
@@ -78,7 +79,7 @@ export default function TransactionTable() {
     )
 
     const getImageFileContents = useCallback(
-        async (currentRow) => {
+        async (currentRow: Transaction) => {
             console.log("onClick photo-add")
 
             const fileSelector = document.createElement("input")
@@ -121,7 +122,7 @@ export default function TransactionTable() {
     const handlerToUpdateTransactionState = useCallback(
         async (guid, accountNameOwner, transactionState) => {
             try {
-                await updateTransactionState({ guid: guid, transactionState: transactionState })
+                updateTransactionState({ guid: guid, transactionState: transactionState })
                 //await fetchTotals()
             } catch (error) {
                 console.log(error)
@@ -135,7 +136,7 @@ export default function TransactionTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    await updateTransaction({newRow: newData, oldRow: oldData})
+                    updateTransaction({newRow: newData, oldRow: oldData})
                     // @ts-ignore
                     resolve()
                 } catch (error) {
@@ -150,7 +151,7 @@ export default function TransactionTable() {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    await deleteTransaction({oldRow: oldData})
+                    deleteTransaction({oldRow: oldData})
                     // @ts-ignore
                     resolve()
                 } catch (error) {
@@ -161,11 +162,11 @@ export default function TransactionTable() {
         })
     }
 
-    const addRow = (newData: any) => {
+    const addRow = (newData: Transaction) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    await insertTransaction({newRow: newData, isFutureTransaction: false})
+                    insertTransaction({newRow: newData, isFutureTransaction: false})
                     // @ts-ignore
                     resolve()
                 } catch (error) {
@@ -177,9 +178,9 @@ export default function TransactionTable() {
     }
 
     const handleButtonClickLink = useCallback(
-        async (newData) => {
+        async (newData: Transaction) => {
             try {
-                await insertTransaction({newRow: newData, isFutureTransaction: true})
+                insertTransaction({newRow: newData, isFutureTransaction: true})
             } catch (error) {
                 handleError(error, 'futureTransactionInsertPostCall', false);
             }
@@ -412,7 +413,7 @@ export default function TransactionTable() {
                                 editable: "never",
                                 filtering: false,
                                 cellStyle: {whiteSpace: "nowrap"},
-                                render: (rowData) => {
+                                render: (rowData: Transaction) => {
                                     let image = ""
                                     if (rowData['receiptImage'] !== undefined) {
                                         if (rowData['receiptImage'].thumbnail === undefined) {
@@ -420,7 +421,7 @@ export default function TransactionTable() {
                                         }
 
                                         if (rowData.receiptImage.image.startsWith("data")) {
-                                            image = rowData.receiptImage.thumbnail
+                                            //image = rowData.receiptImage.thumbnail
                                         } else {
                                             const formatType = rowData.receiptImage.imageFormatType
                                             console.log('formatType=' + formatType)
@@ -532,8 +533,9 @@ export default function TransactionTable() {
                                 onClick: (_event, rowData) => {
                                     console.log('Photo-Add clicked.')
 
-                                    let response = getImageFileContents(rowData.guid)
-                                    console.log(response)
+
+                                    //let response = getImageFileContents(rowData.guid)
+                                    //console.log(response)
                                 },
                             },
                         ]}

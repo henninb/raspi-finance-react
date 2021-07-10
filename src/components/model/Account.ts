@@ -1,7 +1,7 @@
 import {AccountType} from "./AccountType";
 
 export default interface Account {
-    accountId: number;
+    accountId?: number;
     accountNameOwner: String;
     accountType: AccountType;
     activeStatus: Boolean;

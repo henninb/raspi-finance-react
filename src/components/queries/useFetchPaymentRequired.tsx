@@ -2,9 +2,9 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchPaymentRequiredData = () : Promise<any> => {
-    return axios.get(
-    endpointUrl() + "/transaction/payment/required",
+const fetchPaymentRequiredData = async () : Promise<any> => {
+    const response = await axios.get(
+        endpointUrl() + "/transaction/payment/required",
         {
             timeout: 0,
             headers: {
@@ -12,7 +12,8 @@ const fetchPaymentRequiredData = () : Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    ).then(response => response.data)
+    );
+    return response.data;
 }
 
 const catchError = (error:any) => {

@@ -15,14 +15,15 @@ const setupNewAccount = (payload: any) => {
     return payload
 }
 
-const insertAccount =  (payload : Account) : Promise<any> => {
+const insertAccount =  async (payload : Account) : Promise<any> => {
     let endpoint = endpointUrl() + '/account/insert/'
     let newPayload = setupNewAccount(payload)
 
-    return axios.post(endpoint, newPayload, {
+    const response = await axios.post(endpoint, newPayload, {
         timeout: 0,
-        headers: {"Content-Type": "application/json"},
-    }).then(response => response.data)
+        headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
 
 }
 

@@ -7,6 +7,8 @@ import Select from "react-select";
 import FreeFormTable from "./FreeFormTable";
 import useFetchAccount from "./queries/useFetchAccount";
 import moment from "moment";
+import Transaction from './model/Transaction'
+import { convertUTCDateToLocalDate } from './Common'
 
 require('datejs') //momentjs - look into this
 
@@ -88,7 +90,7 @@ export default function FreeForm() {
             return
         }
 
-        text.split(/\r?\n/).forEach((str: any) => {
+        text.split(/\r?\n/).forEach((str: String) => {
             prefixedText += prefix + "," + str.trim() + "\n"
         })
 

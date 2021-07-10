@@ -2,13 +2,14 @@ import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 
-const deleteAccount = (payload: any) : Promise<any> => {
+const deleteAccount = async (payload: any) : Promise<any> => {
     let endpoint = endpointUrl() + "/account/delete/" + payload.accountNameOwner
 
-    return axios.delete(endpoint, {
+    const response = await axios.delete(endpoint, {
         timeout: 0,
-        headers: {"Content-Type": "application/json"},
-    }).then(response => response.data)
+        headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
 }
 
 // const catchError = (error: any) => {

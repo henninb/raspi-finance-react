@@ -3,13 +3,14 @@ import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import Payment from "../model/Payment";
 
-const deletePayment = (payload:Payment) : Promise<any> => {
+const deletePayment = async (payload:Payment) : Promise<String> => {
     let endpoint = endpointUrl() + "/payment/delete/" + payload.paymentId
 
-    return axios.delete(endpoint, {
+    const response = await axios.delete(endpoint, {
         timeout: 0,
-        headers: {"Content-Type": "application/json"},
-    }).then(response => response.data)
+        headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
 }
 
 const catchError = (error:any) => {

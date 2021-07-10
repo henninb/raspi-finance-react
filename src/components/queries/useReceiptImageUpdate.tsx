@@ -3,13 +3,14 @@ import {endpointUrl} from "../Common";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 
-const insertReceiptImage = (currentTransaction:any, fileContent:any) : Promise<any> => {
+const insertReceiptImage = async (currentTransaction:any, fileContent:any) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/update/receipt/image/" + currentTransaction.guid
 
-    return axios.put(endpoint, fileContent, {
-            timeout: 0,
-            headers: {"Content-Type": "text/plain"},
-        }).then(response => response.data)
+    const response = await axios.put(endpoint, fileContent, {
+        timeout: 0,
+        headers: { "Content-Type": "text/plain" },
+    });
+    return response.data;
 }
 
 const catchError = (error:any) => {

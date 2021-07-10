@@ -5,8 +5,8 @@ import Transaction from "../model/Transaction";
 
 //interfaces in a models dir
 
-const fetchAccountData = (accountNameOwner:String): Promise<any> => {
-    return axios.get(
+const fetchAccountData = async (accountNameOwner:String): Promise<any> => {
+    const response = await axios.get(
         endpointUrl() + "/transaction/account/select/" + accountNameOwner,
         {
             timeout: 0,
@@ -15,7 +15,8 @@ const fetchAccountData = (accountNameOwner:String): Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    ).then(response => response.data)
+    );
+    return response.data;
 }
 
 const catchError = ( error:any ) => {

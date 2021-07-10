@@ -3,13 +3,14 @@ import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import Account from "../model/Account";
 
-const updateAccount =  (oldRow:Account, newRow:Account) : Promise<any> => {
+const updateAccount =  async (oldRow:Account, newRow:Account) : Promise<any> => {
     let endpoint = endpointUrl() + "/account/update/" + oldRow.accountNameOwner
 
-    return axios.put(endpoint, JSON.stringify(newRow), {
+    const response = await axios.put(endpoint, JSON.stringify(newRow), {
         timeout: 0,
-        headers: {"Content-Type": "application/json"},
-    }).then(response => response.data)
+        headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
 
 }
 

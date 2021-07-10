@@ -2,8 +2,8 @@ import {endpointUrl} from "../Common"
 import {useQuery} from "react-query"
 import axios from "axios"
 
-const fetchTotals = () : Promise<any> => {
-    return axios.get(
+const fetchTotals = async () : Promise<any> => {
+    const response = await axios.get(
         endpointUrl() + "/account/totals",
         {
             timeout: 0,
@@ -12,7 +12,8 @@ const fetchTotals = () : Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    ).then(response => response.data)
+    )
+    return response.data
 }
 
 const catchError = (error:any) => {

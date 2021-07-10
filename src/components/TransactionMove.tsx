@@ -10,6 +10,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import SnackbarBaseline from "./SnackbarBaseline";
 import useFetchAccount from "./queries/useFetchAccount";
 import useTransactionUpdate from "./queries/useTransactionUpdate";
+import Transaction from "./model/Transaction"
 
 interface Props {
     closeDialog: any
@@ -49,11 +50,10 @@ export default function TransactionMove({
         setOpen(false);
     }
 
-    const handleButtonClick = useCallback(async (currentTransaction) => {
+    const handleButtonClick = useCallback(async (currentTransaction: Transaction) => {
         try {
-            let newTransaction = Object.assign({}, currentTransaction)
+            let newTransaction : Transaction = Object.assign({}, currentTransaction)
             newTransaction.accountNameOwner = value
-            // @ts-ignore
             updateTransaction({oldRow: currentTransaction, newRow: newTransaction})
             closeDialog()
         } catch (error) {

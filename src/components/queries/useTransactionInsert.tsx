@@ -33,7 +33,7 @@ const setupNewTransaction = (payload:Transaction
     return newPayload
 }
 
-const insertTransaction = (accountNameOwner : String, payload:Transaction, isFutureTransaction: Boolean) : Promise<any> => {
+const insertTransaction = async (accountNameOwner : String, payload:Transaction, isFutureTransaction: Boolean) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/insert/"
     if( isFutureTransaction) {
         endpoint = endpointUrl() + "/transaction/future/insert/"
@@ -42,10 +42,11 @@ const insertTransaction = (accountNameOwner : String, payload:Transaction, isFut
 
     let newPayload = setupNewTransaction(payload, accountNameOwner)
 
-    return axios.post(endpoint, newPayload, {
+    const response = await axios.post(endpoint, newPayload, {
         timeout: 0,
-        headers: {"Content-Type": "application/json"},
-    }).then(response => response.data)
+        headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
 }
 
 const catchError = (error: any) => {
