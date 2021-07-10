@@ -1,8 +1,9 @@
 import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
+import Payment from "../model/Payment";
 
-const deletePayment = (payload:any) : Promise<any> => {
+const deletePayment = (payload:Payment) : Promise<any> => {
     let endpoint = endpointUrl() + "/payment/delete/" + payload.paymentId
 
     return axios.delete(endpoint, {

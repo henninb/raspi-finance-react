@@ -1,10 +1,10 @@
 import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
+import Account from "../model/Account";
 
-const updateAccount =  (oldRow:any, newRow:any) : Promise<any> => {
-    let endpoint = endpointUrl() + "/transaction/update/" + oldRow.guid
-    delete newRow["tableData"]
+const updateAccount =  (oldRow:Account, newRow:Account) : Promise<any> => {
+    let endpoint = endpointUrl() + "/account/update/" + oldRow.accountNameOwner
 
     return axios.put(endpoint, JSON.stringify(newRow), {
         timeout: 0,

@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useState} from "react"
 import MaterialTable from "material-table"
 import Spinner from "./Spinner"
 import "./main.scss"
-import axios from "axios"
 import Button from "@material-ui/core/Button"
 import {useHistory} from "react-router-dom"
 import {currencyFormat, endpointUrl, noNaN} from "./Common"
@@ -10,23 +9,25 @@ import SnackbarBaseline from "./SnackbarBaseline"
 import useFetchAccount from "./queries/useFetchAccount";
 import useAccountInsert from "./queries/useAccountInsert";
 import useAccountDelete from "./queries/useAccountDelete";
+import useFetchTotals from "./queries/useFetchTotals";
 
 export default function AccountSummaryTable() {
-    const [totals, setTotals] = useState([])
+    //const [totals, setTotals] = useState([])
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
     const history = useHistory()
 
     const {data, isSuccess, isLoading} = useFetchAccount()
+    const {data: totals, isSuccess: isSuccessTotals} = useFetchTotals()
     const {mutate: insertAccount} = useAccountInsert()
     const {mutate: deleteAccount} = useAccountDelete()
 
-    const handleButtonClickLink = (accountNameOwner) => {
+    const handleButtonClickLink = (accountNameOwner : String) => {
         history.push("/transactions/" + accountNameOwner)
         history.go(0)
     }
 
-    const handleError = (error, moduleName, throwIt) =>  {
+    const handleError = (error: any, moduleName: any, throwIt: any) =>  {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -45,11 +46,12 @@ export default function AccountSummaryTable() {
         setOpen(false);
     }
 
-    const addRow = (newData) => {
+    const addRow = (newData: any) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
                     await insertAccount({payload: newData})
+                    // @ts-ignore
                     resolve()
                 } catch (error) {
                     handleError(error, 'addRow', false)
@@ -59,11 +61,12 @@ export default function AccountSummaryTable() {
         })
     }
 
-    const deleteRow = (oldData) => {
+    const deleteRow = (oldData: any) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
                     await deleteAccount({oldRow: oldData})
+                    // @ts-ignore
                     resolve()
                 } catch (error) {
                     handleError(error, 'onRowDelete', false)
@@ -73,33 +76,12 @@ export default function AccountSummaryTable() {
         })
     }
 
-    const fetchTotals = useCallback(async () => {
-        try {
-            const response = await axios.get(endpointUrl() + "/account/totals",
-                {
-                    timeout: 0,
-                    headers: {"Content-Type": "application/json"},
-                }
-            )
-            setTotals(response.data)
-        } catch (error) {
-            handleError(error, 'fetchTotals', true)
-        }
-    }, [])
-
     useEffect(() => {
-        if (totals.length === 0) {
-            let response = fetchTotals()
-            console.log(response)
-        }
-
-        return () => {
-        }
-    }, [totals, fetchTotals])
+    }, [])
 
     return (
         <div>
-            { !isLoading && isSuccess ? (
+            { !isLoading && isSuccess && isSuccessTotals? (
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[

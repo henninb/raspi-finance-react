@@ -2,9 +2,10 @@ import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
+import {TransactionState} from "../model/TransactionState";
 
 
-const changeTransactionState =  (guid : any, newTransactionState: any) : Promise<any> => {
+const changeTransactionState =  (guid : String, newTransactionState: TransactionState) : Promise<any> => {
     console.log('guid:' + guid)
     console.log('newTransactionState:' + newTransactionState)
 
@@ -27,7 +28,7 @@ const catchError = (error: any) => {
     //handleError(error, 'fetchAccountData', true)
 }
 
-export default function useTransactionStateUpdate (accountNameOwner: any) {
+export default function useTransactionStateUpdate (accountNameOwner: String) {
     const queryClient = useQueryClient()
 
     return useMutation(['transactionState'], (variables: any) => changeTransactionState(variables.guid, variables.transactionState), {onError: catchError,

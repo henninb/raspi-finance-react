@@ -15,6 +15,8 @@ import usePaymentDelete from "./queries/usePaymentDelete"
 import useFetchParameter from "./queries/useFetchParameter"
 import DatePicker from "react-datepicker"
 import {TablePagination} from "@material-ui/core";
+import Payment from "./model/Payment";
+import Transaction from "./model/Transaction";
 
 export default function PaymentTable() {
     const [message, setMessage] = useState('')
@@ -31,12 +33,12 @@ export default function PaymentTable() {
         setOpen(false);
     }
 
-    const handleButtonClickLink = (oldRow: any) => {
+    const handleButtonClickLink = (oldRow: Transaction) => {
         history.push("/transactions/" + oldRow.accountNameOwner)
         history.go(0)
     }
 
-    const handleError = (error: any, moduleName:any, throwIt:any) => {
+    const handleError = (error: any, moduleName:String, throwIt:any) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -51,7 +53,7 @@ export default function PaymentTable() {
         }
     }
 
-    const addRow = (newData:any) => {
+    const addRow = (newData:Payment) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
@@ -66,6 +68,7 @@ export default function PaymentTable() {
         })
     }
 
+    // @ts-ignore
     return (
         <div>
             {isSuccess && parmSuccess ? (
@@ -106,7 +109,7 @@ export default function PaymentTable() {
                                 headerStyle: {
                                 },
 
-                                render: (rowData) => {
+                                render: (rowData: Transaction) => {
                                     return (
                                         <Button
                                             style={{fontSize: ".6rem"}}
@@ -183,6 +186,7 @@ export default function PaymentTable() {
 
                         }}
                         editable={{
+                            // @ts-ignore
                             onRowAdd: addRow,
                             onRowDelete: (oldData) =>
                                 new Promise((resolve, reject) => {

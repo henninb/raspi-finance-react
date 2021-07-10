@@ -1,6 +1,7 @@
 import axios from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
+import Account from "../model/Account";
 
 const fetchAccountData = () : Promise<any> => {
     return axios.get(

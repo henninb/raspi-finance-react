@@ -3,8 +3,10 @@ import {v4 as uuidv4} from "uuid";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
+import Transaction from "../model/Transaction";
 
-const setupNewTransaction = (payload:any, accountNameOwner:string) => {
+const setupNewTransaction = (payload:Transaction
+                             , accountNameOwner:String) => {
 
     let newPayload: any = {
         guid: uuidv4(),
@@ -20,17 +22,18 @@ const setupNewTransaction = (payload:any, accountNameOwner:string) => {
         accountNameOwner: accountNameOwner,
     }
 
-    if (payload['dueDate'] === "") {
-        delete payload['dueDate']
-    }
-
-    if (payload['dueDate'] !== "") {
-        newPayload['dueDate'] = payload.dueDate
-    }
+    //TODO: fix dueDate
+    // if (payload['dueDate'] === "") {
+    //     delete payload['dueDate']
+    // }
+    //
+    // if (payload['dueDate'] !== "") {
+    //     newPayload['dueDate'] = payload.dueDate
+    // }
     return newPayload
 }
 
-const insertTransaction = (accountNameOwner:any, payload:any, isFutureTransaction: Boolean) : Promise<any> => {
+const insertTransaction = (accountNameOwner : String, payload:Transaction, isFutureTransaction: Boolean) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/insert/"
     if( isFutureTransaction) {
         endpoint = endpointUrl() + "/transaction/future/insert/"

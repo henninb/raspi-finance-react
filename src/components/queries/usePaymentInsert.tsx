@@ -1,6 +1,7 @@
 import {endpointUrl} from "../Common"
 import axios from "axios"
 import {useMutation, useQueryClient} from "react-query"
+import Payment from "../model/Payment";
 
 const setupNewPayment = (payload:any) => {
     return {
@@ -10,7 +11,7 @@ const setupNewPayment = (payload:any) => {
     }
 }
 
-const insertPayment =  (payload:any) : Promise<any> => {
+const insertPayment =  (payload : Payment) : Promise<any> => {
     let endpoint = endpointUrl() + '/payment/insert/'
     let newPayload = setupNewPayment(payload)
 

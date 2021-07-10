@@ -2,10 +2,11 @@ import axios from "axios";
 import {capitalizeFirstChar, endpointUrl, noNaN} from "../Common";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey, getTotalsKey} from "./KeyFile";
+import Transaction from "../model/Transaction";
 
-const updateTransaction = (newData: any, oldData: any) : Promise<any> => {
+const updateTransaction = (newData: Transaction, oldData: Transaction) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid
-    delete newData["tableData"]
+    //delete newData["tableData"]
 
     if (newData.receiptImage !== undefined) {
         newData['receiptImage'].image = newData['receiptImage'].image.replace(/^data:image\/[a-z]+;base64,/, "")

@@ -2,9 +2,10 @@ import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
+import Transaction from "../model/Transaction";
 
 
-const deleteTransaction = (payload : any) : Promise<any> => {
+const deleteTransaction = (payload : Transaction) : Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/delete/" + payload.guid
 
     return axios.delete(endpoint, {

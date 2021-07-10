@@ -1,6 +1,7 @@
 import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
+import Account from "../model/Account";
 
 const setupNewAccount = (payload: any) => {
     const now = new Date()
@@ -14,7 +15,7 @@ const setupNewAccount = (payload: any) => {
     return payload
 }
 
-const insertAccount =  (payload : any) : Promise<any> => {
+const insertAccount =  (payload : Account) : Promise<any> => {
     let endpoint = endpointUrl() + '/account/insert/'
     let newPayload = setupNewAccount(payload)
 

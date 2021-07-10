@@ -1,6 +1,7 @@
 import {endpointUrl} from "../Common";
 import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
+import Description from "../model/Description";
 
 const insertDescription = (descriptionName: any) : Promise<any> => {
     let endpoint = endpointUrl() + '/description/insert/'
