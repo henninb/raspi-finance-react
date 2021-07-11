@@ -1,28 +1,26 @@
 import {endpointUrl} from "../Common";
-import axios from "axios";
-import { AxiosError } from 'axios';
+import axios, {AxiosError} from "axios";
 import {useMutation, useQueryClient} from "react-query";
-import Description from "../model/Description";
 
-const insertDescription = async (descriptionName: any) : Promise<any> => {
+const insertDescription = async (descriptionName: any): Promise<any> => {
     let endpoint = endpointUrl() + '/description/insert/'
-    let payload = {description: descriptionName, activeStatus:true}
+    let payload = {description: descriptionName, activeStatus: true}
 
     const response = await axios.post(endpoint, payload, {
         timeout: 0,
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
     });
     return response.data;
 }
 
-export default function useDescriptionInsert () {
+export default function useDescriptionInsert() {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertDescription'], (variables:any) => insertDescription(variables.descriptionName), {
+    return useMutation(['insertDescription'], (variables: any) => insertDescription(variables.descriptionName), {
         onError: (error: AxiosError<any>) => {
-            console.log(error ? error: "error is undefined.")
-            console.log(error.response ? error.response: "error.response is undefined.")
-            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+            console.log(error ? error : "error is undefined.")
+            console.log(error.response ? error.response : "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response) : "error.response is undefined - cannot stringify.")
         },
 
         onSuccess: (response, variables) => {
@@ -30,5 +28,6 @@ export default function useDescriptionInsert () {
             let newData = oldData
             //TODO: add description to the list
             queryClient.setQueryData('description', newData)
-        }})
+        }
+    })
 }

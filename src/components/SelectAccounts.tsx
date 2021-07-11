@@ -15,13 +15,13 @@ export default function SelectAccounts() {
     const {data, isSuccess} = useFetchAccount()
 
     useEffect(() => {
-        if( isSuccess ) {
-            let optionList : any = []
+        if (isSuccess) {
+            let optionList: any = []
             data.forEach((element: any) => {
-                    optionList = optionList.concat({
-                        value: element.accountNameOwner,
-                        label: element.accountNameOwner,
-                    })
+                optionList = optionList.concat({
+                    value: element.accountNameOwner,
+                    label: element.accountNameOwner,
+                })
             })
             if (optionList.length > 0) {
                 setOptions(optionList)

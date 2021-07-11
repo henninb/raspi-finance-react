@@ -12,7 +12,7 @@ interface Props {
 // }
 
 export default function SelectTransactionState({onChangeFunction, currentValue}: Props) {
-   // const [value, setValue] = useState<TransactionStateOptionType | null>(null);
+    // const [value, setValue] = useState<TransactionStateOptionType | null>(null);
 
     const [value, setValue] = useState(currentValue)
     const [inputValue, setInputValue] = useState('undefined')
@@ -61,8 +61,8 @@ export default function SelectTransactionState({onChangeFunction, currentValue}:
             {/*/>*/}
 
             <Autocomplete
-                defaultValue={(value) ? value: 'undefined'}
-                value={(value) ? value: 'undefined'}
+                defaultValue={(value) ? value : 'undefined'}
+                value={(value) ? value : 'undefined'}
 
                 onChange={(_event, newValue) => {
                     console.log(`onChange newValue: '${newValue}'`)

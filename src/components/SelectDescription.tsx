@@ -19,7 +19,6 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
     const {mutate: insertDescription} = useDescriptionInsert()
 
 
-
     useEffect(() => {
         const extractedDescriptionField = (response: any) => {
             // @ts-ignore
@@ -30,7 +29,7 @@ export default function SelectDescription({onChangeFunction, currentValue}: Prop
             return descriptions
         }
 
-        if( isSuccess ) {
+        if (isSuccess) {
             const response: any = extractedDescriptionField(data)
             setOptions(response)
         }

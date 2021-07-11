@@ -1,4 +1,4 @@
-import { AccountType } from "./AccountType";
+import {AccountType} from "./AccountType";
 import {TransactionState} from "./TransactionState";
 import {ReoccurringType} from "./ReoccurringType";
 import ReceiptImage from "./ReceiptImage";

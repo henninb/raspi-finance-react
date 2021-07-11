@@ -1,5 +1,5 @@
 export const convertUTCDateToLocalDate = (date: any) => {
-    let newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000)
+    let newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000)
 
     let offset = date.getTimezoneOffset() / 60
     let hours = date.getHours()
@@ -44,7 +44,7 @@ export const typeOf = (obj: any) => {
 }
 
 export const noNaN = (n: any) => {
-    return isNaN( n ) ? 0.0 : n;
+    return isNaN(n) ? 0.0 : n;
 }
 
 export const capitalizeFirstChar = (inString: String) => {

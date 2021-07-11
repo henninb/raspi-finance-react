@@ -42,7 +42,11 @@ export default function FreeFormTable({data, toggleDisplayList}: any) {
         for (const transaction of data) {
             try {
                 console.log("transaction:" + JSON.stringify(transaction))
-                insertTransaction({ accountNameOwner: transaction.accountNameOwner, newRow: transaction, isFutureTransaction: false})
+                insertTransaction({
+                    accountNameOwner: transaction.accountNameOwner,
+                    newRow: transaction,
+                    isFutureTransaction: false
+                })
             } catch (error) {
                 handleError(error, 'handleChange', false)
             }
@@ -53,58 +57,58 @@ export default function FreeFormTable({data, toggleDisplayList}: any) {
     // @ts-ignore
     return (
         <div>
-                <div>
-                    <DataGrid style={{width: '1024px'}}
-                        rows={data}
-                        columns={[
-                            {
-                                name: "accountNameOwner",
-                                key: "accountNameOwner",
-                                editable: true,
-                            },
-                            {
-                                name: "date",
-                                key: "transactionDate",
-                                editable: true,
-                            },
-                            {
-                                name: "description",
-                                key: "description",
-                                editable: true,
-                            },
-                            {
-                                name: "category",
-                                key: "category",
-                                editable: true,
-                            },
-                            {
-                                name: "amount",
-                                key: "amount",
-                                editable: true,
-                            },
-                            {
-                                name: "state",
-                                key: "transactionState",
-                                editable: true,
-                            },
-                            {
-                                name: "reoccur",
-                                key: "reoccurringType",
-                                editable: true,
-                            },
-                            {
-                                name: "notes",
-                                key: "notes",
-                                editable: true,
-                            },
-                            {
-                                name: "due",
-                                key: "dueDate",
-                                editable: true,
-                            },
-                        ]}
-                    />
-                </div>
+            <div>
+                <DataGrid style={{width: '1024px'}}
+                          rows={data}
+                          columns={[
+                              {
+                                  name: "accountNameOwner",
+                                  key: "accountNameOwner",
+                                  editable: true,
+                              },
+                              {
+                                  name: "date",
+                                  key: "transactionDate",
+                                  editable: true,
+                              },
+                              {
+                                  name: "description",
+                                  key: "description",
+                                  editable: true,
+                              },
+                              {
+                                  name: "category",
+                                  key: "category",
+                                  editable: true,
+                              },
+                              {
+                                  name: "amount",
+                                  key: "amount",
+                                  editable: true,
+                              },
+                              {
+                                  name: "state",
+                                  key: "transactionState",
+                                  editable: true,
+                              },
+                              {
+                                  name: "reoccur",
+                                  key: "reoccurringType",
+                                  editable: true,
+                              },
+                              {
+                                  name: "notes",
+                                  key: "notes",
+                                  editable: true,
+                              },
+                              {
+                                  name: "due",
+                                  key: "dueDate",
+                                  editable: true,
+                              },
+                          ]}
+                />
+            </div>
             <div>
                 {/*<input type="button" value="toFreeForm" onClick={() => toggleDisplayList()}/>*/}
                 <input type="submit" value="submit" onClick={() => handleChange()}/>

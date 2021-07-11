@@ -5,31 +5,31 @@ import useFetchAccount from "./queries/useFetchAccount"
 export default function SelectAccountNameOwnerCredit({
                                                          onChangeFunction,
                                                          currentValue,
-                                                     } : any) {
+                                                     }: any) {
     const [selectedOption, setSelectedOption] = useState(currentValue)
     const [accountTypeOptions, setAccountTypeOptions] = useState([])
 
     const {data, isSuccess} = useFetchAccount()
 
     useEffect(() => {
-        if( isSuccess ) {
-            let optionList : any = []
-            data.forEach(( element : any ) => {
-                            if (element.accountType === "credit") {
-                                optionList = optionList.concat({
-                                    value: element.accountNameOwner,
-                                    label: element.accountNameOwner,
-                                })
-                            }
-                        })
-                    if (optionList.length > 0) {
-                        setAccountTypeOptions(optionList)
-                    }
+        if (isSuccess) {
+            let optionList: any = []
+            data.forEach((element: any) => {
+                if (element.accountType === "credit") {
+                    optionList = optionList.concat({
+                        value: element.accountNameOwner,
+                        label: element.accountNameOwner,
+                    })
+                }
+            })
+            if (optionList.length > 0) {
+                setAccountTypeOptions(optionList)
+            }
         }
 
     }, [data, isSuccess])
 
-    const onSelectChange = ({value} : any) => {
+    const onSelectChange = ({value}: any) => {
         setSelectedOption(value)
         onChangeFunction(value)
     }

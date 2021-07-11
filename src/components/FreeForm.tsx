@@ -7,8 +7,6 @@ import Select from "react-select";
 import FreeFormTable from "./FreeFormTable";
 import useFetchAccount from "./queries/useFetchAccount";
 import moment from "moment";
-import Transaction from './model/Transaction'
-import { convertUTCDateToLocalDate } from './Common'
 
 require('datejs') //momentjs - look into this
 
@@ -120,9 +118,9 @@ export default function FreeForm() {
         let sanitizedText = text.replace(/\t/g, ',')
         sanitizedText = sanitizedText.toLowerCase()
         const lines = sanitizedText.split(os.EOL)
-        let transactions :any = []
+        let transactions: any = []
 
-        if( !validateData() ) {
+        if (!validateData()) {
             return
         }
 
@@ -173,13 +171,13 @@ export default function FreeForm() {
         setLoadFreeFormTable(true)
     }
 
-    const onSelectChange = ({value} : any) => {
+    const onSelectChange = ({value}: any) => {
         setSelectedOption(value)
     }
 
     useEffect(() => {
-        if( accountSuccess  && accountTypeOptions.length === 0 ) {
-            let optionList : any = []
+        if (accountSuccess && accountTypeOptions.length === 0) {
+            let optionList: any = []
             dataAccount.forEach((element: any) => {
                 optionList = optionList.concat({
                     value: element.accountNameOwner,
@@ -195,35 +193,35 @@ export default function FreeForm() {
     return (
         <div>
             {!loadFreeFormTable ? (
-        <div className="freeform">
+                <div className="freeform">
 
-            <div>
-                {/*<textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""*/}
-                <textarea name="comment" form="transactions" id="textArea" defaultValue=""
-                          onPaste={(event) => handlePaste(event)}/>
-
-                    <div style={{width: '300px'}}>
-                        <Select
-                            name="account-select"
-                            multi={true}
-                            native={true}
-                            options={accountTypeOptions}
-                            onChange={onSelectChange}
-                        />
-                    </div>
                     <div>
-                    <input type="button" value="prefix" onClick={() => handlePrefix()}/>
-                    <input type="submit" value="submit" onClick={() => handleChange()}/>
-                    </div>
-            </div>
-            <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
-        </div>) : (<div className="freeform">
-                <FreeFormTable
-                toggleDisplayList={toggleDisplayList}
-                data={data}
-                   />
+                        {/*<textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""*/}
+                        <textarea name="comment" form="transactions" id="textArea" defaultValue=""
+                                  onPaste={(event) => handlePaste(event)}/>
 
-             </div>) }
+                        <div style={{width: '300px'}}>
+                            <Select
+                                name="account-select"
+                                multi={true}
+                                native={true}
+                                options={accountTypeOptions}
+                                onChange={onSelectChange}
+                            />
+                        </div>
+                        <div>
+                            <input type="button" value="prefix" onClick={() => handlePrefix()}/>
+                            <input type="submit" value="submit" onClick={() => handleChange()}/>
+                        </div>
+                    </div>
+                    <SnackbarBaseline message={message} state={open} handleSnackbarClose={handleSnackbarClose}/>
+                </div>) : (<div className="freeform">
+                <FreeFormTable
+                    toggleDisplayList={toggleDisplayList}
+                    data={data}
+                />
+
+            </div>)}
         </div>
     )
 }

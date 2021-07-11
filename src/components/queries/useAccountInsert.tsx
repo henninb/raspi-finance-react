@@ -1,5 +1,5 @@
 import {endpointUrl} from "../Common";
-import axios, { AxiosError } from "axios";
+import axios, {AxiosError} from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import Account from "../model/Account";
 
@@ -15,26 +15,26 @@ const setupNewAccount = (payload: Account) => {
     return payload
 }
 
-const insertAccount =  async (payload : Account) : Promise<any> => {
+const insertAccount = async (payload: Account): Promise<any> => {
     let endpoint = endpointUrl() + '/account/insert/'
     let newPayload = setupNewAccount(payload)
 
     const response = await axios.post(endpoint, newPayload, {
         timeout: 0,
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
     });
     return response.data;
 
 }
 
-export default function useAccountInsert () {
+export default function useAccountInsert() {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertAccount'], (variables:any) => insertAccount(variables.payload), {
-        onError: (error:AxiosError) => {
-            console.log(error ? error: "error is undefined.")
-            console.log(error.response ? error.response: "error.response is undefined.")
-            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+    return useMutation(['insertAccount'], (variables: any) => insertAccount(variables.payload), {
+        onError: (error: AxiosError) => {
+            console.log(error ? error : "error is undefined.")
+            console.log(error.response ? error.response : "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response) : "error.response is undefined - cannot stringify.")
         },
 
         onSuccess: (response, variables) => {
@@ -42,5 +42,6 @@ export default function useAccountInsert () {
             let updatedNewRow = setupNewAccount(variables.payload)
             let newData = [updatedNewRow, ...oldData]
             queryClient.setQueryData('account', newData)
-        }})
+        }
+    })
 }

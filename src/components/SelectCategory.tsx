@@ -28,7 +28,7 @@ export default function SelectCategory({
             return categories
         }
 
-        if( isSuccess ) {
+        if (isSuccess) {
             const response: any = extractedCategoryField(data)
             setOptions(response)
         }

@@ -18,7 +18,7 @@ export default function SelectReoccurringType({newAccountType, onChangeFunction,
 
 
     useEffect(() => {
-        if( accountType === 'debit') {
+        if (accountType === 'debit') {
             // @ts-ignore
             setOptions(['fortnightly', 'monthly', 'onetime'])
         } else {
@@ -50,7 +50,7 @@ export default function SelectReoccurringType({newAccountType, onChangeFunction,
         <div>
             <Autocomplete
                 value={value || ''}
-               // defaultValue={value || ''}
+                // defaultValue={value || ''}
                 onChange={(_event, newValue) => {
                     setValue(newValue);
                     onChangeFunction(newValue);

@@ -1,8 +1,8 @@
-import axios, { AxiosError } from "axios";
+import axios, {AxiosError} from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchCategoryData = async () : Promise<any> => {
+const fetchCategoryData = async (): Promise<any> => {
     const response = await axios.get(
         endpointUrl() + "/category/select/active",
         {
@@ -12,17 +12,18 @@ const fetchCategoryData = async () : Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    );
-    return response.data;
+    )
+    console.debug(JSON.stringify(response.data))
+    return response.data
 }
 
-export default function useFetchCategory () {
+export default function useFetchCategory() {
     return useQuery('category', () => fetchCategoryData(), {
             onError: (error: AxiosError<any>) => {
-                console.log(error ? error: "error is undefined.")
-                console.log(error.response ? error.response: "error.response is undefined.")
-                console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+                console.log(error ? error : "error is undefined.")
+                console.log(error.response ? error.response : "error.response is undefined.")
+                console.log(error.response ? JSON.stringify(error.response) : "error.response is undefined - cannot stringify.")
             },
-    }
+        }
     )
 }

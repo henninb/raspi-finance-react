@@ -52,7 +52,7 @@ export default function TransactionMove({
 
     const handleButtonClick = useCallback(async (currentTransaction: Transaction) => {
         try {
-            let newTransaction : Transaction = Object.assign({}, currentTransaction)
+            let newTransaction: Transaction = Object.assign({}, currentTransaction)
             newTransaction.accountNameOwner = value
             updateTransaction({oldRow: currentTransaction, newRow: newTransaction})
             closeDialog()
@@ -61,8 +61,8 @@ export default function TransactionMove({
         }
     }, [value, updateTransaction, closeDialog])
 
-    useEffect( () => {
-        if( isSuccess) {
+    useEffect(() => {
+        if (isSuccess) {
             setAccountType(currentTransaction.accountType)
             let accounts: any[] = []
             data.forEach((element: any) => {

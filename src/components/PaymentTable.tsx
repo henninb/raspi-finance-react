@@ -38,7 +38,7 @@ export default function PaymentTable() {
         history.go(0)
     }
 
-    const handleError = (error: any, moduleName:String, throwIt:any) => {
+    const handleError = (error: any, moduleName: String, throwIt: any) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -53,7 +53,7 @@ export default function PaymentTable() {
         }
     }
 
-    const addRow = (newData:Payment) => {
+    const addRow = (newData: Payment) => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
@@ -106,8 +106,7 @@ export default function PaymentTable() {
                                     whiteSpace: "nowrap",
                                 },
 
-                                headerStyle: {
-                                },
+                                headerStyle: {},
 
                                 render: (rowData: Transaction) => {
                                     return (
@@ -144,7 +143,7 @@ export default function PaymentTable() {
                                 title: "source",
                                 field: "sourceAccount",
                                 type: "string",
-                                initialEditValue: (parmData) ? parmData.parameterValue: "undefined parmData"
+                                initialEditValue: (parmData) ? parmData.parameterValue : "undefined parmData"
                                 ,
                                 cellStyle: {whiteSpace: "nowrap"},
                             },

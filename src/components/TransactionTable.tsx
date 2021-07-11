@@ -37,22 +37,26 @@ export default function TransactionTable() {
     const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
 
-    const routeMatch :any = useRouteMatch("/transactions/:account")
+    const routeMatch: any = useRouteMatch("/transactions/:account")
     const {data, isSuccess} = useFetchTransactionByAccount(routeMatch.params["account"])
     const {data: totals, isSuccess: isSuccessTotals} = useFetchTotalsPerAccount(routeMatch.params["account"])
+    const {
+        data: validationData,
+        isSuccess: isSuccessValidationTotals
+    } = useFetchValidationAccount(routeMatch.params["account"])
     const {mutate: updateTransactionState} = useChangeTransactionState(routeMatch.params["account"])
     const {mutate: updateTransaction} = useTransactionUpdate()
     const {mutate: deleteTransaction} = useTransactionDelete()
     const {mutate: insertReceiptImage} = useReceiptImageUpdate()
     const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
-    const {data: validationData, isSuccess:validationDataSuccess} = useFetchValidationAccount(routeMatch.params["account"])
+
 
     const handleSnackbarClose = () => {
         setOpen(false);
     }
 
     const handleError = (error: any
-                         , moduleName: any, throwIt:any ) => {
+        , moduleName: any, throwIt: any) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -68,8 +72,8 @@ export default function TransactionTable() {
     }
 
     const storeTheFileContent = useCallback(
-        async (file: any) : Promise<any> => {
-            let reader :any = new FileReader()
+        async (file: any): Promise<any> => {
+            let reader: any = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
                 setFileContent(reader.result.toString())
@@ -83,12 +87,12 @@ export default function TransactionTable() {
     )
 
     const getImageFileContents = useCallback(
-        async (currentRow: Transaction) : Promise<any> => {
+        async (currentRow: Transaction): Promise<any> => {
             console.log("onClick photo-add")
 
-            const fileSelector : HTMLInputElement = document.createElement("input")
+            const fileSelector: HTMLInputElement = document.createElement("input")
             fileSelector.setAttribute("type", "file")
-            fileSelector.addEventListener("change", (event:any) => {
+            fileSelector.addEventListener("change", (event: any) => {
                 console.log('addEventListener is called.')
                 //let file1 : any = event.target.files[0]
                 let fileList = event.target.files
@@ -124,9 +128,9 @@ export default function TransactionTable() {
     )
 
     const handlerToUpdateTransactionState = useCallback(
-        async (guid, accountNameOwner, transactionState) : Promise<any> => {
+        async (guid, accountNameOwner, transactionState): Promise<any> => {
             try {
-                updateTransactionState({ guid: guid, transactionState: transactionState })
+                updateTransactionState({guid: guid, transactionState: transactionState})
                 //await fetchTotals()
             } catch (error) {
                 console.log(error)
@@ -136,7 +140,7 @@ export default function TransactionTable() {
         [updateTransactionState]
     )
 
-    const updateRow = (newData : any, oldData: any) :Promise<any> => {
+    const updateRow = (newData: any, oldData: any): Promise<any> => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
@@ -151,7 +155,7 @@ export default function TransactionTable() {
         })
     }
 
-    const deleteRow = (oldData: any) : Promise<any> => {
+    const deleteRow = (oldData: any): Promise<any> => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
@@ -166,11 +170,15 @@ export default function TransactionTable() {
         })
     }
 
-    const addRow = (newData: Transaction) : Promise<any> => {
+    const addRow = (newData: Transaction): Promise<any> => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    insertTransaction({accountNameOwner: newData.accountNameOwner, newRow: newData, isFutureTransaction: false})
+                    insertTransaction({
+                        accountNameOwner: newData.accountNameOwner,
+                        newRow: newData,
+                        isFutureTransaction: false
+                    })
                     // @ts-ignore
                     resolve()
                 } catch (error) {
@@ -182,9 +190,13 @@ export default function TransactionTable() {
     }
 
     const handleButtonClickLink = useCallback(
-        async (newData: Transaction) :Promise<any>=> {
+        async (newData: Transaction): Promise<any> => {
             try {
-                insertTransaction({accountNameOwner: newData.accountNameOwner, newRow: newData, isFutureTransaction: true})
+                insertTransaction({
+                    accountNameOwner: newData.accountNameOwner,
+                    newRow: newData,
+                    isFutureTransaction: true
+                })
             } catch (error) {
                 handleError(error, 'futureTransactionInsertPostCall', false);
             }
@@ -224,7 +236,7 @@ export default function TransactionTable() {
             insertReceiptImage({oldRow: currentTransaction, fileContent: fileContent})
 
             // @ts-ignore
-            let foundObject = data.filter((obj:any) => obj.guid === currentTransaction.guid)
+            let foundObject = data.filter((obj: any) => obj.guid === currentTransaction.guid)
             if (foundObject.length === 1) {
                 foundObject[0].receiptImage = {"image": fileContent}
             }
@@ -237,7 +249,7 @@ export default function TransactionTable() {
             window.removeEventListener("keydown", downHandler)
             window.removeEventListener("keyup", upHandler)
         }
-    }, [ data, downHandler, upHandler, fileContent, currentTransaction, insertReceiptImage])
+    }, [data, downHandler, upHandler, fileContent, currentTransaction, insertReceiptImage])
 
 
     //// "2014-09-08T08:02:17-05:00"
@@ -248,7 +260,7 @@ export default function TransactionTable() {
         <div>
             {/*<Button className="table-formatting" style={{color: 'white'}}>test</Button>*/}
 
-            {validationDataSuccess && isSuccess && isSuccessTotals ? (
+            {isSuccessValidationTotals && isSuccess && isSuccessTotals ? (
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
@@ -267,7 +279,7 @@ export default function TransactionTable() {
                                             //locale={props.dateTimePickerLocalization}
                                         >
                                             <DatePicker
-                                                selected={props.value? convertUTCDateToLocalDate(new Date(props.value)) : new Date()}
+                                                selected={props.value ? convertUTCDateToLocalDate(new Date(props.value)) : new Date()}
                                                 value={props.value
                                                     ? moment(props.value).format(dateFormat) : moment().format(dateFormat)}
                                                 onChange={props.onChange}
@@ -366,7 +378,8 @@ export default function TransactionTable() {
                                         return (
                                             <>
                                                 {rowData.reoccurringType}
-                                                <Button style={{width: 50}} onClick={() => handleButtonClickLink(rowData)}>
+                                                <Button style={{width: 50}}
+                                                        onClick={() => handleButtonClickLink(rowData)}>
                                                     <ChevronRightRoundedIcon/>
                                                 </Button>
                                             </>
@@ -448,12 +461,12 @@ export default function TransactionTable() {
                                                      src={image}/> :
 
                                                 <div>
-                                                    <Button onClick={()=> {
+                                                    <Button onClick={() => {
                                                         let response = getImageFileContents(rowData)
                                                         console.log('response' + response)
                                                     }
-                                                    } >
-                                                        <AddAPhoto />
+                                                    }>
+                                                        <AddAPhoto/>
                                                     </Button>
                                                 </div>
                                             }
@@ -471,15 +484,15 @@ export default function TransactionTable() {
                                 return (
                                     <td className="right">
                                         {JSON.stringify(validationData)}
-                                    <TablePagination
-                                    component="div"
-                                    count={props.count}
-                                    page={props.page}
-                                    rowsPerPage={props.rowsPerPage}
-                                    rowsPerPageOptions={[25, 50, 75, 100]}
-                                    onRowsPerPageChange={props.onChangeRowsPerPage}
-                                    onPageChange={props.onChangePage}
-                                />
+                                        <TablePagination
+                                            component="div"
+                                            count={props.count}
+                                            page={props.page}
+                                            rowsPerPage={props.rowsPerPage}
+                                            rowsPerPageOptions={[25, 50, 75, 100]}
+                                            onRowsPerPageChange={props.onChangeRowsPerPage}
+                                            onPageChange={props.onChangePage}
+                                        />
                                     </td>
                                 )
                             }
@@ -490,7 +503,7 @@ export default function TransactionTable() {
                             // selection: true,
                             paging: true,
                             pageSize: 25,
-                            pageSizeOptions : [25, 50, 75, 100],
+                            pageSizeOptions: [25, 50, 75, 100],
                             addRowPosition: "first",
                             search: true,
                             toolbar: true,
@@ -501,7 +514,7 @@ export default function TransactionTable() {
                                 color: "#FFF",
                             },
 
-                            rowStyle: (rowData ) :any => {
+                            rowStyle: (rowData): any => {
                                 if (rowData.transactionState !== null) {
                                     if (rowData.transactionState === "cleared") {
                                         return {fontSize: ".6rem"}

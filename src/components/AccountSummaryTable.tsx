@@ -22,12 +22,12 @@ export default function AccountSummaryTable() {
     const {mutate: insertAccount} = useAccountInsert()
     const {mutate: deleteAccount} = useAccountDelete()
 
-    const handleButtonClickLink = (accountNameOwner : String) => {
+    const handleButtonClickLink = (accountNameOwner: String) => {
         history.push("/transactions/" + accountNameOwner)
         history.go(0)
     }
 
-    const handleError = (error: any, moduleName: String, throwIt: any) =>  {
+    const handleError = (error: any, moduleName: String, throwIt: any) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -81,7 +81,7 @@ export default function AccountSummaryTable() {
 
     return (
         <div>
-            { !isLoading && isSuccess && isSuccessTotals? (
+            {!isLoading && isSuccess && isSuccessTotals ? (
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
@@ -138,7 +138,7 @@ export default function AccountSummaryTable() {
                                 editable: "never",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                  return (rowData.cleared  + rowData.outstanding + rowData.future).toLocaleString('en-US', {
+                                    return (rowData.cleared + rowData.outstanding + rowData.future).toLocaleString('en-US', {
                                         style: 'currency',
                                         currency: 'USD',
                                     });

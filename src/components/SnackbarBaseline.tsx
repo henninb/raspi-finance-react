@@ -3,7 +3,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 //import Alert from "@material-ui/lab/Alert";
 
-export default function SnackbarBaseline({message, state, handleSnackbarClose}:any) {
+export default function SnackbarBaseline({message, state, handleSnackbarClose}: any) {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {

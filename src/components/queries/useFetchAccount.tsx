@@ -1,9 +1,8 @@
-import axios, { AxiosError } from "axios";
+import axios, {AxiosError} from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
-import Account from "../model/Account";
 
-const fetchAccountData = async () : Promise<any> => {
+const fetchAccountData = async (): Promise<any> => {
     const response = await axios.get(
         endpointUrl() + '/account/select/active',
         {
@@ -13,16 +12,17 @@ const fetchAccountData = async () : Promise<any> => {
                 "Accept": "application/json",
             },
         }
-    );
-    return response.data;
+    )
+    console.debug(JSON.stringify(response.data))
+    return response.data
 }
 
-export default function useFetchAccount () {
+export default function useFetchAccount() {
     return useQuery('account', () => fetchAccountData(), {
         onError: (error: AxiosError<any>) => {
-            console.log(error ? error: "error is undefined.")
-            console.log(error.response ? error.response: "error.response is undefined.")
-            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+            console.log(error ? error : "error is undefined.")
+            console.log(error.response ? error.response : "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response) : "error.response is undefined - cannot stringify.")
         },
     })
 }

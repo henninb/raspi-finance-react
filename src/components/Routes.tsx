@@ -14,10 +14,10 @@ export default function Routes() {
         <div>
             <Router>
                 <QueryClientProvider client={queryClient}>
-                <div>
-                    <NavbarInstance/>
-                </div>
-                <Switch>
+                    <div>
+                        <NavbarInstance/>
+                    </div>
+                    <Switch>
                         <Route path="/payments" exact component={PaymentTable}/>
                         <Route path="/freeform" exact component={FreeForm}/>
                         <Route path="/payment/required" exact component={PaymentRequired}/>
@@ -28,7 +28,7 @@ export default function Routes() {
                         />
                         <Route path="/" exact component={AccountSummaryTable}/>
 
-                </Switch>
+                    </Switch>
                 </QueryClientProvider>
             </Router>
         </div>

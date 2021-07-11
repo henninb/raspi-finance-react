@@ -74,7 +74,7 @@ export default function PaymentRequired() {
                                 editable: "never",
                                 cellStyle: {whiteSpace: "nowrap"},
                                 render: (rowData) => {
-                                    return (rowData.cleared  + rowData.outstanding + rowData.future).toLocaleString('en-US', {
+                                    return (rowData.cleared + rowData.outstanding + rowData.future).toLocaleString('en-US', {
                                         style: 'currency',
                                         currency: 'USD',
                                     });
@@ -94,8 +94,8 @@ export default function PaymentRequired() {
                             },
                             rowStyle: {fontSize: ".6rem"},
                         }}
-                        />
-                 </div>
+                    />
+                </div>
             ) : (
                 <div className="centered">
                     <Spinner/>

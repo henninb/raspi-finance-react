@@ -1,6 +1,6 @@
 import {endpointUrl} from "../Common";
 import {v4 as uuidv4} from "uuid";
-import axios, { AxiosError } from "axios";
+import axios, {AxiosError} from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 import Transaction from "../model/Transaction";
@@ -10,10 +10,10 @@ export type TransactionInsertType = {
     accountNameOwner: String
     newRow: Transaction
     isFutureTransaction: Boolean
-  }
+}
 
-const setupNewTransaction = (payload:Transaction
-                             , accountNameOwner:String) : Transaction => {
+const setupNewTransaction = (payload: Transaction
+    , accountNameOwner: String): Transaction => {
 
     return {
         guid: uuidv4(),
@@ -22,10 +22,10 @@ const setupNewTransaction = (payload:Transaction
         category: payload.category ? payload.category : 'undefined',
         notes: payload.notes === undefined ? "" : payload.notes,
         amount: payload.amount,
-        transactionState:  payload.transactionState ? payload.transactionState : 'outstanding',
+        transactionState: payload.transactionState ? payload.transactionState : 'outstanding',
         activeStatus: true,
         accountType: payload.accountType ? payload.accountType : "undefined",
-        reoccurringType: payload.reoccurringType  ?  payload.reoccurringType : 'onetime',
+        reoccurringType: payload.reoccurringType ? payload.reoccurringType : 'onetime',
         accountNameOwner: accountNameOwner,
     }
 
@@ -40,9 +40,9 @@ const setupNewTransaction = (payload:Transaction
     //return newPayload
 }
 
-const insertTransaction = async (accountNameOwner : String, payload:Transaction, isFutureTransaction: Boolean) : Promise<any> => {
+const insertTransaction = async (accountNameOwner: String, payload: Transaction, isFutureTransaction: Boolean): Promise<any> => {
     let endpoint = endpointUrl() + "/transaction/insert/"
-    if( isFutureTransaction) {
+    if (isFutureTransaction) {
         endpoint = endpointUrl() + "/transaction/future/insert/"
         console.log("will insert futureTransaction")
     }
@@ -51,32 +51,33 @@ const insertTransaction = async (accountNameOwner : String, payload:Transaction,
 
     const response = await axios.post(endpoint, newPayload, {
         timeout: 0,
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
     });
     return response.data;
 }
 
-export default function useTransactionInsert (accountNameOwner: any) {
+export default function useTransactionInsert(accountNameOwner: any) {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertTransaction'], (variables : TransactionInsertType) => insertTransaction( accountNameOwner, variables.newRow, variables.isFutureTransaction ), {
+    return useMutation(['insertTransaction'], (variables: TransactionInsertType) => insertTransaction(accountNameOwner, variables.newRow, variables.isFutureTransaction), {
         onError: (error: AxiosError<any>) => {
-            console.log(error ? error: "error is undefined.")
-            console.log(error.response ? error.response: "error.response is undefined.")
-            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+            console.log(error ? error : "error is undefined.")
+            console.log(error.response ? error.response : "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response) : "error.response is undefined - cannot stringify.")
             //handleError(error, 'fetchAccountData', true)
         },
 
         onSuccess: (response, variables) => {
-            let oldData : any = queryClient.getQueryData(getAccountKey(accountNameOwner))
+            let oldData: any = queryClient.getQueryData(getAccountKey(accountNameOwner))
             let updatedNewRow = setupNewTransaction(variables.newRow, accountNameOwner)
             //TODO: 7-3-2021 fix this so I do not have branching logic here, the line above should be deprecated
-            if( variables.isFutureTransaction ) {
-               updatedNewRow = response
+            if (variables.isFutureTransaction) {
+                updatedNewRow = response
             }
-            if( oldData ) {
+            if (oldData) {
                 let newData = [updatedNewRow, ...oldData]
                 queryClient.setQueryData(getAccountKey(accountNameOwner), newData)
             }
-        }})
+        }
+    })
 }
