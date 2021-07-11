@@ -1,5 +1,5 @@
 import {endpointUrl} from "../Common"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import {useMutation, useQueryClient} from "react-query"
 import Payment from "../model/Payment";
 
@@ -27,7 +27,7 @@ export default function usePaymentInsert () {
     const queryClient = useQueryClient()
 
     return useMutation(['insertPayment'], (variables:any) => insertPayment(variables.payload), {
-        onError: (error: any) => {
+        onError: (error: AxiosError<any>) => {
             console.log(error ? error: "error is undefined.")
             console.log(error.response ? error.response: "error.response is undefined.")
             console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")

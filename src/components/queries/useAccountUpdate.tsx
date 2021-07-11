@@ -1,5 +1,5 @@
 import {endpointUrl} from "../Common";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import Account from "../model/Account";
 
@@ -18,7 +18,7 @@ export default function useAccountUpdate() {
     const queryClient = useQueryClient()
 
     return useMutation(['updateAccount'], (variables:any) => updateAccount(variables.oldRow, variables.newRow), {
-        onError: (error:any) => {
+        onError: (error:AxiosError<any>) => {
         console.log(error ? error: "error is undefined.")
         console.log(error.response ? error.response: "error.response is undefined.")
         console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")

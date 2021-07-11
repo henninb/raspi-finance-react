@@ -65,7 +65,7 @@ export default function TransactionTable() {
     }
 
     const storeTheFileContent = useCallback(
-        async (file: any) => {
+        async (file: any) : Promise<any> => {
             let reader :any = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
@@ -80,10 +80,10 @@ export default function TransactionTable() {
     )
 
     const getImageFileContents = useCallback(
-        async (currentRow: Transaction) => {
+        async (currentRow: Transaction) : Promise<any> => {
             console.log("onClick photo-add")
 
-            const fileSelector = document.createElement("input")
+            const fileSelector : HTMLInputElement = document.createElement("input")
             fileSelector.setAttribute("type", "file")
             fileSelector.addEventListener("change", (event:any) => {
                 console.log('addEventListener is called.')
@@ -121,7 +121,7 @@ export default function TransactionTable() {
     )
 
     const handlerToUpdateTransactionState = useCallback(
-        async (guid, accountNameOwner, transactionState) => {
+        async (guid, accountNameOwner, transactionState) : Promise<any> => {
             try {
                 updateTransactionState({ guid: guid, transactionState: transactionState })
                 //await fetchTotals()
@@ -133,7 +133,7 @@ export default function TransactionTable() {
         [updateTransactionState]
     )
 
-    const updateRow = (newData : any, oldData: any) => {
+    const updateRow = (newData : any, oldData: any) :Promise<any> => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
@@ -148,7 +148,7 @@ export default function TransactionTable() {
         })
     }
 
-    const deleteRow = (oldData: any) => {
+    const deleteRow = (oldData: any) : Promise<any> => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
@@ -163,11 +163,11 @@ export default function TransactionTable() {
         })
     }
 
-    const addRow = (newData: Transaction) => {
+    const addRow = (newData: Transaction) : Promise<any> => {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 try {
-                    insertTransaction({newRow: newData, isFutureTransaction: false})
+                    insertTransaction({accountNameOwner: newData.accountNameOwner, newRow: newData, isFutureTransaction: false})
                     // @ts-ignore
                     resolve()
                 } catch (error) {
@@ -181,7 +181,7 @@ export default function TransactionTable() {
     const handleButtonClickLink = useCallback(
         async (newData: Transaction) => {
             try {
-                insertTransaction({newRow: newData, isFutureTransaction: true})
+                insertTransaction({accountNameOwner: newData.accountNameOwner, newRow: newData, isFutureTransaction: true})
             } catch (error) {
                 handleError(error, 'futureTransactionInsertPostCall', false);
             }
@@ -426,10 +426,10 @@ export default function TransactionTable() {
                                             //image = rowData.receiptImage.thumbnail
                                         } else {
                                             const formatType = rowData.receiptImage.imageFormatType
-                                            console.log('formatType=' + formatType)
+                                            //console.log('formatType=' + formatType)
                                             image = 'data:image/' + formatType + ';base64,' + rowData.receiptImage.thumbnail
                                         }
-                                        console.log('typeOf image=' + typeOf(image))
+                                        //console.log('typeOf image=' + typeOf(image))
                                     } else {
                                         // setMessage(`issue loading the image`)
                                         // console.log(`issue loading the image`)
@@ -445,7 +445,7 @@ export default function TransactionTable() {
                                                 <div>
                                                     <Button onClick={()=> {
                                                         console.log('testing')
-                                                        //getImageFileContents(rowData.guid).then(r => r.data)
+                                                        let response = getImageFileContents(rowData)
                                                     }
                                                     } >
                                                         <AddAPhoto />
@@ -540,17 +540,17 @@ export default function TransactionTable() {
                                     setLoadMoveDialog(true)
                                 },
                             },
-                            {
-                                icon: "add_a_photo",
-                                tooltip: "Photo-Add",
-                                onClick: (_event, rowData) => {
-                                    console.log('Photo-Add clicked.')
+                            // {
+                            //     icon: "add_a_photo",
+                            //     tooltip: "Photo-Add",
+                            //     onClick: (_event, rowData) => {
+                            //         console.log('Photo-Add clicked.')
 
-                                    // TODO: need to add this back
-                                    //let response = getImageFileContents(rowData.guid)
-                                    //console.log(response)
-                                },
-                            },
+                            //         // TODO: need to add this back
+                            //         //let response = getImageFileContents(rowData.guid)
+                            //         //console.log(response)
+                            //     },
+                            // },
                         ]}
                     />
                     {/*</Paper>*/}

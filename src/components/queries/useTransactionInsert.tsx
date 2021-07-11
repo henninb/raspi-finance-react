@@ -1,9 +1,16 @@
 import {endpointUrl} from "../Common";
 import {v4 as uuidv4} from "uuid";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey} from "./KeyFile";
 import Transaction from "../model/Transaction";
+
+
+export type TransactionInsertType = {
+    accountNameOwner: String
+    newRow: Transaction
+    isFutureTransaction: Boolean
+  }
 
 const setupNewTransaction = (payload:Transaction
                              , accountNameOwner:String) : Transaction => {
@@ -52,8 +59,8 @@ const insertTransaction = async (accountNameOwner : String, payload:Transaction,
 export default function useTransactionInsert (accountNameOwner: any) {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertTransaction'], (variables : any) => insertTransaction( accountNameOwner, variables.newRow, variables.isFutureTransaction ), {
-        onError: (error: any) => {
+    return useMutation(['insertTransaction'], (variables : TransactionInsertType) => insertTransaction( accountNameOwner, variables.newRow, variables.isFutureTransaction ), {
+        onError: (error: AxiosError<any>) => {
             console.log(error ? error: "error is undefined.")
             console.log(error.response ? error.response: "error.response is undefined.")
             console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")

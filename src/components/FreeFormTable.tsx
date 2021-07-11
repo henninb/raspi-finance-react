@@ -42,7 +42,7 @@ export default function FreeFormTable({data, toggleDisplayList}: any) {
         for (const transaction of data) {
             try {
                 console.log("transaction:" + JSON.stringify(transaction))
-                insertTransaction({ newRow: transaction, isFutureTransaction: false})
+                insertTransaction({ accountNameOwner: transaction.accountNameOwner, newRow: transaction, isFutureTransaction: false})
             } catch (error) {
                 handleError(error, 'handleChange', false)
             }

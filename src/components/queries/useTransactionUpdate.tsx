@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {capitalizeFirstChar, endpointUrl, noNaN} from "../Common";
 import {useMutation, useQueryClient} from "react-query";
 import {getAccountKey, getTotalsKey} from "./KeyFile";
@@ -27,7 +27,7 @@ export default function useTransactionUpdate () {
     const queryClient = useQueryClient()
 
     return useMutation(['updateTransaction'], (variables:any) => updateTransaction(variables.newRow, variables.oldRow), {
-        onError: (error: any) => {
+        onError: (error: AxiosError<any>) => {
             console.log(error ? error: "error is undefined.")
             console.log(error.response ? error.response: "error.response is undefined.")
             console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
