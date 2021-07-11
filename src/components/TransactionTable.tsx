@@ -5,7 +5,7 @@ import "./main.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {convertUTCDateToLocalDate, currencyFormat, noNaN, typeOf} from "./Common"
+import {convertUTCDateToLocalDate, currencyFormat, noNaN} from "./Common"
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded'
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -27,6 +27,7 @@ import useReceiptImageUpdate from "./queries/useReceiptImageUpdate";
 import {TablePagination} from "@material-ui/core";
 import Transaction from "./model/Transaction";
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
+import useFetchValidationAccount from "./queries/useFetchValidationAccount";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -37,13 +38,14 @@ export default function TransactionTable() {
     const [open, setOpen] = useState(false)
 
     const routeMatch :any = useRouteMatch("/transactions/:account")
-    const {data, isSuccess, isLoading} = useFetchTransactionByAccount(routeMatch.params["account"])
+    const {data, isSuccess} = useFetchTransactionByAccount(routeMatch.params["account"])
     const {data: totals, isSuccess: isSuccessTotals} = useFetchTotalsPerAccount(routeMatch.params["account"])
     const {mutate: updateTransactionState} = useChangeTransactionState(routeMatch.params["account"])
     const {mutate: updateTransaction} = useTransactionUpdate()
     const {mutate: deleteTransaction} = useTransactionDelete()
     const {mutate: insertReceiptImage} = useReceiptImageUpdate()
     const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
+    const {data: validationData, isSuccess:validationDataSuccess} = useFetchValidationAccount(routeMatch.params["account"])
 
     const handleSnackbarClose = () => {
         setOpen(false);
@@ -243,7 +245,9 @@ export default function TransactionTable() {
 
     return (
         <div>
-            {!isLoading && isSuccess && isSuccessTotals ? (
+            {/*<Button className="table-formatting" style={{color: 'white'}}>test</Button>*/}
+
+            {validationDataSuccess && isSuccess && isSuccessTotals ? (
                 <div className="table-formatting">
                     <MaterialTable
                         columns={[
@@ -465,6 +469,7 @@ export default function TransactionTable() {
                             Pagination: (props) => {
                                 return (
                                     <td className="right">
+                                        {JSON.stringify(validationData)}
                                     <TablePagination
                                     component="div"
                                     count={props.count}
@@ -540,17 +545,6 @@ export default function TransactionTable() {
                                     setLoadMoveDialog(true)
                                 },
                             },
-                            // {
-                            //     icon: "add_a_photo",
-                            //     tooltip: "Photo-Add",
-                            //     onClick: (_event, rowData) => {
-                            //         console.log('Photo-Add clicked.')
-
-                            //         // TODO: need to add this back
-                            //         //let response = getImageFileContents(rowData.guid)
-                            //         //console.log(response)
-                            //     },
-                            // },
                         ]}
                     />
                     {/*</Paper>*/}
