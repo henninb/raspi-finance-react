@@ -16,15 +16,12 @@ const fetchTotalsPerAccount = async (accountNameOwner:any) : Promise<any> => {
     return response.data
 }
 
-const catchError = (error:any) => {
-    if (error.response) {
-        if (error.response.status === 404) {
-
-        }
-    }
-    //handleError(error, 'fetchAccountData', true)
-}
-
 export default function useFetchTotalsPerAccount (accountNameOwner:any) {
-    return useQuery(['totals', accountNameOwner], () => fetchTotalsPerAccount(accountNameOwner), {onError: catchError})
+    return useQuery(['totals', accountNameOwner], () => fetchTotalsPerAccount(accountNameOwner), {
+        onError: (error: any) => {
+            console.log(error ? error: "error is undefined.")
+            console.log(error.response ? error.response: "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+        },
+    })
 }

@@ -25,7 +25,8 @@ import useTransactionInsert from "./queries/useTransactionInsert";
 import useFetchTotalsPerAccount from "./queries/useFetchTotalsPerAccount";
 import useReceiptImageUpdate from "./queries/useReceiptImageUpdate";
 import {TablePagination} from "@material-ui/core";
-import Transaction from "./model/Transaction"
+import Transaction from "./model/Transaction";
+import AddAPhoto from '@material-ui/icons/AddAPhoto';
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -421,6 +422,7 @@ export default function TransactionTable() {
                                         }
 
                                         if (rowData.receiptImage.image.startsWith("data")) {
+                                            //TODO: needs to be added bck
                                             //image = rowData.receiptImage.thumbnail
                                         } else {
                                             const formatType = rowData.receiptImage.imageFormatType
@@ -438,7 +440,18 @@ export default function TransactionTable() {
                                         <div>
                                             {rowData['receiptImage'] !== undefined ?
                                                 <img className="receipt-image" alt="receipt"
-                                                     src={image}/> : null}
+                                                     src={image}/> :
+
+                                                <div>
+                                                    <Button onClick={()=> {
+                                                        console.log('testing')
+                                                        //getImageFileContents(rowData.guid).then(r => r.data)
+                                                    }
+                                                    } >
+                                                        <AddAPhoto />
+                                                    </Button>
+                                                </div>
+                                            }
                                         </div>
                                     )
                                 }
@@ -533,7 +546,7 @@ export default function TransactionTable() {
                                 onClick: (_event, rowData) => {
                                     console.log('Photo-Add clicked.')
 
-
+                                    // TODO: need to add this back
                                     //let response = getImageFileContents(rowData.guid)
                                     //console.log(response)
                                 },

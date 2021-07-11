@@ -21,18 +21,15 @@ const changeTransactionState =  async (guid : String, newTransactionState: Trans
     return response.data;
 }
 
-const catchError = (error: any) => {
-    console.log(error ? error: "error is undefined.")
-    console.log(error.response ? error.response: "error.response is undefined.")
-    console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
-
-    //handleError(error, 'fetchAccountData', true)
-}
-
 export default function useTransactionStateUpdate (accountNameOwner: String) {
     const queryClient = useQueryClient()
 
-    return useMutation(['transactionState'], (variables: any) => changeTransactionState(variables.guid, variables.transactionState), {onError: catchError,
+    return useMutation(['transactionState'], (variables: any) => changeTransactionState(variables.guid, variables.transactionState), {
+        onError: (error: any) => {
+            console.log(error ? error: "error is undefined.")
+            console.log(error.response ? error.response: "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+        },
 
         onSuccess: (response, variables) => {
             let oldData :any = queryClient.getQueryData(getAccountKey(accountNameOwner))

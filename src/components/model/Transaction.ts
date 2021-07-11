@@ -18,4 +18,5 @@ export default interface Transaction {
     reoccurringType: ReoccurringType;
     notes: String;
     receiptImage?: ReceiptImage;
+    dueDate?: String;
 }

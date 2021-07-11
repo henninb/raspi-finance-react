@@ -16,15 +16,13 @@ const fetchDescriptionData = async () : Promise<any> => {
     return response.data;
 }
 
-const catchError = (error:any) => {
-    if (error.response) {
-        if (error.response.status === 404) {
-
-        }
-    }
-    //handleError(error, 'fetchAccountData', true)
-}
-
 export default function useFetchDescription () {
-    return useQuery('description', () => fetchDescriptionData(), {onError: catchError})
+    return useQuery('description', () => fetchDescriptionData(), {
+            onError: (error: any) => {
+                console.log(error ? error: "error is undefined.")
+                console.log(error.response ? error.response: "error.response is undefined.")
+                console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+            },
+    }
+    )
 }

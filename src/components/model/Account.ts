@@ -9,4 +9,7 @@ export default interface Account {
     outstanding: number;
     future: number;
     cleared: number;
+    dateClosed?: Date;
+    dateAdded?: Date;
+    dateUpdated?: Date;
 }

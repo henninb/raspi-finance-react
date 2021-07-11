@@ -3,14 +3,14 @@ import axios from "axios";
 import {useMutation, useQueryClient} from "react-query";
 import Account from "../model/Account";
 
-const setupNewAccount = (payload: any) => {
+const setupNewAccount = (payload: Account) => {
     const now = new Date()
     payload.cleared = 0.0
     payload.future = 0.0
     payload.outstanding = 0.0
-    payload.dateClosed = 0
-    payload.dateAdded = Math.round(now.getTime())
-    payload.dateUpdated = Math.round(now.getTime())
+    //payload.dateClosed = Date(0)
+    payload.dateAdded = now //Math.round(now.getTime())
+    payload.dateUpdated = now //Math.round(now.getTime())
     payload.activeStatus = true
     return payload
 }
@@ -27,17 +27,15 @@ const insertAccount =  async (payload : Account) : Promise<any> => {
 
 }
 
-const catchError = (error:any) => {
-    console.log(error ? error: "error is undefined.")
-    console.log(error.response ? error.response: "error.response is undefined.")
-    console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
-    //handleError(error, 'fetchAccountData', true)
-}
-
 export default function useAccountInsert () {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertAccount'], (variables:any) => insertAccount(variables.payload), {onError: catchError,
+    return useMutation(['insertAccount'], (variables:any) => insertAccount(variables.payload), {
+        onError: (error:any) => {
+            console.log(error ? error: "error is undefined.")
+            console.log(error.response ? error.response: "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+        },
 
         onSuccess: (response, variables) => {
             let oldData: any = queryClient.getQueryData('account')

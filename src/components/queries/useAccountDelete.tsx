@@ -12,14 +12,6 @@ const deleteAccount = async (payload: any) : Promise<any> => {
     return response.data;
 }
 
-// const catchError = (error: any) => {
-//     console.log(error ? error: "error is undefined.")
-//     console.log(error.response ? error.response: "error.response is undefined.")
-//     console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
-//
-//     //handleError(error, 'fetchAccountData', true)
-// }
-
 export default function useAccountDelete() {
     const queryClient = useQueryClient()
 
@@ -28,8 +20,6 @@ export default function useAccountDelete() {
             console.log(error ? error: "error is undefined.")
             console.log(error.response ? error.response: "error.response is undefined.")
             console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
-
-            //handleError(error, 'fetchAccountData', true)
         },
 
         onSuccess: (response, variables) => {

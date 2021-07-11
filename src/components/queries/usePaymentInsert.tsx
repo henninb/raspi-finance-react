@@ -23,21 +23,15 @@ const insertPayment =  async (payload : Payment) : Promise<any> => {
 
 }
 
-const catchError = (error:any) => {
-    console.log(error.response)
-    console.log(JSON.stringify(error.response))
-    if (error.response) {
-        if (error.response.status === 404) {
-
-        }
-    }
-    //handleError(error, 'fetchPaymentData', true)
-}
-
 export default function usePaymentInsert () {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertPayment'], (variables:any) => insertPayment(variables.payload), {onError: catchError,
+    return useMutation(['insertPayment'], (variables:any) => insertPayment(variables.payload), {
+        onError: (error: any) => {
+            console.log(error ? error: "error is undefined.")
+            console.log(error.response ? error.response: "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+        },
 
         onSuccess: (response, variables) => {
             let oldData : any = queryClient.getQueryData('payment')

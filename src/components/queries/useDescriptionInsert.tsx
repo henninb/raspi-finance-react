@@ -14,21 +14,15 @@ const insertDescription = async (descriptionName: any) : Promise<any> => {
     return response.data;
 }
 
-const catchError = (error:any) => {
-    console.log(error.response)
-    console.log(JSON.stringify(error.response))
-    if (error.response) {
-        if (error.response.status === 404) {
-
-        }
-    }
-    //handleError(error, 'fetchAccountData', true)
-}
-
 export default function useDescriptionInsert () {
     const queryClient = useQueryClient()
 
-    return useMutation(['insertDescription'], (variables:any) => insertDescription(variables.descriptionName), {onError: catchError,
+    return useMutation(['insertDescription'], (variables:any) => insertDescription(variables.descriptionName), {
+        onError: (error:any) => {
+            console.log(error ? error: "error is undefined.")
+            console.log(error.response ? error.response: "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+        },
 
         onSuccess: (response, variables) => {
             let oldData = queryClient.getQueryData('description')

@@ -16,15 +16,12 @@ const fetchPaymentRequiredData = async () : Promise<any> => {
     return response.data;
 }
 
-const catchError = (error:any) => {
-    if (error.response) {
-        if (error.response.status === 404) {
-
-        }
-    }
-    //handleError(error, 'fetchPaymentRequiredData', true)
-}
-
 export default function useFetchPaymentRequired () {
-    return useQuery('payment_required', () => fetchPaymentRequiredData(), {onError: catchError})
+    return useQuery('payment_required', () => fetchPaymentRequiredData(), {
+        onError: (error: any) => {
+            console.log(error ? error: "error is undefined.")
+            console.log(error.response ? error.response: "error.response is undefined.")
+            console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+        },
+    })
 }

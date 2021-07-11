@@ -14,21 +14,15 @@ const updateAccount =  async (oldRow:Account, newRow:Account) : Promise<any> => 
 
 }
 
-const catchError = (error:any) => {
-    console.log(error.response)
-    console.log(JSON.stringify(error.response))
-    if (error.response) {
-        if (error.response.status === 404) {
-
-        }
-    }
-    //handleError(error, 'fetchAccountData', true)
-}
-
 export default function useAccountUpdate() {
     const queryClient = useQueryClient()
 
-    return useMutation(['updateAccount'], (variables:any) => updateAccount(variables.oldRow, variables.newRow), {onError: catchError,
+    return useMutation(['updateAccount'], (variables:any) => updateAccount(variables.oldRow, variables.newRow), {
+        onError: (error:any) => {
+        console.log(error ? error: "error is undefined.")
+        console.log(error.response ? error.response: "error.response is undefined.")
+        console.log(error.response ? JSON.stringify(error.response): "error.response is undefined - cannot stringify.")
+    },
 
         onSuccess: (response, variables) => {
             //let oldData = queryClient.getQueryData('account')
