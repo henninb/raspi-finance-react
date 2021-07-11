@@ -51,7 +51,8 @@ export default function TransactionTable() {
         setOpen(false);
     }
 
-    const handleError = (error: any, moduleName: any, throwIt:any ) => {
+    const handleError = (error: any
+                         , moduleName: any, throwIt:any ) => {
         if (error.response) {
             setMessage(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
             console.log(`${moduleName}: ${error.response.status} and ${JSON.stringify(error.response.data)}`)
@@ -181,7 +182,7 @@ export default function TransactionTable() {
     }
 
     const handleButtonClickLink = useCallback(
-        async (newData: Transaction) => {
+        async (newData: Transaction) :Promise<any>=> {
             try {
                 insertTransaction({accountNameOwner: newData.accountNameOwner, newRow: newData, isFutureTransaction: true})
             } catch (error) {
@@ -448,8 +449,8 @@ export default function TransactionTable() {
 
                                                 <div>
                                                     <Button onClick={()=> {
-                                                        console.log('testing')
                                                         let response = getImageFileContents(rowData)
+                                                        console.log('response' + response)
                                                     }
                                                     } >
                                                         <AddAPhoto />
