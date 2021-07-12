@@ -5,7 +5,7 @@ import "./main.scss"
 import {useRouteMatch} from "react-router-dom"
 import SelectTransactionState from "./SelectTransactionState"
 import TransactionMove from "./TransactionMove"
-import {convertUTCDateToLocalDate, currencyFormat, noNaN} from "./Common"
+import {convertUTCDateToLocalDate, currencyFormat, epochToDate, noNaN} from "./Common"
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded'
 import SelectCategory from "./SelectCategory"
 import SelectDescription from "./SelectDescription"
@@ -28,6 +28,8 @@ import {TablePagination} from "@material-ui/core";
 import Transaction from "./model/Transaction";
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import useFetchValidationAmount from "./queries/useFetchValidationAmount";
+import useValidationAmountInsert from "./queries/useValidationAmountInsert";
+import ValidationAmount from "./model/ValidationAmount";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -49,6 +51,7 @@ export default function TransactionTable() {
     const {mutate: deleteTransaction} = useTransactionDelete()
     const {mutate: insertReceiptImage} = useReceiptImageUpdate()
     const {mutate: insertTransaction} = useTransactionInsert(routeMatch.params["account"])
+    const {mutate: insertValidationAmount} = useValidationAmountInsert()
 
 
     const handleSnackbarClose = () => {
@@ -202,6 +205,20 @@ export default function TransactionTable() {
             }
         }, [insertTransaction]
     )
+
+    const testMe = (accountNameOwner: String) => {
+        console.log(accountNameOwner)
+
+        let payload: ValidationAmount = {
+            activeStatus: true,
+            amount: totals.totalsCleared,
+            transactionState: 'cleared',
+            validationDate: new Date()
+
+        }
+
+        insertValidationAmount({accountNameOwner: accountNameOwner, payload: payload})
+    }
 
     const downHandler = useCallback(
         ({key}) => {
@@ -483,7 +500,9 @@ export default function TransactionTable() {
                             Pagination: (props) => {
                                 return (
                                     <td className="right">
-                                        {validationData.amount} {' - '} {validationData.validationDate}
+                                        <Button onClick={() => testMe(routeMatch.params["account"])}>
+                                        {validationData.amount} {' - '} {epochToDate(validationData.validationDate).toString()}
+                                        </Button>
                                         <TablePagination
                                             component="div"
                                             count={props.count}

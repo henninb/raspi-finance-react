@@ -28,6 +28,11 @@ export const currencyFormat = (inputData: string) => {
     return inputData.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
+export const epochToDate = (epoch : number) : Date => {
+    return new Date(epoch) // The 0 there is the key, which sets the date to the epoch
+    //return new Date(0)
+}
+
 export const endpointUrl = () => {
     let port = process.env.REACT_APP_ENDPOINT_PORT
     let server = process.env.REACT_APP_ENDPOINT_SERVER
