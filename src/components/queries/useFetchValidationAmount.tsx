@@ -2,7 +2,7 @@ import axios, {AxiosError} from "axios";
 import {endpointUrl} from "../Common";
 import {useQuery} from "react-query";
 
-const fetchValidationAccountData = async (accountNameOwner: String): Promise<any> => {
+const fetchValidationAmountData = async (accountNameOwner: String): Promise<any> => {
     const response = await axios.get(
         endpointUrl() + "/validation/amount/select/" + accountNameOwner,
         {
@@ -17,9 +17,9 @@ const fetchValidationAccountData = async (accountNameOwner: String): Promise<any
     return response.data;
 }
 
-export default function useFetchValidationAccount(accountNameOwner: String) {
+export default function useFetchValidationAmount(accountNameOwner: String) {
     return useQuery(['validationAccount', accountNameOwner],
-        () => fetchValidationAccountData(accountNameOwner),
+        () => fetchValidationAmountData(accountNameOwner),
         {
             onError: (error: AxiosError<any>) => {
                 console.log(error ? error : "error is undefined.")

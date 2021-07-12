@@ -4,7 +4,7 @@ import PaymentTable from "./PaymentTable"
 import {fireEvent} from "@testing-library/dom"
 
 describe("paymentTableTests", () => {
-    let wrapper
+    let wrapper : any
     //const {result} = renderHook(() => setLoading(true))
 
     beforeEach(async () => {

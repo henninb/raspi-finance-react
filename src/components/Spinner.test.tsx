@@ -7,13 +7,13 @@ afterEach(cleanup)
 
 test("renders without crashing", () => {
     const div = document.createElement("div")
-    ReactDOM.render(<Spinner type="Circles"/>, div)
+    ReactDOM.render(<Spinner/>, div)
     ReactDOM.unmountComponentAtNode(div)
     expect(true).toBeTruthy()
 })
 
 test("renders loader correctly", () => {
-    const {getByTestId} = render(<Spinner type="Circles"/>)
+    const {getByTestId} = render(<Spinner />)
     console.log(getByTestId("loader"))
     //expect(getByTestId('loader')).toHaveTextContent("Circles");
 })
@@ -24,11 +24,11 @@ describe("spinnerTests", () => {
         jest.clearAllMocks()
         await act(() => {
             // eslint-disable-next-line
-            wrapper = render(<Spinner type="Circles"/>)
+            wrapper = render(<Spinner />)
         })
     })
     it("spinner works", () => {
-        const {getByTestId} = render(<Spinner type="Circles"/>)
+        const {getByTestId} = render(<Spinner />)
         console.log(getByTestId("loader"))
         expect(true).toBeTruthy()
     })

@@ -27,7 +27,7 @@ import useReceiptImageUpdate from "./queries/useReceiptImageUpdate";
 import {TablePagination} from "@material-ui/core";
 import Transaction from "./model/Transaction";
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
-import useFetchValidationAccount from "./queries/useFetchValidationAccount";
+import useFetchValidationAmount from "./queries/useFetchValidationAmount";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -43,7 +43,7 @@ export default function TransactionTable() {
     const {
         data: validationData,
         isSuccess: isSuccessValidationTotals
-    } = useFetchValidationAccount(routeMatch.params["account"])
+    } = useFetchValidationAmount(routeMatch.params["account"])
     const {mutate: updateTransactionState} = useChangeTransactionState(routeMatch.params["account"])
     const {mutate: updateTransaction} = useTransactionUpdate()
     const {mutate: deleteTransaction} = useTransactionDelete()
