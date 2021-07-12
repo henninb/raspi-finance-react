@@ -4,7 +4,7 @@ import {useQuery} from "react-query";
 
 const fetchValidationAmountData = async (accountNameOwner: String): Promise<any> => {
     const response = await axios.get(
-        endpointUrl() + "/validation/amount/select/" + accountNameOwner,
+        `${endpointUrl()}/validation/amount/select/${accountNameOwner}/cleared`,
         {
             timeout: 0,
             headers: {

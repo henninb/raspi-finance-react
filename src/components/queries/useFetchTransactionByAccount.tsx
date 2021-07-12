@@ -6,7 +6,7 @@ import {useQuery} from "react-query"
 
 const fetchAccountData = async (accountNameOwner: String): Promise<any> => {
     const response = await axios.get(
-        endpointUrl() + "/transaction/account/select/" + accountNameOwner,
+        `${endpointUrl()}/transaction/account/select/${accountNameOwner}`,
         {
             timeout: 0,
             headers: {

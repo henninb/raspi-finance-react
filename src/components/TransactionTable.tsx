@@ -30,6 +30,7 @@ import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import useFetchValidationAmount from "./queries/useFetchValidationAmount";
 import useValidationAmountInsert from "./queries/useValidationAmountInsert";
 import ValidationAmount from "./model/ValidationAmount";
+import {TransactionState} from "./model/TransactionState";
 
 export default function TransactionTable() {
     const [loadMoveDialog, setLoadMoveDialog] = useState(false)
@@ -206,15 +207,14 @@ export default function TransactionTable() {
         }, [insertTransaction]
     )
 
-    const testMe = (accountNameOwner: String) => {
+    const insertNewValidationData = (accountNameOwner: String, transactionState: TransactionState) => {
         console.log(accountNameOwner)
 
         let payload: ValidationAmount = {
             activeStatus: true,
             amount: totals.totalsCleared,
-            transactionState: 'cleared',
+            transactionState: transactionState,
             validationDate: new Date()
-
         }
 
         insertValidationAmount({accountNameOwner: accountNameOwner, payload: payload})
@@ -500,11 +500,11 @@ export default function TransactionTable() {
                             Pagination: (props) => {
                                 return (
                                     <td className="right">
-                                        <Button onClick={() => testMe(routeMatch.params["account"])}>
+                                        <Button onClick={() => insertNewValidationData(routeMatch.params["account"], 'cleared')}>
                                         {validationData.amount ? validationData.amount.toLocaleString('en-US', {
                                             style: 'currency',
                                             currency: 'USD',
-                                        }): '$0.00'} {' - '} {validationData.validationDate ? epochToDate(validationData.validationDate).toISOString() :'1970-01-01T00:00:00:000Z'}
+                                        }): '$0.00'} {' - '} {validationData.validationDate ? epochToDate(validationData.validationDate).toLocaleString() :'1970-01-01T00:00:00:000Z'}
                                         </Button>
                                         <TablePagination
                                             component="div"

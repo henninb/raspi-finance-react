@@ -25,6 +25,7 @@ export default function useValidationAmountInsert() {
         },
 
         onSuccess: (response, variables) => {
+            console.log(response ? JSON.stringify(response) : response)
             queryClient.setQueryData(['validationAmount', variables.accountNameOwner], response)
         }
     })
