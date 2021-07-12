@@ -483,7 +483,7 @@ export default function TransactionTable() {
                             Pagination: (props) => {
                                 return (
                                     <td className="right">
-                                        {JSON.stringify(validationData)}
+                                        {validationData.amount} {' - '} {validationData.validationDate}
                                         <TablePagination
                                             component="div"
                                             count={props.count}
