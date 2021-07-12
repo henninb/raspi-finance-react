@@ -501,7 +501,10 @@ export default function TransactionTable() {
                                 return (
                                     <td className="right">
                                         <Button onClick={() => testMe(routeMatch.params["account"])}>
-                                        {validationData.amount} {' - '} {epochToDate(validationData.validationDate).toString()}
+                                        {validationData.amount ? validationData.amount.toLocaleString('en-US', {
+                                            style: 'currency',
+                                            currency: 'USD',
+                                        }): '$0.00'} {' - '} {validationData.validationDate ? epochToDate(validationData.validationDate).toISOString() :'1970-01-01T00:00:00:000Z'}
                                         </Button>
                                         <TablePagination
                                             component="div"

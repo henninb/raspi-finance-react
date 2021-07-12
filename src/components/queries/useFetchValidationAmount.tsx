@@ -18,7 +18,7 @@ const fetchValidationAmountData = async (accountNameOwner: String): Promise<any>
 }
 
 export default function useFetchValidationAmount(accountNameOwner: String) {
-    return useQuery(['validationAccount', accountNameOwner],
+    return useQuery(['validationAmount', accountNameOwner],
         () => fetchValidationAmountData(accountNameOwner),
         {
             onError: (error: AxiosError<any>) => {
