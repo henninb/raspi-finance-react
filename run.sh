@@ -81,6 +81,7 @@ else
   fi
   yarn install
   echo yarn upgrade
+  yarn run prettier
   yarn start
 fi
 

@@ -6,7 +6,7 @@ services:
     build:
       context: ./
       args:
-       - TIMEZONE=America/Chicago
+        - TIMEZONE=America/Chicago
       dockerfile: Dockerfile
     container_name: raspi-finance-react
     ports:
@@ -14,7 +14,7 @@ services:
     expose:
       - "3000"
 
-#    mem_limit: 1024m
+    #    mem_limit: 1024m
     # volumes:
     #   - ./ssl:/etc/nginx/certs/
     extra_hosts:

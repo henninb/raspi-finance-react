@@ -23,6 +23,7 @@
     "material-table": "^1.69.3",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
+    "prettier": "^2.3.2",
     "react": "^17.0.2",
     "react-data-grid": "^7.0.0-canary.49",
     "react-datepicker": "^4.1.1",
@@ -46,7 +47,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier": "npx prettier --write ."
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -64,11 +66,11 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^7.0.1",
     "@testing-library/user-event": "^13.1.9",
-    "@testing-library/dom": "^8.1.0",
     "jest-dom": "^4.0.0",
     "react-test-renderer": "^17.0.2",
     "webpack-cli": "^4.7.2"

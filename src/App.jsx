@@ -1,19 +1,16 @@
-import React, {Component} from 'react'
-import Routes from './components/Routes'
+import React, { Component } from "react";
+import Routes from "./components/Routes";
 
-import moment from 'moment'
+import moment from "moment";
 
-require('moment')
-require('moment-timezone')
-moment.tz.setDefault('America/Chicago')
+require("moment");
+require("moment-timezone");
+moment.tz.setDefault("America/Chicago");
 
-require('dotenv').config()
-
+require("dotenv").config();
 
 export default class App extends Component {
-    render() {
-        return (
-            <Routes/>
-        )
-    }
+  render() {
+    return <Routes />;
+  }
 }

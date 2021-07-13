@@ -1,5 +1,5 @@
 export default interface Description {
-    //descriptionId: number;
-    description: String;
-    activeStatus: Boolean;
+  descriptionId?: number;
+  description: String;
+  activeStatus: Boolean;
 }

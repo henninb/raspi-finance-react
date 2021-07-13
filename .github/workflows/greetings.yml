@@ -6,8 +6,8 @@ jobs:
   greeting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/first-interaction@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: 'I appreciate your feedback.'' first issue'
-        pr-message: 'I appreciate your PR.'' first pr'
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: "I appreciate your feedback.' first issue"
+          pr-message: "I appreciate your PR.' first pr"

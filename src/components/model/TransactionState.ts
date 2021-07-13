@@ -1,1 +1,5 @@
-export type TransactionState = "cleared" | "outstanding" | "future" | "undefined";
+export type TransactionState =
+  | "cleared"
+  | "outstanding"
+  | "future"
+  | "undefined";

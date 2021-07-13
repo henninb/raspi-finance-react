@@ -1,1 +1,1 @@
-export type ImageFormatType = "png" | "jpeg" | "undefined"
+export type ImageFormatType = "png" | "jpeg" | "undefined";
