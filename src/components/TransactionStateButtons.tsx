@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ReactTooltip from "react-tooltip";
@@ -32,11 +32,7 @@ export default function TransactionStateButtons({
     determineColor("future")
   );
 
-  const handleTransactionType = (
-    _event: any,
-    newTransactionState: TransactionState
-  ) => {
-    console.log(newTransactionState);
+  const setIconColorToGreen = (newTransactionState: "cleared" | "outstanding" | "future" | "undefined") => {
     if (newTransactionState === "cleared") {
       setClearedColor(colorOn);
       setOutStandingColor(colorOff);
@@ -50,6 +46,13 @@ export default function TransactionStateButtons({
       setOutStandingColor(colorOn);
       setFutureColor(colorOff);
     }
+  };
+
+  const handleTransactionType = (
+    _event: any,
+    newTransactionState: TransactionState
+  ) => {
+    setIconColorToGreen(newTransactionState);
     handlerToUpdateTransactionState(
       guid,
       accountNameOwner,
@@ -58,11 +61,12 @@ export default function TransactionStateButtons({
     setTransactionType(newTransactionState);
   };
 
-    useEffect(() => {
-        if( transactionState !== transactionType) {
-            setTransactionType(transactionState)
-        }
-    }, [transactionType, transactionState]);
+  useEffect(() => {
+    if (transactionState !== transactionType) {
+      setIconColorToGreen(transactionState);
+      setTransactionType(transactionState);
+    }
+  }, [transactionType, transactionState]);
 
   return (
     <ToggleButtonGroup
@@ -75,7 +79,9 @@ export default function TransactionStateButtons({
       <ToggleButton value="future">
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="future transaction">
-          <AttachMoneyRounded style={{ color: futureColor, fontSize: "small"}} />
+          <AttachMoneyRounded
+            style={{ color: futureColor, fontSize: "small" }}
+          />
         </a>
         <ReactTooltip effect="solid" />
       </ToggleButton>
@@ -83,7 +89,9 @@ export default function TransactionStateButtons({
       <ToggleButton value="outstanding">
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="outstanding transaction">
-          <AttachMoneyRounded style={{ color: outstandingColor, fontSize: "small"}} />
+          <AttachMoneyRounded
+            style={{ color: outstandingColor, fontSize: "small" }}
+          />
         </a>
         <ReactTooltip effect="solid" />
       </ToggleButton>
@@ -91,7 +99,9 @@ export default function TransactionStateButtons({
       <ToggleButton value="cleared">
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="cleared transaction">
-          <AttachMoneyRounded style={{ color: clearedColor, fontSize: "small" }} />
+          <AttachMoneyRounded
+            style={{ color: clearedColor, fontSize: "small" }}
+          />
         </a>
         <ReactTooltip effect="solid" />
       </ToggleButton>
