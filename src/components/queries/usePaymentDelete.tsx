@@ -36,7 +36,7 @@ export default function usePaymentDelete() {
         let oldData: any = queryClient.getQueryData("payment");
         // @ts-ignore
         let newData = oldData.filter(
-          (t) => t.tableData.id !== variables.oldRow.tableData.id
+          (t: any) => t.tableData.id !== variables.oldRow.tableData.id
         );
         queryClient.setQueryData("payment", newData);
       },

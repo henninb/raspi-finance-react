@@ -40,7 +40,7 @@ export default function SelectDescription({
   const handleKeyDown = (event: any) => {
     if (event.key === "Tab") {
       // @ts-ignore
-      let filteredOptions = options.filter((state) =>
+      let filteredOptions = options.filter((state: any) =>
         state.includes(inputValue)
       );
       if (filteredOptions.length > 0) {

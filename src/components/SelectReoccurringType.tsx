@@ -21,26 +21,27 @@ export default function SelectReoccurringType({
   const [keyPressValue, setKeyPressValue] = useState("");
 
   useEffect(() => {
+      // @ts-ignore
+      let debitOptions : any = ['fortnightly', "monthly", "onetime"]
+      let creditOptions : any = [
+          "annually",
+          "bi-annually",
+          "fortnightly",
+          "monthly",
+          "quarterly",
+          "onetime",
+      ]
     if (accountType === "debit") {
-      // @ts-ignore
-      setOptions(["fortnightly", "monthly", "onetime"]);
+      setOptions(debitOptions);
     } else {
-      // @ts-ignore
-      setOptions([
-        "annually",
-        "bi-annually",
-        "fortnightly",
-        "monthly",
-        "quarterly",
-        "onetime",
-      ]);
+      setOptions(creditOptions);
     }
   }, [accountType, currentValue, inputValue, value]);
 
   const handleKeyDown = (event: any) => {
     if (event.key === "Tab") {
       // @ts-ignore
-      let filteredOptions = options.filter((state) =>
+      let filteredOptions = options.filter((state: any) =>
         state.includes(inputValue)
       );
       if (filteredOptions.length > 0) {

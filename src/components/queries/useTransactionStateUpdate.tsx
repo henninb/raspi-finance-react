@@ -46,14 +46,14 @@ export default function useTransactionStateUpdate(accountNameOwner: String) {
         );
       },
 
-      onSuccess: (response, variables) => {
+      onSuccess: (response: any) => {
         let oldData: any = queryClient.getQueryData(
           getAccountKey(accountNameOwner)
         );
 
         let newData = oldData.map((element: any) => {
-          if (element["guid"] === variables.guid) {
-            return { ...element, transactionState: variables.transactionState };
+          if (element["guid"] === response.guid) {
+            return { ...element, transactionState: response.transactionState };
           } else {
             return element;
           }

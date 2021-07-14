@@ -15,7 +15,7 @@ import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded";
 import SelectCategory from "./SelectCategory";
 import SelectDescription from "./SelectDescription";
 import SnackbarBaseline from "./SnackbarBaseline";
-import ToggleButtons from "./ToggleButtons";
+import TransactionStateButtons from "./TransactionStateButtons";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import DatePicker from "react-datepicker";
@@ -126,9 +126,9 @@ export default function TransactionTable() {
         ) {
           if (fileList[0] instanceof Blob) {
             // @ts-ignore
-            console.log(
-              `file ${fileList[0].name} is file type ${fileList[0].type}.`
-            );
+            // console.log(
+            //   `file ${fileList[0].name} is file type ${fileList[0].type}.`
+            // );
             // image/jpeg
             // image/png
             // image/gif
@@ -282,10 +282,10 @@ export default function TransactionTable() {
         fileContent: fileContent,
       });
 
-      // @ts-ignore
-      let foundObject = data.filter(
-        (obj: any) => obj.guid === currentTransaction.guid
-      );
+      let foundObject = data.filter((obj: any) => {
+        // @ts-ignore
+        return obj.guid === currentTransaction.guid;
+      });
       if (foundObject.length === 1) {
         foundObject[0].receiptImage = { image: fileContent };
       }
@@ -399,8 +399,9 @@ export default function TransactionTable() {
                 cellStyle: { whiteSpace: "nowrap" },
                 render: (rowData) => {
                   return (
-                    <>
-                      <ToggleButtons
+                    <div>
+                        <div>
+                      <TransactionStateButtons
                         transactionState={rowData.transactionState}
                         guid={rowData.guid}
                         accountNameOwner={rowData.accountNameOwner}
@@ -408,7 +409,11 @@ export default function TransactionTable() {
                           handlerToUpdateTransactionState
                         }
                       />
-                    </>
+                        </div>
+                        <div>
+                        {rowData.transactionState }
+                        </div>
+                    </div>
                   );
                 },
                 editComponent: (props) => {
@@ -417,7 +422,9 @@ export default function TransactionTable() {
                       <SelectTransactionState
                         onChangeFunction={props.onChange}
                         currentValue={() => {
-                          return props.value ? props.value : "outstanding";
+                          return props.rowData.transactionState
+                            ? props.rowData.transactionState
+                            : "outstanding";
                         }}
                       />
                     </>

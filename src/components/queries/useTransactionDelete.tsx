@@ -37,19 +37,18 @@ export default function useTransactionDelete() {
         let oldData: any = queryClient.getQueryData(
           getAccountKey(variables.oldRow.accountNameOwner)
         );
-        // @ts-ignore
         let newData = oldData.filter(
-          (t) => t.tableData.id !== variables.oldRow.tableData.id
+          (t: any) => t.tableData.id !== variables.oldRow.tableData.id
         );
         queryClient.setQueryData(
           getAccountKey(variables.oldRow.accountNameOwner),
           newData
         );
       },
-      onSettled: (variables) => {
-        let myPromise = queryClient.invalidateQueries(
-          getAccountKey(variables.oldRow.accountNameOwner)
-        );
+      onSettled: () => {
+        // let myPromise = queryClient.invalidateQueries(
+        //   getAccountKey(variables.oldRow.accountNameOwner)
+        // );
       },
     }
   );

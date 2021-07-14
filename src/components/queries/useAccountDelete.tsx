@@ -33,9 +33,8 @@ export default function useAccountDelete() {
 
       onSuccess: (response, variables) => {
         let oldData: any = queryClient.getQueryData("account");
-        // @ts-ignore
         let newData = oldData.filter(
-          (t) => t.tableData.id !== variables.oldRow.tableData.id
+          (t: any) => t.tableData.id !== variables.oldRow.tableData.id
         );
         queryClient.setQueryData("account", newData);
       },

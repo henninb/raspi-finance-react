@@ -8,9 +8,8 @@ const setupNewAccount = (payload: Account) => {
   payload.cleared = 0.0;
   payload.future = 0.0;
   payload.outstanding = 0.0;
-  //payload.dateClosed = Date(0)
-  payload.dateAdded = now; //Math.round(now.getTime())
-  payload.dateUpdated = now; //Math.round(now.getTime())
+  payload.dateAdded = now;
+  payload.dateUpdated = now;
   payload.activeStatus = true;
   return payload;
 };
