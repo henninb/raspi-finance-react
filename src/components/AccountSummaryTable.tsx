@@ -165,6 +165,7 @@ export default function AccountSummaryTable() {
               noNaN(totals["totalsOutstanding"])
             )} ] [ $${currencyFormat(noNaN(totals["totalsFuture"]))} ]`}
             options={{
+              actionsColumnIndex: -1,
               paging: false,
               search: true,
               addRowPosition: "first",
