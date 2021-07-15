@@ -400,19 +400,17 @@ export default function TransactionTable() {
                 render: (rowData) => {
                   return (
                     <div>
-                        <div>
-                      <TransactionStateButtons
-                        transactionState={rowData.transactionState}
-                        guid={rowData.guid}
-                        accountNameOwner={rowData.accountNameOwner}
-                        handlerToUpdateTransactionState={
-                          handlerToUpdateTransactionState
-                        }
-                      />
-                        </div>
-                        <div>
-                        {rowData.transactionState }
-                        </div>
+                      <div>
+                        <TransactionStateButtons
+                          transactionState={rowData.transactionState}
+                          guid={rowData.guid}
+                          accountNameOwner={rowData.accountNameOwner}
+                          handlerToUpdateTransactionState={
+                            handlerToUpdateTransactionState
+                          }
+                        />
+                      </div>
+                      <div>{rowData.transactionState}</div>
                     </div>
                   );
                 },

@@ -21,16 +21,16 @@ export default function SelectReoccurringType({
   const [keyPressValue, setKeyPressValue] = useState("");
 
   useEffect(() => {
-      // @ts-ignore
-      let debitOptions : any = ['fortnightly', "monthly", "onetime"]
-      let creditOptions : any = [
-          "annually",
-          "bi-annually",
-          "fortnightly",
-          "monthly",
-          "quarterly",
-          "onetime",
-      ]
+    // @ts-ignore
+    let debitOptions: any = ["fortnightly", "monthly", "onetime"];
+    let creditOptions: any = [
+      "annually",
+      "bi-annually",
+      "fortnightly",
+      "monthly",
+      "quarterly",
+      "onetime",
+    ];
     if (accountType === "debit") {
       setOptions(debitOptions);
     } else {
