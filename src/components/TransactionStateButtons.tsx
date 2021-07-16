@@ -32,7 +32,9 @@ export default function TransactionStateButtons({
     determineColor("future")
   );
 
-  const setIconColorToGreen = (newTransactionState: "cleared" | "outstanding" | "future" | "undefined") => {
+  const setIconColorToGreen = (
+    newTransactionState: "cleared" | "outstanding" | "future" | "undefined"
+  ) => {
     if (newTransactionState === "cleared") {
       setClearedColor(colorOn);
       setOutStandingColor(colorOff);

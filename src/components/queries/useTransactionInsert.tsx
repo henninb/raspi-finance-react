@@ -57,12 +57,12 @@ const insertTransaction = async (
 
   let newPayload = setupNewTransaction(payload, accountNameOwner);
 
-    console.log(JSON.stringify(newPayload))
+  console.log(JSON.stringify(newPayload));
   const response = await axios.post(endpoint, newPayload, {
     timeout: 0,
-    headers: { "Content-Type": "application/json" ,},
+    headers: { "Content-Type": "application/json" },
   });
-  console.log(JSON.stringify(response.data))
+  console.log(JSON.stringify(response.data));
   return response.data;
 };
 
