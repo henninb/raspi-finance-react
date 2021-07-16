@@ -32,11 +32,7 @@ export default function TransactionStateButtons({
     determineColor("future")
   );
 
-  const handleTransactionType = (
-    _event: any,
-    newTransactionState: TransactionState
-  ) => {
-    console.log(newTransactionState);
+  const setIconColorToGreen = (newTransactionState: "cleared" | "outstanding" | "future" | "undefined") => {
     if (newTransactionState === "cleared") {
       setClearedColor(colorOn);
       setOutStandingColor(colorOff);
@@ -50,6 +46,13 @@ export default function TransactionStateButtons({
       setOutStandingColor(colorOn);
       setFutureColor(colorOff);
     }
+  };
+
+  const handleTransactionType = (
+    _event: any,
+    newTransactionState: TransactionState
+  ) => {
+    setIconColorToGreen(newTransactionState);
     handlerToUpdateTransactionState(
       guid,
       accountNameOwner,
@@ -60,6 +63,7 @@ export default function TransactionStateButtons({
 
   useEffect(() => {
     if (transactionState !== transactionType) {
+      setIconColorToGreen(transactionState);
       setTransactionType(transactionState);
     }
   }, [transactionType, transactionState]);

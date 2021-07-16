@@ -177,6 +177,7 @@ export default function PaymentTable() {
               },
             }}
             options={{
+              actionsColumnIndex: -1,
               paging: true,
               paginationPosition: "both",
               pageSize: 25,

@@ -602,6 +602,7 @@ export default function TransactionTable() {
               },
             }}
             options={{
+              actionsColumnIndex: -1,
               selection: true,
               filtering: true,
               // selection: true,

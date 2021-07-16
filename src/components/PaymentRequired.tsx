@@ -88,6 +88,7 @@ export default function PaymentRequired() {
             data={data}
             title="Payment Required"
             options={{
+              actionsColumnIndex: -1,
               paging: false,
               search: true,
               addRowPosition: "first",
