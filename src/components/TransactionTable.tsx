@@ -402,14 +402,6 @@ export default function TransactionTable() {
                   return (
                     <div>
                       <div>
-                        <TransactionStateButtons
-                          transactionState={rowData.transactionState}
-                          guid={rowData.guid}
-                          accountNameOwner={rowData.accountNameOwner}
-                          handlerToUpdateTransactionState={
-                            handlerToUpdateTransactionState
-                          }
-                        />
                         <HoverButtons
                           transactionState={rowData.transactionState}
                           guid={rowData.guid}
@@ -419,7 +411,6 @@ export default function TransactionTable() {
                           }
                         />
                       </div>
-                      {/*<div>{rowData.transactionState}</div>*/}
                     </div>
                   );
                 },
