@@ -36,6 +36,7 @@ import useFetchValidationAmount from "./queries/useFetchValidationAmount";
 import useValidationAmountInsert from "./queries/useValidationAmountInsert";
 import ValidationAmount from "./model/ValidationAmount";
 import { TransactionState } from "./model/TransactionState";
+import HoverButtons from "./HoverButtons";
 
 export default function TransactionTable() {
   const [loadMoveDialog, setLoadMoveDialog] = useState(false);
@@ -409,8 +410,16 @@ export default function TransactionTable() {
                             handlerToUpdateTransactionState
                           }
                         />
+                        <HoverButtons
+                            transactionState={rowData.transactionState}
+                            guid={rowData.guid}
+                            accountNameOwner={rowData.accountNameOwner}
+                            handlerToUpdateTransactionState={
+                                handlerToUpdateTransactionState
+                            }
+                        />
                       </div>
-                      <div>{rowData.transactionState}</div>
+                      {/*<div>{rowData.transactionState}</div>*/}
                     </div>
                   );
                 },

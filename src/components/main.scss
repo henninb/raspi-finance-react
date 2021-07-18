@@ -8,6 +8,27 @@ $pulse-duration: 750ms;
 
 //$theme-colors: ( "primary":#ffd800);
 
+.notdisplayed {
+  display: none;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.displayed {
+  display: flex;
+  height: 20px;
+  margin: auto;
+}
+
 .container {
   display: flex;
 }

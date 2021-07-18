@@ -75,7 +75,6 @@ export default function TransactionStateButtons({
       value={transactionType}
       exclusive
       onChange={handleTransactionType}
-      //onFocus={}
       aria-label="text transactionType"
     >
       <ToggleButton value="future">

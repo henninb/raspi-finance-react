@@ -2144,10 +2144,10 @@
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^8.0.0"
 
-"@testing-library/user-event@^13.1.9":
-  version "13.1.9"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-13.1.9.tgz#29e49a42659ac3c1023565ff56819e0153a82e99"
-  integrity sha512-NZr0zL2TMOs2qk+dNlqrAdbaRW5dAmYwd1yuQ4r7HpkVEOj0MWuUjDWwKhcLd/atdBy8ZSMHSKp+kXSQe47ezg==
+"@testing-library/user-event@^13.2.0":
+  version "13.2.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-13.2.0.tgz#8d63aaae1f5ec1d683d3afe57acd5f175f819f0f"
+  integrity sha512-wDEuKkkChNfA02Fpd9A39AXmdmxkvRcHyt/cK3WWiPAQTyMhcKFNM51aQgpEDJUcdj7uPsOaDEESoW/L1b2kZA==
   dependencies:
     "@babel/runtime" "^7.12.5"
 
@@ -10967,10 +10967,10 @@ react-popper@^2.2.5:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
 
-react-query@^3.18.1:
-  version "3.18.1"
-  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.18.1.tgz#893b5475a7b4add099e007105317446f7a2cd310"
-  integrity sha512-17lv3pQxU9n+cB5acUv0/cxNTjo9q8G+RsedC6Ax4V9D8xEM7Q5xf9xAbCPdEhDrrnzPjTls9fQEABKRSi7OJA==
+react-query@^3.19.0:
+  version "3.19.0"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.19.0.tgz#e1fe8f62b9956fb2986317686c27f79ad7ee4e7e"
+  integrity sha512-AaerSVsmBG2iIciwX2x8cWZS4Htw/4u2GFTYK8oiicpX3PY5mvat/8/Y3wZhM47KlllAzvC+P9MW81oHuEt2wg==
   dependencies:
     "@babel/runtime" "^7.5.5"
     broadcast-channel "^3.4.1"
