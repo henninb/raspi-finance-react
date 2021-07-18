@@ -411,12 +411,12 @@ export default function TransactionTable() {
                           }
                         />
                         <HoverButtons
-                            transactionState={rowData.transactionState}
-                            guid={rowData.guid}
-                            accountNameOwner={rowData.accountNameOwner}
-                            handlerToUpdateTransactionState={
-                                handlerToUpdateTransactionState
-                            }
+                          transactionState={rowData.transactionState}
+                          guid={rowData.guid}
+                          accountNameOwner={rowData.accountNameOwner}
+                          handlerToUpdateTransactionState={
+                            handlerToUpdateTransactionState
+                          }
                         />
                       </div>
                       {/*<div>{rowData.transactionState}</div>*/}
