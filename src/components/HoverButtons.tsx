@@ -27,14 +27,12 @@ export default function HoverButtons({
       >
         {transactionState}
         <div className={display}>
-            <TransactionStateButtons
-                transactionState={transactionState}
-                guid={guid}
-                accountNameOwner={accountNameOwner}
-                handlerToUpdateTransactionState={
-                    handlerToUpdateTransactionState
-                }
-            />
+          <TransactionStateButtons
+            transactionState={transactionState}
+            guid={guid}
+            accountNameOwner={accountNameOwner}
+            handlerToUpdateTransactionState={handlerToUpdateTransactionState}
+          />
         </div>
       </div>
     </div>
