@@ -20,7 +20,6 @@ export default function SelectCategory({
   const { data, isSuccess } = useFetchCategory();
 
   useEffect(() => {
-
     if (isSuccess) {
       const categories = data.map(({ category }: any) => category);
       setOptions(categories);

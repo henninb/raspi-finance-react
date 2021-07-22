@@ -1,26 +1,24 @@
 import axios, { AxiosError } from "axios";
-import {endpointUrl} from "../Common";
+import { endpointUrl } from "../Common";
 import { useQuery } from "react-query";
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
-import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
-import { Query } from 'react-apollo';
+import { ApolloProvider } from "react-apollo";
+import { ApolloClient } from "apollo-client";
+import { Query } from "react-apollo";
 
 //import { HttpLink } from 'apollo-link-http';
 //import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const query1 = gql`
-
   query {
     descriptions {
       description
     }
-  }`;
+  }
+`;
 
 const fetchDescriptionData = async (): Promise<any> => {
-
-
   // <Query query={query1} >
   //   {/*{({ data: { organization }, loading }) => {*/}
   //   {/*  if (loading || !organization) {*/}
@@ -35,8 +33,7 @@ const fetchDescriptionData = async (): Promise<any> => {
   //   )
   // </Query>
 
-
-  const query = "{\"query\":\"query{descriptions {  description }}\"}"
+  const query = '{"query":"query{descriptions {  description }}"}';
   const response = await axios.post(endpointUrl() + "/graphql", query, {
     timeout: 0,
     headers: {

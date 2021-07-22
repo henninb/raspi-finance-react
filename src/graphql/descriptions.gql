@@ -1,5 +1,5 @@
 query {
-   descriptions {
-     description
-   }
+  descriptions {
+    description
+  }
 }
