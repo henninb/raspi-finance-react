@@ -13,15 +13,12 @@ export default function SelectAccountNameOwnerCredit({
 
   useEffect(() => {
     if (isSuccess) {
-      let optionList: any = [];
-      data.forEach((element: any) => {
-        if (element.accountType === "credit") {
-          optionList = optionList.concat({
-            value: element.accountNameOwner,
-            label: element.accountNameOwner,
-          });
-        }
-      });
+        const optionList = data.filter (({accountType}: any) => accountType === "credit").map(({ accountNameOwner }: any) => {
+            return {
+                value: accountNameOwner, label: accountNameOwner
+            }
+        });
+
       if (optionList.length > 0) {
         setAccountTypeOptions(optionList);
       }

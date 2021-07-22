@@ -24,7 +24,7 @@ export default function TransactionMove({
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState("");
-  const [accountType, setAccountType] = useState("");
+  const [accountTypeState, setAccountTypeState] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -77,17 +77,16 @@ export default function TransactionMove({
 
   useEffect(() => {
     if (isSuccess) {
-      setAccountType(currentTransaction.accountType);
-      let accounts: any[] = [];
-      data.forEach((element: any) => {
-        if (element.accountType === accountType) {
-          accounts.push(element.accountNameOwner);
-        }
-      });
+      setAccountTypeState(currentTransaction.accountType);
+
+    const accounts = data.filter (({accountType}: any) => accountType === accountTypeState).map(({ accountNameOwner }: any) => {
+        return accountNameOwner
+    });
+
       // @ts-ignore
       setOptions(accounts);
     }
-  }, [accountType, currentTransaction, data, isSuccess]);
+  }, [accountTypeState, currentTransaction, data, isSuccess]);
 
   return (
     <div>

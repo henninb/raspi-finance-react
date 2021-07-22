@@ -179,14 +179,10 @@ export default function FreeForm() {
 
   useEffect(() => {
     if (accountSuccess && accountTypeOptions.length === 0) {
-      let optionList: any = [];
-      dataAccount.forEach((element: any) => {
-        optionList = optionList.concat({
-          value: element.accountNameOwner,
-          label: element.accountNameOwner,
+        const optionList = dataAccount.map(({ accountNameOwner }: any) => {
+            return { value: accountNameOwner, label: accountNameOwner }
         });
-      });
-      if (optionList.length > 0) {
+        if (optionList.length > 0) {
         setAccountTypeOptions(optionList);
       }
     }
