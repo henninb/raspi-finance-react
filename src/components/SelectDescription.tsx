@@ -3,6 +3,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import useFetchDescription from "./queries/useFetchDescription";
 import useDescriptionInsert from "./queries/useDescriptionInsert";
+//import useGraphqlFetchDescription from "./queries/useGraphqlFetchDescription";
 
 interface Props {
   onChangeFunction: any;
@@ -19,21 +20,13 @@ export default function SelectDescription({
   const [keyPressValue, setKeyPressValue] = useState("");
 
   const { data, isSuccess } = useFetchDescription();
+  //const { data1, isSuccess1 } = useGraphqlFetchDescription();
   const { mutate: insertDescription } = useDescriptionInsert();
 
   useEffect(() => {
-    const extractedDescriptionField = (response: any) => {
-      // @ts-ignore
-      let descriptions: any[] = [];
-      data.forEach((element: any) => {
-        descriptions.push(element.description);
-      });
-      return descriptions;
-    };
-
     if (isSuccess) {
-      const response: any = extractedDescriptionField(data);
-      setOptions(response);
+      const descriptions = data.map(({ description }: any) => description);
+      setOptions(descriptions);
     }
   }, [value, data, currentValue, inputValue, isSuccess]);
 

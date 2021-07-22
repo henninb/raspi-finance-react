@@ -20,17 +20,10 @@ export default function SelectCategory({
   const { data, isSuccess } = useFetchCategory();
 
   useEffect(() => {
-    const extractedCategoryField = (response: any) => {
-      let categories: any[] = [];
-      data.forEach((element: any) => {
-        categories.push(element.category);
-      });
-      return categories;
-    };
 
     if (isSuccess) {
-      const response: any = extractedCategoryField(data);
-      setOptions(response);
+      const categories = data.map(({ category }: any) => category);
+      setOptions(categories);
     }
   }, [value, data, currentValue, inputValue, isSuccess]);
 

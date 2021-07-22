@@ -41,6 +41,8 @@ yarn add react-tooltip
 yarn add react-data-grid
 yarn add react-query
 yarn add @types/react-datepicker
+yarn add graphql
+yarn add apollo-client
 ```
 
 ## strict ssl turned off
