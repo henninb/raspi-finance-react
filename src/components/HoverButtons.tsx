@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import AttachMoneyRounded from "@material-ui/icons/AttachMoneyRounded";
 import TransactionStateButtons from "./TransactionStateButtons";
 
 export default function HoverButtons({

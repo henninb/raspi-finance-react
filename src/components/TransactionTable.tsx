@@ -15,7 +15,6 @@ import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded";
 import SelectCategory from "./SelectCategory";
 import SelectDescription from "./SelectDescription";
 import SnackbarBaseline from "./SnackbarBaseline";
-import TransactionStateButtons from "./TransactionStateButtons";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import DatePicker from "react-datepicker";
@@ -671,16 +670,16 @@ export default function TransactionTable() {
               onRowUpdate: updateRow,
               onRowDelete: deleteRow,
             }}
-            actions={[
-              {
-                icon: "send",
-                tooltip: "Move",
-                onClick: (_event, rowData) => {
-                  setCurrentTransaction(rowData);
-                  setLoadMoveDialog(true);
-                },
-              },
-            ]}
+            // actions={[
+            //   {
+            //     icon: "send",
+            //     tooltip: "Move",
+            //     onClick: (_event, rowData) => {
+            //       setCurrentTransaction(rowData);
+            //       setLoadMoveDialog(true);
+            //     },
+            //   },
+            // ]}
           />
           {/*</Paper>*/}
           {loadMoveDialog ? (
