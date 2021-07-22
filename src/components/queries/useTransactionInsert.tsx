@@ -22,6 +22,7 @@ const setupNewTransaction = (
     category: payload.category ? payload.category : "undefined",
     notes: payload.notes === undefined ? "" : payload.notes,
     amount: payload.amount,
+    dueDate: payload.dueDate ? payload.dueDate : undefined,
     transactionState: payload.transactionState
       ? payload.transactionState
       : "outstanding",
@@ -57,7 +58,7 @@ const insertTransaction = async (
 
   let newPayload = setupNewTransaction(payload, accountNameOwner);
 
-  console.log(JSON.stringify(newPayload));
+  console.log("newPayload: " + JSON.stringify(newPayload));
   const response = await axios.post(endpoint, newPayload, {
     timeout: 0,
     headers: { "Content-Type": "application/json" },

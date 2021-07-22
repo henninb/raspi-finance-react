@@ -346,7 +346,6 @@ export default function TransactionTable() {
                             : moment().format(dateFormat)
                         }
                         onChange={props.onChange}
-                        //clearable
                         readOnly={false}
                       />
                     </MuiPickersUtilsProvider>
