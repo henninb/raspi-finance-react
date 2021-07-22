@@ -1,10 +1,41 @@
 import axios, { AxiosError } from "axios";
-import {endpointUrl, typeOf} from "../Common";
+import {endpointUrl} from "../Common";
 import { useQuery } from "react-query";
+import gql from 'graphql-tag';
 
-//import {ApolloClient, InM} from "apollo/client";
+import { ApolloProvider } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { Query } from 'react-apollo';
+
+//import { HttpLink } from 'apollo-link-http';
+//import { InMemoryCache } from 'apollo-cache-inmemory';
+
+const query1 = gql`
+
+  query {
+    descriptions {
+      description
+    }
+  }`;
 
 const fetchDescriptionData = async (): Promise<any> => {
+
+
+  // <Query query={query1} >
+  //   {/*{({ data: { organization }, loading }) => {*/}
+  //   {/*  if (loading || !organization) {*/}
+  //   {/*    return <div>Loading ...</div>;*/}
+  //   {/*  }*/}
+  //
+  //   {/*  return (*/}
+  //   {/*      <RepositoryList repositories={organization.repositories} />*/}
+  //   {/*  );*/}
+  //   {/*}}*/}
+  //   return (<div>test</div>
+  //   )
+  // </Query>
+
+
   const query = "{\"query\":\"query{descriptions {  description }}\"}"
   const response = await axios.post(endpointUrl() + "/graphql", query, {
     timeout: 0,
@@ -13,11 +44,7 @@ const fetchDescriptionData = async (): Promise<any> => {
       Accept: "application/json",
     },
   });
-  console.log("*******")
-  console.log(JSON.stringify(response.data ? response.data : "{}"));
-  console.log("*******")
-  console.log(typeOf(response.data))
-  console.log(JSON.stringify(response.data ? response.data : "{}"));
+
   return response.data;
 };
 

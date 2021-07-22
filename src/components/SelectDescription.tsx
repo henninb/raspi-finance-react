@@ -20,7 +20,7 @@ export default function SelectDescription({
   const [keyPressValue, setKeyPressValue] = useState("");
 
   const { data, isSuccess } = useFetchDescription();
-  //const { data1, isSuccess1 } = useGraphqlFetchDescription();
+  //const { data, isSuccess } = useGraphqlFetchDescription();
   const { mutate: insertDescription } = useDescriptionInsert();
 
   useEffect(() => {
