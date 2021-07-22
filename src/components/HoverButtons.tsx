@@ -20,7 +20,6 @@ export default function HoverButtons({
   };
 
   return (
-    <div className="App">
       <div
         onMouseEnter={(e) => showButton(e)}
         onMouseLeave={(e) => hideButton(e)}
@@ -35,7 +34,6 @@ export default function HoverButtons({
           />
         </div>
       </div>
-    </div>
   );
 }
-//onClick={handlerToUpdateTransactionState(guid, accountNameOwner, 'cleared')}
+
