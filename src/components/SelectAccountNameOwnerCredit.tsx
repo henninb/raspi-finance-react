@@ -13,10 +13,13 @@ export default function SelectAccountNameOwnerCredit({
 
   useEffect(() => {
     if (isSuccess) {
-        const optionList = data.filter (({accountType}: any) => accountType === "credit").map(({ accountNameOwner }: any) => {
-            return {
-                value: accountNameOwner, label: accountNameOwner
-            }
+      const optionList = data
+        .filter(({ accountType }: any) => accountType === "credit")
+        .map(({ accountNameOwner }: any) => {
+          return {
+            value: accountNameOwner,
+            label: accountNameOwner,
+          };
         });
 
       if (optionList.length > 0) {

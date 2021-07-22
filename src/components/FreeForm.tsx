@@ -179,10 +179,10 @@ export default function FreeForm() {
 
   useEffect(() => {
     if (accountSuccess && accountTypeOptions.length === 0) {
-        const optionList = dataAccount.map(({ accountNameOwner }: any) => {
-            return { value: accountNameOwner, label: accountNameOwner }
-        });
-        if (optionList.length > 0) {
+      const optionList = dataAccount.map(({ accountNameOwner }: any) => {
+        return { value: accountNameOwner, label: accountNameOwner };
+      });
+      if (optionList.length > 0) {
         setAccountTypeOptions(optionList);
       }
     }

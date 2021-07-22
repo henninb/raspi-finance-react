@@ -16,9 +16,9 @@ export default function SelectAccounts() {
 
   useEffect(() => {
     if (isSuccess) {
-    const optionList = data.map(({ accountNameOwner }: any) => {
-        return { value: accountNameOwner, label: accountNameOwner }
-    });
+      const optionList = data.map(({ accountNameOwner }: any) => {
+        return { value: accountNameOwner, label: accountNameOwner };
+      });
       if (optionList.length > 0) {
         setOptions(optionList);
       }

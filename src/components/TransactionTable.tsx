@@ -355,23 +355,22 @@ export default function TransactionTable() {
                 title: "description",
                 field: "description",
                 cellStyle: { whiteSpace: "nowrap" },
-                  render: (rowData) => {
-                      return (
-                          <div>
-                              {rowData.description}
-                              <Button
-                                  style={{ width: 50 }}
-                                  onClick={() => {
-                                      setCurrentTransaction(rowData);
-                                      setLoadMoveDialog(true);
-                                  }}
-                              >
-                                  <ChevronRightRoundedIcon />
-                              </Button>
-
-                          </div>
-                      );
-                  },
+                render: (rowData) => {
+                  return (
+                    <div>
+                      {rowData.description}
+                      <Button
+                        style={{ width: 50 }}
+                        onClick={() => {
+                          setCurrentTransaction(rowData);
+                          setLoadMoveDialog(true);
+                        }}
+                      >
+                        <ChevronRightRoundedIcon />
+                      </Button>
+                    </div>
+                  );
+                },
                 editComponent: (props) => {
                   return (
                     <>
@@ -617,7 +616,7 @@ export default function TransactionTable() {
               },
             }}
             options={{
-               actionsColumnIndex: -1,
+              actionsColumnIndex: -1,
               selection: true,
               filtering: true,
               // selection: true,

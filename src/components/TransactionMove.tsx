@@ -79,9 +79,11 @@ export default function TransactionMove({
     if (isSuccess) {
       setAccountTypeState(currentTransaction.accountType);
 
-    const accounts = data.filter (({accountType}: any) => accountType === accountTypeState).map(({ accountNameOwner }: any) => {
-        return accountNameOwner
-    });
+      const accounts = data
+        .filter(({ accountType }: any) => accountType === accountTypeState)
+        .map(({ accountNameOwner }: any) => {
+          return accountNameOwner;
+        });
 
       // @ts-ignore
       setOptions(accounts);
