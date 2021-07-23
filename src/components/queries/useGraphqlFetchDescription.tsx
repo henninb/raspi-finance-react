@@ -1,27 +1,12 @@
-import axios, { AxiosError } from "axios";
-import { endpointUrl } from "../Common";
-//import { useQuery } from "react-query";
-// import gql from "graphql-tag";
-
-import {
-    ApolloClient,
-    InMemoryCache,
-    ApolloProvider,
-    useQuery,
-    gql
-} from "@apollo/client";
+import {endpointUrl} from "../Common";
+import { useQuery } from "react-query";
+import {  ApolloClient,  InMemoryCache, gql} from "@apollo/client";
+import {ApolloError} from "apollo-client";
 
 const client = new ApolloClient({
     uri: endpointUrl() + "/graphql",
     cache: new InMemoryCache()
 });
-
-// import { ApolloProvider } from "react-apollo";
-// import { ApolloClient } from "apollo-client";
-// import { Query } from "react-apollo";
-
-//import { HttpLink } from 'apollo-link-http';
-//import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const query = gql`
   query {
@@ -31,15 +16,15 @@ const query = gql`
   }
 `;
 
-const fetchDescriptionData = async (): Promise<any> => {
-    let response = client.query({
-        query: query
-    })
-    //.then(result => console.log(result));
-    return response
-  };
-
+const fetchDescriptionData = async () => {
+    const {data} = await client.query({query}) ;
+    return data.descriptions;
+}
 
 export default function useGraphqlFetchDescription() {
-  return useQuery(query);
+    return useQuery("description", () => fetchDescriptionData(), {
+        onError: (error: ApolloError) => {
+            console.log(error ? error : "error is undefined.");
+        },
+    });
 }
