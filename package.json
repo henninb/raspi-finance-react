@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.3.21",
     "@date-io/moment": "2.x",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.11.2",
