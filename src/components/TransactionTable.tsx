@@ -11,7 +11,7 @@ import {
   epochToDate,
   noNaN,
 } from "./Common";
-import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded";
+import ChevronRightRounded from "@material-ui/icons/ChevronRightRounded";
 import SelectCategory from "./SelectCategory";
 import SelectDescription from "./SelectDescription";
 import SnackbarBaseline from "./SnackbarBaseline";
@@ -36,6 +36,7 @@ import useValidationAmountInsert from "./queries/useValidationAmountInsert";
 import ValidationAmount from "./model/ValidationAmount";
 import { TransactionState } from "./model/TransactionState";
 import HoverButtons from "./HoverButtons";
+//import ActionButtons from "./ActionButtons";
 
 export default function TransactionTable() {
   const [loadMoveDialog, setLoadMoveDialog] = useState(false);
@@ -366,8 +367,9 @@ export default function TransactionTable() {
                           setLoadMoveDialog(true);
                         }}
                       >
-                        <ChevronRightRoundedIcon />
+                        <ChevronRightRounded />
                       </Button>
+                      {/*<ActionButtons guid={rowData.guid} />*/}
                     </div>
                   );
                 },
@@ -464,7 +466,7 @@ export default function TransactionTable() {
                           style={{ width: 50 }}
                           onClick={() => handleButtonClickLink(rowData)}
                         >
-                          <ChevronRightRoundedIcon />
+                          <ChevronRightRounded />
                         </Button>
                       </>
                     );
