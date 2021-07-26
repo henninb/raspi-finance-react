@@ -1940,15 +1940,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@storybook/cli@6.3.5":
-  version "6.3.5"
-  resolved "https://registry.yarnpkg.com/@storybook/cli/-/cli-6.3.5.tgz#11ec9aee1a79786f04d8524160fb1e80e2a1a997"
-  integrity sha512-5oZW1IAjJKV/P3znk3mWFQH32VqtW+WZvQ7tgymi7/Bsq7AI2RIgtRF5n9qQ173EAxEmeI88aaCGB9NN05wsGQ==
+"@storybook/cli@6.3.6":
+  version "6.3.6"
+  resolved "https://registry.yarnpkg.com/@storybook/cli/-/cli-6.3.6.tgz#8e06f32bed5dcf59c699a8739a4ce18abe126d35"
+  integrity sha512-6yCep4yQ1RJBYWZy2Sdf4vOxnE8gYhRjvtgdM7cviwnkvXWfKBRTIUAxgzV6ybR1nuEZ5mcWqcw4aPgGYEXUUA==
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/preset-env" "^7.12.11"
-    "@storybook/codemod" "6.3.5"
-    "@storybook/node-logger" "6.3.5"
+    "@storybook/codemod" "6.3.6"
+    "@storybook/node-logger" "6.3.6"
     "@storybook/semver" "^7.3.2"
     boxen "^4.2.0"
     chalk "^4.1.0"
@@ -1972,16 +1972,16 @@
     ts-dedent "^2.0.0"
     update-notifier "^5.0.1"
 
-"@storybook/codemod@6.3.5":
-  version "6.3.5"
-  resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-6.3.5.tgz#13a272bc53899f88f74ecc59f4f9e17a4eafac01"
-  integrity sha512-tATyykDzj/a2HLcJV5rTMUb+TL8KfNWEfIFrG9dxodwTT4ik9byLfYI9LxwgorkvyBX7U7hH5aVf9I8YxtWDXg==
+"@storybook/codemod@6.3.6":
+  version "6.3.6"
+  resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-6.3.6.tgz#fa9712e1b516d77e836446250f6dce92fe863beb"
+  integrity sha512-pyNif3igrpJu0J7U0BptUCNpj+XAsnOJFhBUep7QtbYE3taIH2dGlpGXvyD5kN4zH4Mk/o2KdMp/OxETv1M4hA==
   dependencies:
     "@babel/types" "^7.12.11"
     "@mdx-js/mdx" "^1.6.22"
     "@storybook/csf" "0.0.1"
-    "@storybook/csf-tools" "6.3.5"
-    "@storybook/node-logger" "6.3.5"
+    "@storybook/csf-tools" "6.3.6"
+    "@storybook/node-logger" "6.3.6"
     core-js "^3.8.2"
     cross-spawn "^7.0.3"
     globby "^11.0.2"
@@ -1991,10 +1991,10 @@
     recast "^0.19.0"
     regenerator-runtime "^0.13.7"
 
-"@storybook/csf-tools@6.3.5":
-  version "6.3.5"
-  resolved "https://registry.yarnpkg.com/@storybook/csf-tools/-/csf-tools-6.3.5.tgz#a396257323f32ea5968bfcfbccc0a6214f107694"
-  integrity sha512-P6bD//gG9lEJi58gE8e8zpbWFDz4L4yPFzjL7VPQBp11ZQxCj4HgFcwRnyq2jctyFjQlJNM+CjHhiuts1mqD/A==
+"@storybook/csf-tools@6.3.6":
+  version "6.3.6"
+  resolved "https://registry.yarnpkg.com/@storybook/csf-tools/-/csf-tools-6.3.6.tgz#603d9e832f946998b75ff8368fe862375d6cb52c"
+  integrity sha512-MQevelkEUVNCSjKMXLNc/G8q/BB5babPnSeI0IcJq4k+kLUSHtviimLNpPowMgGJBPx/y9VihH8N7vdJUWVj9w==
   dependencies:
     "@babel/generator" "^7.12.11"
     "@babel/parser" "^7.12.11"
@@ -2018,10 +2018,10 @@
   dependencies:
     lodash "^4.17.15"
 
-"@storybook/node-logger@6.3.5":
-  version "6.3.5"
-  resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-6.3.5.tgz#730e1ec384c30dbc9c5ab1896a558af3215b0635"
-  integrity sha512-mV6hXcMLdFPO7l1CFI+ycaoRDrbBxLBBSv8ivCX6acAhoheF0sLqJftpzwqlW3UYFEznVqD3PasqmO8I3f8dag==
+"@storybook/node-logger@6.3.6":
+  version "6.3.6"
+  resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-6.3.6.tgz#10356608593440a8e3acf2aababef40333a3401b"
+  integrity sha512-XMDkMN7nVRojjiezrURlkI57+nz3OoH4UBV6qJZICKclxtdKAy0wwOlUSYEUq+axcJ4nvdfzPPoDfGoj37SW7A==
   dependencies:
     "@types/npmlog" "^4.1.2"
     chalk "^4.1.0"
@@ -2217,10 +2217,10 @@
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^8.0.0"
 
-"@testing-library/user-event@^13.2.0":
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-13.2.0.tgz#8d63aaae1f5ec1d683d3afe57acd5f175f819f0f"
-  integrity sha512-wDEuKkkChNfA02Fpd9A39AXmdmxkvRcHyt/cK3WWiPAQTyMhcKFNM51aQgpEDJUcdj7uPsOaDEESoW/L1b2kZA==
+"@testing-library/user-event@^13.2.1":
+  version "13.2.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-13.2.1.tgz#7a71a39e50b4a733afbe2916fa2b99966e941f98"
+  integrity sha512-cczlgVl+krjOb3j1625usarNEibI0IFRJrSWX9UsJ1HKYFgCQv9Nb7QAipUDXl3Xdz8NDTsiS78eAkPSxlzTlw==
   dependencies:
     "@babel/runtime" "^7.12.5"
 
@@ -11146,10 +11146,10 @@ react-popper@^2.2.5:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
 
-react-query@^3.19.0:
-  version "3.19.0"
-  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.19.0.tgz#e1fe8f62b9956fb2986317686c27f79ad7ee4e7e"
-  integrity sha512-AaerSVsmBG2iIciwX2x8cWZS4Htw/4u2GFTYK8oiicpX3PY5mvat/8/Y3wZhM47KlllAzvC+P9MW81oHuEt2wg==
+react-query@^3.19.1:
+  version "3.19.1"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.19.1.tgz#f3fbd5af48b6c47901ab230f7c028c6f845254ac"
+  integrity sha512-tMBVKlmWevPHYWgI8ZBEgsTulJXSuXsxDbxqANODRnPI+3hd5GRVcc7nNIYSUx3aaULt08rN3EhTMHyTcFUNJw==
   dependencies:
     "@babel/runtime" "^7.5.5"
     broadcast-channel "^3.4.1"
@@ -11947,10 +11947,10 @@ sass-loader@^10.0.5:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass@^1.35.2:
-  version "1.35.2"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.35.2.tgz#b732314fcdaf7ef8d0f1698698adc378043cb821"
-  integrity sha512-jhO5KAR+AMxCEwIH3v+4zbB2WB0z67V1X0jbapfVwQQdjHZUGUyukpnoM6+iCMfsIUC016w9OPKQ5jrNOS9uXw==
+sass@^1.36.0:
+  version "1.36.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.36.0.tgz#5912ef9d5d16714171ba11cb17edb274c4bbc07e"
+  integrity sha512-fQzEjipfOv5kh930nu3Imzq3ie/sGDc/4KtQMJlt7RRdrkQSfe37Bwi/Rf/gfuYHsIuE1fIlDMvpyMcEwjnPvg==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
 
@@ -12479,12 +12479,12 @@ static-extend@^0.1.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
 
-storybook@^6.3.5:
-  version "6.3.5"
-  resolved "https://registry.yarnpkg.com/storybook/-/storybook-6.3.5.tgz#472efe409dbed629995e5ee1663d21f7d7cf46a6"
-  integrity sha512-ztAAjHXV3I/WO+fFdZ/4oYJViH4yRCJBvkRfvl3NEve/wkn+tppiGK4y3c5YEX14oX5SCyGeLjJm0qeh5nJdaA==
+storybook@^6.3.6:
+  version "6.3.6"
+  resolved "https://registry.yarnpkg.com/storybook/-/storybook-6.3.6.tgz#d48e2912aa7ae85dc0062aaf387c5130ce91a834"
+  integrity sha512-2y4HJu735S0ED1u1w0je5KVdTZDI6pmjxhsEErziz5uoDGItqzgc0wVVpFEpEuP8eQbKKfqG0G6UuqQeKip/Bg==
   dependencies:
-    "@storybook/cli" "6.3.5"
+    "@storybook/cli" "6.3.6"
 
 stream-browserify@^2.0.1:
   version "2.0.2"
