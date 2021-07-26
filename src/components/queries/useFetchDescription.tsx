@@ -1,31 +1,26 @@
-import axios, { AxiosError } from "axios";
-import { endpointUrl } from "../Common";
+import { client } from "../Common";
 import { useQuery } from "react-query";
+import { gql } from "@apollo/client";
+import { ApolloError } from "apollo-client";
 
-const fetchDescriptionData = async (): Promise<any> => {
-  const response = await axios.get(endpointUrl() + "/description/select/all", {
-    timeout: 0,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  });
-  console.debug(JSON.stringify(response.data));
-  return response.data;
+const query = gql`
+  query {
+    descriptions {
+      description
+    }
+  }
+`;
+
+const fetchDescriptionData = async () => {
+  const { data } = await client.query({ query });
+  console.log("fetching descriptions");
+  return data.descriptions;
 };
 
 export default function useFetchDescription() {
   return useQuery("description", () => fetchDescriptionData(), {
-    onError: (error: AxiosError<any>) => {
+    onError: (error: ApolloError) => {
       console.log(error ? error : "error is undefined.");
-      console.log(
-        error.response ? error.response : "error.response is undefined."
-      );
-      console.log(
-        error.response
-          ? JSON.stringify(error.response)
-          : "error.response is undefined - cannot stringify."
-      );
     },
   });
 }

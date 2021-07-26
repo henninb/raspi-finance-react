@@ -1,3 +1,5 @@
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+
 export const convertUTCDateToLocalDate = (date: any) => {
   let newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
@@ -59,3 +61,8 @@ export const capitalizeFirstChar = (inString: String) => {
 export function isFloat(n: number) {
   return Number(n) === n && n % 1 !== 0;
 }
+
+export const client = new ApolloClient({
+  uri: endpointUrl() + "/graphql",
+  cache: new InMemoryCache(),
+});
