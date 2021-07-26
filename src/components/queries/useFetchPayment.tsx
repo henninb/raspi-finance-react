@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { endpointUrl } from "../Common";
+import { basicAuth, endpointUrl } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchPaymentData = async (): Promise<any> => {
@@ -8,6 +8,7 @@ const fetchPaymentData = async (): Promise<any> => {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      Authorization: basicAuth(),
     },
   });
   console.debug(JSON.stringify(response.data));

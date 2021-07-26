@@ -1,4 +1,4 @@
-import { endpointUrl } from "../Common";
+import { basicAuth, endpointUrl } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import ValidationAmount from "../model/ValidationAmount";
@@ -12,7 +12,10 @@ const insertValidationAmount = async (
 
   const response = await axios.post(endpoint, payload, {
     timeout: 0,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: basicAuth(),
+    },
   });
   return response.data;
 };

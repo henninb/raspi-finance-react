@@ -1,4 +1,4 @@
-import { endpointUrl } from "../Common";
+import { basicAuth, endpointUrl } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import Payment from "../model/Payment";
@@ -17,7 +17,10 @@ const insertPayment = async (payload: Payment): Promise<any> => {
 
   const response = await axios.post(endpoint, newPayload, {
     timeout: 0,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: basicAuth(),
+    },
   });
   return response.data;
 };

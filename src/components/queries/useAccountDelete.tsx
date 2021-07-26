@@ -1,4 +1,4 @@
-import { endpointUrl } from "../Common";
+import { basicAuth, endpointUrl } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
@@ -7,7 +7,10 @@ const deleteAccount = async (payload: any): Promise<any> => {
 
   const response = await axios.delete(endpoint, {
     timeout: 0,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: basicAuth(),
+    },
   });
   return response.data;
 };

@@ -1,4 +1,4 @@
-import { endpointUrl } from "../Common";
+import { basicAuth, endpointUrl } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import Account from "../model/Account";
@@ -11,7 +11,10 @@ const updateAccount = async (
 
   const response = await axios.put(endpoint, JSON.stringify(newRow), {
     timeout: 0,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: basicAuth(),
+    },
   });
   return response.data;
 };

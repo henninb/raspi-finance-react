@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { endpointUrl } from "../Common";
+import { basicAuth, endpointUrl } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchParameterData = async (parameterName: any): Promise<any> => {
@@ -11,6 +11,7 @@ const fetchParameterData = async (parameterName: any): Promise<any> => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        Authorization: basicAuth(),
       },
     }
   );

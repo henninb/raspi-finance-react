@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { capitalizeFirstChar, endpointUrl, noNaN } from "../Common";
+import { basicAuth, capitalizeFirstChar, endpointUrl, noNaN } from "../Common";
 import { useMutation, useQueryClient } from "react-query";
 import { getAccountKey, getTotalsKey } from "./KeyFile";
 import Transaction from "../model/Transaction";
@@ -24,6 +24,7 @@ const updateTransaction = async (
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      Authorization: basicAuth(),
     },
   });
   return response.data;

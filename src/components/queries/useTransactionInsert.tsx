@@ -1,4 +1,4 @@
-import { endpointUrl } from "../Common";
+import { basicAuth, endpointUrl } from "../Common";
 import { v4 as uuidv4 } from "uuid";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
@@ -61,7 +61,10 @@ const insertTransaction = async (
   console.log("newPayload: " + JSON.stringify(newPayload));
   const response = await axios.post(endpoint, newPayload, {
     timeout: 0,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: basicAuth(),
+    },
   });
   console.log(JSON.stringify(response.data));
   return response.data;

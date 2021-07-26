@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { endpointUrl } from "../Common";
+import { basicAuth, endpointUrl } from "../Common";
 import { useMutation, useQueryClient } from "react-query";
 import { getAccountKey } from "./KeyFile";
 import { TransactionState } from "../model/TransactionState";
@@ -20,6 +20,7 @@ const changeTransactionState = async (
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        Authorization: basicAuth(),
       },
     }
   );

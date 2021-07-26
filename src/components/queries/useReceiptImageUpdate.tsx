@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { endpointUrl } from "../Common";
+import { basicAuth, endpointUrl } from "../Common";
 import { useMutation, useQueryClient } from "react-query";
 import { getAccountKey } from "./KeyFile";
 
@@ -14,7 +14,10 @@ const insertReceiptImage = async (
 
   const response = await axios.put(endpoint, fileContent, {
     timeout: 0,
-    headers: { "Content-Type": "text/plain" },
+    headers: {
+      "Content-Type": "text/plain",
+      Authorization: basicAuth(),
+    },
   });
   return response.data;
 };
