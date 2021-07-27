@@ -1,7 +1,8 @@
-import { client } from "../Common";
+//import { client } from "../Common";
 import { useQuery } from "react-query";
 import { gql } from "@apollo/client";
 import { ApolloError } from "apollo-client";
+import { apolloClient } from "../ApolloClient";
 
 const query = gql`
   query {
@@ -12,6 +13,7 @@ const query = gql`
 `;
 
 const fetchDescriptionData = async () => {
+  const client = apolloClient();
   const { data } = await client.query({ query });
   console.log("fetching descriptions");
   return data.descriptions;
