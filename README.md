@@ -42,9 +42,10 @@ yarn add react-data-grid
 yarn add react-query
 yarn add @types/react-datepicker
 yarn add graphql
-yarn add apollo-client
+yarn add @apollo-client
 yarn add react-apollo
 yarn add graphql-tag
+yarn add --dev jest
 ```
 
 ## strict ssl turned off

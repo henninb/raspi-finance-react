@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { gql } from "@apollo/client";
 import { ApolloError } from "apollo-client";
-import {apolloClient} from "../ApolloClient";
+import { apolloClient } from "../ApolloClient";
 
 const query = gql`
   query {
