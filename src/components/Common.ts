@@ -1,17 +1,10 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
-
-export const convertUTCDateToLocalDate = (date: any) => {
+export const convertUTCDateToLocalDate = (date: Date) => {
   let newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
-  let offset = date.getTimezoneOffset() / 60;
-  let hours = date.getHours();
-
-  newDate.setHours(hours - offset);
+  // let offset = date.getTimezoneOffset() / 60;
+  // let hours = date.getHours();
+  //
+  // newDate.setHours(hours - offset);
   return newDate;
 };
 
@@ -71,13 +64,3 @@ export const capitalizeFirstChar = (inString: String) => {
 export function isFloat(n: number) {
   return Number(n) === n && n % 1 !== 0;
 }
-
-// export const client = new ApolloClient({
-//   uri: endpointUrl() + "/graphql",
-//   cache: new InMemoryCache(),
-//   //credentials: 'include',
-//   headers: {
-//     "Content-Type": "application/json",
-//     Authorization: basicAuth(),
-//   },
-// });

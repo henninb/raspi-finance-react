@@ -1,7 +1,6 @@
 import {
   ApolloClient,
   InMemoryCache,
-  createHttpLink,
   from,
   HttpLink,
 } from "@apollo/client";
@@ -13,9 +12,7 @@ import { onError } from "@apollo/client/link/error";
 export const apolloClient = (): ApolloClient<NormalizedCacheObject> => {
   const errorLink = onError(({ graphqlErrors, networkError }: any) => {
     if (graphqlErrors) {
-      graphqlErrors.map(({ message, location, path }: any) => {
-        alert(`Graphql error ${message}`);
-      });
+      graphqlErrors.map(({ message, location, path }: any) => console.log(`Graphql error ${message}`));
     }
   });
 
@@ -23,15 +20,6 @@ export const apolloClient = (): ApolloClient<NormalizedCacheObject> => {
     errorLink,
     new HttpLink({ uri: `${endpointUrl()}/graphql` }),
   ]);
-
-  // const client = new ApolloClient({
-  //   cache: new InMemoryCache(),
-  //   link: link,
-  // });
-
-  const httpLink = createHttpLink({
-    uri: `${endpointUrl()}/graphql`,
-  });
 
   const authLink = setContext((_, { headers }) => {
     return {
