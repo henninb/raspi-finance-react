@@ -3,8 +3,6 @@ import { act, render } from "@testing-library/react";
 import PaymentTable from "./PaymentTable";
 import { fireEvent } from "@testing-library/dom";
 
-
-
 test("dummy test", () => {
   expect(true).toBeTruthy();
 });
