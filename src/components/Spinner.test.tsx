@@ -29,7 +29,7 @@ describe("spinnerTests", () => {
   });
   it("spinner works", () => {
     const { getByTestId } = render(<Spinner />);
-    console.log(getByTestId("loader"));
+    //console.log(getByTestId("loader"));
     expect(true).toBeTruthy();
   });
 });
