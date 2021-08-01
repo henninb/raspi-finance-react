@@ -16,23 +16,13 @@ yarn add dotenv
 yarn add storybook
 yarn add react-file-picker
 yarn add @material-ui/lab
-# yarn add react-uuid
 yarn add uuid
 yarn add datejs
-# yarn add canvas
-yarn add --dev react-test-renderer
-# yarn add --dev jest-dom
-yarn add --dev @testing-library/jest-dom
-yarn add --dev @testing-library/react
-yarn add --dev @testing-library/react-hooks
-# yarn add --dev canvas
 yarn add material-table @material-ui/core
 yarn add levenary
 yarn add typescript
 yarn add react-material-snackbar
 yarn add lodash
-yarn global add npm-check-updates
-yarn add env-cmd -g
 yarn add moment
 yarn add moment-timezone
 yarn add @date-io/moment@1.x moment
@@ -46,6 +36,15 @@ yarn add @apollo-client
 yarn add react-apollo
 yarn add graphql-tag
 yarn add --dev jest
+yarn add --dev @types/jest
+yarn add --dev cypress start-server-and-test --dev
+# yarn add --dev jest-dom
+# yarn add --dev @testing-library/jest-dom
+yarn add --dev @testing-library/react
+yarn add --dev @testing-library/react-hooks
+yarn add --dev react-test-renderer
+yarn global add npm-check-updates
+yarn global add env-cmd
 ```
 
 ## strict ssl turned off
