@@ -2,7 +2,6 @@ describe(`payment interceptors`, () => {
   describe(`empty payment list`, () => {
     beforeEach(() => {
       cy.intercept("GET", "/payment/select", { body: [] }).as("emptyList");
-      //cy.visit("https://hornsup:3000/payments");
       cy.visit("/payments");
       cy.wait("@emptyList");
     });
@@ -28,10 +27,8 @@ describe(`payment interceptors`, () => {
         fixture: "accounts.json",
       }).as("accounts");
 
-      cy.visit("https://hornsup:3000/payments");
+      cy.visit("/payments");
       cy.wait("@payments");
-
-      //cy.get('.network-btn').click()
     });
 
     it(`a message should be sent to describe the empty list`, () => {

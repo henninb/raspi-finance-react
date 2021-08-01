@@ -55,7 +55,7 @@
     "eject": "react-scripts eject",
     "prettier": "npx prettier --write .",
     "functional:payment": "",
-    "cypress": "cypress open"
+    "cypress": "npx cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -80,6 +80,7 @@
     "@testing-library/user-event": "^13.2.1",
     "@types/jest": "^26.0.24",
     "cypress": "^8.1.0",
+    "eslint-plugin-cypress": "^2.11.3",
     "jest": "^27.0.6",
     "jest-watch-typeahead": "^0.6.4",
     "react-test-renderer": "^17.0.2",
