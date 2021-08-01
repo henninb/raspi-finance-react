@@ -13,17 +13,29 @@ export default function NavbarInstance() {
 
         <ul className="navbar-nav">
           <li className="nav-item font-weight-bold">
-            <Link className="nav-link" to="/payments" data-test-id="payments-link">
+            <Link
+              className="nav-link"
+              to="/payments"
+              data-test-id="payments-link"
+            >
               Payments
             </Link>
           </li>
           <li className="nav-item font-weight-bold">
-            <Link className="nav-link" to="/payment/required" data-test-id="payment-required-link">
+            <Link
+              className="nav-link"
+              to="/payment/required"
+              data-test-id="payment-required-link"
+            >
               PaymentRequired
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/freeform" data-test-id="freeform-link">
+            <Link
+              className="nav-link"
+              to="/freeform"
+              data-test-id="freeform-link"
+            >
               FreeForm
             </Link>
           </li>

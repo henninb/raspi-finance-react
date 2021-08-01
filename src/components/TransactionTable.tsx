@@ -5,11 +5,7 @@ import "./main.scss";
 import { useRouteMatch } from "react-router-dom";
 import SelectTransactionState from "./SelectTransactionState";
 import TransactionMove from "./TransactionMove";
-import {
-  currencyFormat,
-  epochToDate,
-  noNaN,
-} from "./Common";
+import { currencyFormat, epochToDate, noNaN } from "./Common";
 import ChevronRightRounded from "@material-ui/icons/ChevronRightRounded";
 import SelectCategory from "./SelectCategory";
 import SelectDescription from "./SelectDescription";
@@ -336,11 +332,9 @@ export default function TransactionTable() {
                       <DatePicker
                         selected={
                           props.value
-                              ? new Date(moment(props.value).unix() * 1000)
-                              : new Date(moment().unix() * 1000)
+                            ? new Date(moment(props.value).unix() * 1000)
+                            : new Date(moment().unix() * 1000)
                         }
-
-
                         value={
                           props.value
                             ? moment(props.value).format(dateFormat)
@@ -362,7 +356,7 @@ export default function TransactionTable() {
                     <div>
                       {rowData.description}
                       <Button
-                          data-test-id="transaction-move-button"
+                        data-test-id="transaction-move-button"
                         style={{ width: 50 }}
                         onClick={() => {
                           setCurrentTransaction(rowData);
@@ -379,7 +373,7 @@ export default function TransactionTable() {
                   return (
                     <>
                       <SelectDescription
-                          data-test-id="transaction-edit-description"
+                        data-test-id="transaction-edit-description"
                         onChangeFunction={props.onChange}
                         currentValue={() => {
                           return props.value ? props.value : "undefined";
