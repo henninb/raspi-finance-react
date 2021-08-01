@@ -26,7 +26,7 @@ export default function SelectAccounts() {
   }, [isSuccess, data]);
 
   return (
-    <div className="select-formatting">
+    <div className="select-formatting" data-test-id="account-name-owner-select">
       <Select
         options={options}
         onChange={handleChange}

@@ -13,5 +13,4 @@ ssh pi "cd /home/pi/projects/raspi-finance-react && unzip -o raspi-finance-react
 # scp ssl/* pi:/home/pi/raspi-finance-react/ssl
 # ssh pi 
 
-
 exit 0

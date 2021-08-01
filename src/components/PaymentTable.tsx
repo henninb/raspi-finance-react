@@ -81,9 +81,10 @@ export default function PaymentTable() {
   return (
     <div>
       {isSuccess && parmSuccess ? (
-        <div className="table-formatting">
+        <div className="table-formatting" data-test-id="payments-table">
           <MaterialTable
-            data-testid="payment-table"
+            data-test-id="payment-material-table"
+            // data-cy="payment-table"
             columns={[
               {
                 title: "transactionDate",
@@ -98,6 +99,7 @@ export default function PaymentTable() {
                     //locale={props.dateTimePickerLocalization}
                   >
                     <DatePicker
+                      data-test-id="payment-date-picker"
                       value={
                         props.value
                           ? moment(props.value).format("YYYY-MM-DD")
@@ -220,7 +222,7 @@ export default function PaymentTable() {
         </div>
       ) : (
         <div className="centered">
-          <Spinner />
+          <Spinner data-test-id="payments-spinner" />
         </div>
       )}
     </div>
