@@ -10,7 +10,7 @@ before_install:
   - yarn install
 script:
   - yarn test
-  - yarn start
+  - yarn run build
 
 notifications:
   email: henninb@msn.com
