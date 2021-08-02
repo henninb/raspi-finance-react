@@ -45,16 +45,16 @@ describe(`payment interceptors`, () => {
       // cy.get('[aria-describedby="mui-91950"] > .MuiIconButton-label > .material-icons').click();
       // /* ==== End Cypress Studio ==== */
       /* ==== Generated with Cypress Studio ==== */
-      cy.get(
-        "div > :nth-child(1) > .MuiButtonBase-root > .MuiIconButton-label > .material-icons"
-      ).click();
-      cy.get(".react-datepicker__input-container > input").click();
-      cy.get(":nth-child(1) > .react-datepicker__day--003").click();
-      cy.get(".react-datepicker__input-container > input").click();
-
-      cy.get(
-        ".css-yk16xz-control > .css-g1d714-ValueContainer > .css-1wa3eu0-placeholder"
-      );
+      // cy.get(
+      //   "div > :nth-child(1) > .MuiButtonBase-root > .MuiIconButton-label > .material-icons"
+      // ).click();
+      // cy.get(".react-datepicker__input-container > input").click();
+      // cy.get(":nth-child(1) > .react-datepicker__day--003").click();
+      // cy.get(".react-datepicker__input-container > input").click();
+      //
+      // cy.get(
+      //   ".css-yk16xz-control > .css-g1d714-ValueContainer > .css-1wa3eu0-placeholder"
+      // );
 
       //.click();
 
@@ -66,18 +66,49 @@ describe(`payment interceptors`, () => {
 
       //cy.get(':nth-child(2) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input').clear();
       //cy.get(':nth-child(2) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input').type('chase_brian');
+      // cy.get(
+      //   ":nth-child(3) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input"
+      // ).clear();
+      // cy.get(
+      //   ":nth-child(3) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input"
+      // ).type("0.0");
+      // cy.get(
+      //   ":nth-child(4) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input"
+      // ).clear();
+      // cy.get(
+      //   ":nth-child(4) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input"
+      // ).type("bcu-checking_brian");
+      // cy.get(
+      //   "div > :nth-child(1) > .MuiIconButton-label > .material-icons"
+      // ).click();
+      // /* ==== End Cypress Studio ==== */
+    });
+
+    /* ==== Test Created with Cypress Studio ==== */
+    it("testme", function () {
+      /* ==== Generated with Cypress Studio ==== */
+      cy.get(
+        "div > :nth-child(1) > .MuiButtonBase-root > .MuiIconButton-label > .material-icons"
+      ).click();
+      cy.get(".react-datepicker__input-container > input").click();
+      cy.get(":nth-child(1) > .react-datepicker__day--004").click();
+      //      cy.get('.css-yk16xz-control > .css-g1d714-ValueContainer > .css-1wa3eu0-placeholder').click();
+      cy.get(
+        ".css-1pahdxg-control > .css-g1d714-ValueContainer > .css-1wa3eu0-placeholder"
+      ).click();
+      cy.get(
+        ".css-1pahdxg-control > .css-g1d714-ValueContainer > .css-1wa3eu0-placeholder"
+      ).type("chase_brian");
+      //cy.get('#react-select-5-option-0').click();
       cy.get(
         ":nth-child(3) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input"
       ).clear();
       cy.get(
         ":nth-child(3) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input"
       ).type("0.0");
-      cy.get(
-        ":nth-child(4) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input"
-      ).clear();
-      cy.get(
-        ":nth-child(4) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input"
-      ).type("bcu-checking_brian");
+      //cy.get(':nth-child(4) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input').clear();
+      //cy.get(':nth-child(4) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input').type('bcu-checking_brian');
+      //cy.get('.Mui-focusVisible > .MuiIconButton-label > .material-icons').click();
       cy.get(
         "div > :nth-child(1) > .MuiIconButton-label > .material-icons"
       ).click();

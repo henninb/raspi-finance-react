@@ -43,6 +43,7 @@ yarn add --dev cypress start-server-and-test --dev
 yarn add --dev @testing-library/react
 yarn add --dev @testing-library/react-hooks
 yarn add --dev react-test-renderer
+yarn add --dev @types/cypress
 yarn global add npm-check-updates
 yarn global add env-cmd
 ```

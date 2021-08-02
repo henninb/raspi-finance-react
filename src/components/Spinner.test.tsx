@@ -14,7 +14,7 @@ test("renders without crashing", () => {
 
 test("renders loader correctly", () => {
   const { getByTestId } = render(<Spinner />);
-    expect(true).toBeTruthy();
+  expect(true).toBeTruthy();
   //console.log(getByTestId("loader"));
   //expect(getByTestId('loader')).toHaveTextContent("Circles");
 });
