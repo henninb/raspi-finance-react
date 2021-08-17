@@ -21,7 +21,7 @@ export default function SelectCategory({
 
   useEffect(() => {
     if (isSuccess) {
-      const categories = data.map(({ category }: any) => category);
+      const categories = data.map(({ categoryName }: any) => categoryName);
       setOptions(categories);
     }
   }, [value, data, currentValue, inputValue, isSuccess]);

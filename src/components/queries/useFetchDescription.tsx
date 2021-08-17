@@ -7,7 +7,7 @@ import { apolloClient } from "../ApolloClient";
 const query = gql`
   query {
     descriptions {
-      description
+      descriptionName
     }
   }
 `;

@@ -23,7 +23,9 @@ export default function SelectDescription({
 
   useEffect(() => {
     if (isSuccess) {
-      const descriptions = data.map(({ description }: any) => description);
+      const descriptions = data.map(
+        ({ descriptionName }: any) => descriptionName
+      );
       setOptions(descriptions);
     }
   }, [value, data, currentValue, inputValue, isSuccess]);

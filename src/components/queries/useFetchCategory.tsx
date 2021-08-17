@@ -6,7 +6,7 @@ import { apolloClient } from "../ApolloClient";
 const query = gql`
   query {
     categories {
-      category
+      categoryName
     }
   }
 `;

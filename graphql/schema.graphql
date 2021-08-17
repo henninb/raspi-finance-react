@@ -44,8 +44,8 @@ type Query {
 }
 
 type Mutation {
-  createDescription(description: String): Description
-  createCategory(category: String): Category
+  createDescription(descriptionName: String): Description
+  createCategory(categoryName: String): Category
   createPayment(payment: PaymentInput): Payment
 }
 
@@ -66,7 +66,7 @@ type Account {
 type Category {
   categoryId: Long
   activeStatus: Boolean!
-  category: String!
+  categoryName: String!
   #    dateAdded: Timestamp
   #    dateUpdated: Timestamp
 }
@@ -75,7 +75,7 @@ type Category {
 type Description {
   descriptionId: Long
   activeStatus: Boolean!
-  description: String!
+  descriptionName: String!
   #    dateAdded: Timestamp
   #    dateUpdated: Timestamp
 }
