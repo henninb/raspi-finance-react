@@ -25,7 +25,7 @@ export default function SelectReoccurringType({
     let debitOptions: any = ["fortnightly", "monthly", "onetime"];
     let creditOptions: any = [
       "annually",
-      "bi-annually",
+      "biannually",
       "fortnightly",
       "monthly",
       "quarterly",
