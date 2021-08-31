@@ -8,6 +8,7 @@ const setupNewAccount = (payload: Account) => {
   payload.cleared = 0.0;
   payload.future = 0.0;
   payload.outstanding = 0.0;
+  payload.dateClosed = new Date(0);
   payload.dateAdded = now;
   payload.dateUpdated = now;
   payload.activeStatus = true;
