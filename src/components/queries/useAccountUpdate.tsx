@@ -9,7 +9,7 @@ const updateAccount = async (
 ): Promise<any> => {
   let endpoint = endpointUrl() + "/account/update/" + oldRow.accountNameOwner;
 
-  const response = await axios.put(endpoint, JSON.stringify(newRow), {
+  const response = await axios.put(endpoint, newRow, {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",

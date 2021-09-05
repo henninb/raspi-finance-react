@@ -19,7 +19,7 @@ const updateTransaction = async (
   }
   console.log("newData:" + JSON.stringify(newData));
 
-  const response = await axios.put(endpoint, JSON.stringify(newData), {
+  const response = await axios.put(endpoint, newData, {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",
