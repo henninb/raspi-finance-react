@@ -20,7 +20,7 @@ if [ ! -x "$(command -v ./os-env)" ]; then
   exit 3
 fi
 
-./os-env
+. ./os-env
 
 # "$OSTYPE" == "darwin"*
 if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Raspbian GNU/Linux" ]; then

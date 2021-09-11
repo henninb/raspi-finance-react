@@ -26,5 +26,3 @@ else
 fi
 export OS
 export OS_VER
-
-exit 0
