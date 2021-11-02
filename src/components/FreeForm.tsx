@@ -205,8 +205,6 @@ export default function FreeForm() {
             <div style={{ width: "300px" }}>
               <Select
                 name="account-select"
-                multi={true}
-                native={true}
                 options={accountTypeOptions}
                 onChange={onSelectChange}
               />

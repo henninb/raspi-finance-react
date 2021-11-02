@@ -37,10 +37,8 @@ export default function SelectAccountNameOwnerCredit({
     <div className="select-formatting">
       <Select
         name="account-select"
-        multi={true}
         value={selectedOption}
         onChange={onSelectChange}
-        native={true}
         options={accountTypeOptions}
         placeholder={currentValue}
       />
