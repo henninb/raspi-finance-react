@@ -23,7 +23,7 @@ describe("spinnerTests", () => {
   let wrapper;
   beforeEach(async () => {
     jest.clearAllMocks();
-    await act(() => {
+    act(() => {
       // eslint-disable-next-line
       wrapper = render(<Spinner />);
     });
