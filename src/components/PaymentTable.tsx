@@ -3,7 +3,7 @@ import MaterialTable from "material-table";
 import "./main.scss";
 import SelectAccountNameOwnerCredit from "./SelectAccountNameOwnerCredit";
 import Spinner from "./Spinner";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import SnackbarBaseline from "./SnackbarBaseline";
 import moment from "moment";
@@ -22,7 +22,7 @@ export default function PaymentTable() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
-  const history = useHistory();
+  const history = useNavigate();
 
   const { data, isSuccess } = useFetchPayment();
   const { data: parmData, isSuccess: parmSuccess } =
@@ -35,8 +35,7 @@ export default function PaymentTable() {
   };
 
   const handleButtonClickLink = (oldRow: Transaction) => {
-    history.push("/transactions/" + oldRow.accountNameOwner);
-    history.go(0);
+    history("/transactions/" + oldRow.accountNameOwner);
   };
 
   const handleError = (error: any, moduleName: String, throwIt: any) => {

@@ -3,7 +3,7 @@ import MaterialTable from "material-table";
 import Spinner from "./Spinner";
 import "./main.scss";
 import Button from "@material-ui/core/Button";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { currencyFormat, noNaN } from "./Common";
 import SnackbarBaseline from "./SnackbarBaseline";
 import useFetchAccount from "./queries/useFetchAccount";
@@ -15,7 +15,7 @@ import Account from "./model/Account";
 export default function AccountSummaryTable() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
-  const history = useHistory();
+  const history = useNavigate();
 
   const { data, isSuccess, isLoading } = useFetchAccount();
   const { data: totals, isSuccess: isSuccessTotals } = useFetchTotals();
@@ -23,8 +23,7 @@ export default function AccountSummaryTable() {
   const { mutate: deleteAccount } = useAccountDelete();
 
   const handleButtonClickLink = (accountNameOwner: String) => {
-    history.push("/transactions/" + accountNameOwner);
-    history.go(0);
+    history("/transactions/" + accountNameOwner);
   };
 
   const handleError = (error: any, moduleName: String, throwIt: any) => {

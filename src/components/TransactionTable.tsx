@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import Spinner from "./Spinner";
 import "./main.scss";
-import { useRouteMatch } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 import SelectTransactionState from "./SelectTransactionState";
 import TransactionMove from "./TransactionMove";
 import { currencyFormat, epochToDate, noNaN } from "./Common";
@@ -41,7 +41,7 @@ export default function TransactionTable() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
-  const routeMatch: any = useRouteMatch("/transactions/:account");
+  const routeMatch: any = useMatch("/transactions/:account");
   const { data, isSuccess } = useFetchTransactionByAccount(
     routeMatch.params["account"]
   );

@@ -2,17 +2,16 @@ import Spinner from "./Spinner";
 import React from "react";
 import MaterialTable from "material-table";
 import Button from "@material-ui/core/Button";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useFetchPaymentRequired from "./queries/useFetchPaymentRequired";
 
 export default function PaymentRequired() {
-  const history = useHistory();
+  const history = useNavigate();
 
   const { data, isSuccess, isLoading } = useFetchPaymentRequired();
 
   const handleButtonClickLink = (accountNameOwner: String) => {
-    history.push("/transactions/" + accountNameOwner);
-    history.go(0);
+    history("/transactions/" + accountNameOwner);
   };
 
   return (

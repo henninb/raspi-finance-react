@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useFetchAccount from "./queries/useFetchAccount";
 
 export default function SelectAccounts() {
   const [options, setOptions] = useState([]);
 
   const handleChange = (selectedOption: any) => {
-    history.push("/transactions/" + selectedOption.value);
-    history.go(0);
+    history("/transactions/" + selectedOption.value);
   };
 
-  const history = useHistory();
+  const history = useNavigate();
   const { data, isSuccess } = useFetchAccount();
 
   useEffect(() => {

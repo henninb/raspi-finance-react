@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Routes from "./components/Routes";
+import AllRoutes from "./components/AllRoutes";
 
 import moment from "moment";
 
@@ -11,6 +11,6 @@ require("dotenv").config();
 
 export default class App extends Component {
   render() {
-    return <Routes />;
+    return <AllRoutes />;
   }
 }
