@@ -21,7 +21,10 @@ export default function AllRoutes() {
             <Route path="/payments" element={<PaymentTable />} />
             <Route path="/freeform" element={<FreeForm />} />
             <Route path="/payment/required" element={<PaymentRequired />} />
-            <Route path="/transactions/:account" element={<TransactionTable />} />
+            <Route
+              path="/transactions/:account"
+              element={<TransactionTable />}
+            />
             <Route path="/" element={<AccountSummaryTable />} />
           </Routes>
         </QueryClientProvider>
