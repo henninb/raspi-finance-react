@@ -24,7 +24,7 @@ fi
 . ./os-env
 
 # "$OSTYPE" == "darwin"*
-if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Raspbian GNU/Linux" ]; then
+if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian GNU/Linux" ]; then
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
 elif [ "$OS" = "Arch Linux" ] || [ "$OS" = "ArcoLinux" ]; then
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
