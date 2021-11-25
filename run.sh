@@ -25,6 +25,7 @@ fi
 
 # "$OSTYPE" == "darwin"*
 if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian GNU/Linux" ]; then
+  #echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
 elif [ "$OS" = "Arch Linux" ] || [ "$OS" = "ArcoLinux" ]; then
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
