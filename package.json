@@ -75,6 +75,7 @@
     ]
   },
   "devDependencies": {
+    "@apollo/react-testing": "^4.0.0",
     "@testing-library/dom": "^8.11.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
@@ -83,6 +84,7 @@
     "@types/cypress": "^1.1.3",
     "@types/jest": "^27.0.3",
     "caniuse-lite": "^1.0.30001286",
+    "canvas": "^2.8.0",
     "cypress": "^9.1.1",
     "eslint-plugin-cypress": "^2.12.1",
     "jest": "^27.4.3",

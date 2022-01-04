@@ -1,22 +1,39 @@
 import React from "react";
-import { act, render } from "@testing-library/react";
+import { act } from "@testing-library/react";
+import { render } from "./test-utils";
 import PaymentTable from "./PaymentTable";
 import { fireEvent } from "@testing-library/dom";
+import { MockedProvider } from '@apollo/react-testing';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+
+const MOCKS = [];
 
 test("dummy test", () => {
   expect(true).toBeTruthy();
 });
 
-// describe("paymentTableTests", () => {
-//   let wrapper: any;
-//   //const {result} = renderHook(() => setLoading(true))
-//
-//   beforeEach(async () => {
-//     jest.clearAllMocks();
-//     await act(() => {
-//       wrapper = render(<PaymentTable />);
-//     });
-//   });
+describe("paymentTableTests", () => {
+  let wrapper: any;
+  //const {result} = renderHook(() => setLoading(true))
+
+  beforeEach(async () => {
+    jest.clearAllMocks();
+    await act(() => {
+    const queryClient = new QueryClient()
+
+      wrapper = render(
+      <QueryClientProvider client={queryClient}>
+            <PaymentTable />
+            </QueryClientProvider>
+      );
+    });
+  });
+
+  it("test me", () => {
+    expect(true).toBeTruthy();
+  });
+
+
 //   it("paymentTable - add a record", () => {
 //     //console.log(wrapper);
 //     const { getByLabelText, getByTitle, getByPlaceholderText } = wrapper;
@@ -38,4 +55,4 @@ test("dummy test", () => {
 //
 //     expect(amount.value).toBe("10");
 //   });
-// });
+});

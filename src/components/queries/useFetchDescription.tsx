@@ -22,7 +22,8 @@ const fetchDescriptionData = async () => {
 export default function useFetchDescription() {
   return useQuery("description", () => fetchDescriptionData(), {
     onError: (error: ApolloError) => {
-      console.log(error ? error : "error is undefined.");
+      console.log("graphql error with description");
+      //console.log(error ? error : "error is undefined.");
     },
   });
 }

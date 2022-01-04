@@ -21,7 +21,8 @@ const fetchCategoryData = async () => {
 export default function useFetchCategory() {
   return useQuery("category", () => fetchCategoryData(), {
     onError: (error: ApolloError) => {
-      console.log(error ? error : "error is undefined.");
+      console.log("graphql error with category");
+      //console.log(error ? error : "error is undefined.");
     },
   });
 }
