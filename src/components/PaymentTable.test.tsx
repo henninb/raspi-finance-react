@@ -5,6 +5,7 @@ import PaymentTable from "./PaymentTable";
 import { fireEvent } from "@testing-library/dom";
 import { MockedProvider } from "@apollo/react-testing";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { server } from "./mocks/server";
 
 const MOCKS = [];
 
@@ -15,6 +16,10 @@ test("dummy test", () => {
 describe("paymentTableTests", () => {
   let wrapper: any;
   //const {result} = renderHook(() => setLoading(true))
+
+  beforeAll(() => {
+    server.listen()
+  })
 
   beforeEach(async () => {
     jest.clearAllMocks();
@@ -29,7 +34,24 @@ describe("paymentTableTests", () => {
     });
   });
 
+    afterEach(() => {
+      // Reset any runtime handlers tests may use.
+      server.resetHandlers()
+    });
+
+    afterAll(() => {
+      // Clean up once the tests are done.
+      server.close()
+    });
+
+
   it("test me", () => {
+    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } = wrapper;
+
+    // eslint-disable-next-line
+    //let paymentsTable = getByTestId("payments-table");
+    //console.log(getByLabelText)
+    //let addButton = getByTitle("Add");
     expect(true).toBeTruthy();
   });
 

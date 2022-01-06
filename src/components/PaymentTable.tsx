@@ -25,7 +25,7 @@ export default function PaymentTable() {
   const history = useNavigate();
 
   const { data, isSuccess } = useFetchPayment();
-  const { data: parmData, isSuccess: parmSuccess } =
+  const { data: parameterData, isSuccess: parameterSuccess } =
     useFetchParameter("payment_account");
   const { mutate: insertPayment } = usePaymentInsert();
   const { mutate: deletePayment } = usePaymentDelete();
@@ -79,8 +79,8 @@ export default function PaymentTable() {
   // @ts-ignore
   return (
     <div>
-      {isSuccess && parmSuccess ? (
-        <div className="table-formatting" data-test-id="payments-table">
+      {isSuccess && parameterSuccess ? (
+        <div className="table-formatting" data-testid="payments-table">
           <MaterialTable
             data-test-id="payment-material-table"
             // data-cy="payment-table"
@@ -152,9 +152,9 @@ export default function PaymentTable() {
                 title: "source",
                 field: "sourceAccount",
                 type: "string",
-                initialEditValue: parmData
-                  ? parmData.parameterValue
-                  : "undefined parmData",
+                initialEditValue: parameterData
+                  ? parameterData.parameterValue
+                  : "undefined parameterData",
                 cellStyle: { whiteSpace: "nowrap" },
               },
             ]}
