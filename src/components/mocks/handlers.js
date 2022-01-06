@@ -22,7 +22,4 @@ export const handlers = [
         {"parameterId":1,"parameterName":"payment_account","parameterValue":"bcu-checking_brian","activeStatus":true})
       );
     }),
-
-//    rest.get('/payment/select', null),
-//    rest.get('/parm/select/payment_account', null),
 ];
