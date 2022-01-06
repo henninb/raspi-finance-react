@@ -191,7 +191,7 @@ export default function FreeForm() {
   return (
     <div>
       {!loadFreeFormTable ? (
-        <div className="freeform">
+        <div className="freeform" data-testid="free-form">
           <div>
             {/*<textarea name="comment" form="transactions" id="textArea" rows="20" cols="180" defaultValue=""*/}
             <textarea

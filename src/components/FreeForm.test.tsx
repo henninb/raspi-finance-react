@@ -1,24 +1,14 @@
 import React from "react";
+//import { act } from "@testing-library/react";
 import { render } from "./test-utils";
-import FreeFormTable from "./FreeFormTable";
+import FreeForm from "./FreeForm";
 import { fireEvent, waitFor } from "@testing-library/dom";
 import { MockedProvider } from "@apollo/react-testing";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { server } from "./mocks/server";
 
-describe("freeForm table testing", () => {
+describe("freeForm testing", () => {
   let wrapper: any;
-
-  const data = [{"accountNameOwner": "chase_brian",
-                "transactionDate": "2022-01-02",
-                  "description": "desc",
-                  "category": "cat",
-                  "amount": 0.00,
-                  "transactionState": "cleared",
-                  "reoccurringType": "",
-                  "notes": "n/a"
-                  }
-                  ];
 
 //   beforeAll(() => {
 //     server.listen();
@@ -27,11 +17,9 @@ describe("freeForm table testing", () => {
   beforeEach(async () => {
     const queryClient = new QueryClient();
 
-
-
     wrapper = render(
       <QueryClientProvider client={queryClient}>
-        <FreeFormTable data={data} />
+        <FreeForm />
       </QueryClientProvider>
     );
   });
@@ -44,12 +32,12 @@ describe("freeForm table testing", () => {
 //     server.close();
 //   });
 
-    it("freeFormTable loads", async() => {
+    it("freeForm loads", async() => {
       const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
         wrapper;
 
       await waitFor(() => {
-        let freeForm = getByTestId("free-form-table");
+        let freeForm = getByTestId("free-form");
       });
 
       expect(true).toBeTruthy();
