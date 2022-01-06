@@ -15,8 +15,6 @@ describe("paymentTableTests", () => {
   });
 
   beforeEach(async () => {
-    jest.clearAllMocks();
-    await act(() => {
       const queryClient = new QueryClient();
 
       wrapper = render(
@@ -24,7 +22,6 @@ describe("paymentTableTests", () => {
           <PaymentTable />
         </QueryClientProvider>
       );
-    });
   });
 
   afterEach(() => {

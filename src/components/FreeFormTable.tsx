@@ -7,6 +7,10 @@ export default function FreeFormTable({ data, toggleDisplayList }: any) {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
+  if (!data) {
+    return '<>';
+  }
+
   const { mutate: insertTransaction } = useTransactionInsert(
     data[0].accountNameOwner
   );
@@ -67,7 +71,7 @@ export default function FreeFormTable({ data, toggleDisplayList }: any) {
   // @ts-ignore
   return (
     <div>
-      <div>
+      <div data-testid="free-form">
         <DataGrid
           style={{ width: "1024px" }}
           rows={data}
