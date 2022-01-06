@@ -7,7 +7,7 @@ import { MockedProvider } from "@apollo/react-testing";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { server } from "./mocks/server";
 
-describe("paymentTableTests", () => {
+describe("payment Table Testing", () => {
   let wrapper: any;
 
   beforeAll(() => {
