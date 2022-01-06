@@ -2,24 +2,17 @@ import React from "react";
 import { act } from "@testing-library/react";
 import { render } from "./test-utils";
 import PaymentTable from "./PaymentTable";
-import { fireEvent } from "@testing-library/dom";
+import { fireEvent, waitFor } from "@testing-library/dom";
 import { MockedProvider } from "@apollo/react-testing";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { server } from "./mocks/server";
 
-const MOCKS = [];
-
-test("dummy test", () => {
-  expect(true).toBeTruthy();
-});
-
 describe("paymentTableTests", () => {
   let wrapper: any;
-  //const {result} = renderHook(() => setLoading(true))
 
   beforeAll(() => {
-    server.listen()
-  })
+    server.listen();
+  });
 
   beforeEach(async () => {
     jest.clearAllMocks();
@@ -34,24 +27,26 @@ describe("paymentTableTests", () => {
     });
   });
 
-    afterEach(() => {
-      // Reset any runtime handlers tests may use.
-      server.resetHandlers()
-    });
+  afterEach(() => {
+    server.resetHandlers();
+  });
 
-    afterAll(() => {
-      // Clean up once the tests are done.
-      server.close()
-    });
+  afterAll(() => {
+    server.close();
+  });
 
-
-  it("test me", () => {
-    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } = wrapper;
+  it("paymentTable loads", async() => {
+    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
+      wrapper;
 
     // eslint-disable-next-line
-    //let paymentsTable = getByTestId("payments-table");
-    //console.log(getByLabelText)
-    //let addButton = getByTitle("Add");
+    let loader = getByTestId("loader");
+    //let paymentTable  = await getByLabelText("payments-table");
+    await waitFor(() => {
+      let paymentTable = getByTestId("payments-table");
+      let addButton = getByTitle("Add");
+    });
+
     expect(true).toBeTruthy();
   });
 

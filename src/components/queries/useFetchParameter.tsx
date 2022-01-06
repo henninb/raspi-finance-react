@@ -3,7 +3,7 @@ import { basicAuth, endpointUrl } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchParameterData = async (parameterName: any): Promise<any> => {
-  console.log("parm select called: " + parameterName);
+  console.log("parameter select called: " + parameterName);
   const response = await axios.get(
     endpointUrl() + "/parm/select/" + parameterName,
     {
