@@ -7,10 +7,6 @@ export default function FreeFormTable({ data, toggleDisplayList }: any) {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
-  if (!data) {
-    return '<>';
-  }
-
   const { mutate: insertTransaction } = useTransactionInsert(
     data[0].accountNameOwner
   );
