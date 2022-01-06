@@ -17,7 +17,7 @@ export default function PaymentRequired() {
   return (
     <div>
       {!isLoading && isSuccess ? (
-        <div className="table-formatting">
+        <div className="table-formatting" data-testid="payment-required-table">
           <MaterialTable
             columns={[
               {
