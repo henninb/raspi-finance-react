@@ -17,9 +17,20 @@ describe("freeForm table testing", () => {
   beforeEach(async () => {
     const queryClient = new QueryClient();
 
+    const test = [{"accountNameOwner": "chase_brian",
+                  "transactionDate": "2022-01-02",
+                    "description": "desc",
+                    "category": "cat",
+                    "amount": 0.00,
+                    "transactionState": "cleared",
+                    "reoccurringType": "",
+                    "notes": "n/a"
+                    }
+                    ];
+
     wrapper = render(
       <QueryClientProvider client={queryClient}>
-        <FreeFormTable />
+        <FreeFormTable data={test} />
       </QueryClientProvider>
     );
   });
@@ -36,9 +47,11 @@ describe("freeForm table testing", () => {
       const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
         wrapper;
 
+
       // eslint-disable-next-line
       //let paymentTable  = await getByLabelText("payments-table");
       await waitFor(() => {
+        let freeForm = getByTestId("free-form-table");
        // let freeForm = getByTestId("free-form");
       });
 

@@ -71,7 +71,7 @@ export default function FreeFormTable({ data, toggleDisplayList }: any) {
   // @ts-ignore
   return (
     <div>
-      <div data-testid="free-form">
+      <div data-testid="free-form-table">
         <DataGrid
           style={{ width: "1024px" }}
           rows={data}
