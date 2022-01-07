@@ -57,18 +57,21 @@ mkdir -p ssl
 
 if [ "$ENV" = "prod" ]; then
   if ! yarn build; then
-    echo fail
+    echo "yarn build failed"
     exit 1
   fi
 
+  docker stop raspi-finance-react
+  docker rm -f raspi-finance-react
+  docker rmi raspi-finance-react
   docker rmi -f $(docker images -q -f dangling=true)
 
-  if ! docker-compose -f docker-compose.yml build; then
-    echo "docker-compose build failed."
-    exit 1
-  fi
+  # if ! docker-compose -f docker-compose.yml build; then
+  #   echo "docker-compose build failed."
+  #   exit 1
+  # fi
 
-  if ! docker-compose -f docker-compose.yml up; then
+  if ! docker-compose -f docker-compose.yml up -d; then
     echo "docker-compose up failed."
     exit 1
   fi
