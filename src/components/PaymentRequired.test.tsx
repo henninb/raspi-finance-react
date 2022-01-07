@@ -25,6 +25,7 @@ describe("payment required table testing", () => {
 
   afterEach(() => {
     server.resetHandlers();
+
   });
 
   afterAll(() => {
@@ -32,8 +33,7 @@ describe("payment required table testing", () => {
   });
 
     it("payment required table loads", async() => {
-      const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
-        wrapper;
+      const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } = wrapper;
 
       await waitFor(() => {
         let freeForm = getByTestId("payment-required-table");

@@ -45,6 +45,7 @@ yarn add --dev @testing-library/react-hooks
 yarn add --dev react-test-renderer
 yarn add --dev @types/cypress
 yarn add --dev caniuse-lite
+yarn add --dev msw
 yarn global add npm-check-updates
 yarn global add env-cmd
 ```

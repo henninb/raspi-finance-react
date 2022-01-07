@@ -2,7 +2,7 @@ import { rest } from "msw";
 import { basicAuth, endpointUrl } from "../Common";
 
 export const handlers = [
-  rest.get("https://hornsup:8443/payment/select", (req, res, ctx) => {
+    rest.get("https://hornsup:8443/payment/select", (req, res, ctx) => {
     return res(
       ctx.json([
       {"paymentId":1001,
@@ -14,7 +14,7 @@ export const handlers = [
       "activeStatus":true}
       ])
     );
-  }),
+    }),
 
     rest.get("https://hornsup:8443/parm/select/payment_account", (req, res, ctx) => {
       return res(
@@ -23,23 +23,40 @@ export const handlers = [
       );
     }),
 
-      rest.get("https://hornsup:8443/transaction/payment/required", (req, res, ctx) => {
-        return res(
-          ctx.json([
-          {
-              "accountId":1001,
-              "accountNameOwner":"amex_brian",
-              "accountType":"credit",
-              "activeStatus":true,
-              "moniker":"0000",
-              "outstanding":0.00,
-              "future":176.71,
-              "cleared":0.00,
-              "dateClosed":"1970-01-01T00:00:00.000-06:00"
-          }
-          ])
-        );
-      }),
+    rest.get("https://hornsup:8443/transaction/payment/required", (req, res, ctx) => {
+    return res(
+      ctx.json([
+      {
+          "accountId":1001,
+          "accountNameOwner":"amex_brian",
+          "accountType":"credit",
+          "activeStatus":true,
+          "moniker":"0000",
+          "outstanding":0.00,
+          "future":176.71,
+          "cleared":0.00,
+          "dateClosed":"1970-01-01T00:00:00.000-06:00"
+      }
+      ])
+    );
+    }),
 
+    rest.get("https://hornsup:8443/account/select/active", (req, res, ctx) => {
+    return res(
+      ctx.json([
+      {
+          "accountId":1001,
+          "accountNameOwner":"test_brian",
+          "accountType":"credit",
+          "activeStatus":true,
+          "moniker":"0000",
+          "outstanding":0.00,
+          "future":0.00,
+          "cleared":0.00,
+          "dateClosed":"1970-01-01T00:00:00.000-06:00"
+      }
+      ])
+    );
+    }),
 
 ];

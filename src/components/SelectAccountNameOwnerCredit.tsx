@@ -34,7 +34,7 @@ export default function SelectAccountNameOwnerCredit({
   };
 
   return (
-    <div className="select-formatting">
+    <div className="select-formatting" data-testid="accounts-credit">
       <Select
         name="account-select"
         value={selectedOption}

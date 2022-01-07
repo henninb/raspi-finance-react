@@ -80,9 +80,9 @@ export default function PaymentTable() {
   return (
     <div>
       {isSuccess && parameterSuccess ? (
-        <div className="table-formatting" data-testid="payments-table">
+        <div className="table-formatting" data-testid="payment-table">
           <MaterialTable
-            data-test-id="payment-material-table"
+            data-testid="payment-material-table"
             // data-cy="payment-table"
             columns={[
               {

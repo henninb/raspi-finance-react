@@ -1,13 +1,13 @@
 import React from "react";
 import { act } from "@testing-library/react";
-import { render } from "./test-utils";
+import { render, cleanup } from "./test-utils";
 import PaymentTable from "./PaymentTable";
 import { fireEvent, waitFor } from "@testing-library/dom";
 import { MockedProvider } from "@apollo/react-testing";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { server } from "./mocks/server";
 
-describe("payment Table Testing", () => {
+describe("payment table Testing", () => {
   let wrapper: any;
 
   beforeAll(() => {
@@ -26,13 +26,14 @@ describe("payment Table Testing", () => {
 
   afterEach(() => {
     server.resetHandlers();
+    cleanup();
   });
 
   afterAll(() => {
     server.close();
   });
 
-  it("paymentTable loads", async() => {
+  it("payment table loads", async() => {
     const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
       wrapper;
 
@@ -40,8 +41,9 @@ describe("payment Table Testing", () => {
     let loader = getByTestId("loader");
     //let paymentTable  = await getByLabelText("payments-table");
     await waitFor(() => {
-      let paymentTable = getByTestId("payments-table");
+      let paymentTable = getByTestId("payment-table");
       let addButton = getByTitle("Add");
+      fireEvent.click(addButton);
     });
 
     expect(true).toBeTruthy();
