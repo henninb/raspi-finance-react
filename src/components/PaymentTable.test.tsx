@@ -15,13 +15,13 @@ describe("payment table Testing", () => {
   });
 
   beforeEach(async () => {
-      const queryClient = new QueryClient();
+    const queryClient = new QueryClient();
 
-      wrapper = render(
-        <QueryClientProvider client={queryClient}>
-          <PaymentTable />
-        </QueryClientProvider>
-      );
+    wrapper = render(
+      <QueryClientProvider client={queryClient}>
+        <PaymentTable />
+      </QueryClientProvider>
+    );
   });
 
   afterEach(() => {
@@ -33,7 +33,7 @@ describe("payment table Testing", () => {
     server.close();
   });
 
-  it("payment table loads", async() => {
+  it("payment table loads", async () => {
     const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
       wrapper;
 

@@ -4,16 +4,14 @@ import Spinner from "./Spinner";
 import { cleanup, render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 
-
 describe("select spinner testing", () => {
+  let wrapper: any;
 
-    let wrapper: any;
+  //     beforeAll(() => {
+  //       server.listen();
+  //     });
 
-//     beforeAll(() => {
-//       server.listen();
-//     });
-
-    beforeEach(async () => {
+  beforeEach(async () => {
     const queryClient = new QueryClient();
 
     wrapper = render(
@@ -21,31 +19,29 @@ describe("select spinner testing", () => {
         <Spinner />
       </QueryClientProvider>
     );
-    });
+  });
 
-    afterEach(() => {
-      //server.resetHandlers();
-      cleanup();
-    });
-//
-//     afterAll(() => {
-//       server.close();
-//     });
+  afterEach(() => {
+    //server.resetHandlers();
+    cleanup();
+  });
+  //
+  //     afterAll(() => {
+  //       server.close();
+  //     });
 
-    it("loader renders without crashing", async() => {
-        const div = document.createElement("div");
-        ReactDOM.render(<Spinner />, div);
-        ReactDOM.unmountComponentAtNode(div);
-        expect(true).toBeTruthy();
-    });
+  it("loader renders without crashing", async () => {
+    const div = document.createElement("div");
+    ReactDOM.render(<Spinner />, div);
+    ReactDOM.unmountComponentAtNode(div);
+    expect(true).toBeTruthy();
+  });
 
-    it("renders loader correctly", () => {
-      const { getByTestId } = wrapper;
-      let loader = getByTestId("loader");
-      expect(true).toBeTruthy();
-      //console.log(getByTestId("loader"));
-      //expect(getByTestId('loader')).toHaveTextContent("Rings");
-    });
-
+  it("renders loader correctly", () => {
+    const { getByTestId } = wrapper;
+    let loader = getByTestId("loader");
+    expect(true).toBeTruthy();
+    //console.log(getByTestId("loader"));
+    //expect(getByTestId('loader')).toHaveTextContent("Rings");
+  });
 });
-

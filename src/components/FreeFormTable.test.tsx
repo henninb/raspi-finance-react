@@ -9,25 +9,25 @@ import { server } from "./mocks/server";
 describe("freeForm table testing", () => {
   let wrapper: any;
 
-  const data = [{"accountNameOwner": "chase_brian",
-                "transactionDate": "2022-01-02",
-                  "description": "desc",
-                  "category": "cat",
-                  "amount": 0.00,
-                  "transactionState": "cleared",
-                  "reoccurringType": "",
-                  "notes": "n/a"
-                  }
-                  ];
+  const data = [
+    {
+      accountNameOwner: "chase_brian",
+      transactionDate: "2022-01-02",
+      description: "desc",
+      category: "cat",
+      amount: 0.0,
+      transactionState: "cleared",
+      reoccurringType: "",
+      notes: "n/a",
+    },
+  ];
 
-//   beforeAll(() => {
-//     server.listen();
-//   });
+  //   beforeAll(() => {
+  //     server.listen();
+  //   });
 
   beforeEach(async () => {
     const queryClient = new QueryClient();
-
-
 
     wrapper = render(
       <QueryClientProvider client={queryClient}>
@@ -36,22 +36,22 @@ describe("freeForm table testing", () => {
     );
   });
 
-//   afterEach(() => {
-//     server.resetHandlers();
-//   });
+  //   afterEach(() => {
+  //     server.resetHandlers();
+  //   });
 
-//   afterAll(() => {
-//     server.close();
-//   });
+  //   afterAll(() => {
+  //     server.close();
+  //   });
 
-    it("freeFormTable loads", async() => {
-      const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
-        wrapper;
+  it("freeFormTable loads", async () => {
+    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
+      wrapper;
 
-      await waitFor(() => {
-        let freeForm = getByTestId("free-form-table");
-      });
-
-      expect(true).toBeTruthy();
+    await waitFor(() => {
+      let freeForm = getByTestId("free-form-table");
     });
+
+    expect(true).toBeTruthy();
+  });
 });

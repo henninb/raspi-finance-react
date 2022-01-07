@@ -25,20 +25,20 @@ describe("payment required table testing", () => {
 
   afterEach(() => {
     server.resetHandlers();
-
   });
 
   afterAll(() => {
     server.close();
   });
 
-    it("payment required table loads", async() => {
-      const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } = wrapper;
+  it("payment required table loads", async () => {
+    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
+      wrapper;
 
-      await waitFor(() => {
-        let freeForm = getByTestId("payment-required-table");
-      });
-
-      expect(true).toBeTruthy();
+    await waitFor(() => {
+      let freeForm = getByTestId("payment-required-table");
     });
+
+    expect(true).toBeTruthy();
+  });
 });

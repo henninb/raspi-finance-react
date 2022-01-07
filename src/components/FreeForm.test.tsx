@@ -9,9 +9,9 @@ import { server } from "./mocks/server";
 describe("freeForm testing", () => {
   let wrapper: any;
 
-//   beforeAll(() => {
-//     server.listen();
-//   });
+  //   beforeAll(() => {
+  //     server.listen();
+  //   });
 
   beforeEach(async () => {
     const queryClient = new QueryClient();
@@ -23,22 +23,22 @@ describe("freeForm testing", () => {
     );
   });
 
-//   afterEach(() => {
-//     server.resetHandlers();
-//   });
+  //   afterEach(() => {
+  //     server.resetHandlers();
+  //   });
 
-//   afterAll(() => {
-//     server.close();
-//   });
+  //   afterAll(() => {
+  //     server.close();
+  //   });
 
-    it("freeForm loads", async() => {
-      const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
-        wrapper;
+  it("freeForm loads", async () => {
+    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
+      wrapper;
 
-      await waitFor(() => {
-        let freeForm = getByTestId("free-form");
-      });
-
-      expect(true).toBeTruthy();
+    await waitFor(() => {
+      let freeForm = getByTestId("free-form");
     });
+
+    expect(true).toBeTruthy();
+  });
 });
