@@ -14,7 +14,7 @@ const fetchTotalsPerAccount = async (accountNameOwner: any): Promise<any> => {
       },
     }
   );
-  console.debug(JSON.stringify(response.data));
+  //console.debug(JSON.stringify(response.data));
   return response.data;
 };
 

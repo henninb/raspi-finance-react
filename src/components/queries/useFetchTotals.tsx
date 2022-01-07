@@ -11,7 +11,7 @@ const fetchTotals = async (): Promise<any> => {
       Authorization: basicAuth(),
     },
   });
-  console.debug(JSON.stringify(response.data));
+  //console.debug(JSON.stringify(response.data));
   return response.data;
 };
 

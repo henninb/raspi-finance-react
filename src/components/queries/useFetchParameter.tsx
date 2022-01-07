@@ -3,7 +3,6 @@ import { basicAuth, endpointUrl } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchParameterData = async (parameterName: any): Promise<any> => {
-  console.log("parameter select called: " + parameterName);
   const response = await axios.get(
     endpointUrl() + "/parm/select/" + parameterName,
     {
@@ -15,12 +14,11 @@ const fetchParameterData = async (parameterName: any): Promise<any> => {
       },
     }
   );
-  console.debug(JSON.stringify(response.data));
+  //console.debug(JSON.stringify(response.data));
   return response.data;
 };
 
 export default function useFetchParameter(parameterName: any) {
-  console.log(parameterName);
   return useQuery(
     ["parameter", parameterName],
     () => fetchParameterData(parameterName),

@@ -36,10 +36,10 @@ describe("freeForm table testing", () => {
     );
   });
 
-    afterEach(() => {
-      //server.resetHandlers();
-      cleanup();
-    });
+  afterEach(() => {
+    //server.resetHandlers();
+    cleanup();
+  });
 
   //   afterAll(() => {
   //     server.close();

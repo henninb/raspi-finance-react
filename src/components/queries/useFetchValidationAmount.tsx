@@ -16,7 +16,7 @@ const fetchValidationAmountData = async (
       },
     }
   );
-  console.debug(JSON.stringify(response.data));
+  //console.debug(JSON.stringify(response.data));
   return response.data;
 };
 

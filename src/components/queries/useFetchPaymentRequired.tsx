@@ -14,7 +14,7 @@ const fetchPaymentRequiredData = async (): Promise<any> => {
       },
     }
   );
-  console.debug(JSON.stringify(response.data));
+  //console.debug(JSON.stringify(response.data));
   return response.data;
 };
 

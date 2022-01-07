@@ -18,7 +18,7 @@ describe("select accountNameOwner credit testing", () => {
 
     wrapper = render(
       <QueryClientProvider client={queryClient}>
-        <SelectAccountNameOwnerCredit />
+        <SelectAccountNameOwnerCredit currentValue="test_brian" />
       </QueryClientProvider>
     );
   });

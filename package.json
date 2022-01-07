@@ -53,7 +53,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "export NODE_OPTIONS=--openssl-legacy-provider; react-scripts build",
-    "test": "CI=true react-scripts test",
+    "test": "export NODE_TLS_REJECT_UNAUTHORIZED=1; CI=true react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "npx prettier --write .",
     "functional:payment": "",
