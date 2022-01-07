@@ -1,5 +1,4 @@
 import React from "react";
-import { act } from "@testing-library/react";
 import { render, cleanup } from "./test-utils";
 import PaymentTable from "./PaymentTable";
 import { fireEvent, waitFor } from "@testing-library/dom";

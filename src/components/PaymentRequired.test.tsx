@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "./test-utils";
+import { render,cleanup } from "./test-utils";
 import PaymentRequired from "./PaymentRequired";
 import { fireEvent, waitFor } from "@testing-library/dom";
 import { MockedProvider } from "@apollo/react-testing";
@@ -25,6 +25,7 @@ describe("payment required table testing", () => {
 
   afterEach(() => {
     server.resetHandlers();
+    cleanup();
   });
 
   afterAll(() => {

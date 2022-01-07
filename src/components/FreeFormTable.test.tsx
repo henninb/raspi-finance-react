@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "./test-utils";
+import { render, cleanup } from "./test-utils";
 import FreeFormTable from "./FreeFormTable";
 import { fireEvent, waitFor } from "@testing-library/dom";
 import { MockedProvider } from "@apollo/react-testing";
@@ -36,9 +36,10 @@ describe("freeForm table testing", () => {
     );
   });
 
-  //   afterEach(() => {
-  //     server.resetHandlers();
-  //   });
+    afterEach(() => {
+      //server.resetHandlers();
+      cleanup();
+    });
 
   //   afterAll(() => {
   //     server.close();
