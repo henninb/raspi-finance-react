@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 services:
   raspi-finance-react:
     image: raspi-finance-react
@@ -11,8 +11,10 @@ services:
     container_name: raspi-finance-react
     ports:
       - "3000:80"
+      - "443:443"
     expose:
       - "3000"
+      - "443"
 
     #    mem_limit: 1024m
     # volumes:

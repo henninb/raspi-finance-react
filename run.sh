@@ -75,9 +75,7 @@ if [ "$ENV" = "prod" ]; then
     echo "docker-compose up failed."
     exit 1
   fi
-  # echo docker build -t my-react-app -f Dockerfile-nginx .
-  # docker build -t my-react-app -f Dockerfile-nginx .
-  # docker run -it -p 80:80 --rm my-react-app
+  echo docker exec -it raspi-finance-react /bin/sh
 else
   if [ -x "$(command -v ncu)" ]; then
     echo ncu -u
