@@ -140,3 +140,5 @@ warning @types/react-loader-spinner@4.0.0: This is a stub types definition. reac
 warning react-scripts > babel-eslint@10.1.0: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
 warning react-scripts > webpack-dev-server > chokidar > fsevents@1.2.13: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
 ```
+
+varnishadm
