@@ -10,7 +10,7 @@ services:
       dockerfile: Dockerfile
     container_name: raspi-finance-react
     ports:
-      - "3000:80"
+      - "3000:443"
       - "443:443"
     expose:
       - "3000"
