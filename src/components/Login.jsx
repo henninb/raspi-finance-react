@@ -30,12 +30,17 @@ export default function Login() {
     const loading = false
 
       return (
-        <div className="login-formatting" >
+        <div className="login-formatting">
+
+<div style={{
+        backgroundColor: 'white',
+}}>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleLogin}
         >
+
 
         <Form>
               <div className="form-group">
@@ -72,29 +77,10 @@ export default function Login() {
                 </div>
               )}
             </Form>
-
-
-          {/* <Form>
-            <div>
-              <label htmlFor="username">Username</label>
-              <Field name="username" type="text" />
-              <ErrorMessage name="username" component="div" />
-            </div>
-            <div>
-              <label htmlFor="password">Password</label>
-              <Field name="password" type="password" />
-              <ErrorMessage name="password" component="div" />
-            </div>
-            <div>
-              <button type="submit">
-                Login
-              </button>
-            </div>
-          </Form> */}
-
-
+            
 
         </Formik>
+        </div>
         </div>
       );
     
