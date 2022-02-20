@@ -7,6 +7,8 @@ import FreeForm from "./FreeForm";
 import NavbarInstance from "./NavbarInstance";
 import PaymentRequired from "./PaymentRequired";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Login from "./Login";
+import Register from "./Register"
 
 export default function AllRoutes() {
   const queryClient = new QueryClient();
@@ -19,6 +21,8 @@ export default function AllRoutes() {
           </div>
           <Routes>
             <Route path="/payments" element={<PaymentTable />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/freeform" element={<FreeForm />} />
             <Route path="/payment/required" element={<PaymentRequired />} />
             <Route
