@@ -3,14 +3,13 @@ import { basicAuth, endpointUrl } from "./Common";
 //const API_URL = "http://localhost:8080/api/auth/";
 
 class AuthService {
-
   login(username: string, password: string) {
     return axios
       .post(endpointUrl() + "signin", {
         username,
-        password
+        password,
       })
-      .then(response => {
+      .then((response) => {
         if (response.data.accessToken) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
@@ -21,15 +20,15 @@ class AuthService {
   logout() {
     localStorage.removeItem("user");
   }
-  
+
   register(username: string, email: string, password: string) {
     return axios.post(endpointUrl() + "signup", {
       username,
       email,
-      password
+      password,
     });
   }
-  
+
   getCurrentUser() {
     const userStr = localStorage.getItem("user");
     if (userStr) return JSON.parse(userStr);

@@ -11,6 +11,45 @@ $pulse-duration: 750ms;
 
 //$theme-colors: ( "primary":#ffd800);
 
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.rootContainer {
+  margin: auto;
+}
+
+.container1 {
+  max-width: 14rem;
+}
+
+.rounded {
+  margin: 0.5em 0;
+  min-height: 3em;
+  border-radius: 9px;
+  padding: 0.25em 1em;
+  font-size: 1rem;
+  line-height: 1.5em;
+  font-weight: normal;
+  background: transparent;
+  border: 1px solid;
+}
+
+.resetBtn {
+  color: rgb(10, 173, 10);
+  font-weight: 600;
+}
+
+.loginBtn {
+  background-color: #9965f4;
+  color: white;
+  width: 100%;
+  font-weight: 600;
+}
+
+
+
 .notdisplayed {
   display: none;
 }
@@ -233,7 +272,14 @@ tr:hover td {
 .login-formatting {
   max-width: 100%;
   margin-top: 25%;
+  background-color: white;
   //position: relative;
+  //box-sizing:border-box;
+  //-moz-box-sizing:border-box;
+  //-webkit-box-sizing:border-box;
+  float: left;
+  width: 100%;
+  padding: 10px;
 }
 
 @keyframes spin {

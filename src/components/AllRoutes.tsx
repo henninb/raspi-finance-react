@@ -8,7 +8,7 @@ import NavbarInstance from "./NavbarInstance";
 import PaymentRequired from "./PaymentRequired";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Login from "./Login";
-import Register from "./Register"
+import Register from "./Register";
 
 export default function AllRoutes() {
   const queryClient = new QueryClient();
