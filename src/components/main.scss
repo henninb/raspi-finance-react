@@ -11,6 +11,87 @@ $pulse-duration: 750ms;
 
 //$theme-colors: ( "primary":#ffd800);
 
+textarea {
+  height: 200px;
+  width: 1024px;
+  //width: 100%;
+}
+
+header {
+  //   width: 1000px;
+  //   height: 65px;
+  //   background: darkviolet;
+  //   box-shadow:  0px 0px 10px 5px rgba(0, 0, 0, 0.5);
+  //   z-index: 10;
+  //   position: absolute;
+  top: 0;
+}
+
+img {
+  max-height: 75px;
+  max-width: 75px;
+  height: auto;
+  width: auto;
+}
+html {
+  height: 100%;
+}
+
+body {
+  @extend html;
+  display: flex;
+  background: #333333;
+}
+th {
+  background-color: #6200ee;
+  color: #bb96fc;
+}
+
+td {
+  color: #6200ee;
+}
+
+th,
+td {
+  //text-align: center;
+  //font-weight: bold;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  width: 6rem;
+}
+
+tr:nth-child(odd) {
+  background-color: #d4bff9;
+}
+
+tr:nth-child(even) {
+  background-color: #bb96fc;
+}
+
+tr:hover {
+  background-color: #efe5fd;
+}
+
+tr:hover td {
+  background-color: transparent; /* or #000 */
+}
+
+.snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 1rem;
+}
+
 .flex {
   display: flex;
   flex-direction: column;
@@ -48,8 +129,6 @@ $pulse-duration: 750ms;
   font-weight: 600;
 }
 
-
-
 .notdisplayed {
   display: none;
 }
@@ -83,34 +162,125 @@ $pulse-duration: 750ms;
   flex-grow: 1;
 }
 
-textarea {
-  height: 200px;
-  width: 1024px;
-  //width: 100%;
-}
-
-.snackbar {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  bottom: 30px;
-  font-size: 1rem;
-}
-
 .snackbar.show {
   visibility: visible; /* Show the snackbar */
   /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
  However, delay the fade out process for 2.5 seconds */
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.freeform {
+  margin-top: 5%;
+}
+
+.wrapper {
+  display: inline-block;
+}
+
+//ul.nav a:hover { color: #fff !important; }
+
+.white-div {
+  background-color: white;
+}
+
+.right {
+  text-align: right;
+  width: 500px;
+  float: right;
+}
+
+.wrapper table {
+  border-style: none;
+  border-collapse: collapse;
+  display: block;
+}
+
+.table-content {
+  overflow-y: scroll;
+  border-collapse: collapse;
+  display: block;
+}
+
+.tr {
+  height: 35px;
+  max-height: 35px;
+}
+
+.nav-purple {
+  background-color: #9965f4;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  // margin-top: -50px; // replace with your height/2
+  transform: translate(-50%, -50%);
+  // margin-left: -100px; // replace with your width/2
+}
+
+.select-formatting {
+  width: 250px;
+}
+
+.table-formatting {
+  max-width: 100%;
+  margin-top: 10%;
+  //position: relative;
+}
+
+.login-formatting {
+  max-width: 100%;
+  margin-top: 25%;
+  background-color: white;
+  position: relative;
+  //box-sizing:border-box;
+  //-moz-box-sizing:border-box;
+  //-webkit-box-sizing:border-box;
+  float: left;
+  width: 100%;
+  padding: 10px;
+}
+
+.loading {
+  border-radius: 50%;
+  width: $base-line-height;
+  height: $base-line-height;
+  border: 0.25rem solid $off-white;
+  border-top-color: $white;
+  animation: spin $spin-duration infinite linear;
+}
+
+.loading-pulse {
+  position: relative;
+  width: math.div($base-line-height, 4);
+  height: $base-line-height;
+  background: $off-white;
+  animation: pulse $pulse-duration infinite;
+  animation-delay: math.div($pulse-duration, 3);
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    display: block;
+    height: math.div($base-line-height, 1.5);
+    width: math.div($base-line-height, 4);
+    background: $off-white;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: pulse $pulse-duration infinite;
+  }
+
+  &:before {
+    left: -(math.div($base-line-height, 2));
+  }
+
+  &:after {
+    left: math.div($base-line-height, 2);
+    animation-delay: math.div($pulse-duration, 1.5);
+  }
 }
 
 /* Animations to fade the snackbar in and out */
@@ -158,130 +328,6 @@ textarea {
   }
 }
 
-img {
-  max-height: 75px;
-  max-width: 75px;
-  height: auto;
-  width: auto;
-}
-
-.freeform {
-  margin-top: 5%;
-}
-
-html {
-  height: 100%;
-}
-
-body {
-  @extend html;
-  display: flex;
-  background: #333333;
-}
-
-.wrapper {
-  display: inline-block;
-}
-
-//ul.nav a:hover { color: #fff !important; }
-
-.white-div {
-  background-color: white;
-}
-
-.right {
-  text-align: right;
-  width: 500px;
-  float: right;
-}
-
-.wrapper table {
-  border-style: none;
-  border-collapse: collapse;
-  display: block;
-}
-
-.table-content {
-  overflow-y: scroll;
-  border-collapse: collapse;
-  display: block;
-}
-
-th {
-  background-color: #6200ee;
-  color: #bb96fc;
-}
-
-td {
-  color: #6200ee;
-}
-
-th,
-td {
-  //text-align: center;
-  //font-weight: bold;
-  text-transform: uppercase;
-  font-family: sans-serif;
-  width: 6rem;
-}
-
-.tr {
-  height: 35px;
-  max-height: 35px;
-}
-
-tr:nth-child(odd) {
-  background-color: #d4bff9;
-}
-
-tr:nth-child(even) {
-  background-color: #bb96fc;
-}
-
-tr:hover {
-  background-color: #efe5fd;
-}
-
-tr:hover td {
-  background-color: transparent; /* or #000 */
-}
-
-.nav-purple {
-  background-color: #9965f4;
-}
-
-.centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  // margin-top: -50px; // replace with your height/2
-  transform: translate(-50%, -50%);
-  // margin-left: -100px; // replace with your width/2
-}
-
-.select-formatting {
-  width: 250px;
-}
-
-.table-formatting {
-  max-width: 100%;
-  margin-top: 10%;
-  //position: relative;
-}
-
-.login-formatting {
-  max-width: 100%;
-  margin-top: 25%;
-  background-color: white;
-  //position: relative;
-  //box-sizing:border-box;
-  //-moz-box-sizing:border-box;
-  //-webkit-box-sizing:border-box;
-  float: left;
-  width: 100%;
-  padding: 10px;
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -294,45 +340,5 @@ tr:hover td {
 @keyframes pulse {
   50% {
     background: $white;
-  }
-}
-
-.loading {
-  border-radius: 50%;
-  width: $base-line-height;
-  height: $base-line-height;
-  border: 0.25rem solid $off-white;
-  border-top-color: $white;
-  animation: spin $spin-duration infinite linear;
-}
-
-.loading-pulse {
-  position: relative;
-  width: math.div($base-line-height, 4);
-  height: $base-line-height;
-  background: $off-white;
-  animation: pulse $pulse-duration infinite;
-  animation-delay: math.div($pulse-duration, 3);
-
-  &:before,
-  &:after {
-    content: "";
-    position: absolute;
-    display: block;
-    height: math.div($base-line-height, 1.5);
-    width: math.div($base-line-height, 4);
-    background: $off-white;
-    top: 50%;
-    transform: translateY(-50%);
-    animation: pulse $pulse-duration infinite;
-  }
-
-  &:before {
-    left: -(math.div($base-line-height, 2));
-  }
-
-  &:after {
-    left: math.div($base-line-height, 2);
-    animation-delay: math.div($pulse-duration, 1.5);
   }
 }

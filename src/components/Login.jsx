@@ -28,29 +28,39 @@ export default function Login() {
   const loading = false;
 
   return (
-
-      <div className="container1 rootContainer login-formatting">
-               <Formik
-                 initialValues={initialValues}
-                 validationSchema={validationSchema}
-                 onSubmit={handleLogin}
-               >
-                   <Form>
-        <h1>Login</h1>
-        <div className="flex container1">
-          {/*<input className="rounded" placeholder="Email"/>*/}
-            <Field name="email" placeholder="Email" type="text" className="rounded" />
-          {/*<input className="rounded" placeholder="Password"/>*/}
-            <Field name="password" placeholder="Password" type="password" className="rounded" />
-        </div>
-        <p>
-          Forgot password? <a className="resetBtn">Reset it</a>
-        </p>
-        <button className="rounded loginBtn" type="submit">Login</button>
-                   </Form>
-               </Formik>
-      </div>
-
+    <div className="container1 rootContainer login-formatting">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleLogin}
+      >
+        <Form>
+          <h1>Login</h1>
+          <div className="flex container1">
+            {/*<input className="rounded" placeholder="Email"/>*/}
+            <Field
+              name="email"
+              placeholder="Email"
+              type="text"
+              className="rounded"
+            />
+            {/*<input className="rounded" placeholder="Password"/>*/}
+            <Field
+              name="password"
+              placeholder="Password"
+              type="password"
+              className="rounded"
+            />
+          </div>
+          <p>
+            Forgot password? <a className="resetBtn">Reset it</a>
+          </p>
+          <button className="rounded loginBtn" type="submit">
+            Login
+          </button>
+        </Form>
+      </Formik>
+    </div>
 
     // <div className="login-formatting">
     //   <div
