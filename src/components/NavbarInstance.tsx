@@ -5,7 +5,8 @@ import "./main.scss";
 
 export default function NavbarInstance() {
   return (
-    <header className="top-bar js-top-bar top-bar__network">¬
+    <header className="top-bar js-top-bar top-bar__network">
+      ¬
       <div className="white-div bg-primary">
         <nav className="navbar navbar-expand-sm nav-purple navbar-light fixed-top font-weight-bold">
           <Link className="navbar-brand" to="/">
