@@ -1,390 +1,304 @@
 @use "sass:math";
 @import "~react-datepicker/dist/react-datepicker.css";
-
 // math.div in sass
-
 $base-line-height: 24px;
 $white: rgb(255, 255, 255);
 $off-white: rgba($white, 0.2);
 $spin-duration: 1s;
 $pulse-duration: 750ms;
-
 //$theme-colors: ( "primary":#ffd800);
-
 textarea {
-  height: 200px;
-  width: 1024px;
-  //width: 100%;
-}
-
-header {
-  //   width: 1000px;
-  //   height: 65px;
-  //   background: darkviolet;
-  //   box-shadow:  0px 0px 10px 5px rgba(0, 0, 0, 0.5);
-  //   z-index: 10;
-  //   position: absolute;
-  top: 0;
+    height: 75vh;
+    width: 100%;
 }
 
 img {
-  max-height: 75px;
-  max-width: 75px;
-  height: auto;
-  width: auto;
+    max-height: 75px;
+    max-width: 75px;
+    height: auto;
+    width: auto;
 }
+
 html {
-  height: 100%;
-  --top-bar-allocated-space: 50px;
+    height: 100%;
+    --top-bar-allocated-space: 50px;
 }
 
 body {
-  @extend html;
-  display: flex;
-  background: #333333;
+    @extend html;
+    display: flex;
+    background: #333333;
 }
+
 th {
-  background-color: #6200ee;
-  color: #bb96fc;
+    background-color: #6200ee;
+    color: #bb96fc;
 }
 
 td {
-  color: #6200ee;
+    color: #6200ee;
 }
 
 th,
 td {
-  //text-align: center;
-  //font-weight: bold;
-  text-transform: uppercase;
-  font-family: sans-serif;
-  width: 6rem;
+    //text-align: center;
+    //font-weight: bold;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    width: 6rem;
 }
 
 tr:nth-child(odd) {
-  background-color: #d4bff9;
+    background-color: #d4bff9;
 }
 
 tr:nth-child(even) {
-  background-color: #bb96fc;
+    background-color: #bb96fc;
 }
 
 tr:hover {
-  background-color: #efe5fd;
+    background-color: #efe5fd;
 }
 
 tr:hover td {
-  background-color: transparent; /* or #000 */
-}
-
-.top-bar ~ .container {
-  margin-top: 50px;
-}
-
-.top-bar {
-  position: fixed;
-  min-width: auto;
-  box-shadow: var(--bs-sm);
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 5050;
-  background-color: var(--black-025);
-  height: 50px;
-  font-family: var(--ff-sans);
-  box-sizing: border-box;
-  border-top: var(--theme-topbar-border-top-size, 3px) solid
-    var(--theme-primary-color);
-}
-
-.top-bar .-main {
-  height: 100%;
-  flex-shrink: 0;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-}
-
-.top-bar .left-sidebar-toggle:hover {
-  color: var(--black-700);
-  background-color: var(--black-075);
-}
-
-.top-bar * {
-  box-sizing: border-box;
-}
-
-.top-bar .-marketing-link {
-  display: inline-block;
-  padding: 6px 16px;
-  border-radius: 1000px;
-  color: var(--black-600);
-  white-space: nowrap;
+    background-color: transparent;
+    /* or #000 */
 }
 
 .snackbar {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  bottom: 30px;
-  font-size: 1rem;
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 1rem;
 }
 
 .flex {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .rootContainer {
-  margin: auto;
+    margin: auto;
 }
 
 .container1 {
-  max-width: 14rem;
-}
-
-.rounded {
-  margin: 0.5em 0;
-  min-height: 3em;
-  border-radius: 9px;
-  padding: 0.25em 1em;
-  font-size: 1rem;
-  line-height: 1.5em;
-  font-weight: normal;
-  background: transparent;
-  border: 1px solid;
-}
-
-.resetBtn {
-  color: rgb(10, 173, 10);
-  font-weight: 600;
-}
-
-.loginBtn {
-  background-color: #9965f4;
-  color: white;
-  width: 100%;
-  font-weight: 600;
+    max-width: 14rem;
 }
 
 .notdisplayed {
-  display: none;
+    display: none;
 }
 
 .column {
-  float: left;
-  width: 33.33%;
+    float: left;
+    width: 33.33%;
 }
 
 .row:after {
-  content: "";
-  display: table;
-  clear: both;
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .displayed {
-  display: flex;
-  height: 20px;
-  margin: auto;
+    display: flex;
+    height: 20px;
+    margin: auto;
 }
 
 .container {
-  display: flex;
+    display: flex;
 }
 
 .fixed {
-  width: 200px;
+    width: 200px;
 }
 
 .flex-item {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 .snackbar.show {
-  visibility: visible; /* Show the snackbar */
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+    visibility: visible;
+    /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
  However, delay the fade out process for 2.5 seconds */
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-.freeform {
-  margin-top: 5%;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 .wrapper {
-  display: inline-block;
+    display: inline-block;
 }
 
 //ul.nav a:hover { color: #fff !important; }
-
 .white-div {
-  background-color: white;
+    background-color: white;
 }
 
 .right {
-  text-align: right;
-  width: 500px;
-  float: right;
+    text-align: right;
+    width: 100%;
+    float: right;
 }
 
 .wrapper table {
-  border-style: none;
-  border-collapse: collapse;
-  display: block;
+    border-style: none;
+    border-collapse: collapse;
+    display: block;
 }
 
 .table-content {
-  overflow-y: scroll;
-  border-collapse: collapse;
-  display: block;
+    overflow-y: scroll;
+    border-collapse: collapse;
+    display: block;
 }
 
 .tr {
-  height: 35px;
-  max-height: 35px;
+    //height: 35px;
+    //max-height: 35px;
 }
 
 .nav-purple {
-  background-color: #9965f4;
+    background-color: #9965f4;
 }
 
 .centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  // margin-top: -50px; // replace with your height/2
-  transform: translate(-50%, -50%);
-  // margin-left: -100px; // replace with your width/2
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    // margin-top: -50px; // replace with your height/2
+    transform: translate(-50%, -50%);
+    // margin-left: -100px; // replace with your width/2
 }
 
 .select-formatting {
-  width: 250px;
+    width: 250px;
+    color: black;
 }
 
 .table-formatting {
-  max-width: 100%;
-  margin-top: 10%;
-  //position: relative;
+    max-width: 100%;
+    // margin-top: 10%;
 }
 
 .login-formatting {
-  max-width: 100%;
-  margin-top: 25%;
-  background-color: white;
-  position: relative;
-  //box-sizing:border-box;
-  //-moz-box-sizing:border-box;
-  //-webkit-box-sizing:border-box;
-  float: left;
-  width: 100%;
-  padding: 10px;
+    max-width: 100%;
+    //margin-top: 25%;
+    background-color: white;
+    position: relative;
+    //box-sizing:border-box;
+    //-moz-box-sizing:border-box;
+    //-webkit-box-sizing:border-box;
+    float: left;
+    width: 100%;
+    padding: 10px;
 }
 
 .loading {
-  border-radius: 50%;
-  width: $base-line-height;
-  height: $base-line-height;
-  border: 0.25rem solid $off-white;
-  border-top-color: $white;
-  animation: spin $spin-duration infinite linear;
+    border-radius: 50%;
+    width: $base-line-height;
+    height: $base-line-height;
+    border: 0.25rem solid $off-white;
+    border-top-color: $white;
+    animation: spin $spin-duration infinite linear;
 }
 
 .loading-pulse {
-  position: relative;
-  width: math.div($base-line-height, 4);
-  height: $base-line-height;
-  background: $off-white;
-  animation: pulse $pulse-duration infinite;
-  animation-delay: math.div($pulse-duration, 3);
-
-  &:before,
-  &:after {
-    content: "";
-    position: absolute;
-    display: block;
-    height: math.div($base-line-height, 1.5);
+    position: relative;
     width: math.div($base-line-height, 4);
+    height: $base-line-height;
     background: $off-white;
-    top: 50%;
-    transform: translateY(-50%);
     animation: pulse $pulse-duration infinite;
-  }
-
-  &:before {
-    left: -(math.div($base-line-height, 2));
-  }
-
-  &:after {
-    left: math.div($base-line-height, 2);
-    animation-delay: math.div($pulse-duration, 1.5);
-  }
+    animation-delay: math.div($pulse-duration, 3);
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        display: block;
+        height: math.div($base-line-height, 1.5);
+        width: math.div($base-line-height, 4);
+        background: $off-white;
+        top: 50%;
+        transform: translateY(-50%);
+        animation: pulse $pulse-duration infinite;
+    }
+    &:before {
+        left: -(math.div($base-line-height, 2));
+    }
+    &:after {
+        left: math.div($base-line-height, 2);
+        animation-delay: math.div($pulse-duration, 1.5);
+    }
 }
 
+
 /* Animations to fade the snackbar in and out */
+
 @-webkit-keyframes fadein {
-  from {
-    bottom: 0;
-    opacity: 0;
-  }
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
 }
 
 @keyframes fadein {
-  from {
-    bottom: 0;
-    opacity: 0;
-  }
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes fadeout {
-  from {
-    bottom: 30px;
-    opacity: 1;
-  }
-  to {
-    bottom: 0;
-    opacity: 0;
-  }
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
 }
 
 @keyframes fadeout {
-  from {
-    bottom: 30px;
-    opacity: 1;
-  }
-  to {
-    bottom: 0;
-    opacity: 0;
-  }
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes pulse {
-  50% {
-    background: $white;
-  }
+    50% {
+        background: $white;
+    }
 }

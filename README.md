@@ -36,6 +36,7 @@ yarn add @apollo-client
 yarn add react-apollo
 yarn add graphql-tag
 yarn add formik
+yarn add react-bootstrap
 yarn add yup
 yarn add --dev jest
 yarn add --dev @types/jest
