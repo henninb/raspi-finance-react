@@ -6,7 +6,6 @@ $white: rgb(255, 255, 255);
 $off-white: rgba($white, 0.2);
 $spin-duration: 1s;
 $pulse-duration: 750ms;
-//$theme-colors: ( "primary":#ffd800);
 textarea {
     height: 75vh;
     width: 100%;
@@ -21,13 +20,25 @@ img {
 
 html {
     height: 100%;
-    --top-bar-allocated-space: 50px;
 }
 
 body {
-    @extend html;
+    //   @extend html;
+    background: linear-gradient(to left, #9965f4, white);
+    margin-left: 10px;
+    margin-right: 10px;
+    //margin: 30px;
+    //   margin: 0;
+    //padding: 100px;
+    //   box-sizing: border-box;
+    //   color: white;
+}
+
+table {
+    border: 1px solid black;
+    position: "sticky";
+    left: 0;
     display: flex;
-    background: #333333;
 }
 
 th {
@@ -41,8 +52,6 @@ td {
 
 th,
 td {
-    //text-align: center;
-    //font-weight: bold;
     text-transform: uppercase;
     font-family: sans-serif;
     width: 6rem;
@@ -62,87 +71,6 @@ tr:hover {
 
 tr:hover td {
     background-color: transparent;
-    /* or #000 */
-}
-
-.snackbar {
-    visibility: hidden;
-    min-width: 250px;
-    margin-left: -125px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    font-size: 1rem;
-}
-
-.flex {
-    display: flex;
-    flex-direction: column;
-}
-
-.rootContainer {
-    margin: auto;
-}
-
-.container1 {
-    max-width: 14rem;
-}
-
-.notdisplayed {
-    display: none;
-}
-
-.column {
-    float: left;
-    width: 33.33%;
-}
-
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.displayed {
-    display: flex;
-    height: 20px;
-    margin: auto;
-}
-
-.container {
-    display: flex;
-}
-
-.fixed {
-    width: 200px;
-}
-
-.flex-item {
-    flex-grow: 1;
-}
-
-.snackbar.show {
-    visibility: visible;
-    /* Show the snackbar */
-    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
- However, delay the fade out process for 2.5 seconds */
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-.wrapper {
-    display: inline-block;
-}
-
-//ul.nav a:hover { color: #fff !important; }
-.white-div {
-    background-color: white;
 }
 
 .right {
@@ -151,154 +79,303 @@ tr:hover td {
     float: right;
 }
 
-.wrapper table {
-    border-style: none;
-    border-collapse: collapse;
-    display: block;
+.form-icon {
+    font-size: 14px;
 }
 
-.table-content {
-    overflow-y: scroll;
-    border-collapse: collapse;
-    display: block;
+.login {
+    font-family: Comfortaa, cursive;
+    margin: auto;
+    padding: 8% 0 0;
+    width: 360px
 }
 
-.tr {
-    //height: 35px;
-    //max-height: 35px;
+.form {
+    background: #fff;
+    border-radius: 10px;
+    margin: 0 auto 100px;
+    max-width: 360px;
+    padding: 45px;
+    position: relative;
+    text-align: center;
+    z-index: 1;
 }
 
-.nav-purple {
-    background-color: #9965f4;
+.form input {
+    background: #f2f2f2;
+    border: 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: Comfortaa, cursive;
+    font-size: 14px;
+    margin: 0 0 15px;
+    outline: 0;
+    padding: 15px;
+    width: 100%;
+}
+
+.form input:focus {
+    background: #dbdbdb
+}
+
+.form button {
+    background: #4b6cb7;
+    border: 0;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-family: Comfortaa, cursive;
+    font-size: 14px;
+    outline: 0;
+    padding: 15px;
+    text-transform: uppercase;
+    transition: all .3 ease;
+    width: 100%
+}
+
+.form button:active {
+    background: #395591
+}
+
+.form span {
+    color: #4b6cb7;
+    font-size: 75px;
+}
+
+.displayed {
+    display: flex;
+    height: 20px;
+    //max-width: 100px;
+    //margin: auto;
+}
+
+.notdisplayed {
+    display: flex;
+    display: none;
+    //max-width: 100px;
+}
+
+.select-formatting {
+    // width: 250px;
+    // color: black;
+    z-index: 999;
 }
 
 .centered {
     position: fixed;
     top: 50%;
     left: 50%;
-    // margin-top: -50px; // replace with your height/2
     transform: translate(-50%, -50%);
-    // margin-left: -100px; // replace with your width/2
 }
 
-.select-formatting {
-    width: 250px;
-    color: black;
-}
-
-.table-formatting {
-    max-width: 100%;
-    // margin-top: 10%;
-}
-
-.login-formatting {
-    max-width: 100%;
-    //margin-top: 25%;
-    background-color: white;
-    position: relative;
-    //box-sizing:border-box;
-    //-moz-box-sizing:border-box;
-    //-webkit-box-sizing:border-box;
-    float: left;
-    width: 100%;
-    padding: 10px;
-}
-
-.loading {
-    border-radius: 50%;
-    width: $base-line-height;
-    height: $base-line-height;
-    border: 0.25rem solid $off-white;
-    border-top-color: $white;
-    animation: spin $spin-duration infinite linear;
-}
-
-.loading-pulse {
-    position: relative;
-    width: math.div($base-line-height, 4);
-    height: $base-line-height;
-    background: $off-white;
-    animation: pulse $pulse-duration infinite;
-    animation-delay: math.div($pulse-duration, 3);
-    &:before,
-    &:after {
-        content: "";
-        position: absolute;
-        display: block;
-        height: math.div($base-line-height, 1.5);
-        width: math.div($base-line-height, 4);
-        background: $off-white;
-        top: 50%;
-        transform: translateY(-50%);
-        animation: pulse $pulse-duration infinite;
-    }
-    &:before {
-        left: -(math.div($base-line-height, 2));
-    }
-    &:after {
-        left: math.div($base-line-height, 2);
-        animation-delay: math.div($pulse-duration, 1.5);
-    }
-}
-
-
-/* Animations to fade the snackbar in and out */
-
-@-webkit-keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
-    }
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
-}
-
-@keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
-    }
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
-}
-
-@-webkit-keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
-    }
-    to {
-        bottom: 0;
-        opacity: 0;
-    }
-}
-
-@keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
-    }
-    to {
-        bottom: 0;
-        opacity: 0;
-    }
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes pulse {
-    50% {
-        background: $white;
-    }
-}
+// .navbar {
+//   margin-bottom: 40px;
+// }
+// .container {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   height: 100vh;
+//   width: 100%;
+// }
+// .form-box {
+//   width: 380px;
+//   height: 450px;
+//   background-color: black;
+//   padding: 20px;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: flex-start;
+//   opacity: 0.5;
+//   border-radius: 2%;
+// }
+// .header-form {
+//   margin-bottom: 15px;
+// }
+// button {
+//   margin-top: 40px;
+//   margin-bottom: 10px;
+// }
+// .message {
+//   display: flex;
+//   justify-content: space-between;
+// }
+// .snackbar {
+//   visibility: hidden;
+//   min-width: 250px;
+//   margin-left: -125px;
+//   background-color: #333;
+//   color: #fff;
+//   text-align: center;
+//   border-radius: 2px;
+//   padding: 16px;
+//   position: fixed;
+//   z-index: 1;
+//   left: 50%;
+//   bottom: 30px;
+//   font-size: 1rem;
+// }
+// .flex {
+//   display: flex;
+//   flex-direction: column;
+// }
+// .rootContainer {
+//   margin: auto;
+// }
+// .container1 {
+//   max-width: 14rem;
+// }
+// .notdisplayed {
+//   display: none;
+// }
+// .row:after {
+//   content: "";
+//   display: table;
+//   clear: both;
+// }
+// .displayed {
+//   display: flex;
+//   height: 20px;
+//   margin: auto;
+// }
+// .container {
+//   display: flex;
+// }
+// .fixed {
+//   width: 200px;
+// }
+// .flex-item {
+//   flex-grow: 1;
+// }
+// .snackbar.show {
+//   visibility: visible;
+//   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+//   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+// }
+// .wrapper {
+//   display: inline-block;
+// }
+// .white-div {
+//   background-color: white;
+// }
+// .wrapper table {
+//   border-style: none;
+//   border-collapse: collapse;
+//   display: block;
+// }
+// .table-content {
+//   overflow-y: scroll;
+//   border-collapse: collapse;
+//   display: block;
+// }
+// .nav-purple {
+//   background-color: #9965f4;
+// }
+// .centered {
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// }
+// .select-formatting {
+//   width: 250px;
+//   color: black;
+// }
+// .table-formatting {
+//   max-width: 100%;
+// }
+// .login-formatting {
+//   max-width: 100%;
+//   background-color: white;
+//   position: relative;
+//   width: 100%;
+//   padding: 10px;
+// }
+// .loading {
+//   border-radius: 50%;
+//   width: $base-line-height;
+//   height: $base-line-height;
+//   border: 0.25rem solid $off-white;
+//   border-top-color: $white;
+//   animation: spin $spin-duration infinite linear;
+// }
+// .loading-pulse {
+//   position: relative;
+//   width: math.div($base-line-height, 4);
+//   height: $base-line-height;
+//   background: $off-white;
+//   animation: pulse $pulse-duration infinite;
+//   animation-delay: math.div($pulse-duration, 3);
+//   &:before,
+//   &:after {
+//     content: "";
+//     position: absolute;
+//     display: block;
+//     height: math.div($base-line-height, 1.5);
+//     width: math.div($base-line-height, 4);
+//     background: $off-white;
+//     top: 50%;
+//     transform: translateY(-50%);
+//     animation: pulse $pulse-duration infinite;
+//   }
+//   &:before {
+//     left: -(math.div($base-line-height, 2));
+//   }
+//   &:after {
+//     left: math.div($base-line-height, 2);
+//     animation-delay: math.div($pulse-duration, 1.5);
+//   }
+// }
+// @-webkit-keyframes fadein {
+//   from {
+//     bottom: 0;
+//     opacity: 0;
+//   }
+//   to {
+//     bottom: 30px;
+//     opacity: 1;
+//   }
+// }
+// @keyframes fadein {
+//   from {
+//     bottom: 0;
+//     opacity: 0;
+//   }
+//   to {
+//     bottom: 30px;
+//     opacity: 1;
+//   }
+// }
+// @-webkit-keyframes fadeout {
+//   from {
+//     bottom: 30px;
+//     opacity: 1;
+//   }
+//   to {
+//     bottom: 0;
+//     opacity: 0;
+//   }
+// }
+// @keyframes fadeout {
+//   from {
+//     bottom: 30px;
+//     opacity: 1;
+//   }
+//   to {
+//     bottom: 0;
+//     opacity: 0;
+//   }
+// }
+// @keyframes spin {
+//   0% {
+//     transform: rotate(0deg);
+//   }
+//   100% {
+//     transform: rotate(360deg);
+//   }
+// }
+// @keyframes pulse {
+//   50% {
+//     background: $white;
+//   }
+// }

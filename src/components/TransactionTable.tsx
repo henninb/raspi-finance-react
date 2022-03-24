@@ -414,7 +414,7 @@ export default function TransactionTable() {
                 render: (rowData) => {
                   return (
                     <div>
-                      <div>
+                      <div className="display">
                         <HoverButtons
                           transactionState={rowData.transactionState}
                           guid={rowData.guid}
@@ -638,21 +638,27 @@ export default function TransactionTable() {
                     return { fontSize: ".6rem" };
                   } else if (rowData.transactionState === "future") {
                     return {
-                      fontSize: ".6rem",
+                      //fontSize: ".6rem",
+                      //width:"5em", 
+                      height: "20px",
                       fontWeight: "bold",
                       backgroundColor: "#5800f9",
                       color: "#FFF",
                     };
                   } else if (rowData.transactionState === "outstanding") {
                     return {
-                      fontSize: ".6rem",
+                      //fontSize: ".6rem",
+                      //width:"5em", 
+                      height: "20px",
                       fontWeight: "bold",
                       backgroundColor: "#4000f1",
                       color: "#FFF",
                     };
                   } else {
                     return {
-                      fontSize: ".6rem",
+                      //fontSize: ".6rem",
+                      //width:"5em", 
+                      height: "20px",
                       fontWeight: "bold",
                       backgroundColor: "#000000",
                       color: "#FFF",
