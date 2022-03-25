@@ -87,7 +87,7 @@ tr:hover td {
     font-family: Comfortaa, cursive;
     margin: auto;
     padding: 8% 0 0;
-    width: 360px
+    width: 360px;
 }
 
 .form {
@@ -115,7 +115,7 @@ tr:hover td {
 }
 
 .form input:focus {
-    background: #dbdbdb
+    background: #dbdbdb;
 }
 
 .form button {
@@ -129,12 +129,12 @@ tr:hover td {
     outline: 0;
     padding: 15px;
     text-transform: uppercase;
-    transition: all .3 ease;
-    width: 100%
+    transition: all 0.3 ease;
+    width: 100%;
 }
 
 .form button:active {
-    background: #395591
+    background: #395591;
 }
 
 .form span {
@@ -143,14 +143,17 @@ tr:hover td {
 }
 
 .displayed {
-    display: flex;
-    height: 20px;
-    //max-width: 100px;
+    display: inline-block;
+    max-height: 20px;
+    max-width: 200px;
+    //position: bottom;
+    //width: 940px;
     //margin: auto;
+    padding-left: 10px;
 }
 
 .notdisplayed {
-    display: flex;
+    //display: flex;
     display: none;
     //max-width: 100px;
 }
@@ -166,6 +169,16 @@ tr:hover td {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.notdisplayed {
+    display: none;
+}
+
+.displayed {
+    display: flex;
+    //height: 20px;
+    margin: auto;
 }
 
 // .navbar {

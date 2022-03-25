@@ -31,7 +31,6 @@ import useValidationAmountInsert from "./queries/useValidationAmountInsert";
 import ValidationAmount from "./model/ValidationAmount";
 import { TransactionState } from "./model/TransactionState";
 import HoverButtons from "./HoverButtons";
-//import ActionButtons from "./ActionButtons";
 
 export default function TransactionTable() {
   const [loadMoveDialog, setLoadMoveDialog] = useState(false);
@@ -108,7 +107,6 @@ export default function TransactionTable() {
       fileSelector.setAttribute("type", "file");
       fileSelector.addEventListener("change", (event: any) => {
         console.log("addEventListener is called.");
-        //let file1 : any = event.target.files[0]
         let fileList = event.target.files;
 
         if (fileList[0].size >= 1024 * 1024) {
@@ -249,12 +247,6 @@ export default function TransactionTable() {
         console.log(`escape key pressed: ${keyPressed}`);
         setKeyPressed(true);
       }
-
-      // if (key === 'Enter') {
-      //     alert('me - enter')
-      //     // document.getElementById('Cancel').click()
-      //     setKeyPressed(true)
-      // }
     },
     [keyPressed]
   );
@@ -272,7 +264,6 @@ export default function TransactionTable() {
     if (fileContent !== "") {
       // @ts-ignore
       console.log(`current transactionId = ${currentTransaction.guid}`);
-      //const response = insertReceiptImage()
       insertReceiptImage({
         oldRow: currentTransaction,
         fileContent: fileContent,
@@ -303,14 +294,10 @@ export default function TransactionTable() {
     insertReceiptImage,
   ]);
 
-  //// "2014-09-08T08:02:17-05:00"
   let dateFormat = "YYYY-MM-DD";
-  //let dateFormat = 'YYYY-MM-DDTHH:mm:ssZ'
 
   return (
     <div>
-      {/*<Button className="table-formatting" style={{color: 'white'}}>test</Button>*/}
-
       {isSuccessValidationTotals && isSuccess && isSuccessTotals ? (
         <div className="table-formatting">
           <MaterialTable
@@ -320,14 +307,12 @@ export default function TransactionTable() {
                 field: "transactionDate",
                 sorting: true,
                 type: "date",
-                //initialEditValue: moment(new Date().toDateString()).format(dateFormat),
                 initialEditValue: moment().format(dateFormat),
                 cellStyle: { whiteSpace: "nowrap" },
                 editComponent: (props) => (
                   <div>
                     <MuiPickersUtilsProvider
                       utils={MomentUtils}
-                      //locale={props.dateTimePickerLocalization}
                     >
                       <DatePicker
                         selected={
@@ -365,7 +350,6 @@ export default function TransactionTable() {
                       >
                         <ChevronRightRounded />
                       </Button>
-                      {/*<ActionButtons guid={rowData.guid} />*/}
                     </div>
                   );
                 },
@@ -413,8 +397,8 @@ export default function TransactionTable() {
                 cellStyle: { whiteSpace: "nowrap" },
                 render: (rowData) => {
                   return (
-                    <div>
-                      <div className="display">
+               
+                      <div className="displayed">
                         <HoverButtons
                           transactionState={rowData.transactionState}
                           guid={rowData.guid}
@@ -424,7 +408,7 @@ export default function TransactionTable() {
                           }
                         />
                       </div>
-                    </div>
+                   
                   );
                 },
                 editComponent: (props) => {
@@ -492,24 +476,24 @@ export default function TransactionTable() {
                 field: "notes",
                 cellStyle: { whiteSpace: "nowrap" },
               },
-              {
-                title: "due",
-                field: "dueDate",
-                type: "date",
-                cellStyle: { whiteSpace: "nowrap" },
-                editComponent: (props) => (
-                  <MuiPickersUtilsProvider utils={MomentUtils}>
-                    <DatePicker
-                      value={
-                        props.value
-                          ? moment(props.value).format(dateFormat)
-                          : ""
-                      }
-                      onChange={props.onChange}
-                    />
-                  </MuiPickersUtilsProvider>
-                ),
-              },
+              // {
+              //   title: "due",
+              //   field: "dueDate",
+              //   type: "date",
+              //   cellStyle: { whiteSpace: "nowrap" },
+              //   editComponent: (props) => (
+              //     <MuiPickersUtilsProvider utils={MomentUtils}>
+              //       <DatePicker
+              //         value={
+              //           props.value
+              //             ? moment(props.value).format(dateFormat)
+              //             : ""
+              //         }
+              //         onChange={props.onChange}
+              //       />
+              //     </MuiPickersUtilsProvider>
+              //   ),
+              // },
               {
                 title: "image",
                 field: "receiptImage",
@@ -529,18 +513,13 @@ export default function TransactionTable() {
                       //image = rowData.receiptImage.thumbnail
                     } else {
                       const formatType = rowData.receiptImage.imageFormatType;
-                      //console.log('formatType=' + formatType)
                       image =
                         "data:image/" +
                         formatType +
                         ";base64," +
                         rowData.receiptImage.thumbnail;
                     }
-                    //console.log('typeOf image=' + typeOf(image))
                   } else {
-                    // setMessage(`issue loading the image`)
-                    // console.log(`issue loading the image`)
-                    // setOpen(true)
                   }
 
                   return (
@@ -618,7 +597,6 @@ export default function TransactionTable() {
               actionsColumnIndex: -1,
               selection: true,
               filtering: true,
-              // selection: true,
               paging: true,
               pageSize: 25,
               pageSizeOptions: [25, 50, 75, 100],
@@ -629,7 +607,7 @@ export default function TransactionTable() {
               emptyRowsWhenPaging: false,
               headerStyle: {
                 backgroundColor: "#9965f4",
-                color: "#FFF",
+                color: "white",
               },
 
               rowStyle: (rowData): any => {
@@ -638,30 +616,18 @@ export default function TransactionTable() {
                     return { fontSize: ".6rem" };
                   } else if (rowData.transactionState === "future") {
                     return {
-                      //fontSize: ".6rem",
-                      //width:"5em", 
-                      height: "20px",
-                      fontWeight: "bold",
                       backgroundColor: "#5800f9",
-                      color: "#FFF",
+                      color: "white",
                     };
                   } else if (rowData.transactionState === "outstanding") {
                     return {
-                      //fontSize: ".6rem",
-                      //width:"5em", 
-                      height: "20px",
-                      fontWeight: "bold",
                       backgroundColor: "#4000f1",
-                      color: "#FFF",
+                      color: "white",
                     };
                   } else {
                     return {
-                      //fontSize: ".6rem",
-                      //width:"5em", 
-                      height: "20px",
-                      fontWeight: "bold",
                       backgroundColor: "#000000",
-                      color: "#FFF",
+                      color: "white",
                     };
                   }
                 } else {
@@ -674,25 +640,11 @@ export default function TransactionTable() {
               onRowUpdate: updateRow,
               onRowDelete: deleteRow,
             }}
-            // actions={[
-            //   {
-            //     icon: "send",
-            //     tooltip: "Move",
-            //     onClick: (_event, rowData) => {
-            //       setCurrentTransaction(rowData);
-            //       setLoadMoveDialog(true);
-            //     },
-            //   },
-            // ]}
           />
-          {/*</Paper>*/}
           {loadMoveDialog ? (
             <TransactionMove
               closeDialog={() => {
                 setLoadMoveDialog(false);
-                //console.log('delete guid:' + currentTransaction)
-                //const newData = data.filter((obj) => obj.guid !== currentTransaction)
-                //setData(newData)
               }}
               currentTransaction={currentTransaction}
             />
