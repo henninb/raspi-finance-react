@@ -19,14 +19,12 @@ export default function HoverButtons({
   };
 
   return (
-    <div className="displayed"
+    <div
+      className="displayed"
       onMouseEnter={(e) => showButton(e)}
       onMouseLeave={(e) => hideButton(e)}
-      
     >
-      <span>
-      {transactionState}
-      </span>
+      <span>{transactionState}</span>
       <span className={display}>
         <TransactionStateButtons
           transactionState={transactionState}

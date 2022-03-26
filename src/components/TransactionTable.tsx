@@ -311,9 +311,7 @@ export default function TransactionTable() {
                 cellStyle: { whiteSpace: "nowrap" },
                 editComponent: (props) => (
                   <div>
-                    <MuiPickersUtilsProvider
-                      utils={MomentUtils}
-                    >
+                    <MuiPickersUtilsProvider utils={MomentUtils}>
                       <DatePicker
                         selected={
                           props.value
@@ -397,18 +395,16 @@ export default function TransactionTable() {
                 cellStyle: { whiteSpace: "nowrap" },
                 render: (rowData) => {
                   return (
-               
-                      <div className="displayed">
-                        <HoverButtons
-                          transactionState={rowData.transactionState}
-                          guid={rowData.guid}
-                          accountNameOwner={rowData.accountNameOwner}
-                          handlerToUpdateTransactionState={
-                            handlerToUpdateTransactionState
-                          }
-                        />
-                      </div>
-                   
+                    <div className="displayed">
+                      <HoverButtons
+                        transactionState={rowData.transactionState}
+                        guid={rowData.guid}
+                        accountNameOwner={rowData.accountNameOwner}
+                        handlerToUpdateTransactionState={
+                          handlerToUpdateTransactionState
+                        }
+                      />
+                    </div>
                   );
                 },
                 editComponent: (props) => {

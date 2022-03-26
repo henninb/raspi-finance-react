@@ -86,7 +86,7 @@ export default function AccountSummaryTable() {
   useEffect(() => {}, []);
 
   return (
-    <div>
+    <>
       {!isLoading && isSuccess && isSuccessTotals ? (
         <div className="table-formatting">
           <MaterialTable
@@ -193,6 +193,6 @@ export default function AccountSummaryTable() {
           <Spinner />
         </div>
       )}
-    </div>
+    </>
   );
 }
