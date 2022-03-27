@@ -6,7 +6,7 @@ export default function Login(props) {
     console.log("login submit was clicked");
     document.getElementById("login-result").innerHTML = "comment";
   };
-  
+
   useEffect(() => {
     // Update the document title using the browser API
     // document.title = `You clicked ${count} times`;
