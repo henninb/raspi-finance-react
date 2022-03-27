@@ -1,38 +1,11 @@
-import react, { useEffect } from "react";
+import { useEffect } from "react";
 //import axios from "axios";
-
-// function componentDidMount() {
-//    // axios.get(`https://jsonplaceholder.typicode.com/users`)
-//    axios.get("api/login")
-//      .then(res => {
-//        const persons = res.data;
-//        alert(persons);
-//        // this.setState({ persons });
-//      })
-//  }
 
 export default function Login(props) {
   // export const Login = (props) => {
 
-  const signupWasClickedCallback = (data) => {
-    console.log(data);
-    // axios({
-    // method: 'post',
-    // url: '/login',
-    // data: {
-    // firstName: 'Finn',
-    // lastName: 'Williams'
-    // }
-    // });
-    //alert('Signup callback, see log on the console to see the data.');
-  };
-
   const handleClick = (e) => {
     console.log("login submit was clicked");
-  };
-
-  const updateData = (e) => {
-    console.log("form changed");
   };
 
   useEffect(() => {
@@ -41,7 +14,7 @@ export default function Login(props) {
   });
 
   return (
-    <div className="login">
+    <div className="login centered">
       <div className="form">
         <form
           name="login-form"
@@ -79,7 +52,7 @@ export default function Login(props) {
               name="password"
             />
           </div>
-          <button type="submit">login</button>
+          <button type="submit" onSubmit={handleClick}>login</button>
         </form>
       </div>
     </div>

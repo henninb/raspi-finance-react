@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import AllRoutes from "./components/AllRoutes";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import SelectAccounts from "./components/SelectAccounts";
 import moment from "moment";
 
@@ -14,12 +13,12 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <nav class="navbar navbar-expand-lg navbar-light navbar-fixed-top">
-          <a class="navbar-brand" href="#">
-            Navbar
-          </a>
+        <nav className="navbar navbar-expand-lg navbar-light navbar-fixed-top">
+          {/*<a className="navbar-brand" href="#">*/}
+          {/*  Navbar*/}
+          {/*</a>*/}
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-toggle="collapse"
             data-target="#navbarNav"
@@ -27,39 +26,36 @@ export default class App extends Component {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item active">
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              <li className="nav-item active">
                 {" "}
-                <a class="nav-link" href="/">
-                  Home<span class="sr-only">(current)</span>
+                <a className="nav-link" href="/">
+                  Home<span className="sr-only">(current)</span>
                 </a>{" "}
               </li>
-              <li class="nav-item">
-                {" "}
-                <a class="nav-link" href="/payments">
+              <li className="nav-item">
+                <a className="nav-link" href="/payments">
                   Payments
-                </a>{" "}
+                </a>
               </li>
-              <li class="nav-item">
-                {" "}
-                <a class="nav-link" href="/payment/required">
+              <li className="nav-item">
+                <a className="nav-link" href="/payment/required">
                   Payment Required
-                </a>{" "}
+                </a>
               </li>
-              <li class="nav-item">
-                {" "}
-                <a class="nav-link" href="/freeform">
+              <li className="nav-item">
+                <a className="nav-link" href="/freeform">
                   FreeForm
-                </a>{" "}
+                </a>
               </li>
-              <li class="nav-item">
+              <li className="nav-item">
                 {" "}
-                <a class="nav-link" href="/login">
+                <a className="nav-link" href="/login">
                   Login
-                </a>{" "}
+                </a>
               </li>
             </ul>
           </div>
