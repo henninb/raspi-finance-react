@@ -51,15 +51,23 @@ export default class App extends Component {
                   FreeForm
                 </a>
               </li>
+
               <li className="nav-item">
-                {" "}
-                <a className="nav-link" href="/login">
-                  Login
-                </a>
+                <SelectAccounts />
               </li>
             </ul>
           </div>
-          <SelectAccounts />
+
+          <ul className="nav navbar-nav navbar-right">
+            <b>
+              <li className="nav-item">
+                <a href="/login">
+                  <i className="fa fa-fw fa-user" />
+                </a>
+              </li>
+              {/*<a href="/login" style={{color:"black"}}><i className="fa fa-fw fa-user" style={{color:"black"}}></i>Login</a>*/}
+            </b>
+          </ul>
         </nav>
         <AllRoutes />
       </div>

@@ -40,6 +40,7 @@
     "react-file-picker": "^0.0.6",
     "react-loader-spinner": "^4.0.0",
     "react-material-snackbar": "^3.0.1",
+    "react-navigation": "^4.4.4",
     "react-query": "^3.34.1",
     "react-router-dom": "^6.0.2",
     "react-sage": "^0.3.16",
