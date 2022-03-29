@@ -36,9 +36,9 @@ export default function useUserLogin() {
       },
 
       onSuccess: (response) => {
-        let oldData: any = queryClient.getQueryData("user");
-        let newData = [response, ...oldData];
-        queryClient.setQueryData("user", newData);
+        //let oldData: any = queryClient.getQueryData("user");
+        //let newData = [response, ...oldData];
+        //queryClient.setQueryData("user", newData);
       },
     }
   );

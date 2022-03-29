@@ -1,9 +1,31 @@
 import { useEffect } from "react";
+import useUserLogin from "./queries/useUserLogin";
 
 export default function Login(props) {
-  const handleClick = (e) => {
+  const { mutate: userLogin } = useUserLogin();
+
+  const handleClick = async (e) => {
     console.log("login submit was clicked");
     document.getElementById("login-result").innerHTML = "comment";
+
+    //e.target.name
+
+    e.preventDefault();
+
+    //var formData = new FormData();
+    //const data = new FormData(e.target);
+    //alert(e.target.name);
+    //alert(e.target.value.trim());
+
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let data = {
+      username: email,
+      password: password,
+    };
+
+    let response = await userLogin({ payload: data });
+    console.log(response);
   };
 
   useEffect(() => {
@@ -13,6 +35,7 @@ export default function Login(props) {
 
   return (
     <div className="login centered">
+      <div id="login-result">test</div>
       <div className="form">
         <form
           name="login-form"
