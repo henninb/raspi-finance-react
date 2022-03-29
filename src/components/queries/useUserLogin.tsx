@@ -13,6 +13,7 @@ const userLogin = async (payload: User): Promise<any> => {
       Authorization: basicAuth(),
     },
   });
+  console.log("responseBody: " + JSON.stringify(response.data));
   return response.data;
 };
 

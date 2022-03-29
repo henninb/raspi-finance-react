@@ -25,7 +25,7 @@ export default function Login(props) {
     };
 
     let response = await userLogin({ payload: data });
-    console.log(response);
+    console.log("response: " + response);
   };
 
   useEffect(() => {
