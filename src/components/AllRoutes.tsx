@@ -6,18 +6,21 @@ import FreeForm from "./FreeForm";
 import PaymentRequired from "./PaymentRequired";
 import Login from "./Login";
 import Register from "./Register";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 export default function AllRoutes() {
   return (
     <>
       <Routes>
-        <Route path="/payments" element={<PaymentTable />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/freeform" element={<FreeForm />} />
-        <Route path="/payment/required" element={<PaymentRequired />} />
-        <Route path="/transactions/:account" element={<TransactionTable />} />
-        <Route path="/" element={<AccountSummaryTable />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/payments" element={<PaymentTable />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/freeform" element={<FreeForm />} />
+          <Route path="/payment/required" element={<PaymentRequired />} />
+          <Route path="/transactions/:account" element={<TransactionTable />} />
+          <Route path="/" element={<AccountSummaryTable />} />
+        </Route>
       </Routes>
     </>
   );
