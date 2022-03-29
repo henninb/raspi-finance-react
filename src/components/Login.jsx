@@ -1,22 +1,30 @@
 import { useEffect } from "react";
-import useUserLogin from "./queries/useUserLogin";
+//import useUserLogin from "./queries/useUserLogin";
+import axios from "axios";
+import {endpointUrl} from "./Common";
 
 export default function Login(props) {
-  const { mutate: userLogin } = useUserLogin();
+  //const { mutate: userLogin } = useUserLogin();
+
+  const userLogin = async (payload) => {
+    let endpoint = endpointUrl() + "/user/signin/";
+
+    const response = await axios.post(endpoint, payload, {
+      timeout: 0,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  }
 
   const handleClick = async (e) => {
     console.log("login submit was clicked");
-    document.getElementById("login-result").innerHTML = "comment";
-
-    //e.target.name
+    //document.getElementById("login-result").innerHTML = "comment";
 
     e.preventDefault();
-
-    //var formData = new FormData();
-    //const data = new FormData(e.target);
-    //alert(e.target.name);
-    //alert(e.target.value.trim());
-
+    //const {name, value} = e.target;
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
     let data = {
@@ -24,18 +32,17 @@ export default function Login(props) {
       password: password,
     };
 
-    let response = await userLogin({ payload: data });
-    console.log("response: " + response);
+    //let response = await userLogin({ payload: data });
+    let response = await userLogin(data);
+    console.log("response: " + JSON.stringify(response));
   };
 
   useEffect(() => {
-    // Update the document title using the browser API
-    // document.title = `You clicked ${count} times`;
   });
 
   return (
     <div className="login centered">
-      <div id="login-result">test</div>
+      {/*<div id="login-result">test</div>*/}
       <div className="form">
         <form
           name="login-form"

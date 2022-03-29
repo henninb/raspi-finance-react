@@ -2,6 +2,7 @@ import { basicAuth, endpointUrl } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import User from "../model/User";
+import {response} from "msw";
 
 const userLogin = async (payload: User): Promise<any> => {
   let endpoint = endpointUrl() + "/user/signin/";
@@ -10,7 +11,6 @@ const userLogin = async (payload: User): Promise<any> => {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",
-      Authorization: basicAuth(),
     },
   });
   console.log("responseBody: " + JSON.stringify(response.data));
@@ -24,6 +24,10 @@ export default function useUserLogin() {
     ["userLogin"],
     (variables: any) => userLogin(variables.payload),
     {
+      onMutate: (response) => {
+        console.log("mutate: " + JSON.stringify(response));
+        return response;
+      },
       onError: (error: AxiosError) => {
         console.log(error ? error : "error is undefined.");
         console.log(
@@ -37,9 +41,9 @@ export default function useUserLogin() {
       },
 
       onSuccess: (response) => {
-        //let oldData: any = queryClient.getQueryData("user");
-        //let newData = [response, ...oldData];
-        //queryClient.setQueryData("user", newData);
+        console.log("responseBody: " + JSON.stringify(response));
+        queryClient.setQueryData("user", response);
+        return response;
       },
     }
   );
