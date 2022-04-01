@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 //import useUserLogin from "./queries/useUserLogin";
 import axios from "axios";
-import {endpointUrl} from "./Common";
+import { endpointUrl } from "./Common";
 
 export default function Login(props) {
   //const { mutate: userLogin } = useUserLogin();
@@ -17,7 +17,7 @@ export default function Login(props) {
     });
 
     return response.data;
-  }
+  };
 
   const handleClick = async (e) => {
     console.log("login submit was clicked");
@@ -37,8 +37,7 @@ export default function Login(props) {
     console.log("response: " + JSON.stringify(response));
   };
 
-  useEffect(() => {
-  });
+  useEffect(() => {});
 
   return (
     <div className="login centered">
@@ -47,8 +46,8 @@ export default function Login(props) {
         <form
           name="login-form"
           className="login-form"
-          action="/login"
-          method="GET"
+          action="/user/login"
+          method="POST"
           data-bitwarden-watching="1"
         >
           <span className="material-icons">lock</span>

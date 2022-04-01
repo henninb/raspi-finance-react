@@ -6,9 +6,15 @@ $white: rgb(255, 255, 255);
 $off-white: rgba($white, 0.2);
 $spin-duration: 1s;
 $pulse-duration: 750ms;
+
 textarea {
-  height: 75vh;
+  height: 60vh;
   width: 100%;
+}
+
+.navbar {
+  align-items: center;
+  justify-content: space-between;
 }
 
 img {
@@ -23,22 +29,13 @@ html {
 }
 
 body {
-  //   @extend html;
   background: linear-gradient(to left, #9965f4, white);
   margin-left: 10px;
   margin-right: 10px;
-  //margin: 30px;
-  //   margin: 0;
-  //padding: 100px;
-  //   box-sizing: border-box;
-  //   color: white;
 }
 
 table {
   border: 1px solid black;
-  position: "sticky";
-  left: 0;
-  display: flex;
 }
 
 th {
@@ -91,14 +88,12 @@ tr:hover td {
 }
 
 .form {
-  background: #fff;
+  background: #ffffff;
   border-radius: 10px;
   margin: 0 auto 100px;
   max-width: 360px;
   padding: 45px;
-  position: relative;
   text-align: center;
-  z-index: 1;
 }
 
 .form input {
@@ -122,14 +117,14 @@ tr:hover td {
   background: #4b6cb7;
   border: 0;
   border-radius: 5px;
-  color: #fff;
+  color: #ffffff;
   cursor: pointer;
   font-family: Comfortaa, cursive;
   font-size: 14px;
   outline: 0;
   padding: 15px;
   text-transform: uppercase;
-  transition: all 0.3 ease;
+  //transition: all 0.3 ease;
   width: 100%;
 }
 
@@ -143,26 +138,16 @@ tr:hover td {
 }
 
 .displayed {
-  display: inline-block;
-  max-height: 20px;
-  max-width: 200px;
-  //position: bottom;
-  //width: 940px;
-  //margin: auto;
-  padding-left: 10px;
+  //display: flex;
+  justify-content: space-between;
 }
 
-.notdisplayed {
-  //display: flex;
+.not-displayed {
   display: none;
-  //max-width: 100px;
 }
 
 .select-formatting {
-  // width: 250px;
-  // color: black;
   width: 25rem;
-  z-index: 999;
 }
 
 .centered {
@@ -170,16 +155,6 @@ tr:hover td {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.notdisplayed {
-  display: none;
-}
-
-.displayed {
-  display: flex;
-  //height: 20px;
-  margin: auto;
 }
 
 .lds-roller {
@@ -267,214 +242,4 @@ tr:hover td {
   }
 }
 
-// .navbar {
-//   margin-bottom: 40px;
-// }
-// .container {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   height: 100vh;
-//   width: 100%;
-// }
-// .form-box {
-//   width: 380px;
-//   height: 450px;
-//   background-color: black;
-//   padding: 20px;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-start;
-//   opacity: 0.5;
-//   border-radius: 2%;
-// }
-// .header-form {
-//   margin-bottom: 15px;
-// }
-// button {
-//   margin-top: 40px;
-//   margin-bottom: 10px;
-// }
-// .message {
-//   display: flex;
-//   justify-content: space-between;
-// }
-// .snackbar {
-//   visibility: hidden;
-//   min-width: 250px;
-//   margin-left: -125px;
-//   background-color: #333;
-//   color: #fff;
-//   text-align: center;
-//   border-radius: 2px;
-//   padding: 16px;
-//   position: fixed;
-//   z-index: 1;
-//   left: 50%;
-//   bottom: 30px;
-//   font-size: 1rem;
-// }
-// .flex {
-//   display: flex;
-//   flex-direction: column;
-// }
-// .rootContainer {
-//   margin: auto;
-// }
-// .container1 {
-//   max-width: 14rem;
-// }
-// .notdisplayed {
-//   display: none;
-// }
-// .row:after {
-//   content: "";
-//   display: table;
-//   clear: both;
-// }
-// .displayed {
-//   display: flex;
-//   height: 20px;
-//   margin: auto;
-// }
-// .container {
-//   display: flex;
-// }
-// .fixed {
-//   width: 200px;
-// }
-// .flex-item {
-//   flex-grow: 1;
-// }
-// .snackbar.show {
-//   visibility: visible;
-//   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-//   animation: fadein 0.5s, fadeout 0.5s 2.5s;
-// }
-// .wrapper {
-//   display: inline-block;
-// }
-// .white-div {
-//   background-color: white;
-// }
-// .wrapper table {
-//   border-style: none;
-//   border-collapse: collapse;
-//   display: block;
-// }
-// .table-content {
-//   overflow-y: scroll;
-//   border-collapse: collapse;
-//   display: block;
-// }
-// .nav-purple {
-//   background-color: #9965f4;
-// }
-// .centered {
-//   position: fixed;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-// }
-// .select-formatting {
-//   width: 250px;
-//   color: black;
-// }
-// .table-formatting {
-//   max-width: 100%;
-// }
-// .login-formatting {
-//   max-width: 100%;
-//   background-color: white;
-//   position: relative;
-//   width: 100%;
-//   padding: 10px;
-// }
-// .loading {
-//   border-radius: 50%;
-//   width: $base-line-height;
-//   height: $base-line-height;
-//   border: 0.25rem solid $off-white;
-//   border-top-color: $white;
-//   animation: spin $spin-duration infinite linear;
-// }
-// .loading-pulse {
-//   position: relative;
-//   width: math.div($base-line-height, 4);
-//   height: $base-line-height;
-//   background: $off-white;
-//   animation: pulse $pulse-duration infinite;
-//   animation-delay: math.div($pulse-duration, 3);
-//   &:before,
-//   &:after {
-//     content: "";
-//     position: absolute;
-//     display: block;
-//     height: math.div($base-line-height, 1.5);
-//     width: math.div($base-line-height, 4);
-//     background: $off-white;
-//     top: 50%;
-//     transform: translateY(-50%);
-//     animation: pulse $pulse-duration infinite;
-//   }
-//   &:before {
-//     left: -(math.div($base-line-height, 2));
-//   }
-//   &:after {
-//     left: math.div($base-line-height, 2);
-//     animation-delay: math.div($pulse-duration, 1.5);
-//   }
-// }
-// @-webkit-keyframes fadein {
-//   from {
-//     bottom: 0;
-//     opacity: 0;
-//   }
-//   to {
-//     bottom: 30px;
-//     opacity: 1;
-//   }
-// }
-// @keyframes fadein {
-//   from {
-//     bottom: 0;
-//     opacity: 0;
-//   }
-//   to {
-//     bottom: 30px;
-//     opacity: 1;
-//   }
-// }
-// @-webkit-keyframes fadeout {
-//   from {
-//     bottom: 30px;
-//     opacity: 1;
-//   }
-//   to {
-//     bottom: 0;
-//     opacity: 0;
-//   }
-// }
-// @keyframes fadeout {
-//   from {
-//     bottom: 30px;
-//     opacity: 1;
-//   }
-//   to {
-//     bottom: 0;
-//     opacity: 0;
-//   }
-// }
-// @keyframes spin {
-//   0% {
-//     transform: rotate(0deg);
-//   }
-//   100% {
-//     transform: rotate(360deg);
-//   }
-// }
-// @keyframes pulse {
-//   50% {
-//     background: $white;
-//   }
-// }
+//removed extra on 4/1/2022

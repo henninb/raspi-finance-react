@@ -299,7 +299,7 @@ export default function TransactionTable() {
   return (
     <div>
       {isSuccessValidationTotals && isSuccess && isSuccessTotals ? (
-        <div className="table-formatting">
+        <div>
           <MaterialTable
             columns={[
               {
@@ -604,6 +604,7 @@ export default function TransactionTable() {
               headerStyle: {
                 backgroundColor: "#9965f4",
                 color: "white",
+                zIndex: 0,
               },
 
               rowStyle: (rowData): any => {

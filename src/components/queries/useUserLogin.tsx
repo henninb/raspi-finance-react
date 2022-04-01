@@ -2,7 +2,6 @@ import { basicAuth, endpointUrl } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import User from "../model/User";
-import {response} from "msw";
 
 const userLogin = async (payload: User): Promise<any> => {
   let endpoint = endpointUrl() + "/user/signin/";

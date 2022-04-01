@@ -80,7 +80,7 @@ export default function PaymentTable() {
   return (
     <div>
       {isSuccess && parameterSuccess ? (
-        <div className="table-formatting" data-testid="payment-table">
+        <div data-testid="payment-table">
           <MaterialTable
             data-testid="payment-material-table"
             // data-cy="payment-table"
@@ -186,7 +186,8 @@ export default function PaymentTable() {
               search: false,
               headerStyle: {
                 backgroundColor: "#9965f4",
-                color: "#FFF",
+                color: "#FFFFFF",
+                zIndex: 0,
               },
               rowStyle: {
                 fontSize: ".6rem",

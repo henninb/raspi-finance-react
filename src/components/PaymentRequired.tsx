@@ -17,7 +17,7 @@ export default function PaymentRequired() {
   return (
     <div>
       {!isLoading && isSuccess ? (
-        <div className="table-formatting" data-testid="payment-required-table">
+        <div data-testid="payment-required-table">
           <MaterialTable
             columns={[
               {
@@ -93,7 +93,8 @@ export default function PaymentRequired() {
               addRowPosition: "first",
               headerStyle: {
                 backgroundColor: "#9965f4",
-                color: "#FFF",
+                color: "#FFFFFF",
+                zIndex: 0,
                 // position: 'sticky', top: 0
               },
               rowStyle: { fontSize: ".6rem" },

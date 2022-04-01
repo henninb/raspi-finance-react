@@ -88,7 +88,7 @@ export default function AccountSummaryTable() {
   return (
     <>
       {!isLoading && isSuccess && isSuccessTotals ? (
-        <div className="table-formatting">
+        <div>
           <MaterialTable
             columns={[
               {
@@ -171,7 +171,7 @@ export default function AccountSummaryTable() {
               headerStyle: {
                 backgroundColor: "#9965f4",
                 color: "#FFF",
-                // position: 'sticky', top: 0
+                zIndex: 0,
               },
               rowStyle: { fontSize: ".6rem" },
             }}

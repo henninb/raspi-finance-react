@@ -7,7 +7,7 @@ export default function HoverButtons({
   accountNameOwner,
   handlerToUpdateTransactionState,
 }: any) {
-  const [display, setDisplay] = useState("notdisplayed");
+  const [display, setDisplay] = useState("not-displayed");
   const showButton = (e: any) => {
     e.preventDefault();
     setDisplay("displayed");
@@ -15,7 +15,7 @@ export default function HoverButtons({
 
   const hideButton = (e: any) => {
     e.preventDefault();
-    setDisplay("notdisplayed");
+    setDisplay("not-displayed");
   };
 
   return (
