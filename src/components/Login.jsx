@@ -1,10 +1,25 @@
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 //import useUserLogin from "./queries/useUserLogin";
 import axios from "axios";
 import { endpointUrl } from "./Common";
 
 export default function Login(props) {
   //const { mutate: userLogin } = useUserLogin();
+
+  const [state, setState] = useState(
+      {
+        email:"",
+        password:""
+      }
+  );
+
+  const handleChange = (e) => {
+    const {id, value} = e.target;
+    setState(previousState => ({
+      ...previousState,
+      [id]: value
+    }))
+  };
 
   const userLogin = async (payload) => {
     let endpoint = endpointUrl() + "/user/signin/";
@@ -24,6 +39,10 @@ export default function Login(props) {
     //document.getElementById("login-result").innerHTML = "comment";
 
     e.preventDefault();
+
+
+
+
     //const {name, value} = e.target;
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
@@ -31,10 +50,15 @@ export default function Login(props) {
       username: email,
       password: password,
     };
+    console.log(state);
+    console.log(data);
 
-    //let response = await userLogin({ payload: data });
-    let response = await userLogin(data);
-    console.log("response: " + JSON.stringify(response));
+    try {
+      let response = await userLogin(data);
+      console.log("response: " + JSON.stringify(response));
+    } catch (error) {
+      console.log(error.data)
+    }
   };
 
   useEffect(() => {});
@@ -63,6 +87,7 @@ export default function Login(props) {
               placeholder="Email"
               id="email"
               name="email"
+              onChange={handleChange}
             />
           </div>
           <div className="input-group mb-3">
@@ -77,6 +102,7 @@ export default function Login(props) {
               placeholder="Password"
               id="password"
               name="password"
+              onChange={handleChange}
             />
           </div>
           <button type="submit" onClick={handleClick}>
