@@ -25,6 +25,7 @@
     "graphql-tag": "^2.12.6",
     "immer": "^9.0.7",
     "invariant": "^2.2.4",
+    "jspdf": "^2.1.0",
     "levenary": "^1.1.1",
     "lodash": "^4.17.21",
     "material-table": "^1.69.3",
