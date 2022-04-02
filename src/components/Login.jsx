@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 //import useUserLogin from "./queries/useUserLogin";
 import axios from "axios";
 import { endpointUrl } from "./Common";
@@ -6,19 +6,17 @@ import { endpointUrl } from "./Common";
 export default function Login(props) {
   //const { mutate: userLogin } = useUserLogin();
 
-  const [state, setState] = useState(
-      {
-        email:"",
-        password:""
-      }
-  );
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleChange = (e) => {
-    const {id, value} = e.target;
-    setState(previousState => ({
+    const { id, value } = e.target;
+    setState((previousState) => ({
       ...previousState,
-      [id]: value
-    }))
+      [id]: value,
+    }));
   };
 
   const userLogin = async (payload) => {
@@ -40,9 +38,6 @@ export default function Login(props) {
 
     e.preventDefault();
 
-
-
-
     //const {name, value} = e.target;
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
@@ -57,7 +52,7 @@ export default function Login(props) {
       let response = await userLogin(data);
       console.log("response: " + JSON.stringify(response));
     } catch (error) {
-      console.log(error.data)
+      console.log(error.data);
     }
   };
 
