@@ -5,7 +5,6 @@ import PaymentTable from "./PaymentTable";
 import FreeForm from "./FreeForm";
 import PaymentRequired from "./PaymentRequired";
 import Login from "./Login";
-import Register from "./Register";
 import ProtectedRoutes from "./ProtectedRoutes";
 
 export default function AllRoutes() {
@@ -15,7 +14,6 @@ export default function AllRoutes() {
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/payments" element={<PaymentTable />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/freeform" element={<FreeForm />} />
           <Route path="/payment/required" element={<PaymentRequired />} />
           <Route path="/transactions/:account" element={<TransactionTable />} />

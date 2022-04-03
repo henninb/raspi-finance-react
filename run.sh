@@ -78,10 +78,12 @@ if [ "$ENV" = "prod" ]; then
   echo docker exec -it raspi-finance-react /bin/sh
 else
   if [ -x "$(command -v ncu)" ]; then
-    echo ncu -u
+    echo npx ncu -u
+    echo npx depcheck
   else
     echo yarn global add npm-check-updates
-    yarn global add npm-check-updates
+    echo yarn global add npm-check-updates
+    echo yarn global add depcheck
   fi
   yarn install
   echo yarn upgrade

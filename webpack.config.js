@@ -1,4 +1,4 @@
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+// const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
   plugins: [],
@@ -13,5 +13,10 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
     // alias: { process: “os/os-browerify/browser” },
+    fallback: {
+      // fs: false,
+      // os: require.resolve("os-browserify/browser"),
+      // path: require.resolve("path-browserify"),
+    },
   },
 };

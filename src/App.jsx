@@ -1,13 +1,9 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import AllRoutes from "./components/AllRoutes";
 import SelectAccounts from "./components/SelectAccounts";
-import moment from "moment";
+import moment from "moment-timezone";
 
-require("moment");
-require("moment-timezone");
 moment.tz.setDefault("America/Chicago");
-
-require("dotenv").config();
 
 export default class App extends Component {
   render() {
