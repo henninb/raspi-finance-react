@@ -1,8 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import Spinner from "./Spinner";
 import { cleanup, render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+
+// const root = ReactDOM.createRoot(document.getElementById("root"));
 
 describe("select spinner testing", () => {
   let wrapper: any;
@@ -14,7 +16,9 @@ describe("select spinner testing", () => {
   beforeEach(async () => {
     const queryClient = new QueryClient();
 
-    wrapper = render(
+    const container = document.getElementById("root");
+    const root = ReactDOM.createRoot(container);
+    wrapper = root.render(
       <QueryClientProvider client={queryClient}>
         <Spinner />
       </QueryClientProvider>

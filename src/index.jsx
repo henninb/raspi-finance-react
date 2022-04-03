@@ -9,9 +9,9 @@ import "./components/main.scss";
 
 const queryClient = new QueryClient();
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const rootElement = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(
+rootElement.render(
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
       <App />

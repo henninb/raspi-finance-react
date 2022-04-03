@@ -2,7 +2,7 @@ import React from "react";
 import { render, cleanup } from "./test-utils";
 import PaymentRequired from "./PaymentRequired";
 import { fireEvent, waitFor } from "@testing-library/dom";
-import { MockedProvider } from "@apollo/react-testing";
+//import { MockedProvider } from "@apollo/react-testing";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { server } from "./mocks/server";
 
