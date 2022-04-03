@@ -1,5 +1,6 @@
 import React from "react";
 import { render, cleanup } from "./test-utils";
+import { createRoot } from 'react-dom/client';
 import SelectAccountNameOwnerCredit from "./SelectAccountNameOwnerCredit";
 import { fireEvent, waitFor } from "@testing-library/dom";
 import { MockedProvider } from "@apollo/react-testing";
