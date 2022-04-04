@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import MaterialTable from "material-table";
+//import MaterialTable from "material-table";
+import MaterialTable from '@material-table/core';
 import Spinner from "./Spinner";
 import { useMatch } from "react-router-dom";
 import SelectTransactionState from "./SelectTransactionState";
@@ -582,7 +583,7 @@ export default function TransactionTable() {
                       rowsPerPage={props.rowsPerPage}
                       rowsPerPageOptions={[25, 50, 75, 100]}
                       onRowsPerPageChange={props.onChangeRowsPerPage}
-                      onPageChange={props.onChangePage}
+                      onPageChange={props.onPageChange}
                     />
                   </td>
                 );
