@@ -6,20 +6,45 @@ import FreeForm from "./FreeForm";
 import PaymentRequired from "./PaymentRequired";
 import Login from "./Login";
 import ProtectedRoutes from "./ProtectedRoutes";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 export default function AllRoutes() {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#26c6da",
+        light: "#ffffff",
+      },
+      secondary: {
+        main: "#006064",
+      },
+      background: {
+        default: "#fafafa",
+        paper: "#f5f5f5",
+      },
+      text: {
+        primary: "rgba(18,18,18,0.87)",
+      },
+    },
+  });
+
   return (
     <>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route element={<ProtectedRoutes />}>
-          <Route path="/payments" element={<PaymentTable />} />
-          <Route path="/freeform" element={<FreeForm />} />
-          <Route path="/payment/required" element={<PaymentRequired />} />
-          <Route path="/transactions/:account" element={<TransactionTable />} />
-          <Route path="/" element={<AccountSummaryTable />} />
-        </Route>
-      </Routes>
+      <ThemeProvider theme={theme}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/payments" element={<PaymentTable />} />
+            <Route path="/freeform" element={<FreeForm />} />
+            <Route path="/payment/required" element={<PaymentRequired />} />
+            <Route
+              path="/transactions/:account"
+              element={<TransactionTable />}
+            />
+            <Route path="/" element={<AccountSummaryTable />} />
+          </Route>
+        </Routes>
+      </ThemeProvider>
     </>
   );
 }

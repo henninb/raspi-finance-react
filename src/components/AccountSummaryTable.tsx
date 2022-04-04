@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import Spinner from "./Spinner";
-import "./main.scss";
 import Button from "@material-ui/core/Button";
 import { useNavigate } from "react-router-dom";
 import { currencyFormat, noNaN } from "./Common";

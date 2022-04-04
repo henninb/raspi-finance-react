@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import os from "os";
-import "./main.scss";
 import SnackbarBaseline from "./SnackbarBaseline";
 import Select from "react-select";
 import FreeFormTable from "./FreeFormTable";

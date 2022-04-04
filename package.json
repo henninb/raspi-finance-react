@@ -5,10 +5,12 @@
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@date-io/moment": "2.x",
+    "@emotion/styled": "^11.8.1",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
     "@material-ui/pickers": "^3.3.10",
+    "@mui/lab": "^5.0.0-alpha.75",
     "@mui/material": "^5.5.3",
     "@mui/styles": "^5.5.3",
     "@types/datejs": "^0.0.32",

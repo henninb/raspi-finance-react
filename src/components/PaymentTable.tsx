@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import MaterialTable from "material-table";
-import "./main.scss";
 import SelectAccountNameOwnerCredit from "./SelectAccountNameOwnerCredit";
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
