@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 //import MaterialTable from "material-table";
-import MaterialTable from '@material-table/core';
+import MaterialTable from "@material-table/core";
 import Spinner from "./Spinner";
 import { useMatch } from "react-router-dom";
 import SelectTransactionState from "./SelectTransactionState";
