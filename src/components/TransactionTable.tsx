@@ -610,7 +610,8 @@ export default function TransactionTable() {
               rowStyle: (rowData): any => {
                 if (rowData.transactionState !== null) {
                   if (rowData.transactionState === "cleared") {
-                    return { fontSize: ".6rem" };
+                    //return { fontSize: ".6rem" };
+                    return {};
                   } else if (rowData.transactionState === "future") {
                     return {
                       backgroundColor: "#5800f9",

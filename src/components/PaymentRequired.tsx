@@ -27,6 +27,7 @@ export default function PaymentRequired() {
                 render: (rowData) => {
                   return (
                     <Button
+                        style={{ fontSize: ".6rem" }}
                       onClick={() =>
                         handleButtonClickLink(rowData.accountNameOwner)
                       }
@@ -95,9 +96,7 @@ export default function PaymentRequired() {
                 backgroundColor: "#9965f4",
                 color: "#FFFFFF",
                 zIndex: 0,
-                // position: 'sticky', top: 0
               },
-              rowStyle: { fontSize: ".6rem" },
             }}
           />
         </div>

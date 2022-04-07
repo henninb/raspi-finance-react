@@ -77,7 +77,7 @@ export default function TransactionStateButtons({
       onChange={handleTransactionType}
       aria-label="text transactionType"
     >
-      <ToggleButton value="future">
+      <ToggleButton value="future" style={{ fontSize: ".6rem" }}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="future transaction">
           <AttachMoneyRounded
@@ -87,17 +87,17 @@ export default function TransactionStateButtons({
         <ReactTooltip effect="solid" />
       </ToggleButton>
 
-      <ToggleButton value="outstanding">
+      <ToggleButton value="outstanding" style={{ fontSize: ".6rem" }}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="outstanding transaction">
           <AttachMoneyRounded
-            style={{ color: outstandingColor, fontSize: "small" }}
+            style={{ color: outstandingColor, fontSize:  "small" }}
           />
         </a>
         <ReactTooltip effect="solid" />
       </ToggleButton>
 
-      <ToggleButton value="cleared">
+      <ToggleButton value="cleared" style={{ fontSize: ".6rem" }}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="cleared transaction">
           <AttachMoneyRounded

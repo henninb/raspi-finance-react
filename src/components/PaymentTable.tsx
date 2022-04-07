@@ -188,9 +188,6 @@ export default function PaymentTable() {
                 color: "#FFFFFF",
                 zIndex: 0,
               },
-              rowStyle: {
-                fontSize: ".6rem",
-              },
             }}
             editable={{
               // @ts-ignore

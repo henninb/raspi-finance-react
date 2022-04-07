@@ -97,6 +97,7 @@ export default function AccountSummaryTable() {
                 render: (rowData) => {
                   return (
                     <Button
+                        style={{ fontSize: ".6rem" }}
                       onClick={() =>
                         handleButtonClickLink(rowData.accountNameOwner)
                       }
@@ -172,7 +173,6 @@ export default function AccountSummaryTable() {
                 color: "#FFF",
                 zIndex: 0,
               },
-              rowStyle: { fontSize: ".6rem" },
             }}
             editable={{
               onRowAdd: addRow,
