@@ -55,6 +55,11 @@ export CURRENT_GID="$(id -g)"
 
 mkdir -p ssl
 
+if [ ! -x "$(command -v yarn)" ]; then
+  echo npm install -g yarn
+  exit 2
+fi
+
 if [ "$ENV" = "prod" ]; then
   if ! yarn build; then
     echo "yarn build failed"
@@ -77,16 +82,9 @@ if [ "$ENV" = "prod" ]; then
   fi
   echo docker exec -it raspi-finance-react /bin/sh
 else
-  if [ -x "$(command -v ncu)" ]; then
-    echo npx ncu -u
-    echo npx depcheck
-  else
-    echo yarn global add npm-check-updates
-    echo yarn global add npm-check-updates
-    echo yarn global add depcheck
-  fi
+  echo npx npm-check-updates -u
+  echo npx depcheck
   yarn install
-  echo yarn upgrade
   yarn run prettier
   yarn test
   yarn start
