@@ -90,8 +90,5 @@
     "eslint-plugin-cypress": "^2.12.1",
     "jest": "^27.5.1",
     "msw": "^0.39.2"
-  },
-  "resolutions": {
-    "material-table/jspdf": "^2.1.0"
   }
 }
