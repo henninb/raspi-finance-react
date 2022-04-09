@@ -1,6 +1,4 @@
-import React from "react";
 import SelectAccounts from "./SelectAccounts";
-import { Link } from "react-router-dom";
 import "./main.scss";
 
 export default function NavbarInstance() {
@@ -21,10 +19,9 @@ export default function NavbarInstance() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item active">
-              {" "}
               <a className="nav-link" href="/">
                 Home<span className="sr-only">(current)</span>
-              </a>{" "}
+              </a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/payments">
@@ -42,7 +39,6 @@ export default function NavbarInstance() {
               </a>
             </li>
             <li className="nav-item">
-              {" "}
               <a className="nav-link" href="/login">
                 Login
               </a>
