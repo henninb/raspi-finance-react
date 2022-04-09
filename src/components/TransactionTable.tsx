@@ -340,7 +340,7 @@ export default function TransactionTable() {
                       {rowData.description}
                       <Button
                         data-test-id="transaction-move-button"
-                        style={{ width: 50 }}
+                        style={{ fontSize: ".6rem" }}
                         onClick={() => {
                           setCurrentTransaction(rowData);
                           setLoadMoveDialog(true);

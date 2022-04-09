@@ -91,7 +91,7 @@ export default function TransactionStateButtons({
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="outstanding transaction">
           <AttachMoneyRounded
-            style={{ color: outstandingColor, fontSize:  "small" }}
+            style={{ color: outstandingColor, fontSize: "small" }}
           />
         </a>
         <ReactTooltip effect="solid" />

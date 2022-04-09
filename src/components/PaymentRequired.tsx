@@ -27,7 +27,7 @@ export default function PaymentRequired() {
                 render: (rowData) => {
                   return (
                     <Button
-                        style={{ fontSize: ".6rem" }}
+                      style={{ fontSize: ".6rem" }}
                       onClick={() =>
                         handleButtonClickLink(rowData.accountNameOwner)
                       }
