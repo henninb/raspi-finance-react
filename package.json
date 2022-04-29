@@ -27,7 +27,7 @@
     "dotenv": "^16.0.0",
     "dotenv-expand": "^8.0.3",
     "fs-extra": "^10.0.1",
-    "graphql": "^16.3.0",
+    "graphql": "^16.4.0",
     "material-table": "^2.0.3",
     "moment": "^2.29.2",
     "moment-timezone": "^0.5.34",
