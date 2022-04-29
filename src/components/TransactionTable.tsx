@@ -143,7 +143,7 @@ export default function TransactionTable() {
   );
 
   const handlerToUpdateTransactionState = useCallback(
-    async (guid, accountNameOwner, transactionState): Promise<any> => {
+    async (guid: any, accountNameOwner: string, transactionState: any): Promise<any> => {
       try {
         updateTransactionState({
           guid: guid,
@@ -242,7 +242,7 @@ export default function TransactionTable() {
   };
 
   const downHandler = useCallback(
-    ({ key }) => {
+    ({ key }: any ) => {
       if (key === "Escape") {
         console.log(`escape key pressed: ${keyPressed}`);
         setKeyPressed(true);
@@ -251,7 +251,7 @@ export default function TransactionTable() {
     [keyPressed]
   );
 
-  const upHandler = useCallback(({ key }) => {
+  const upHandler = useCallback(({ key } : any) => {
     if (key === "Escape") {
       setKeyPressed(false);
     }
