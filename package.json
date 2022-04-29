@@ -26,7 +26,6 @@
     "datejs": "^1.0.0-rc3",
     "dotenv": "^16.0.0",
     "dotenv-expand": "^8.0.3",
-    "eslint-config-react-app": "^7.0.0",
     "fs-extra": "^10.0.1",
     "graphql": "^16.3.0",
     "material-table": "^2.0.3",
