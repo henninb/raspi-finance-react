@@ -49,6 +49,12 @@ export default class App extends Component {
               </li>
 
               <li className="nav-item">
+                <a className="nav-link" href="/configuration">
+                  Configuration
+                </a>
+              </li>
+
+              <li className="nav-item">
                 <SelectAccounts />
               </li>
             </ul>
