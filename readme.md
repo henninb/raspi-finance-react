@@ -144,4 +144,7 @@ warning react-scripts > babel-eslint@10.1.0: babel-eslint is now @babel/eslint-p
 warning react-scripts > webpack-dev-server > chokidar > fsevents@1.2.13: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
 ```
 
+varnish
+```
 varnishadm
+```
