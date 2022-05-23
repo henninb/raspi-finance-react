@@ -4,7 +4,7 @@ import AccountSummaryTable from "./AccountSummaryTable";
 import PaymentTable from "./PaymentTable";
 import FreeForm from "./FreeForm";
 import PaymentRequired from "./PaymentRequired";
-import Configuration from "./Configuration";
+import ParameterConfiguration from "./ParameterConfiguration";
 import Login from "./Login";
 import ProtectedRoutes from "./ProtectedRoutes";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -38,7 +38,7 @@ export default function AllRoutes() {
             <Route path="/payments" element={<PaymentTable />} />
             <Route path="/freeform" element={<FreeForm />} />
             <Route path="/payment/required" element={<PaymentRequired />} />
-            <Route path="/configuration" element={<Configuration />} />
+            <Route path="/configuration" element={<ParameterConfiguration />} />
             <Route
               path="/transactions/:account"
               element={<TransactionTable />}
