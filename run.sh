@@ -23,6 +23,8 @@ fi
 
 . ./os-env
 
+docker save -o raspi-finance-react-docker.tar raspi-finance-react:latest
+
 # "$OSTYPE" == "darwin"*
 if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian GNU/Linux" ]; then
   echo "System limit for number of file watchers reached"
