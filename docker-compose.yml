@@ -3,12 +3,13 @@ services:
   raspi-finance-react:
     image: raspi-finance-react
     hostname: hornsup-react
+    container_name: raspi-finance-react
+    restart: always
     build:
       context: ./
       args:
         - TIMEZONE=America/Chicago
       dockerfile: Dockerfile
-    container_name: raspi-finance-react
     ports:
       - "3000:443"
     expose:
