@@ -2,6 +2,7 @@ import { AccountType } from "./AccountType";
 import { TransactionState } from "./TransactionState";
 import { ReoccurringType } from "./ReoccurringType";
 import ReceiptImage from "./ReceiptImage";
+import { TransactionType } from "./TransactionType";
 
 export default interface Transaction {
   transactionId?: number;
@@ -14,6 +15,7 @@ export default interface Transaction {
   category: String;
   amount: number;
   transactionState: TransactionState;
+  transactionType?: TransactionType;
   activeStatus: Boolean;
   reoccurringType: ReoccurringType;
   notes: String;

@@ -36,7 +36,7 @@ export default function useParameterDelete() {
 
       onSuccess: (response, variables) => {
         let oldData: any = queryClient.getQueryData("parameter");
-        console.log('delete was a success.')
+        console.log("delete was a success.");
         //let oldData: any = queryClient.getQueryData("parameter");
         let newData = oldData.filter(
           (t: any) => t.parameterName !== variables.oldRow.parameterName

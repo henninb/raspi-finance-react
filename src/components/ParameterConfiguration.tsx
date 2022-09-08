@@ -13,13 +13,13 @@ export default function ParameterConfiguration() {
   const { mutate: updateParameter } = useParameterUpdate();
 
   function handleDelete(parameterName: any) {
-    let row = {parameterName: parameterName}
-    deleteParameter({oldRow: row})
+    let row = { parameterName: parameterName };
+    deleteParameter({ oldRow: row });
   }
 
   function handleUpdate(parameterName: any) {
-    let oldData = {parameterName: parameterName}
-    let newData = {parameterName: parameterName, parameterValue: 'test'}
+    let oldData = { parameterName: parameterName };
+    let newData = { parameterName: parameterName, parameterValue: "test" };
     updateParameter({ newRow: newData, oldRow: oldData });
   }
 
