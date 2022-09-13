@@ -4,6 +4,7 @@ import MaterialTable from "@material-table/core";
 import Spinner from "./Spinner";
 import { useMatch } from "react-router-dom";
 import SelectTransactionState from "./SelectTransactionState";
+import SelectTransactionType from "./SelectTransactionType";
 import TransactionMove from "./TransactionMove";
 import { currencyFormat, epochToDate, noNaN } from "./Common";
 import ChevronRightRounded from "@material-ui/icons/ChevronRightRounded";
@@ -160,6 +161,26 @@ export default function TransactionTable() {
       }
     },
     [updateTransactionState]
+  );
+
+  const handlerToUpdateTransactionType = useCallback(
+    async (
+      guid: any,
+      accountNameOwner: string,
+      transactionType: any
+    ): Promise<any> => {
+      // try {
+      //     updateTransactionState({
+      //         guid: guid,
+      //         transactionState: transactionState,
+      //     });
+      //     //await fetchTotals()
+      // } catch (error) {
+      //     console.log(error);
+      //     handleError(error, "updateTransactionState1", false);
+      // }
+    },
+    []
   );
 
   const updateRow = (newData: any, oldData: any): Promise<any> => {
@@ -426,6 +447,30 @@ export default function TransactionTable() {
                   );
                 },
               },
+
+              {
+                title: "type",
+                field: "transactionType",
+                cellStyle: { whiteSpace: "nowrap" },
+                render: (rowData) => {
+                  return rowData.transactionType ? rowData.transactionType :  "looks to be undefined";
+                },
+                editComponent: (props) => {
+                  return (
+                    <>
+                      <SelectTransactionType
+                        onChangeFunction={props.onChange}
+                        currentValue={() => {
+                          return props.rowData.transactionType
+                            ? props.rowData.transactionType
+                            : "undefined";
+                        }}
+                      />
+                    </>
+                  );
+                },
+              },
+
               {
                 title: "reoccur",
                 field: "reoccurringType",

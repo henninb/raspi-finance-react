@@ -16,7 +16,7 @@ const fetchAccountData = async (accountNameOwner: String): Promise<any> => {
       },
     }
   );
-  //console.debug(JSON.stringify(response.data));
+  // console.log(JSON.stringify(response.data));
   return response.data;
 };
 

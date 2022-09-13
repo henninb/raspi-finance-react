@@ -15,7 +15,7 @@ export default interface Transaction {
   category: String;
   amount: number;
   transactionState: TransactionState;
-  transactionType?: TransactionType;
+  transactionType: TransactionType;
   activeStatus: Boolean;
   reoccurringType: ReoccurringType;
   notes: String;

@@ -20,9 +20,12 @@ const setupNewTransaction = (
     transactionDate: payload.transactionDate,
     description: payload.description,
     category: payload.category ? payload.category : "undefined",
-    notes: payload.notes === undefined ? "" : payload.notes,
+    notes: payload.notes == undefined ? "" : payload.notes,
     amount: payload.amount,
     dueDate: payload.dueDate ? payload.dueDate : undefined,
+    transactionType: payload.transactionType
+      ? payload.transactionType
+      : "undefined",
     transactionState: payload.transactionState
       ? payload.transactionState
       : "outstanding",

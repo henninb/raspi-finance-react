@@ -7,7 +7,7 @@ interface Props {
   currentValue: any;
 }
 
-export default function SelectTransactionState({
+export default function SelectTransactionType({
   onChangeFunction,
   currentValue,
 }: Props) {
@@ -15,7 +15,7 @@ export default function SelectTransactionState({
   const [inputValue, setInputValue] = useState("undefined");
   const [keyPressValue, setKeyPressValue] = useState("undefined");
 
-  const options = ["future", "outstanding", "cleared"];
+  const options = ["expense", "income", "transfer"];
 
   const handleKeyDown = (event: any) => {
     if (event.key === "Tab") {
