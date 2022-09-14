@@ -24,3 +24,5 @@ ssl/
 *.tar
 *.zip
 *.log
+*.crt
+*.key
