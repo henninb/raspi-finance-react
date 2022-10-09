@@ -453,7 +453,9 @@ export default function TransactionTable() {
                 field: "transactionType",
                 cellStyle: { whiteSpace: "nowrap" },
                 render: (rowData) => {
-                  return rowData.transactionType ? rowData.transactionType :  "looks to be undefined";
+                  return rowData.transactionType
+                    ? rowData.transactionType
+                    : "looks to be undefined";
                 },
                 editComponent: (props) => {
                   return (
