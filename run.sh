@@ -3,6 +3,7 @@
 ENV=$1
 APP=raspi-finance-react
 # export NODE_OPTIONS=--openssl-legacy-provider
+export BROWSER=browser-start
 
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <prod|dev>"
