@@ -53,9 +53,9 @@ const insertTransaction = async (
   payload: Transaction,
   isFutureTransaction: Boolean
 ): Promise<any> => {
-  let endpoint = endpointUrl() + "/transaction/insert/";
+  let endpoint = endpointUrl() + "/transaction/insert";
   if (isFutureTransaction) {
-    endpoint = endpointUrl() + "/transaction/future/insert/";
+    endpoint = endpointUrl() + "/transaction/future/insert";
     console.log("will insert futureTransaction");
   }
 
