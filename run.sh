@@ -1,5 +1,6 @@
 #!/bin/sh
 
+date=$(date '+%Y-%m-%d')
 ENV=$1
 APP=raspi-finance-react
 # export NODE_OPTIONS=--openssl-legacy-provider
@@ -23,8 +24,6 @@ if [ ! -x "$(command -v ./os-env)" ]; then
 fi
 
 . ./os-env
-
-docker save -o raspi-finance-react-docker.tar raspi-finance-react:latest
 
 # "$OSTYPE" == "darwin"*
 if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian GNU/Linux" ]; then
@@ -83,6 +82,7 @@ if [ "$ENV" = "prod" ]; then
     echo "docker-compose up failed."
     exit 1
   fi
+  docker save -o raspi-finance-react-docker-${date}.tar raspi-finance-react:latest
   echo docker exec -it raspi-finance-react /bin/sh
 else
   echo npx npm-check-updates -u
