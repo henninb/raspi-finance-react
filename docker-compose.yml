@@ -12,9 +12,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:443"
-    expose:
-      - "3000"
-
     extra_hosts:
       - "hornsup:${HOST_IP}"
     env_file:
