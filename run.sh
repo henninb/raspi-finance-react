@@ -90,7 +90,7 @@ else
   yarn install
   yarn run prettier
   yarn test
-  yarn start
+  NODE_OPTIONS=--openssl-legacy-provider yarn start
 fi
 
 exit 0
