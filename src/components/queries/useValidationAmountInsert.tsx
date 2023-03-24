@@ -7,7 +7,8 @@ const insertValidationAmount = async (
   accountNameOwner: String,
   payload: ValidationAmount
 ): Promise<any> => {
-  let endpoint = endpointUrl() + "/validation/amount/insert/" + accountNameOwner;
+  let endpoint =
+    endpointUrl() + "/validation/amount/insert/" + accountNameOwner;
 
   const response = await axios.post(endpoint, payload, {
     timeout: 0,
