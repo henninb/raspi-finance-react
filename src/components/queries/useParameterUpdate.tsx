@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { basicAuth, endpointUrl } from "../Common";
-import { useMutation, useQueryClient } from "react-query";
+//import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import Parameter from "../model/Parameter";
 
 const updateParameter = async (
@@ -22,7 +23,7 @@ const updateParameter = async (
 };
 
 export default function useParameterUpdate() {
-  const queryClient = useQueryClient();
+  //const queryClient = useQueryClient();
 
   return useMutation(
     ["updateParameter"],
@@ -40,7 +41,7 @@ export default function useParameterUpdate() {
         );
       },
 
-      onSuccess: (response, variables) => {},
+      onSuccess: (_response, _variables) => {},
     }
   );
 }
