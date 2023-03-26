@@ -2204,7 +2204,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/material@^5.6.0":
+"@mui/material@^5.11.14":
   version "5.11.14"
   resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.11.14.tgz#f7e3fb9262d09b801deafd41c22dc2767c198c9d"
   integrity sha512-uoiUyybmo+M+nYARBygmbXgX6s/hH0NKD56LCAv9XvmdGVoXhEGjOvxI5/Bng6FS3NNybnA8V+rgZW1Z/9OJtA==
@@ -2241,7 +2241,7 @@
     csstype "^3.1.1"
     prop-types "^15.8.1"
 
-"@mui/styles@^5.6.0":
+"@mui/styles@^5.11.13":
   version "5.11.13"
   resolved "https://registry.yarnpkg.com/@mui/styles/-/styles-5.11.13.tgz#f211c994a79fff4a4cf7897f617b2a0f7bdff445"
   integrity sha512-7NQTTdl8Z54qQBRPLi4cR9LG8tvXQdQE0kVEYVYc5A3e+IFH6xfGzNCNa0X4zz0f9JGaS8e6kK3YYOS2+KyJHg==
