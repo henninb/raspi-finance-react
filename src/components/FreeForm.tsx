@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 // import { v4 as uuidv4 } from "uuid";
 import { v4 } from "uuid";
-import os from "os";
+//import os from "os";
 import SnackbarBaseline from "./SnackbarBaseline";
 import Select from "react-select";
 import FreeFormTable from "./FreeFormTable";
@@ -119,7 +119,8 @@ export default function FreeForm() {
     const text = document.getElementById("textArea").value;
     let sanitizedText = text.replace(/\t/g, ",");
     sanitizedText = sanitizedText.toLowerCase();
-    const lines = sanitizedText.split(os.EOL);
+    const lines = sanitizedText.split('\n');
+    //const lines = sanitizedText.split(os.EOL);
     let transactions: any = [];
 
     if (!validateData()) {
