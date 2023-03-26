@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import useFetchAccount from "./queries/useFetchAccount";
 
+export type Props = {
+  onChangeFunction: (value: string) => void;
+  currentValue: string;
+};
+
 export default function SelectAccountNameOwnerCredit({
   onChangeFunction,
   currentValue,
-}: any) {
+}: Props) {
   const [selectedOption, setSelectedOption] = useState(currentValue);
   const [accountTypeOptions, setAccountTypeOptions] = useState([]);
 

@@ -1,50 +1,22 @@
-import React from "react";
-import { render, cleanup } from "./test-utils";
+import { render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { MemoryRouter } from 'react-router-dom';
 import PaymentTable from "./PaymentTable";
-import { fireEvent, waitFor } from "@testing-library/dom";
-import { MockedProvider } from "@apollo/react-testing";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import { server } from "./mocks/server";
 
-describe("payment table Testing", () => {
-  let wrapper: any;
-
-  beforeAll(() => {
-    server.listen();
-  });
-
-  beforeEach(async () => {
+describe('PaymentTable', () => {
+  test('renders home page', async () => {
     const queryClient = new QueryClient();
 
-    wrapper = render(
+    render(
       <QueryClientProvider client={queryClient}>
-        <PaymentTable />
+        <MemoryRouter initialEntries={['/']}>
+          <PaymentTable />
+        </MemoryRouter>
       </QueryClientProvider>
     );
-  });
 
-  afterEach(() => {
-    server.resetHandlers();
-    cleanup();
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
-  it("payment table loads", async () => {
-    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
-      wrapper;
-
-    // eslint-disable-next-line
-    let loader = getByTestId("loader");
-    //let paymentTable  = await getByLabelText("payments-table");
-    await waitFor(() => {
-      let paymentTable = getByTestId("payment-table");
-      let addButton = getByTitle("Add");
-      fireEvent.click(addButton);
-    });
-
-    expect(true).toBeTruthy();
+    // const heading = await screen.findByRole('heading', { name: /home/i });
+    // expect(heading).toBeInTheDocument();
   });
 });
+

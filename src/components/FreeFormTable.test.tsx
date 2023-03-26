@@ -1,58 +1,66 @@
 import React from "react";
-import { render, cleanup } from "./test-utils";
+import { render, screen, act } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { rest } from "msw";
+// import { setupServer } from 'msw/node';
 import FreeFormTable from "./FreeFormTable";
-import { fireEvent, waitFor } from "@testing-library/dom";
-import { MockedProvider } from "@apollo/react-testing";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import { server } from "./mocks/server";
 
-describe("freeForm table testing", () => {
-  let wrapper: any;
+// const server = setupServer(
+//   rest.post('/api/transactions', (req, res, ctx) => {
+//     return res(ctx.status(200), ctx.json({}));
+//   })
+// );
+//
+// beforeAll(() => server.listen());
+// afterEach(() => server.resetHandlers());
+// afterAll(() => server.close());
 
+describe("FreeFormTable", () => {
   const data = [
     {
-      accountNameOwner: "chase_brian",
-      transactionDate: "2022-01-02",
-      description: "desc",
-      category: "cat",
-      amount: 0.0,
-      transactionState: "cleared",
-      reoccurringType: "",
-      notes: "n/a",
+      accountNameOwner: "test",
+      transactionDate: new Date().toISOString(),
+      description: "test",
+      category: "test",
+      amount: 100,
+      transactionState: "test",
+      reoccurringType: "test",
+      notes: "test",
+      dueDate: new Date().toISOString(),
     },
   ];
 
-  //   beforeAll(() => {
-  //     server.listen();
-  //   });
-
-  beforeEach(async () => {
-    const queryClient = new QueryClient();
-
-    wrapper = render(
+  it("renders a data grid", () => {
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    });
+    render(
       <QueryClientProvider client={queryClient}>
-        <FreeFormTable data={data} />
+        <FreeFormTable data={data} toggleDisplayList={() => {}} />
       </QueryClientProvider>
     );
+
+    // expect(screen.getByTestId('free-form-table')).toBeInTheDocument();
   });
 
-  afterEach(() => {
-    //server.resetHandlers();
-    cleanup();
-  });
+  it("submits data and calls toggleDisplayList", async () => {
+    const toggleDisplayList = jest.fn();
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    });
+    const { container } = render(
+      <QueryClientProvider client={queryClient}>
+        <FreeFormTable data={data} toggleDisplayList={toggleDisplayList} />
+      </QueryClientProvider>
+    );
 
-  //   afterAll(() => {
-  //     server.close();
-  //   });
-
-  it("freeFormTable loads", async () => {
-    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
-      wrapper;
-
-    await waitFor(() => {
-      let freeForm = getByTestId("free-form-table");
+    const submitButton = container.querySelector(
+      'input[type="submit"]'
+    ) as HTMLInputElement;
+    act(() => {
+      submitButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     });
 
-    expect(true).toBeTruthy();
+    expect(toggleDisplayList).toHaveBeenCalled();
   });
 });

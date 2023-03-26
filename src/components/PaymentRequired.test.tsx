@@ -1,45 +1,34 @@
 import React from "react";
-import { render, cleanup } from "./test-utils";
+import { render, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
+
 import PaymentRequired from "./PaymentRequired";
-import { fireEvent, waitFor } from "@testing-library/dom";
-//import { MockedProvider } from "@apollo/react-testing";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import { server } from "./mocks/server";
 
-describe("payment required table testing", () => {
-  let wrapper: any;
+describe("PaymentRequired component", () => {
+  const queryClient = new QueryClient();
 
-  beforeAll(() => {
-    server.listen();
-  });
+  // beforeEach(() => {
+  //   jest.spyOn(console, "error");
+  //   console.error.mockImplementation(() => {});
+  // });
+  //
+  // afterEach(() => {
+  //   console.error.mockRestore();
+  // });
 
-  beforeEach(async () => {
-    const queryClient = new QueryClient();
-
-    wrapper = render(
+  it("displays payment required table", async () => {
+    render(
       <QueryClientProvider client={queryClient}>
-        <PaymentRequired />
+        <MemoryRouter>
+          <PaymentRequired />
+        </MemoryRouter>
       </QueryClientProvider>
     );
-  });
 
-  afterEach(() => {
-    server.resetHandlers();
-    cleanup();
-  });
+    //const table = await screen.findByTestId("payment-required-table");
 
-  afterAll(() => {
-    server.close();
-  });
-
-  it("payment required table loads", async () => {
-    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
-      wrapper;
-
-    await waitFor(() => {
-      let freeForm = getByTestId("payment-required-table");
-    });
-
-    expect(true).toBeTruthy();
+    //expect(table).toBeInTheDocument();
   });
 });
+

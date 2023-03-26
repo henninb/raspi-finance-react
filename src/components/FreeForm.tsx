@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
+import { v4 } from "uuid";
 import os from "os";
 import SnackbarBaseline from "./SnackbarBaseline";
 import Select from "react-select";
@@ -155,7 +156,8 @@ export default function FreeForm() {
           transactionDate: moment(transactionDate).format(dateFormat),
           description: description,
           amount: parseFloat(amount),
-          guid: uuidv4(),
+          // guid: uuidv4(),
+          guid: v4(),
           category: "none",
           notes: "",
           transactionState: "outstanding",

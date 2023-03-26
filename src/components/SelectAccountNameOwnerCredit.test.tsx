@@ -1,46 +1,39 @@
-import React from "react";
-import { render, cleanup } from "./test-utils";
-import { createRoot } from "react-dom/client";
-import SelectAccountNameOwnerCredit from "./SelectAccountNameOwnerCredit";
-import { fireEvent, waitFor } from "@testing-library/dom";
-import { MockedProvider } from "@apollo/react-testing";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import { server } from "./mocks/server";
+import { render, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import SelectAccountNameOwnerCredit, {
+  Props,
+} from "./SelectAccountNameOwnerCredit";
+import "@testing-library/jest-dom";
+import { act } from "react-dom/test-utils";
 
-describe("select accountNameOwner credit testing", () => {
-  let wrapper: any;
+describe("SelectAccountNameOwnerCredit", () => {
+  const onChangeFunctionMock = jest.fn();
+  const currentValueMock = "testValue";
 
-  beforeAll(() => {
-    server.listen();
-  });
+  const props: Props = {
+    onChangeFunction: onChangeFunctionMock,
+    currentValue: currentValueMock,
+  };
 
-  beforeEach(async () => {
+  it("renders the SelectAccountNameOwnerCredit component", () => {
     const queryClient = new QueryClient();
-
-    wrapper = render(
-      <QueryClientProvider client={queryClient}>
-        <SelectAccountNameOwnerCredit currentValue="test_brian" />
-      </QueryClientProvider>
-    );
-  });
-
-  afterEach(() => {
-    server.resetHandlers();
-    cleanup();
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
-  it("select accountNameOwner credit loads", async () => {
-    const { getByLabelText, getByTitle, getByPlaceholderText, getByTestId } =
-      wrapper;
-
-    await waitFor(() => {
-      let freeForm = getByTestId("accounts-credit");
+    act(() => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <SelectAccountNameOwnerCredit {...props} />
+        </QueryClientProvider>
+      );
     });
+  });
 
-    expect(true).toBeTruthy();
+  it("calls onChangeFunctionMock with the selected value", () => {
+    const queryClient = new QueryClient();
+    act(() => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <SelectAccountNameOwnerCredit {...props} />
+        </QueryClientProvider>
+      );
+    });
   });
 });

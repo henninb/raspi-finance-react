@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["cypress"],
+    "types": ["jest"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -17,5 +17,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "node_modules/@types/jest/index.d.ts"]
+  "include": ["src", "node_modules/@types/jest/index.d.ts"],
+  "exclude": ["node_modules", "build", "dist"],
+  "types": ["node", "jest", "@testing-library/jest-dom"]
 }
