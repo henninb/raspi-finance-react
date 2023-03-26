@@ -31,4 +31,3 @@ describe("PaymentRequired component", () => {
     //expect(table).toBeInTheDocument();
   });
 });
-

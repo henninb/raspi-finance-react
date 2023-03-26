@@ -1,15 +1,15 @@
-import { render, screen } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { MemoryRouter } from 'react-router-dom';
+import { render, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import PaymentTable from "./PaymentTable";
 
-describe('PaymentTable', () => {
-  test('renders home page', async () => {
+describe("PaymentTable", () => {
+  test("renders home page", async () => {
     const queryClient = new QueryClient();
 
     render(
       <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={['/']}>
+        <MemoryRouter initialEntries={["/"]}>
           <PaymentTable />
         </MemoryRouter>
       </QueryClientProvider>
@@ -19,4 +19,3 @@ describe('PaymentTable', () => {
     // expect(heading).toBeInTheDocument();
   });
 });
-
