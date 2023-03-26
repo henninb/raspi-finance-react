@@ -119,7 +119,7 @@ export default function FreeForm() {
     const text = document.getElementById("textArea").value;
     let sanitizedText = text.replace(/\t/g, ",");
     sanitizedText = sanitizedText.toLowerCase();
-    const lines = sanitizedText.split('\n');
+    const lines = sanitizedText.split("\n");
     //const lines = sanitizedText.split(os.EOL);
     let transactions: any = [];
 
