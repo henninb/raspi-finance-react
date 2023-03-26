@@ -1,17 +1,17 @@
 import axios, { AxiosError } from "axios";
 import { useQuery } from "react-query";
-import { gql } from "@apollo/client";
-import { ApolloError } from "apollo-client";
-import { apolloClient } from "../ApolloClient";
+//import { gql } from "@apollo/client";
+//import { ApolloError } from "apollo-client";
+//import { apolloClient } from "../ApolloClient";
 import { basicAuth, endpointUrl } from "../Common";
 
-const query = gql`
-  query {
-    categories {
-      categoryName
-    }
-  }
-`;
+// const query = gql`
+//   query {
+//     categories {
+//       categoryName
+//     }
+//   }
+// `;
 
 // const graphqlCategoryData = async () => {
 //   const client = apolloClient();
