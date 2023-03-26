@@ -11,7 +11,7 @@
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
     "@material-ui/pickers": "^3.3.10",
-    "@mui/lab": "^5.0.0-alpha.76",
+    "@mui/lab": "^5.0.0-alpha.124",
     "@mui/material": "^5.11.14",
     "@mui/styles": "^5.11.13",
     "@types/datejs": "^0.0.32",
