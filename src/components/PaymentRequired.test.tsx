@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 
@@ -18,13 +18,16 @@ describe("PaymentRequired component", () => {
   // });
 
   it("displays payment required table", async () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <PaymentRequired />
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
+    await act(async () => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <PaymentRequired />
+          </MemoryRouter>
+        </QueryClientProvider>
+      );
+    await Promise.resolve();
+    });
 
     //const table = await screen.findByTestId("payment-required-table");
 

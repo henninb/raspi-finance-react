@@ -1,10 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import SelectAccountNameOwnerCredit, {
   Props,
 } from "./SelectAccountNameOwnerCredit";
 import "@testing-library/jest-dom";
-import { act } from "react-dom/test-utils";
 
 describe("SelectAccountNameOwnerCredit", () => {
   const onChangeFunctionMock = jest.fn();
@@ -15,25 +14,27 @@ describe("SelectAccountNameOwnerCredit", () => {
     currentValue: currentValueMock,
   };
 
-  it("renders the SelectAccountNameOwnerCredit component", () => {
+  it("renders the SelectAccountNameOwnerCredit component", async() => {
     const queryClient = new QueryClient();
-    act(() => {
+    await act(async() => {
       render(
         <QueryClientProvider client={queryClient}>
           <SelectAccountNameOwnerCredit {...props} />
         </QueryClientProvider>
       );
+      await Promise.resolve();
     });
   });
 
-  it("calls onChangeFunctionMock with the selected value", () => {
+  it("calls onChangeFunctionMock with the selected value", async() => {
     const queryClient = new QueryClient();
-    act(() => {
+    await act(async() => {
       render(
         <QueryClientProvider client={queryClient}>
           <SelectAccountNameOwnerCredit {...props} />
         </QueryClientProvider>
       );
+      await Promise.resolve();
     });
   });
 });
