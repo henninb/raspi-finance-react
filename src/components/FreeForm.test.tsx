@@ -1,7 +1,8 @@
 import { act, render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import userEvent from "@testing-library/user-event";
+//import userEvent from "@testing-library/user-event";
 import FreeForm from "./FreeForm";
+import '@testing-library/jest-dom';
 // import { act } from "react-dom/test-utils";
 
 describe("FreeForm", () => {
@@ -15,7 +16,7 @@ describe("FreeForm", () => {
       );
       await Promise.resolve();
     });
-    //const freeFormElement = screen.getByTestId('freeform');
-    //expect(freeFormElement).toBeInTheDocument();
+    const freeFormElement = screen.getByTestId('free-form');
+    expect(freeFormElement).toBeInTheDocument();
   });
 });

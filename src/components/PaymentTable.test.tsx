@@ -3,6 +3,7 @@ import { render, screen, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import PaymentTable from "./PaymentTable";
+import '@testing-library/jest-dom';
 
 describe("PaymentTable", () => {
   test("renders home page", async () => {
@@ -19,7 +20,7 @@ describe("PaymentTable", () => {
       await Promise.resolve();
     });
 
-    // const heading = await screen.findByRole('heading', { name: /home/i });
+    //const heading = await screen.findByRole('heading', { name: /home/i });
     // expect(heading).toBeInTheDocument();
   });
 });

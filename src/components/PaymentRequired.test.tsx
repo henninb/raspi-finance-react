@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
+import '@testing-library/jest-dom';
 
 import PaymentRequired from "./PaymentRequired";
 
@@ -26,7 +27,7 @@ describe("PaymentRequired component", () => {
           </MemoryRouter>
         </QueryClientProvider>
       );
-    await Promise.resolve();
+      await Promise.resolve();
     });
 
     //const table = await screen.findByTestId("payment-required-table");

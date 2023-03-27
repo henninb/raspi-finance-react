@@ -1,9 +1,9 @@
 import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { rest } from "msw";
 // import { setupServer } from 'msw/node';
 import FreeFormTable from "./FreeFormTable";
+import '@testing-library/jest-dom';
 
 // const server = setupServer(
 //   rest.post('/api/transactions', (req, res, ctx) => {
@@ -43,7 +43,7 @@ describe("FreeFormTable", () => {
     await Promise.resolve();
     });
 
-    // expect(screen.getByTestId('free-form-table')).toBeInTheDocument();
+    expect(screen.getByTestId('free-form-table')).toBeInTheDocument();
   });
 
   // it("submits data and calls toggleDisplayList", async () => {
