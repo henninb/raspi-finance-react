@@ -27,12 +27,14 @@ export default function ActionButtons({ guid }: any) {
 
   // let buttonType = 'delete'
   return (
+    <div data-testid="action-buttons">
     <ToggleButtonGroup
       value={""}
       exclusive
       onChange={(e) => handleTransactionType(e)}
       aria-label="text transactionType"
     >
+      <div data-testid="move-button">
       <ToggleButton value="move">
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="move transaction">
@@ -40,7 +42,9 @@ export default function ActionButtons({ guid }: any) {
         </a>
         <ReactTooltip effect="solid" />
       </ToggleButton>
+      </div>
 
+      <div data-testid="update-button">
       <ToggleButton value="update">
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="update transaction">
@@ -48,7 +52,9 @@ export default function ActionButtons({ guid }: any) {
         </a>
         <ReactTooltip effect="solid" />
       </ToggleButton>
+      </div>
 
+      <div data-testid="delete-button">
       <ToggleButton value="delete">
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a data-tip="delete transaction">
@@ -56,6 +62,8 @@ export default function ActionButtons({ guid }: any) {
         </a>
         <ReactTooltip effect="solid" />
       </ToggleButton>
+      </div>
     </ToggleButtonGroup>
+    </div>
   );
 }
