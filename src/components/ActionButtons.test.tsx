@@ -8,7 +8,10 @@ describe("ActionButtons component", () => {
     const guid = "123";
 
     const { getByLabelText } = render(
-      <ActionButtons guid={guid} handleTransactionType={handleTransactionType} />
+      <ActionButtons
+        guid={guid}
+        handleTransactionType={handleTransactionType}
+      />
     );
 
     const moveButton = screen.getByTestId("move-button");

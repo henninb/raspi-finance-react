@@ -14,9 +14,9 @@ describe("SelectAccountNameOwnerCredit", () => {
     currentValue: currentValueMock,
   };
 
-  it("renders the SelectAccountNameOwnerCredit component", async() => {
+  it("renders the SelectAccountNameOwnerCredit component", async () => {
     const queryClient = new QueryClient();
-    await act(async() => {
+    await act(async () => {
       render(
         <QueryClientProvider client={queryClient}>
           <SelectAccountNameOwnerCredit {...props} />
@@ -26,9 +26,9 @@ describe("SelectAccountNameOwnerCredit", () => {
     });
   });
 
-  it("calls onChangeFunctionMock with the selected value", async() => {
+  it("calls onChangeFunctionMock with the selected value", async () => {
     const queryClient = new QueryClient();
-    await act(async() => {
+    await act(async () => {
       render(
         <QueryClientProvider client={queryClient}>
           <SelectAccountNameOwnerCredit {...props} />

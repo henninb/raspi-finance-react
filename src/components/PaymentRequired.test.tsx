@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 import PaymentRequired from "./PaymentRequired";
 

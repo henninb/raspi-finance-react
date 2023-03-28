@@ -17,14 +17,14 @@ describe("useParameterUpdate", () => {
     parameterId,
     parameterName,
     parameterValue: "new value",
-    activeStatus
+    activeStatus,
   };
 
   const oldParameter: Parameter = {
     parameterId,
     parameterName,
     parameterValue: "old value",
-    activeStatus
+    activeStatus,
   };
 
   afterEach(() => {
@@ -39,14 +39,14 @@ describe("useParameterUpdate", () => {
     // Act
     await act(async () => {
       //const root = createRoot();
-//      const root = createRoot(document.createElement('div'));
+      //      const root = createRoot(document.createElement('div'));
       //root.render(<TestHook />);
       // With this:
-// const root = document.getElementById('root');
-// if (root) {
-//   const app = <useParameterUpdate />;
-//   ReactDOM.createRoot(root).render(app);
-// }
+      // const root = document.getElementById('root');
+      // if (root) {
+      //   const app = <useParameterUpdate />;
+      //   ReactDOM.createRoot(root).render(app);
+      // }
       await Promise.resolve();
     });
 
@@ -61,9 +61,6 @@ describe("useParameterUpdate", () => {
     return null;
   }
 });
-
-
-
 
 // import { act, createRoot } from 'react-dom';
 // import { renderHook } from '@testing-library/react-hooks';
@@ -124,9 +121,6 @@ describe("useParameterUpdate", () => {
 //     expect(result.current.error).toEqual(errorMessage);
 //   });
 // });
-
-
-
 
 // import { renderHook } from '@testing-library/react-hooks';
 // import axios from 'axios';

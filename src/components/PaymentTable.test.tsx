@@ -3,7 +3,7 @@ import { render, screen, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import PaymentTable from "./PaymentTable";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 describe("PaymentTable", () => {
   test("renders home page", async () => {

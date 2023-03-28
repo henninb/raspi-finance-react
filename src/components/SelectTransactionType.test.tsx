@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import SelectTransactionType from "./SelectTransactionType";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 describe("SelectTransactionType component", () => {
   it("should render with default value", () => {
@@ -18,7 +18,10 @@ describe("SelectTransactionType component", () => {
   it("should update value when an option is selected", () => {
     const handleChangeFunction = jest.fn();
     render(
-      <SelectTransactionType onChangeFunction={handleChangeFunction} currentValue={"income"} />
+      <SelectTransactionType
+        onChangeFunction={handleChangeFunction}
+        currentValue={"income"}
+      />
     );
     const dropdownButton = screen.getByRole("button");
     fireEvent.click(dropdownButton);
@@ -31,7 +34,10 @@ describe("SelectTransactionType component", () => {
   it("should update value when a new option is typed", () => {
     const handleChangeFunction = jest.fn();
     render(
-      <SelectTransactionType onChangeFunction={handleChangeFunction} currentValue={"income"} />
+      <SelectTransactionType
+        onChangeFunction={handleChangeFunction}
+        currentValue={"income"}
+      />
     );
     const inputField = screen.getByRole("textbox");
     fireEvent.change(inputField, { target: { value: "income" } });
@@ -45,7 +51,10 @@ describe("SelectTransactionType component", () => {
   it("should not update value when an invalid option is typed", () => {
     const handleChangeFunction = jest.fn();
     render(
-      <SelectTransactionType onChangeFunction={handleChangeFunction} currentValue={"income"} />
+      <SelectTransactionType
+        onChangeFunction={handleChangeFunction}
+        currentValue={"income"}
+      />
     );
     const inputField = screen.getByRole("textbox");
     fireEvent.change(inputField, { target: { value: "invalid" } });

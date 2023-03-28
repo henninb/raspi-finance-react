@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import FreeFormTable from "./FreeFormTable";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 describe("FreeFormTable", () => {
   const data = [
@@ -29,9 +29,9 @@ describe("FreeFormTable", () => {
           <FreeFormTable data={data} toggleDisplayList={() => {}} />
         </QueryClientProvider>
       );
-    await Promise.resolve();
+      await Promise.resolve();
     });
 
-    expect(screen.getByTestId('free-form-table')).toBeInTheDocument();
+    expect(screen.getByTestId("free-form-table")).toBeInTheDocument();
   });
 });
