@@ -1,12 +1,12 @@
 import axios, { AxiosError } from "axios";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchValidationAmountData = async (
   accountNameOwner: String
 ): Promise<any> => {
   const response = await axios.get(
-    `${endpointUrl()}/validation/amount/select/${accountNameOwner}/cleared`,
+    `/validation/amount/select/${accountNameOwner}/cleared`,
     {
       timeout: 0,
       headers: {

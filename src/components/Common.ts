@@ -24,7 +24,6 @@ export const currencyFormat = (inputData: string) => {
 
 export const epochToDate = (epoch: number): Date => {
   return new Date(epoch); // The 0 there is the key, which sets the date to the epoch
-  //return new Date(0)
 };
 
 export const basicAuth = () => {
@@ -32,16 +31,16 @@ export const basicAuth = () => {
   return "Basic " + token;
 };
 
-export const endpointUrl = () => {
-  let port = process.env.REACT_APP_ENDPOINT_PORT;
-  let server = process.env.REACT_APP_ENDPOINT_SERVER;
-  let httpEnabled = process.env.REACT_APP_ENDPOINT_SSL_ENABLED;
-
-  if (httpEnabled === "true") {
-    return "https://" + server + ":" + port;
-  }
-  return "http://" + server + ":" + port;
-};
+// export const endpointUrl = () => {
+//   let port = process.env.REACT_APP_ENDPOINT_PORT;
+//   let server = process.env.REACT_APP_ENDPOINT_SERVER;
+//   let httpEnabled = process.env.REACT_APP_ENDPOINT_SSL_ENABLED;
+//
+//   if (httpEnabled === "true") {
+//     return "https://" + server + ":" + port;
+//   }
+//   return "http://" + server + ":" + port;
+// };
 
 export const typeOf = (obj: any) => {
   return {}.toString.call(obj).split(" ")[1].slice(0, -1).toLowerCase();

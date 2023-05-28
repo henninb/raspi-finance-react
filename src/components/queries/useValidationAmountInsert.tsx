@@ -1,4 +1,4 @@
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import ValidationAmount from "../model/ValidationAmount";
@@ -7,8 +7,7 @@ const insertValidationAmount = async (
   accountNameOwner: String,
   payload: ValidationAmount
 ): Promise<any> => {
-  let endpoint =
-    endpointUrl() + "/validation/amount/insert/" + accountNameOwner;
+  let endpoint = "/validation/amount/insert/" + accountNameOwner;
 
   const response = await axios.post(endpoint, payload, {
     timeout: 0,

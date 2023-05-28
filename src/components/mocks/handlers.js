@@ -1,5 +1,5 @@
 import { rest } from "msw";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 
 export const handlers = [
   rest.get("https://hornsup:8443/payment/select", (req, res, ctx) => {

@@ -1,10 +1,9 @@
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 import axios, { AxiosError } from "axios";
 
 const fetchTotalsPerAccount = async (accountNameOwner: any): Promise<any> => {
-  const response = await axios.get(
-    endpointUrl() + "/transaction/account/totals/" + accountNameOwner,
+  const response = await axios.get("/transaction/account/totals/" + accountNameOwner,
     {
       timeout: 0,
       headers: {

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { useMutation, useQueryClient } from "react-query";
 import { getAccountKey } from "./KeyFile";
 import { TransactionState } from "../model/TransactionState";
@@ -9,7 +9,6 @@ const changeTransactionState = async (
   newTransactionState: TransactionState
 ): Promise<any> => {
   const response = await axios.put(
-    endpointUrl() +
       "/transaction/state/update/" +
       guid +
       "/" +

@@ -1,11 +1,11 @@
 import axios from "axios";
-import { basicAuth, endpointUrl } from "./Common";
+import { basicAuth } from "./Common";
 //const API_URL = "http://localhost:8080/api/auth/";
 
 class AuthService {
   login(username: string, password: string) {
     return axios
-      .post(endpointUrl() + "signin", {
+      .post("/signin", {
         username,
         password,
       })
@@ -22,7 +22,7 @@ class AuthService {
   }
 
   register(username: string, email: string, password: string) {
-    return axios.post(endpointUrl() + "signup", {
+    return axios.post("/signup", {
       username,
       email,
       password,

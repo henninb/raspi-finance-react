@@ -1,9 +1,9 @@
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 import axios, { AxiosError } from "axios";
 
 const fetchTotals = async (): Promise<any> => {
-  const response = await axios.get(endpointUrl() + "/account/totals", {
+  const response = await axios.get("/account/totals", {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import Account from "../model/Account";
@@ -7,7 +7,7 @@ const updateAccount = async (
   oldRow: Account,
   newRow: Account
 ): Promise<any> => {
-  let endpoint = endpointUrl() + "/account/update/" + oldRow.accountNameOwner;
+  let endpoint = "/account/update/" + oldRow.accountNameOwner;
 
   const response = await axios.put(endpoint, newRow, {
     timeout: 0,

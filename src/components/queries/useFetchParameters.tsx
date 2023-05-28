@@ -1,10 +1,10 @@
 import axios, { AxiosError } from "axios";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 // wget http://hornsup:8443/parm/select/active
 const fetchParameterData = async (): Promise<any> => {
-  const response = await axios.get(endpointUrl() + "/parm/select/active", {
+  const response = await axios.get("/parm/select/active", {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",

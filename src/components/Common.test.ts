@@ -1,7 +1,6 @@
 import {
   isFloat,
   capitalizeFirstChar,
-  endpointUrl,
   epochToDate,
   currencyFormat,
   convertUTCDateToLocalDate,
@@ -25,13 +24,6 @@ test("determine capitalize first letter - two words", () => {
 
 test("determine capitalize first letter - already capital", () => {
   expect(capitalizeFirstChar("Foo bar")).toStrictEqual("Foo bar");
-});
-
-test("determine endpoint URL", () => {
-  expect(endpointUrl()).toMatch(/(http|https)/);
-  //let myString = parseInt(process.env.REACT_APP_ENDPOINT_PORT.toString());
-  expect(endpointUrl()).toContain(":" + process.env.REACT_APP_ENDPOINT_PORT);
-  expect(endpointUrl()).toContain(process.env.REACT_APP_ENDPOINT_SERVER + ":");
 });
 
 test("determine the epoch date", () => {

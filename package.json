@@ -93,7 +93,7 @@
     "@types/jest": "^29.5.0",
     "axios-mock-adapter": "^1.21.3",
     "babel-jest": "^29.5.0",
-    "canvas": "^2.11.0",
+    "canvas": "^2.11.2",
     "cypress": "^12.8.1",
     "eslint-plugin-cypress": "^2.12.1",
     "headers-polyfill": "^3.1.2",

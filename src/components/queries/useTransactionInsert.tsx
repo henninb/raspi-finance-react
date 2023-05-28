@@ -1,4 +1,4 @@
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { v4 as uuidv4 } from "uuid";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
@@ -53,9 +53,9 @@ const insertTransaction = async (
   payload: Transaction,
   isFutureTransaction: Boolean
 ): Promise<any> => {
-  let endpoint = endpointUrl() + "/transaction/insert";
+  let endpoint = "/transaction/insert";
   if (isFutureTransaction) {
-    endpoint = endpointUrl() + "/transaction/future/insert";
+    endpoint = "/transaction/future/insert";
     console.log("will insert futureTransaction");
   }
 

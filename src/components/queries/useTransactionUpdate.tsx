@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { basicAuth, capitalizeFirstChar, endpointUrl, noNaN } from "../Common";
+import { basicAuth, capitalizeFirstChar, noNaN } from "../Common";
 import { useMutation, useQueryClient } from "react-query";
 import { getAccountKey, getTotalsKey } from "./KeyFile";
 import Transaction from "../model/Transaction";
@@ -8,7 +8,7 @@ const updateTransaction = async (
   newData: Transaction,
   oldData: Transaction
 ): Promise<any> => {
-  let endpoint = endpointUrl() + "/transaction/update/" + oldData.guid;
+  let endpoint = "/transaction/update/" + oldData.guid;
 
   if (newData.receiptImage !== undefined) {
     newData["receiptImage"].image = newData["receiptImage"].image.replace(

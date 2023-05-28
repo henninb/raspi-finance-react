@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 //import useUserLogin from "./queries/useUserLogin";
 import axios from "axios";
-import { endpointUrl } from "./Common";
 
 export default function Login(props) {
   //const { mutate: userLogin } = useUserLogin();
@@ -20,7 +19,7 @@ export default function Login(props) {
   };
 
   const userLogin = async (payload) => {
-    let endpoint = endpointUrl() + "/user/signin/";
+    let endpoint = "/user/signin/";
 
     const response = await axios.post(endpoint, payload, {
       timeout: 0,

@@ -29,7 +29,7 @@ export default function NavbarInstance() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/payment/required">
+              <a className="nav-link" href="/payments/required">
                 Payment Required
               </a>
             </li>

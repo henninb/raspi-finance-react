@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { useMutation, useQueryClient } from "react-query";
 import { getAccountKey } from "./KeyFile";
 
@@ -8,7 +8,6 @@ const insertReceiptImage = async (
   fileContent: any
 ): Promise<any> => {
   let endpoint =
-    endpointUrl() +
     "/transaction/update/receipt/image/" +
     currentTransaction.guid;
 

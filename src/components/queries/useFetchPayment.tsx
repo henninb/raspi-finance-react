@@ -1,9 +1,9 @@
 import axios, { AxiosError } from "axios";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchPaymentData = async (): Promise<any> => {
-  const response = await axios.get(endpointUrl() + "/payment/select", {
+  const response = await axios.get("/payment/select", {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",

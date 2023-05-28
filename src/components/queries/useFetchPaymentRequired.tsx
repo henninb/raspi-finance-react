@@ -1,10 +1,9 @@
 import axios, { AxiosError } from "axios";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchPaymentRequiredData = async (): Promise<any> => {
-  const response = await axios.get(
-    endpointUrl() + "/transaction/payment/required",
+  const response = await axios.get("/transaction/payment/required",
     {
       timeout: 0,
       headers: {

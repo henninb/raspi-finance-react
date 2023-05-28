@@ -78,7 +78,7 @@ if [ "$ENV" = "prod" ]; then
   #   exit 1
   # fi
 
-  if ! docker-compose -f docker-compose.yml up -d; then
+  if ! docker compose -f docker-compose.yml up -d; then
     echo "docker-compose up failed."
     exit 1
   fi

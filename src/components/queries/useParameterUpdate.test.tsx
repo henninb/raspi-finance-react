@@ -32,7 +32,7 @@ describe("useParameterUpdate", () => {
   });
 
   it("should update a parameter successfully", async () => {
-    // Arrange
+    // fix the path in the test
     const endpoint = `/parm/update/${parameterName}`;
     mockAxios.onPut(endpoint).reply(200, newParameter);
 

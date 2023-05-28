@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 //import { gql } from "@apollo/client";
 //import { ApolloError } from "apollo-client";
 //import { apolloClient } from "../ApolloClient";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 
 // const query = gql`
 //   query {
@@ -21,7 +21,7 @@ import { basicAuth, endpointUrl } from "../Common";
 // };
 
 const fetchDescriptionData = async (): Promise<any> => {
-  const response = await axios.get(endpointUrl() + "/description/select/all", {
+  const response = await axios.get("/description/select/all", {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",

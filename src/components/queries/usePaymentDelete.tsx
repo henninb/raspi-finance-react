@@ -1,10 +1,10 @@
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import Payment from "../model/Payment";
 
 const deletePayment = async (payload: Payment): Promise<String> => {
-  let endpoint = endpointUrl() + "/payment/delete/" + payload.paymentId;
+  let endpoint = "/payment/delete/" + payload.paymentId;
 
   const response = await axios.delete(endpoint, {
     timeout: 0,

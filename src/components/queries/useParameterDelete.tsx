@@ -1,9 +1,10 @@
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 const deleteParameter = async (payload: any): Promise<any> => {
-  let endpoint = endpointUrl() + "/parm/delete/" + payload.parameterName;
+  // TODO: change the word parm to the actual path.
+  let endpoint = "/parm/delete/" + payload.parameterName;
 
   const response = await axios.delete(endpoint, {
     timeout: 0,

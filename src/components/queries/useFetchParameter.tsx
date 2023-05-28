@@ -1,10 +1,9 @@
 import axios, { AxiosError } from "axios";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchParameterData = async (parameterName: any): Promise<any> => {
-  const response = await axios.get(
-    endpointUrl() + "/parm/select/" + parameterName,
+  const response = await axios.get("/parm/select/" + parameterName,
     {
       timeout: 0,
       headers: {

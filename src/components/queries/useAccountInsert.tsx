@@ -1,4 +1,4 @@
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import Account from "../model/Account";
@@ -16,7 +16,7 @@ const setupNewAccount = (payload: Account) => {
 };
 
 const insertAccount = async (payload: Account): Promise<any> => {
-  let endpoint = endpointUrl() + "/account/insert";
+  let endpoint = "/account/insert";
   let newPayload = setupNewAccount(payload);
 
   const response = await axios.post(endpoint, newPayload, {

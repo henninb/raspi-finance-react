@@ -37,7 +37,7 @@ export default function AllRoutes() {
           <Route element={<ProtectedRoutes />}>
             <Route path="/payments" element={<PaymentTable />} />
             <Route path="/freeform" element={<FreeForm />} />
-            <Route path="/payment/required" element={<PaymentRequired />} />
+            <Route path="/payments/required" element={<PaymentRequired />} />
             <Route path="/configuration" element={<ParameterConfiguration />} />
             <Route
               path="/transactions/:account"

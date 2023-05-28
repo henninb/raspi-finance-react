@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { basicAuth, endpointUrl } from "../Common";
+import { basicAuth } from "../Common";
 //import { useMutation, useQueryClient } from "react-query";
 import { useMutation } from "react-query";
 import Parameter from "../model/Parameter";
@@ -8,7 +8,7 @@ const updateParameter = async (
   newData: Parameter,
   oldData: Parameter
 ): Promise<any> => {
-  let endpoint = endpointUrl() + "/parm/update/" + oldData.parameterName;
+  let endpoint = "/parm/update/" + oldData.parameterName;
 
   console.log(newData);
   const response = await axios.put(endpoint, newData, {

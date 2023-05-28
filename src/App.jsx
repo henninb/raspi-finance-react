@@ -10,9 +10,6 @@ export default class App extends Component {
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-light navbar-fixed-top">
-          {/*<a className="navbar-brand" href="#">*/}
-          {/*  Navbar*/}
-          {/*</a>*/}
           <button
             className="navbar-toggler"
             type="button"
@@ -38,7 +35,7 @@ export default class App extends Component {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/payment/required">
+                <a className="nav-link" href="/payments/required">
                   Payment Required
                 </a>
               </li>
@@ -47,13 +44,11 @@ export default class App extends Component {
                   FreeForm
                 </a>
               </li>
-
               <li className="nav-item">
                 <a className="nav-link" href="/configuration">
                   Configuration
                 </a>
               </li>
-
               <li className="nav-item">
                 <SelectAccounts />
               </li>
