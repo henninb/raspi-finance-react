@@ -5,11 +5,9 @@ import { getAccountKey } from "./KeyFile";
 
 const insertReceiptImage = async (
   currentTransaction: any,
-  fileContent: any
+  fileContent: any,
 ): Promise<any> => {
-  let endpoint =
-    "/transaction/update/receipt/image/" +
-    currentTransaction.guid;
+  let endpoint = "/transaction/update/receipt/image/" + currentTransaction.guid;
 
   const response = await axios.put(endpoint, fileContent, {
     timeout: 0,
@@ -32,18 +30,18 @@ export default function useReceiptImageUpdate() {
       onError: (error: AxiosError<any>) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
       },
 
       onSuccess: (response, variables) => {
         let oldData: any = queryClient.getQueryData(
-          getAccountKey(variables.oldRow.accountNameOwner)
+          getAccountKey(variables.oldRow.accountNameOwner),
         );
 
         const dataUpdate = [...oldData];
@@ -54,9 +52,9 @@ export default function useReceiptImageUpdate() {
 
         queryClient.setQueryData(
           getAccountKey(variables.oldRow.accountNameOwner),
-          newData
+          newData,
         );
       },
-    }
+    },
   );
 }

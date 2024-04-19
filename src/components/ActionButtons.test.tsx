@@ -11,7 +11,7 @@ describe("ActionButtons component", () => {
       <ActionButtons
         guid={guid}
         handleTransactionType={handleTransactionType}
-      />
+      />,
     );
 
     const moveButton = screen.getByTestId("move-button");

@@ -30,12 +30,12 @@ export default function useUserLogin() {
       onError: (error: AxiosError) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
       },
 
@@ -44,6 +44,6 @@ export default function useUserLogin() {
         queryClient.setQueryData("user", response);
         return response;
       },
-    }
+    },
   );
 }

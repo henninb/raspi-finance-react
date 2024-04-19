@@ -12,7 +12,7 @@ describe("FreeForm", () => {
       render(
         <QueryClientProvider client={queryClient}>
           <FreeForm />
-        </QueryClientProvider>
+        </QueryClientProvider>,
       );
       await Promise.resolve();
     });

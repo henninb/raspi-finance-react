@@ -6,13 +6,10 @@ import { TransactionState } from "../model/TransactionState";
 
 const changeTransactionState = async (
   guid: String,
-  newTransactionState: TransactionState
+  newTransactionState: TransactionState,
 ): Promise<any> => {
   const response = await axios.put(
-      "/transaction/state/update/" +
-      guid +
-      "/" +
-      newTransactionState,
+    "/transaction/state/update/" + guid + "/" + newTransactionState,
     "{}",
     {
       timeout: 0,
@@ -21,7 +18,7 @@ const changeTransactionState = async (
         Accept: "application/json",
         Authorization: basicAuth(),
       },
-    }
+    },
   );
   return response.data;
 };
@@ -37,18 +34,18 @@ export default function useTransactionStateUpdate(accountNameOwner: String) {
       onError: (error: AxiosError<any>) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
       },
 
       onSuccess: (response: any) => {
         let oldData: any = queryClient.getQueryData(
-          getAccountKey(accountNameOwner)
+          getAccountKey(accountNameOwner),
         );
 
         let newData = oldData.map((element: any) => {
@@ -61,6 +58,6 @@ export default function useTransactionStateUpdate(accountNameOwner: String) {
 
         queryClient.setQueryData(getAccountKey(accountNameOwner), newData);
       },
-    }
+    },
   );
 }

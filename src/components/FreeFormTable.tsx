@@ -8,7 +8,7 @@ export default function FreeFormTable({ data, toggleDisplayList }: any) {
   const [open, setOpen] = useState(false);
 
   const { mutate: insertTransaction } = useTransactionInsert(
-    data[0].accountNameOwner
+    data[0].accountNameOwner,
   );
 
   // const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
@@ -29,13 +29,13 @@ export default function FreeFormTable({ data, toggleDisplayList }: any) {
     if (error.response) {
       setMessage(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
-          error.response.data
-        )}`
+          error.response.data,
+        )}`,
       );
       console.log(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
-          error.response.data
-        )}`
+          error.response.data,
+        )}`,
       );
       setOpen(true);
     } else {

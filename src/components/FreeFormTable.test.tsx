@@ -27,7 +27,7 @@ describe("FreeFormTable", () => {
       render(
         <QueryClientProvider client={queryClient}>
           <FreeFormTable data={data} toggleDisplayList={() => {}} />
-        </QueryClientProvider>
+        </QueryClientProvider>,
       );
       await Promise.resolve();
     });

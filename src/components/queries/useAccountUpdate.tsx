@@ -5,7 +5,7 @@ import Account from "../model/Account";
 
 const updateAccount = async (
   oldRow: Account,
-  newRow: Account
+  newRow: Account,
 ): Promise<any> => {
   let endpoint = "/account/update/" + oldRow.accountNameOwner;
 
@@ -29,12 +29,12 @@ export default function useAccountUpdate() {
       onError: (error: AxiosError<any>) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
       },
 
@@ -44,6 +44,6 @@ export default function useAccountUpdate() {
         let newData = [response, ...oldData];
         queryClient.setQueryData("account", newData);
       },
-    }
+    },
   );
 }

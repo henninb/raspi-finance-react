@@ -6,14 +6,14 @@ import Transaction from "../model/Transaction";
 
 const updateTransaction = async (
   newData: Transaction,
-  oldData: Transaction
+  oldData: Transaction,
 ): Promise<any> => {
   let endpoint = "/transaction/update/" + oldData.guid;
 
   if (newData.receiptImage !== undefined) {
     newData["receiptImage"].image = newData["receiptImage"].image.replace(
       /^data:image\/[a-z]+;base64,/,
-      ""
+      "",
     );
   }
   console.log("newData:" + JSON.stringify(newData));
@@ -39,18 +39,18 @@ export default function useTransactionUpdate() {
       onError: (error: AxiosError<any>) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
       },
 
       onSuccess: (response, variables) => {
         let oldData: any = queryClient.getQueryData(
-          getAccountKey(variables.oldRow.accountNameOwner)
+          getAccountKey(variables.oldRow.accountNameOwner),
         );
         let newData;
         if (
@@ -64,7 +64,7 @@ export default function useTransactionUpdate() {
           //TODO: update accountTotals if amounts are different
           if (variables.oldRow.amount !== variables.newRow.amount) {
             let totals: any = queryClient.getQueryData(
-              getTotalsKey(variables.newRow.accountNameOwner)
+              getTotalsKey(variables.newRow.accountNameOwner),
             );
             let oldTransactionStateKey =
               "totals" + capitalizeFirstChar(variables.oldRow.transactionState);
@@ -80,7 +80,7 @@ export default function useTransactionUpdate() {
               totals[newTransactionStateKey] += difference;
               queryClient.setQueryData(
                 getTotalsKey(variables.newRow.accountNameOwner),
-                totals
+                totals,
               );
             } else {
               totals[oldTransactionStateKey] =
@@ -92,7 +92,7 @@ export default function useTransactionUpdate() {
               console.log(JSON.stringify(totals));
               queryClient.setQueryData(
                 getTotalsKey(variables.newRow.accountNameOwner),
-                totals
+                totals,
               );
             }
           }
@@ -107,9 +107,9 @@ export default function useTransactionUpdate() {
 
         queryClient.setQueryData(
           getAccountKey(variables.oldRow.accountNameOwner),
-          newData
+          newData,
         );
       },
-    }
+    },
   );
 }

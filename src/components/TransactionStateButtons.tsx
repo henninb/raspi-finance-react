@@ -23,17 +23,17 @@ export default function TransactionStateButtons({
   const [transactionType, setTransactionType] =
     React.useState(transactionState);
   const [clearedColor, setClearedColor] = React.useState(
-    determineColor("cleared")
+    determineColor("cleared"),
   );
   const [outstandingColor, setOutStandingColor] = React.useState(
-    determineColor("outstanding")
+    determineColor("outstanding"),
   );
   const [futureColor, setFutureColor] = React.useState(
-    determineColor("future")
+    determineColor("future"),
   );
 
   const setIconColorToGreen = (
-    newTransactionState: "cleared" | "outstanding" | "future" | "undefined"
+    newTransactionState: "cleared" | "outstanding" | "future" | "undefined",
   ) => {
     if (newTransactionState === "cleared") {
       setClearedColor(colorOn);
@@ -52,13 +52,13 @@ export default function TransactionStateButtons({
 
   const handleTransactionType = (
     _event: any,
-    newTransactionState: TransactionState
+    newTransactionState: TransactionState,
   ) => {
     setIconColorToGreen(newTransactionState);
     handlerToUpdateTransactionState(
       guid,
       accountNameOwner,
-      newTransactionState
+      newTransactionState,
     );
     setTransactionType(newTransactionState);
   };

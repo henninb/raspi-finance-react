@@ -20,12 +20,12 @@ export default function useFetchTotals() {
     onError: (error: AxiosError<any>) => {
       console.log(error ? error : "error is undefined.");
       console.log(
-        error.response ? error.response : "error.response is undefined."
+        error.response ? error.response : "error.response is undefined.",
       );
       console.log(
         error.response
           ? JSON.stringify(error.response)
-          : "error.response is undefined - cannot stringify."
+          : "error.response is undefined - cannot stringify.",
       );
     },
   });

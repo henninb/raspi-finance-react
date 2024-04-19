@@ -15,7 +15,7 @@ describe("PaymentTable", () => {
           <MemoryRouter initialEntries={["/"]}>
             <PaymentTable />
           </MemoryRouter>
-        </QueryClientProvider>
+        </QueryClientProvider>,
       );
       await Promise.resolve();
     });

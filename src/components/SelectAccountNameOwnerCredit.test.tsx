@@ -20,7 +20,7 @@ describe("SelectAccountNameOwnerCredit", () => {
       render(
         <QueryClientProvider client={queryClient}>
           <SelectAccountNameOwnerCredit {...props} />
-        </QueryClientProvider>
+        </QueryClientProvider>,
       );
       await Promise.resolve();
     });
@@ -32,7 +32,7 @@ describe("SelectAccountNameOwnerCredit", () => {
       render(
         <QueryClientProvider client={queryClient}>
           <SelectAccountNameOwnerCredit {...props} />
-        </QueryClientProvider>
+        </QueryClientProvider>,
       );
       await Promise.resolve();
     });

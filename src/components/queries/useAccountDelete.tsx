@@ -25,22 +25,22 @@ export default function useAccountDelete() {
       onError: (error: AxiosError<any>) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
       },
 
       onSuccess: (response, variables) => {
         let oldData: any = queryClient.getQueryData("account");
         let newData = oldData.filter(
-          (t: any) => t.tableData.id !== variables.oldRow.tableData.id
+          (t: any) => t.tableData.id !== variables.oldRow.tableData.id,
         );
         queryClient.setQueryData("account", newData);
       },
-    }
+    },
   );
 }

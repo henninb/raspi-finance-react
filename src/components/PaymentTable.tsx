@@ -41,13 +41,13 @@ export default function PaymentTable() {
     if (error.response) {
       setMessage(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
-          error.response.data
-        )}`
+          error.response.data,
+        )}`,
       );
       console.log(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
-          error.response.data
-        )}`
+          error.response.data,
+        )}`,
       );
       setOpen(true);
     } else {

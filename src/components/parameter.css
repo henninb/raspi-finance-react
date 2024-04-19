@@ -123,8 +123,19 @@ textarea {
 
 body,
 html {
-  font-family: Salesforce Sans, -apple-system, BlinkMacSystemFont, avenir next,
-    avenir, helvetica, helvetica neue, ubuntu, roboto, noto, segoe ui, arial,
+  font-family:
+    Salesforce Sans,
+    -apple-system,
+    BlinkMacSystemFont,
+    avenir next,
+    avenir,
+    helvetica,
+    helvetica neue,
+    ubuntu,
+    roboto,
+    noto,
+    segoe ui,
+    arial,
     sans-serif;
   line-height: 1;
 }
@@ -288,7 +299,9 @@ html {
 
 .hk-input {
   line-height: 20px;
-  transition: background 0.1s ease, border-color 0.1s ease;
+  transition:
+    background 0.1s ease,
+    border-color 0.1s ease;
 }
 
 .hk-input {
@@ -348,7 +361,9 @@ html {
 
 .hk-input--disabled {
   line-height: 20px;
-  transition: background 0.1s ease, border-color 0.1s ease;
+  transition:
+    background 0.1s ease,
+    border-color 0.1s ease;
   -webkit-appearance: none;
   -moz-appearance: none;
   outline: 0;
@@ -2975,16 +2990,22 @@ input[type="radio"]:focus {
   background-image: none;
   border: 1px solid #cfd7e6;
   border-radius: 4px;
-  -webkit-transition: border-color ease-in-out 0.15s,
+  -webkit-transition:
+    border-color ease-in-out 0.15s,
     box-shadow ease-in-out 0.15s;
-  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  -o-transition:
+    border-color ease-in-out 0.15s,
+    box-shadow ease-in-out 0.15s;
+  transition:
+    border-color ease-in-out 0.15s,
+    box-shadow ease-in-out 0.15s;
 }
 
 .form-control:focus {
   border-color: #79589f;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+  -webkit-box-shadow:
+    inset 0 1px 1px rgba(0, 0, 0, 0.075),
     0 0 8px rgba(121, 88, 159, 0.6);
 }
 
@@ -3406,7 +3427,8 @@ h6 {
 }
 
 .form-control:focus {
-  box-shadow: inset 0 1px 2px rgba(207, 215, 230, 0.2),
+  box-shadow:
+    inset 0 1px 2px rgba(207, 215, 230, 0.2),
     0 0 4px rgba(121, 88, 159, 0.3);
 }
 
@@ -3423,7 +3445,8 @@ h6 {
 
 .form-control[readonly]:focus {
   border: 1px solid #96a3b6;
-  box-shadow: inset 0 1px 2px rgba(207, 215, 230, 0.2),
+  box-shadow:
+    inset 0 1px 2px rgba(207, 215, 230, 0.2),
     0 0 4px rgba(150, 163, 182, 0.3);
 }
 
@@ -3449,13 +3472,16 @@ h6 {
 /*}*/
 
 input:-webkit-autofill {
-  box-shadow: inset 0 1px 2px rgba(207, 215, 230, 0.4),
+  box-shadow:
+    inset 0 1px 2px rgba(207, 215, 230, 0.4),
     inset 0 0 10px 1000px #fffedb;
 }
 
 input:-webkit-autofill:focus {
-  box-shadow: inset 0 1px 2px rgba(207, 215, 230, 0.2),
-    0 0 4px rgba(121, 88, 159, 0.3), inset 0 0 10px 1000px #fffedb;
+  box-shadow:
+    inset 0 1px 2px rgba(207, 215, 230, 0.2),
+    0 0 4px rgba(121, 88, 159, 0.3),
+    inset 0 0 10px 1000px #fffedb;
 }
 
 .gradient-primary,

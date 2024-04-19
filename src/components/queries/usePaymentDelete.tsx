@@ -26,12 +26,12 @@ export default function usePaymentDelete() {
       onError: (error: AxiosError<any>) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
       },
 
@@ -39,10 +39,10 @@ export default function usePaymentDelete() {
         let oldData: any = queryClient.getQueryData("payment");
         // @ts-ignore
         let newData = oldData.filter(
-          (t: any) => t.tableData.id !== variables.oldRow.tableData.id
+          (t: any) => t.tableData.id !== variables.oldRow.tableData.id,
         );
         queryClient.setQueryData("payment", newData);
       },
-    }
+    },
   );
 }

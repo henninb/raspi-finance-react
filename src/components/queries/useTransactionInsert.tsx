@@ -13,7 +13,7 @@ export type TransactionInsertType = {
 
 const setupNewTransaction = (
   payload: Transaction,
-  accountNameOwner: String
+  accountNameOwner: String,
 ): Transaction => {
   return {
     guid: uuidv4(),
@@ -51,7 +51,7 @@ const setupNewTransaction = (
 const insertTransaction = async (
   accountNameOwner: String,
   payload: Transaction,
-  isFutureTransaction: Boolean
+  isFutureTransaction: Boolean,
 ): Promise<any> => {
   let endpoint = "/transaction/insert";
   if (isFutureTransaction) {
@@ -82,31 +82,31 @@ export default function useTransactionInsert(accountNameOwner: any) {
       insertTransaction(
         accountNameOwner,
         variables.newRow,
-        variables.isFutureTransaction
+        variables.isFutureTransaction,
       ),
     {
       onError: (error: AxiosError<any>) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
         //handleError(error, 'fetchAccountData', true)
       },
 
       onSuccess: (response) => {
         let oldData: any = queryClient.getQueryData(
-          getAccountKey(accountNameOwner)
+          getAccountKey(accountNameOwner),
         );
         if (oldData) {
           let newData = [response, ...oldData];
           queryClient.setQueryData(getAccountKey(accountNameOwner), newData);
         }
       },
-    }
+    },
   );
 }

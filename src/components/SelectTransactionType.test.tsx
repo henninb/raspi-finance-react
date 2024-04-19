@@ -10,7 +10,7 @@ describe("SelectTransactionType component", () => {
       <SelectTransactionType
         onChangeFunction={handleChangeFunction}
         currentValue={"income"}
-      />
+      />,
     );
     expect(screen.getByRole("textbox")).toHaveValue("income");
   });
@@ -21,7 +21,7 @@ describe("SelectTransactionType component", () => {
       <SelectTransactionType
         onChangeFunction={handleChangeFunction}
         currentValue={"income"}
-      />
+      />,
     );
     const dropdownButton = screen.getByRole("button");
     fireEvent.click(dropdownButton);
@@ -37,7 +37,7 @@ describe("SelectTransactionType component", () => {
       <SelectTransactionType
         onChangeFunction={handleChangeFunction}
         currentValue={"income"}
-      />
+      />,
     );
     const inputField = screen.getByRole("textbox");
     fireEvent.change(inputField, { target: { value: "income" } });
@@ -54,7 +54,7 @@ describe("SelectTransactionType component", () => {
       <SelectTransactionType
         onChangeFunction={handleChangeFunction}
         currentValue={"income"}
-      />
+      />,
     );
     const inputField = screen.getByRole("textbox");
     fireEvent.change(inputField, { target: { value: "invalid" } });

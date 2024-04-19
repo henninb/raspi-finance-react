@@ -32,25 +32,25 @@ test("determine the epoch date", () => {
 
 test("determine the epoch date - 6pm", () => {
   expect(epochToDate(1609524000000)).toEqual(
-    new Date("2021-01-01T18:00:00.000Z")
+    new Date("2021-01-01T18:00:00.000Z"),
   );
 });
 
 test("determine the epoch date - 12pm", () => {
   expect(epochToDate(1609502400000)).toEqual(
-    new Date("2021-01-01T12:00:00.000Z")
+    new Date("2021-01-01T12:00:00.000Z"),
   );
 });
 
 test("determine the epoch date - near midnight", () => {
   expect(epochToDate(1609459199000)).toEqual(
-    new Date("2020-12-31T23:59:59.000Z")
+    new Date("2020-12-31T23:59:59.000Z"),
   );
 });
 
 test("determine the epoch date - at midnight", () => {
   expect(epochToDate(1609459200000)).toEqual(
-    new Date("2021-01-01T00:00:00.000Z")
+    new Date("2021-01-01T00:00:00.000Z"),
   );
 });
 

@@ -104,7 +104,7 @@ export default function FreeForm() {
     text.split(/\r?\n/).forEach((str: any) => {
       if (str.split(",").length !== 4) {
         setMessage(
-          "invalid record count= " + str.split(",").length + " ='" + str + "'"
+          "invalid record count= " + str.split(",").length + " ='" + str + "'",
         );
         setOpen(true);
         flag = false;

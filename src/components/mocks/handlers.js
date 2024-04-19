@@ -14,7 +14,7 @@ export const handlers = [
           guidDestination: "6d5cd6d7-968a-4064-97bf-f2ad1083efe7",
           activeStatus: true,
         },
-      ])
+      ]),
     );
   }),
 
@@ -27,9 +27,9 @@ export const handlers = [
           parameterName: "payment_account",
           parameterValue: "bcu-checking_brian",
           activeStatus: true,
-        })
+        }),
       );
-    }
+    },
   ),
 
   rest.get(
@@ -48,9 +48,9 @@ export const handlers = [
             cleared: 0.0,
             dateClosed: "1970-01-01T00:00:00.000-06:00",
           },
-        ])
+        ]),
       );
-    }
+    },
   ),
 
   rest.get("https://hornsup:8443/account/select/active", (req, res, ctx) => {
@@ -67,7 +67,7 @@ export const handlers = [
           cleared: 0.0,
           dateClosed: "1970-01-01T00:00:00.000-06:00",
         },
-      ])
+      ]),
     );
   }),
 ];

@@ -5,7 +5,7 @@ import ValidationAmount from "../model/ValidationAmount";
 
 const insertValidationAmount = async (
   accountNameOwner: String,
-  payload: ValidationAmount
+  payload: ValidationAmount,
 ): Promise<any> => {
   let endpoint = "/validation/amount/insert/" + accountNameOwner;
 
@@ -30,12 +30,12 @@ export default function useValidationAmountInsert() {
       onError: (error: AxiosError) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
       },
 
@@ -43,9 +43,9 @@ export default function useValidationAmountInsert() {
         console.log(response ? JSON.stringify(response) : response);
         queryClient.setQueryData(
           ["validationAmount", variables.accountNameOwner],
-          response
+          response,
         );
       },
-    }
+    },
   );
 }

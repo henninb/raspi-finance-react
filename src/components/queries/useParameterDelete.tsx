@@ -26,12 +26,12 @@ export default function useParameterDelete() {
       onError: (error: AxiosError<any>) => {
         console.log(error ? error : "error is undefined.");
         console.log(
-          error.response ? error.response : "error.response is undefined."
+          error.response ? error.response : "error.response is undefined.",
         );
         console.log(
           error.response
             ? JSON.stringify(error.response)
-            : "error.response is undefined - cannot stringify."
+            : "error.response is undefined - cannot stringify.",
         );
       },
 
@@ -40,10 +40,10 @@ export default function useParameterDelete() {
         console.log("delete was a success.");
         //let oldData: any = queryClient.getQueryData("parameter");
         let newData = oldData.filter(
-          (t: any) => t.parameterName !== variables.oldRow.parameterName
+          (t: any) => t.parameterName !== variables.oldRow.parameterName,
         );
         queryClient.setQueryData("parameter", newData);
       },
-    }
+    },
   );
 }

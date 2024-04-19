@@ -24,7 +24,7 @@ export default function SelectDescription({
   useEffect(() => {
     if (isSuccess) {
       const descriptions = data.map(
-        ({ descriptionName }: any) => descriptionName
+        ({ descriptionName }: any) => descriptionName,
       );
       setOptions(descriptions);
     }
@@ -34,7 +34,7 @@ export default function SelectDescription({
     if (event.key === "Tab") {
       // @ts-ignore
       let filteredOptions = options.filter((state: any) =>
-        state.includes(inputValue)
+        state.includes(inputValue),
       );
       if (filteredOptions.length > 0) {
         return filteredOptions.find((state) => {

@@ -25,7 +25,7 @@ describe("PaymentRequired component", () => {
           <MemoryRouter>
             <PaymentRequired />
           </MemoryRouter>
-        </QueryClientProvider>
+        </QueryClientProvider>,
       );
       await Promise.resolve();
     });

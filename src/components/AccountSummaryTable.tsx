@@ -29,13 +29,13 @@ export default function AccountSummaryTable() {
     if (error.response) {
       setMessage(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
-          error.response.data
-        )}`
+          error.response.data,
+        )}`,
       );
       console.log(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
-          error.response.data
-        )}`
+          error.response.data,
+        )}`,
       );
       setOpen(true);
     } else {
@@ -157,11 +157,11 @@ export default function AccountSummaryTable() {
             ]}
             data={data}
             title={`[ $${currencyFormat(
-              noNaN(totals["totals"])
+              noNaN(totals["totals"]),
             )} ] [ $${currencyFormat(
-              noNaN(totals["totalsCleared"])
+              noNaN(totals["totalsCleared"]),
             )} ]  [ $${currencyFormat(
-              noNaN(totals["totalsOutstanding"])
+              noNaN(totals["totalsOutstanding"]),
             )} ] [ $${currencyFormat(noNaN(totals["totalsFuture"]))} ]`}
             options={{
               actionsColumnIndex: -1,

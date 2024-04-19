@@ -42,7 +42,7 @@ export default function SelectReoccurringType({
     if (event.key === "Tab") {
       // @ts-ignore
       let filteredOptions = options.filter((state: any) =>
-        state.includes(inputValue)
+        state.includes(inputValue),
       );
       if (filteredOptions.length > 0) {
         return filteredOptions.find((state) => {

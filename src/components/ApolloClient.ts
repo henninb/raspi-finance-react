@@ -8,15 +8,12 @@ export const apolloClient = (): ApolloClient<NormalizedCacheObject> => {
   const errorLink = onError(({ graphqlErrors, networkError }: any) => {
     if (graphqlErrors) {
       graphqlErrors.map(({ message, location, path }: any) =>
-        console.log(`Graphql error ${message}`)
+        console.log(`Graphql error ${message}`),
       );
     }
   });
 
-  const link = from([
-    errorLink,
-    new HttpLink({ uri: `/graphql` }),
-  ]);
+  const link = from([errorLink, new HttpLink({ uri: `/graphql` })]);
 
   const authLink = setContext((_, { headers }) => {
     return {

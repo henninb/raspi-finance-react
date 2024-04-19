@@ -43,21 +43,21 @@ export default function TransactionTable() {
 
   const routeMatch: any = useMatch("/transactions/:account");
   const { data, isSuccess } = useFetchTransactionByAccount(
-    routeMatch.params["account"]
+    routeMatch.params["account"],
   );
   const { data: totals, isSuccess: isSuccessTotals } = useFetchTotalsPerAccount(
-    routeMatch.params["account"]
+    routeMatch.params["account"],
   );
   const { data: validationData, isSuccess: isSuccessValidationTotals } =
     useFetchValidationAmount(routeMatch.params["account"]);
   const { mutate: updateTransactionState } = useChangeTransactionState(
-    routeMatch.params["account"]
+    routeMatch.params["account"],
   );
   const { mutate: updateTransaction } = useTransactionUpdate();
   const { mutate: deleteTransaction } = useTransactionDelete();
   const { mutate: insertReceiptImage } = useReceiptImageUpdate();
   const { mutate: insertTransaction } = useTransactionInsert(
-    routeMatch.params["account"]
+    routeMatch.params["account"],
   );
   const { mutate: insertValidationAmount } = useValidationAmountInsert();
 
@@ -69,13 +69,13 @@ export default function TransactionTable() {
     if (error.response) {
       setMessage(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
-          error.response.data
-        )}`
+          error.response.data,
+        )}`,
       );
       console.log(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
-          error.response.data
-        )}`
+          error.response.data,
+        )}`,
       );
       setOpen(true);
     } else {
@@ -140,14 +140,14 @@ export default function TransactionTable() {
       });
       fileSelector.click();
     },
-    [storeTheFileContent]
+    [storeTheFileContent],
   );
 
   const handlerToUpdateTransactionState = useCallback(
     async (
       guid: any,
       accountNameOwner: string,
-      transactionState: any
+      transactionState: any,
     ): Promise<any> => {
       try {
         updateTransactionState({
@@ -160,14 +160,14 @@ export default function TransactionTable() {
         handleError(error, "updateTransactionState1", false);
       }
     },
-    [updateTransactionState]
+    [updateTransactionState],
   );
 
   const handlerToUpdateTransactionType = useCallback(
     async (
       guid: any,
       accountNameOwner: string,
-      transactionType: any
+      transactionType: any,
     ): Promise<any> => {
       // try {
       //     updateTransactionState({
@@ -180,7 +180,7 @@ export default function TransactionTable() {
       //     handleError(error, "updateTransactionState1", false);
       // }
     },
-    []
+    [],
   );
 
   const updateRow = (newData: any, oldData: any): Promise<any> => {
@@ -244,12 +244,12 @@ export default function TransactionTable() {
         handleError(error, "futureTransactionInsertPostCall", false);
       }
     },
-    [insertTransaction]
+    [insertTransaction],
   );
 
   const insertNewValidationData = (
     accountNameOwner: String,
-    transactionState: TransactionState
+    transactionState: TransactionState,
   ) => {
     console.log(accountNameOwner);
 
@@ -273,7 +273,7 @@ export default function TransactionTable() {
         setKeyPressed(true);
       }
     },
-    [keyPressed]
+    [keyPressed],
   );
 
   const upHandler = useCallback(({ key }: any) => {
@@ -596,11 +596,11 @@ export default function TransactionTable() {
             ]}
             data={data}
             title={`[${routeMatch.params["account"]}] [ $${currencyFormat(
-              noNaN(totals["totals"])
+              noNaN(totals["totals"]),
             )} ] [ $${currencyFormat(
-              noNaN(totals["totalsCleared"])
+              noNaN(totals["totalsCleared"]),
             )} ]  [ $${currencyFormat(
-              noNaN(totals["totalsOutstanding"])
+              noNaN(totals["totalsOutstanding"]),
             )} ] [ $${currencyFormat(noNaN(totals["totalsFuture"]))} ]`}
             components={{
               Pagination: (props) => {
@@ -610,7 +610,7 @@ export default function TransactionTable() {
                       onClick={() =>
                         insertNewValidationData(
                           routeMatch.params["account"],
-                          "cleared"
+                          "cleared",
                         )
                       }
                     >
@@ -623,7 +623,7 @@ export default function TransactionTable() {
                       {" - "}{" "}
                       {validationData.validationDate
                         ? epochToDate(
-                            validationData.validationDate
+                            validationData.validationDate,
                           ).toLocaleString()
                         : "1970-01-01T00:00:00:000Z"}
                     </Button>
