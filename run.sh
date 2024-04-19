@@ -59,6 +59,9 @@ mkdir -p ssl
 
 if [ ! -x "$(command -v yarn)" ]; then
   echo npm install -g yarn
+  npm install -g yarn
+  echo yarn install
+  yarn install
   exit 2
 fi
 
@@ -77,13 +80,13 @@ if [ "$ENV" = "prod" ]; then
   #   echo "docker-compose build failed."
   #   exit 1
   # fi
-
+  export DOCKER_HOST=ssh://192.168.10.10
   if ! docker compose -f docker-compose.yml up -d; then
     echo "docker-compose up failed."
     exit 1
   fi
-  docker save -o raspi-finance-react-docker-${date}.tar raspi-finance-react:latest
-  echo docker exec -it raspi-finance-react /bin/sh
+  # docker save -o raspi-finance-react-docker-${date}.tar raspi-finance-react:latest
+  # echo docker exec -it raspi-finance-react /bin/sh
 else
   echo npx npm-check-updates -u
   echo npx depcheck

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import ReactTooltip from "react-tooltip";
+// import ReactTooltip from "react-tooltip";
 import AttachMoneyRounded from "@material-ui/icons/AttachMoneyRounded";
 import { TransactionState } from "./model/TransactionState";
 
@@ -84,7 +84,6 @@ export default function TransactionStateButtons({
             style={{ color: futureColor, fontSize: "small" }}
           />
         </a>
-        <ReactTooltip effect="solid" />
       </ToggleButton>
 
       <ToggleButton value="outstanding" style={{ fontSize: ".6rem" }}>
@@ -94,7 +93,6 @@ export default function TransactionStateButtons({
             style={{ color: outstandingColor, fontSize: "small" }}
           />
         </a>
-        <ReactTooltip effect="solid" />
       </ToggleButton>
 
       <ToggleButton value="cleared" style={{ fontSize: ".6rem" }}>
@@ -104,7 +102,6 @@ export default function TransactionStateButtons({
             style={{ color: clearedColor, fontSize: "small" }}
           />
         </a>
-        <ReactTooltip effect="solid" />
       </ToggleButton>
     </ToggleButtonGroup>
   );

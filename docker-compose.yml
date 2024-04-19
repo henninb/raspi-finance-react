@@ -16,6 +16,6 @@ services:
       - "hornsup:${HOST_IP}"
     env_file:
       - env.prod
-networks:
-  default:
-    name: finance-net
+# networks:
+  # default:
+    # name: finance-net
