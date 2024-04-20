@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import TransactionTable from "./TransactionTable";
+import Transactions from "./Transactions";
 import AccountSummaryTable from "./AccountSummaryTable";
 import PaymentTable from "./PaymentTable";
 import FreeForm from "./FreeForm";
@@ -29,6 +30,8 @@ export default function AllRoutes() {
     },
   });
 
+  // const router = createBrowserRouter([]);
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -42,6 +45,10 @@ export default function AllRoutes() {
             <Route
               path="/transactions/:account"
               element={<TransactionTable />}
+            />
+                        <Route
+              path="/transactionsnew/:account"
+              element={<Transactions />}
             />
             <Route path="/" element={<AccountSummaryTable />} />
           </Route>

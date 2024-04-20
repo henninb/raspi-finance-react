@@ -70,9 +70,9 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1 = ${server_name}
 DNS.2 = ${server_name}.lan
-DNS.3 = localhost
+DNS.3 = finance.proxy
+DNS.4 = localhost
 IP.1 = 192.168.10.10
-IP.2 = 192.168.10.103
 EOF
 
 echo Generate an rsa key

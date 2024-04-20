@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-//import MaterialTable from "material-table";
-import MaterialTable from "@material-table/core";
+import MaterialTable from "material-table";
+//import MaterialTable from "@material-table/core";
 import Spinner from "./Spinner";
 import { useMatch } from "react-router-dom";
 import SelectTransactionState from "./SelectTransactionState";
@@ -41,23 +41,31 @@ export default function TransactionTable() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
+  
   const routeMatch: any = useMatch("/transactions/:account");
+  let accountNameOwner = 'default';
+  try {
+    accountNameOwner = routeMatch.params["account"];
+  } catch {
+    console.log("accountNameOwner is set to the default.");
+  }
+
   const { data, isSuccess } = useFetchTransactionByAccount(
-    routeMatch.params["account"],
+    accountNameOwner,
   );
   const { data: totals, isSuccess: isSuccessTotals } = useFetchTotalsPerAccount(
-    routeMatch.params["account"],
+    accountNameOwner,
   );
   const { data: validationData, isSuccess: isSuccessValidationTotals } =
-    useFetchValidationAmount(routeMatch.params["account"]);
+    useFetchValidationAmount(accountNameOwner);
   const { mutate: updateTransactionState } = useChangeTransactionState(
-    routeMatch.params["account"],
+    accountNameOwner,
   );
   const { mutate: updateTransaction } = useTransactionUpdate();
   const { mutate: deleteTransaction } = useTransactionDelete();
   const { mutate: insertReceiptImage } = useReceiptImageUpdate();
   const { mutate: insertTransaction } = useTransactionInsert(
-    routeMatch.params["account"],
+    accountNameOwner,
   );
   const { mutate: insertValidationAmount } = useValidationAmountInsert();
 
@@ -595,7 +603,7 @@ export default function TransactionTable() {
               },
             ]}
             data={data}
-            title={`[${routeMatch.params["account"]}] [ $${currencyFormat(
+            title={`[${accountNameOwner}] [ $${currencyFormat(
               noNaN(totals["totals"]),
             )} ] [ $${currencyFormat(
               noNaN(totals["totalsCleared"]),
@@ -609,7 +617,7 @@ export default function TransactionTable() {
                     <Button
                       onClick={() =>
                         insertNewValidationData(
-                          routeMatch.params["account"],
+                          accountNameOwner,
                           "cleared",
                         )
                       }

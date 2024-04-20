@@ -1,6 +1,7 @@
 import { Component } from "react";
 import AllRoutes from "./components/AllRoutes";
 import SelectAccounts from "./components/SelectAccounts";
+import SelectAccountsNew from "./components/SelectAccountsNew";
 import moment from "moment-timezone";
 
 moment.tz.setDefault("America/Chicago");
@@ -51,6 +52,9 @@ export default class App extends Component {
               </li>
               <li className="nav-item">
                 <SelectAccounts />
+              </li>
+              <li className="nav-item">
+                <SelectAccountsNew />
               </li>
             </ul>
           </div>

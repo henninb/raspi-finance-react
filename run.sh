@@ -46,6 +46,7 @@ elif [ "$OS" = "void" ]; then
   HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
 elif [ "$OS" = "Gentoo" ]; then
   HOST_IP=$(hostname -i | awk '{print $1}')
+  HOST_IP=192.168.10.10
 else
   echo "$OS is not yet implemented."
   exit 1
@@ -55,7 +56,10 @@ export HOST_IP
 export CURRENT_UID="$(id -u)"
 export CURRENT_GID="$(id -g)"
 
+echo HOST_IP=$HOST_IP
+
 mkdir -p ssl
+rm -rf build
 
 if [ ! -x "$(command -v yarn)" ]; then
   echo npm install -g yarn
@@ -65,12 +69,15 @@ if [ ! -x "$(command -v yarn)" ]; then
   exit 2
 fi
 
+echo yarn build
 if [ "$ENV" = "prod" ]; then
   if ! yarn build; then
     echo "yarn build failed"
     exit 1
   fi
 
+  echo docker
+  export DOCKER_HOST=ssh://192.168.10.10
   docker stop raspi-finance-react
   docker rm -f raspi-finance-react
   docker rmi raspi-finance-react
@@ -80,11 +87,11 @@ if [ "$ENV" = "prod" ]; then
   #   echo "docker-compose build failed."
   #   exit 1
   # fi
-  export DOCKER_HOST=ssh://192.168.10.10
   if ! docker compose -f docker-compose.yml up -d; then
     echo "docker-compose up failed."
     exit 1
   fi
+  docker ps -a
   # docker save -o raspi-finance-react-docker-${date}.tar raspi-finance-react:latest
   # echo docker exec -it raspi-finance-react /bin/sh
 else
