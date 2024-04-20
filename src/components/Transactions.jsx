@@ -5,7 +5,6 @@ import AddRowOverlay from "./AddRowOverlay";
 
 
 export default function Transactions() {
-//export default function Transactions({accountNameOwner="test_brian"}) {
   const [data, setData] = useState([]); // Your spreadsheet data
   const [selectedRows, setSelectedRows] = useState([]);
   const [areButtonsVisible, setAreButtonsVisible] = useState(false);
