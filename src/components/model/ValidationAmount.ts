@@ -6,7 +6,7 @@ export default interface ValidationAmount {
   accountId?: number;
   amount: number;
   transactionState: TransactionState;
-  activeStatus: Boolean;
+  activeStatus: boolean;
   dateAdded?: Date;
   dateUpdated?: Date;
 }

@@ -1,9 +1,6 @@
-//import React, { useState } from "react";
-
 import useFetchParameters from "./queries/useFetchParameters";
 import useParameterDelete from "./queries/useParameterDelete";
 import useParameterUpdate from "./queries/useParameterUpdate";
-import React, { useEffect } from "react";
 import Spinner from "./Spinner";
 import "./parameter.css";
 
@@ -13,13 +10,13 @@ export default function ParameterConfiguration() {
   const { mutate: updateParameter } = useParameterUpdate();
 
   function handleDelete(parameterName: any) {
-    let row = { parameterName: parameterName };
+    const row = { parameterName: parameterName };
     deleteParameter({ oldRow: row });
   }
 
   function handleUpdate(parameterName: any) {
-    let oldData = { parameterName: parameterName };
-    let newData = { parameterName: parameterName, parameterValue: "test" };
+    const oldData = { parameterName: parameterName };
+    const newData = { parameterName: parameterName, parameterValue: "test" };
     updateParameter({ newRow: newData, oldRow: oldData });
   }
 
@@ -170,8 +167,6 @@ export default function ParameterConfiguration() {
     );
   }
 
-  useEffect(() => {}, []);
-  // @ts-ignore
   return (
     <div>
       {!isLoading && isSuccess ? (

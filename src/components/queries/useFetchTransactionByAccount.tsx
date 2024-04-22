@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 
 //interfaces in a models dir
 
-const fetchAccountData = async (accountNameOwner: String): Promise<any> => {
+const fetchAccountData = async (accountNameOwner: string): Promise<any> => {
   const response = await axios.get(
     `/transaction/account/select/${accountNameOwner}`,
     {
@@ -20,7 +20,7 @@ const fetchAccountData = async (accountNameOwner: String): Promise<any> => {
   return response.data;
 };
 
-export default function useFetchTransactionByAccount(accountNameOwner: String) {
+export default function useFetchTransactionByAccount(accountNameOwner: string) {
   return useQuery(
     ["accounts", accountNameOwner],
     () => fetchAccountData(accountNameOwner),

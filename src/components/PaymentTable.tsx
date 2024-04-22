@@ -37,7 +37,7 @@ export default function PaymentTable() {
     history("/transactions/" + oldRow.accountNameOwner);
   };
 
-  const handleError = (error: any, moduleName: String, throwIt: any) => {
+  const handleError = (error: any, moduleName: string, throwIt: any) => {
     if (error.response) {
       setMessage(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
@@ -197,7 +197,7 @@ export default function PaymentTable() {
                   setTimeout(async () => {
                     try {
                       console.log("oldData: " + JSON.stringify(oldData));
-                      await deletePayment({ oldRow: oldData });
+                      deletePayment({ oldRow: oldData });
                       // @ts-ignore
                       resolve();
                     } catch (error) {

@@ -7,7 +7,7 @@ const insertReceiptImage = async (
   currentTransaction: any,
   fileContent: any,
 ): Promise<any> => {
-  let endpoint = "/transaction/update/receipt/image/" + currentTransaction.guid;
+  const endpoint = "/transaction/update/receipt/image/" + currentTransaction.guid;
 
   const response = await axios.put(endpoint, fileContent, {
     timeout: 0,
@@ -40,7 +40,7 @@ export default function useReceiptImageUpdate() {
       },
 
       onSuccess: (response, variables) => {
-        let oldData: any = queryClient.getQueryData(
+        const oldData: any = queryClient.getQueryData(
           getAccountKey(variables.oldRow.accountNameOwner),
         );
 
@@ -48,7 +48,7 @@ export default function useReceiptImageUpdate() {
         const index = variables.oldRow.tableData.id;
         dataUpdate[index] = variables.oldRow;
         dataUpdate[index].receiptImage = variables.fileContent;
-        let newData = [...dataUpdate];
+        const newData = [...dataUpdate];
 
         queryClient.setQueryData(
           getAccountKey(variables.oldRow.accountNameOwner),

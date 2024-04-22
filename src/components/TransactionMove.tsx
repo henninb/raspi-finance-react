@@ -61,7 +61,7 @@ export default function TransactionMove({
   const handleButtonClick = useCallback(
     async (currentTransaction: Transaction) => {
       try {
-        let newTransaction: Transaction = Object.assign({}, currentTransaction);
+        const newTransaction: Transaction = Object.assign({}, currentTransaction);
         newTransaction.accountNameOwner = value;
         updateTransaction({
           oldRow: currentTransaction,
@@ -85,7 +85,6 @@ export default function TransactionMove({
           return accountNameOwner;
         });
 
-      // @ts-ignore
       setOptions(accounts);
     }
   }, [accountTypeState, currentTransaction, data, isSuccess]);

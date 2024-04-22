@@ -8,7 +8,7 @@ const updateParameter = async (
   newData: Parameter,
   oldData: Parameter,
 ): Promise<any> => {
-  let endpoint = "/parm/update/" + oldData.parameterName;
+  const endpoint = "/parm/update/" + oldData.parameterName;
 
   console.log(newData);
   const response = await axios.put(endpoint, newData, {
@@ -41,7 +41,7 @@ export default function useParameterUpdate() {
         );
       },
 
-      onSuccess: (_response, _variables) => {},
+      // onSuccess: (_response, _variables) => {},
     },
   );
 }

@@ -16,8 +16,8 @@ const setupNewAccount = (payload: Account) => {
 };
 
 const insertAccount = async (payload: Account): Promise<any> => {
-  let endpoint = "/account/insert";
-  let newPayload = setupNewAccount(payload);
+  const endpoint = "/account/insert";
+  const newPayload = setupNewAccount(payload);
 
   const response = await axios.post(endpoint, newPayload, {
     timeout: 0,
@@ -49,8 +49,8 @@ export default function useAccountInsert() {
       },
 
       onSuccess: (response) => {
-        let oldData: any = queryClient.getQueryData("account");
-        let newData = [response, ...oldData];
+        const oldData: any = queryClient.getQueryData("account");
+        const newData = [response, ...oldData];
         queryClient.setQueryData("account", newData);
       },
     },

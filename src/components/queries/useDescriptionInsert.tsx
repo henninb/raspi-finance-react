@@ -3,8 +3,8 @@ import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 const insertDescription = async (descriptionName: any): Promise<any> => {
-  let endpoint = "/description/insert";
-  let payload = { description: descriptionName, activeStatus: true };
+  const endpoint = "/description/insert";
+  const payload = { description: descriptionName, activeStatus: true };
 
   const response = await axios.post(endpoint, payload, {
     timeout: 0,
@@ -36,9 +36,8 @@ export default function useDescriptionInsert() {
       },
 
       onSuccess: (response) => {
-        let oldData = queryClient.getQueryData("description");
-        // @ts-ignore
-        let newData = [response, ...oldData];
+        const oldData: any = queryClient.getQueryData("description");
+        const newData = [response, ...oldData];
         queryClient.setQueryData("description", newData);
       },
     },

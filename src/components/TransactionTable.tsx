@@ -41,7 +41,7 @@ export default function TransactionTable() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
-  
+
   const routeMatch: any = useMatch("/transactions/:account");
   let accountNameOwner = 'default';
   try {
@@ -97,7 +97,7 @@ export default function TransactionTable() {
   };
 
   const storeTheFileContent = useCallback(async (file: any): Promise<any> => {
-    let reader: any = new FileReader();
+    const reader: any = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       setFileContent(reader.result.toString());
@@ -116,7 +116,7 @@ export default function TransactionTable() {
       fileSelector.setAttribute("type", "file");
       fileSelector.addEventListener("change", (event: any) => {
         console.log("addEventListener is called.");
-        let fileList = event.target.files;
+        const fileList = event.target.files;
 
         if (fileList[0].size >= 1024 * 1024) {
           console.log("maximum file size is 1MB");
@@ -128,16 +128,8 @@ export default function TransactionTable() {
           fileList[0].type.match("image/png")
         ) {
           if (fileList[0] instanceof Blob) {
-            // @ts-ignore
-            // console.log(
-            //   `file ${fileList[0].name} is file type ${fileList[0].type}.`
-            // );
-            // image/jpeg
-            // image/png
-            // image/gif
-            // image/webp
             setCurrentTransaction(currentRow);
-            let response = storeTheFileContent(fileList[0]);
+            const response = storeTheFileContent(fileList[0]);
             console.log(response);
           } else {
             console.log(`file ${fileList[0].name} is not a blob.`);
@@ -171,25 +163,25 @@ export default function TransactionTable() {
     [updateTransactionState],
   );
 
-  const handlerToUpdateTransactionType = useCallback(
-    async (
-      guid: any,
-      accountNameOwner: string,
-      transactionType: any,
-    ): Promise<any> => {
-      // try {
-      //     updateTransactionState({
-      //         guid: guid,
-      //         transactionState: transactionState,
-      //     });
-      //     //await fetchTotals()
-      // } catch (error) {
-      //     console.log(error);
-      //     handleError(error, "updateTransactionState1", false);
-      // }
-    },
-    [],
-  );
+  // const handlerToUpdateTransactionType = useCallback(
+  //   async (
+  //     guid: any,
+  //     accountNameOwner: string,
+  //     transactionType: any,
+  //   ): Promise<any> => {
+  //     // try {
+  //     //     updateTransactionState({
+  //     //         guid: guid,
+  //     //         transactionState: transactionState,
+  //     //     });
+  //     //     //await fetchTotals()
+  //     // } catch (error) {
+  //     //     console.log(error);
+  //     //     handleError(error, "updateTransactionState1", false);
+  //     // }
+  //   },
+  //   [],
+  // );
 
   const updateRow = (newData: any, oldData: any): Promise<any> => {
     return new Promise((resolve, reject) => {
@@ -256,12 +248,12 @@ export default function TransactionTable() {
   );
 
   const insertNewValidationData = (
-    accountNameOwner: String,
+    accountNameOwner: string,
     transactionState: TransactionState,
   ) => {
     console.log(accountNameOwner);
 
-    let payload: ValidationAmount = {
+    const payload: ValidationAmount = {
       activeStatus: true,
       amount: totals.totalsCleared,
       transactionState: transactionState,
@@ -302,7 +294,7 @@ export default function TransactionTable() {
         fileContent: fileContent,
       });
 
-      let foundObject = data.filter((obj: any) => {
+      const foundObject = data.filter((obj: any) => {
         // @ts-ignore
         return obj.guid === currentTransaction.guid;
       });
@@ -327,7 +319,7 @@ export default function TransactionTable() {
     insertReceiptImage,
   ]);
 
-  let dateFormat = "YYYY-MM-DD";
+  const dateFormat = "YYYY-MM-DD";
 
   return (
     <div>
@@ -589,7 +581,7 @@ export default function TransactionTable() {
                         <div>
                           <Button
                             onClick={() => {
-                              let response = getImageFileContents(rowData);
+                              const response = getImageFileContents(rowData);
                               console.log("response" + response);
                             }}
                           >

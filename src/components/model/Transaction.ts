@@ -6,19 +6,19 @@ import { TransactionType } from "./TransactionType";
 
 export default interface Transaction {
   transactionId?: number;
-  guid: String;
+  guid: string;
   accountId?: number;
   accountType: AccountType;
-  accountNameOwner: String;
+  accountNameOwner: string;
   transactionDate: Date;
-  description: String;
-  category: String;
+  description: string;
+  category: string;
   amount: number;
   transactionState: TransactionState;
   transactionType: TransactionType;
-  activeStatus: Boolean;
+  activeStatus: boolean;
   reoccurringType: ReoccurringType;
-  notes: String;
+  notes: string;
   receiptImage?: ReceiptImage;
-  dueDate?: String;
+  dueDate?: string;
 }

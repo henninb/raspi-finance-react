@@ -3,8 +3,8 @@ import { ImageFormatType } from "./ImageFormatType";
 export default interface ReceiptImage {
   receiptImageId: number;
   transactionId: number;
-  activeStatus: Boolean;
+  activeStatus: boolean;
   imageFormatType: ImageFormatType;
-  image: String;
-  thumbnail: String;
+  image: string;
+  thumbnail: string;
 }

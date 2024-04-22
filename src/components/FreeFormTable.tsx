@@ -64,7 +64,6 @@ export default function FreeFormTable({ data, toggleDisplayList }: any) {
     toggleDisplayList();
   };
 
-  // @ts-ignore
   return (
     <div>
       <div data-testid="free-form-table">

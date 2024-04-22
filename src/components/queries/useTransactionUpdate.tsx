@@ -8,7 +8,7 @@ const updateTransaction = async (
   newData: Transaction,
   oldData: Transaction,
 ): Promise<any> => {
-  let endpoint = "/transaction/update/" + oldData.guid;
+  const endpoint = "/transaction/update/" + oldData.guid;
 
   if (newData.receiptImage !== undefined) {
     newData["receiptImage"].image = newData["receiptImage"].image.replace(
@@ -49,7 +49,7 @@ export default function useTransactionUpdate() {
       },
 
       onSuccess: (response, variables) => {
-        let oldData: any = queryClient.getQueryData(
+        const oldData: any = queryClient.getQueryData(
           getAccountKey(variables.oldRow.accountNameOwner),
         );
         let newData;
@@ -63,12 +63,12 @@ export default function useTransactionUpdate() {
           newData = [...dataUpdate];
           //TODO: update accountTotals if amounts are different
           if (variables.oldRow.amount !== variables.newRow.amount) {
-            let totals: any = queryClient.getQueryData(
+            const totals: any = queryClient.getQueryData(
               getTotalsKey(variables.newRow.accountNameOwner),
             );
-            let oldTransactionStateKey =
+            const oldTransactionStateKey =
               "totals" + capitalizeFirstChar(variables.oldRow.transactionState);
-            let newTransactionStateKey =
+            const newTransactionStateKey =
               "totals" + capitalizeFirstChar(variables.newRow.transactionState);
             const difference =
               variables.newRow.amount - variables.oldRow.amount;

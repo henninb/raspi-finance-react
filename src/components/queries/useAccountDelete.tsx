@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 const deleteAccount = async (payload: any): Promise<any> => {
-  let endpoint = "/account/delete/" + payload.accountNameOwner;
+  const endpoint = "/account/delete/" + payload.accountNameOwner;
 
   const response = await axios.delete(endpoint, {
     timeout: 0,
@@ -35,8 +35,8 @@ export default function useAccountDelete() {
       },
 
       onSuccess: (response, variables) => {
-        let oldData: any = queryClient.getQueryData("account");
-        let newData = oldData.filter(
+        const oldData: any = queryClient.getQueryData("account");
+        const newData = oldData.filter(
           (t: any) => t.tableData.id !== variables.oldRow.tableData.id,
         );
         queryClient.setQueryData("account", newData);

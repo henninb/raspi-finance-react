@@ -28,7 +28,7 @@ export default function SelectCategory({
 
   const handleKeyDown = (event: any) => {
     if (event.key === "Tab") {
-      let filteredOptions = options.filter((state) => {
+      const filteredOptions = options.filter((state) => {
         // @ts-ignore
         return state.includes(inputValue);
       });

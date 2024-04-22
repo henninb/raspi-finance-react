@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-//import useUserLogin from "./queries/useUserLogin";
+import { useState } from "react";
 import axios from "axios";
 
 export default function Login(props) {
-  //const { mutate: userLogin } = useUserLogin();
 
   const [state, setState] = useState({
     email: "",
@@ -54,8 +52,6 @@ export default function Login(props) {
       console.log(error.data);
     }
   };
-
-  useEffect(() => {});
 
   return (
     <div className="login centered">

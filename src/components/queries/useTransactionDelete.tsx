@@ -5,7 +5,7 @@ import { getAccountKey } from "./KeyFile";
 import Transaction from "../model/Transaction";
 
 const deleteTransaction = async (payload: Transaction): Promise<any> => {
-  let endpoint = "/transaction/delete/" + payload.guid;
+  const endpoint = "/transaction/delete/" + payload.guid;
 
   const response = await axios.delete(endpoint, {
     timeout: 0,
@@ -37,10 +37,10 @@ export default function useTransactionDelete() {
       },
 
       onSuccess: (response, variables) => {
-        let oldData: any = queryClient.getQueryData(
+        const oldData: any = queryClient.getQueryData(
           getAccountKey(variables.oldRow.accountNameOwner),
         );
-        let newData = oldData.filter(
+        const newData = oldData.filter(
           (t: any) => t.tableData.id !== variables.oldRow.tableData.id,
         );
         queryClient.setQueryData(

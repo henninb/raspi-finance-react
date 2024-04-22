@@ -2,10 +2,10 @@ import { AccountType } from "./AccountType";
 
 export default interface Account {
   accountId?: number;
-  accountNameOwner: String;
+  accountNameOwner: string;
   accountType: AccountType;
-  activeStatus: Boolean;
-  moniker: String;
+  activeStatus: boolean;
+  moniker: string;
   outstanding: number;
   future: number;
   cleared: number;

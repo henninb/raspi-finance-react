@@ -60,7 +60,7 @@ export default function FreeForm() {
     text = text.replaceAll(" | ", ",");
     text = text.replaceAll(", " + year, " " + year);
     //text = text.replace(/\s+2020\s+/g, " " + year + ",")
-    let re = new RegExp("\\s+" + year + "\\s+", "g");
+    const re = new RegExp("\\s+" + year + "\\s+", "g");
     text = text.replace(re, " " + year + ",");
     text = text.replace(/[\r\n]{2,}/g, "\n");
     text = text.replaceAll(", ", ",");
@@ -68,7 +68,7 @@ export default function FreeForm() {
   };
 
   const handlePaste = (e: any) => {
-    let text = e.clipboardData.getData("Text");
+    const text = e.clipboardData.getData("Text");
     e.preventDefault();
     // @ts-ignore
     document.getElementById("textArea").value = transformText(text).trim();
@@ -76,7 +76,7 @@ export default function FreeForm() {
 
   const handlePrefix = () => {
     // @ts-ignore
-    let text = document.getElementById("textArea").value.trim();
+    const text = document.getElementById("textArea").value.trim();
     let prefixedText = "";
 
     const prefix = selectedOption;
@@ -87,7 +87,7 @@ export default function FreeForm() {
       return;
     }
 
-    text.split(/\r?\n/).forEach((str: String) => {
+    text.split(/\r?\n/).forEach((str: string) => {
       prefixedText += prefix + "," + str.trim() + "\n";
     });
 
@@ -99,7 +99,7 @@ export default function FreeForm() {
 
   const validateData = () => {
     // @ts-ignore
-    let text = document.getElementById("textArea").value.trim();
+    const text = document.getElementById("textArea").value.trim();
     let flag = true;
     text.split(/\r?\n/).forEach((str: any) => {
       if (str.split(",").length !== 4) {
@@ -120,7 +120,7 @@ export default function FreeForm() {
     sanitizedText = sanitizedText.toLowerCase();
     const lines = sanitizedText.split("\n");
     //const lines = sanitizedText.split(os.EOL);
-    let transactions: any = [];
+    const transactions: any = [];
 
     if (!validateData()) {
       return;
@@ -128,9 +128,9 @@ export default function FreeForm() {
 
     for (const line of lines) {
       const columns = line.trim().split(",");
-      let accountNameOwner = columns[0];
-      let transactionDate = columns[1];
-      let description = columns[2];
+      const accountNameOwner = columns[0];
+      const transactionDate = columns[1];
+      const description = columns[2];
       let amount = columns[3];
 
       console.log(`column count: ${columns.length}`);
@@ -148,9 +148,9 @@ export default function FreeForm() {
           continue;
         }
 
-        let dateFormat = "YYYY-MM-DD";
+        const dateFormat = "YYYY-MM-DD";
 
-        let transaction = {
+        const transaction = {
           accountNameOwner: accountNameOwner,
           //transactionDate: Date.parse(transactionDate).toISOString(),
           transactionDate: moment(transactionDate).format(dateFormat),

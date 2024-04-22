@@ -5,7 +5,7 @@ export const convertUTCDateToLocalDate = (date: Date) => {
 export const formatDate = (date: Date) => {
   let month = "" + (date.getMonth() + 1);
   let day = "" + date.getDate();
-  let year = date.getFullYear();
+  const year = date.getFullYear();
 
   month = ("0" + month).slice(-2);
   day = ("0" + day).slice(-2);
@@ -27,7 +27,7 @@ export const epochToDate = (epoch: number): Date => {
 };
 
 export const basicAuth = () => {
-  let token = process.env.REACT_APP_API_KEY;
+  const token = process.env.REACT_APP_API_KEY;
   return "Basic " + token;
 };
 
@@ -50,7 +50,7 @@ export const noNaN = (n: any) => {
   return isNaN(n) ? 0.0 : n;
 };
 
-export const capitalizeFirstChar = (inString: String) => {
+export const capitalizeFirstChar = (inString: string) => {
   return inString.charAt(0).toUpperCase() + inString.slice(1);
 };
 

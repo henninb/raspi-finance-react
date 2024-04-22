@@ -1,7 +1,7 @@
 export default interface Payment {
   paymentId: number;
-  accountNameOwner: String;
+  accountNameOwner: string;
   transactionDate: Date;
   amount: number;
-  activeStatus: Boolean;
+  activeStatus: boolean;
 }

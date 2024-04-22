@@ -1,9 +1,9 @@
-export const getAccountKey = (accountNameOwner: String) => [
+export const getAccountKey = (accountNameOwner: string) => [
   "accounts",
   accountNameOwner,
 ];
 
-export const getTotalsKey = (accountNameOwner: String) => [
+export const getTotalsKey = (accountNameOwner: string) => [
   "totals",
   accountNameOwner,
 ];

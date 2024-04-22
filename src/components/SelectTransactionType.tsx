@@ -19,7 +19,7 @@ export default function SelectTransactionType({
 
   const handleKeyDown = (event: any) => {
     if (event.key === "Tab") {
-      let filteredOptions = options.filter((state) =>
+      const filteredOptions = options.filter((state) =>
         state.includes(inputValue),
       );
       if (filteredOptions.length > 0) {

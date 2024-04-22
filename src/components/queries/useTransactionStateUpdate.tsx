@@ -5,7 +5,7 @@ import { getAccountKey } from "./KeyFile";
 import { TransactionState } from "../model/TransactionState";
 
 const changeTransactionState = async (
-  guid: String,
+  guid: string,
   newTransactionState: TransactionState,
 ): Promise<any> => {
   const response = await axios.put(
@@ -23,7 +23,7 @@ const changeTransactionState = async (
   return response.data;
 };
 
-export default function useTransactionStateUpdate(accountNameOwner: String) {
+export default function useTransactionStateUpdate(accountNameOwner: string) {
   const queryClient = useQueryClient();
 
   return useMutation(
@@ -44,11 +44,11 @@ export default function useTransactionStateUpdate(accountNameOwner: String) {
       },
 
       onSuccess: (response: any) => {
-        let oldData: any = queryClient.getQueryData(
+        const oldData: any = queryClient.getQueryData(
           getAccountKey(accountNameOwner),
         );
 
-        let newData = oldData.map((element: any) => {
+        const newData = oldData.map((element: any) => {
           if (element["guid"] === response.guid) {
             return { ...element, transactionState: response.transactionState };
           } else {

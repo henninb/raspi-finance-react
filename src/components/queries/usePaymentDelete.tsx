@@ -3,8 +3,8 @@ import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import Payment from "../model/Payment";
 
-const deletePayment = async (payload: Payment): Promise<String> => {
-  let endpoint = "/payment/delete/" + payload.paymentId;
+const deletePayment = async (payload: Payment): Promise<string> => {
+  const endpoint = "/payment/delete/" + payload.paymentId;
 
   const response = await axios.delete(endpoint, {
     timeout: 0,
@@ -35,10 +35,9 @@ export default function usePaymentDelete() {
         );
       },
 
-      onSuccess: (response, variables) => {
-        let oldData: any = queryClient.getQueryData("payment");
-        // @ts-ignore
-        let newData = oldData.filter(
+      onSuccess: (_response, variables) => {
+        const oldData: any = queryClient.getQueryData("payment");
+        const newData = oldData.filter(
           (t: any) => t.tableData.id !== variables.oldRow.tableData.id,
         );
         queryClient.setQueryData("payment", newData);

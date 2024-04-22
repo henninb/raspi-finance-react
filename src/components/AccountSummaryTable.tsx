@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MaterialTable from "material-table";
 import Spinner from "./Spinner";
 import Button from "@material-ui/core/Button";
@@ -21,11 +21,11 @@ export default function AccountSummaryTable() {
   const { mutate: insertAccount } = useAccountInsert();
   const { mutate: deleteAccount } = useAccountDelete();
 
-  const handleButtonClickLink = (accountNameOwner: String) => {
+  const handleButtonClickLink = (accountNameOwner: string) => {
     history("/transactions/" + accountNameOwner);
   };
 
-  const handleError = (error: any, moduleName: String, throwIt: any) => {
+  const handleError = (error: any, moduleName: string, throwIt: any) => {
     if (error.response) {
       setMessage(
         `${moduleName}: ${error.response.status} and ${JSON.stringify(
@@ -56,7 +56,7 @@ export default function AccountSummaryTable() {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
-          await insertAccount({ payload: newData });
+          insertAccount({ payload: newData });
           // @ts-ignore
           resolve();
         } catch (error) {
@@ -81,8 +81,6 @@ export default function AccountSummaryTable() {
       }, 1000);
     });
   };
-
-  useEffect(() => {}, []);
 
   return (
     <>

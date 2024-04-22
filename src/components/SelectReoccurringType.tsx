@@ -22,8 +22,8 @@ export default function SelectReoccurringType({
 
   useEffect(() => {
     // @ts-ignore
-    let debitOptions: any = ["fortnightly", "monthly", "onetime"];
-    let creditOptions: any = [
+    const debitOptions: any = ["fortnightly", "monthly", "onetime"];
+    const creditOptions: any = [
       "annually",
       "biannually",
       "fortnightly",
@@ -41,7 +41,7 @@ export default function SelectReoccurringType({
   const handleKeyDown = (event: any) => {
     if (event.key === "Tab") {
       // @ts-ignore
-      let filteredOptions = options.filter((state: any) =>
+      const filteredOptions = options.filter((state: any) =>
         state.includes(inputValue),
       );
       if (filteredOptions.length > 0) {

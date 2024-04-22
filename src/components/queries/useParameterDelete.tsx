@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 
 const deleteParameter = async (payload: any): Promise<any> => {
   // TODO: change the word parm to the actual path.
-  let endpoint = "/parm/delete/" + payload.parameterName;
+  const endpoint = "/parm/delete/" + payload.parameterName;
 
   const response = await axios.delete(endpoint, {
     timeout: 0,
@@ -36,10 +36,10 @@ export default function useParameterDelete() {
       },
 
       onSuccess: (response, variables) => {
-        let oldData: any = queryClient.getQueryData("parameter");
+        const oldData: any = queryClient.getQueryData("parameter");
         console.log("delete was a success.");
         //let oldData: any = queryClient.getQueryData("parameter");
-        let newData = oldData.filter(
+        const newData = oldData.filter(
           (t: any) => t.parameterName !== variables.oldRow.parameterName,
         );
         queryClient.setQueryData("parameter", newData);

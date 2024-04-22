@@ -6,14 +6,14 @@ import { getAccountKey } from "./KeyFile";
 import Transaction from "../model/Transaction";
 
 export type TransactionInsertType = {
-  accountNameOwner: String;
+  accountNameOwner: string;
   newRow: Transaction;
-  isFutureTransaction: Boolean;
+  isFutureTransaction: boolean;
 };
 
 const setupNewTransaction = (
   payload: Transaction,
-  accountNameOwner: String,
+  accountNameOwner: string,
 ): Transaction => {
   return {
     guid: uuidv4(),
@@ -49,9 +49,9 @@ const setupNewTransaction = (
 };
 
 const insertTransaction = async (
-  accountNameOwner: String,
+  accountNameOwner: string,
   payload: Transaction,
-  isFutureTransaction: Boolean,
+  isFutureTransaction: boolean,
 ): Promise<any> => {
   let endpoint = "/transaction/insert";
   if (isFutureTransaction) {
@@ -59,7 +59,7 @@ const insertTransaction = async (
     console.log("will insert futureTransaction");
   }
 
-  let newPayload = setupNewTransaction(payload, accountNameOwner);
+  const newPayload = setupNewTransaction(payload, accountNameOwner);
 
   console.log("newPayload: " + JSON.stringify(newPayload));
   const response = await axios.post(endpoint, newPayload, {
@@ -99,11 +99,11 @@ export default function useTransactionInsert(accountNameOwner: any) {
       },
 
       onSuccess: (response) => {
-        let oldData: any = queryClient.getQueryData(
+        const oldData: any = queryClient.getQueryData(
           getAccountKey(accountNameOwner),
         );
         if (oldData) {
-          let newData = [response, ...oldData];
+          const newData = [response, ...oldData];
           queryClient.setQueryData(getAccountKey(accountNameOwner), newData);
         }
       },

@@ -83,10 +83,6 @@ if [ "$ENV" = "prod" ]; then
   docker rmi raspi-finance-react
   docker rmi -f $(docker images -q -f dangling=true)
 
-  # if ! docker-compose -f docker-compose.yml build; then
-  #   echo "docker-compose build failed."
-  #   exit 1
-  # fi
   if ! docker compose -f docker-compose.yml up -d; then
     echo "docker-compose up failed."
     exit 1

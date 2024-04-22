@@ -3,7 +3,7 @@ import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchValidationAmountData = async (
-  accountNameOwner: String,
+  accountNameOwner: string,
 ): Promise<any> => {
   const response = await axios.get(
     `/validation/amount/select/${accountNameOwner}/cleared`,
@@ -20,7 +20,7 @@ const fetchValidationAmountData = async (
   return response.data;
 };
 
-export default function useFetchValidationAmount(accountNameOwner: String) {
+export default function useFetchValidationAmount(accountNameOwner: string) {
   return useQuery(
     ["validationAmount", accountNameOwner],
     () => fetchValidationAmountData(accountNameOwner),

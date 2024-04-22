@@ -4,10 +4,10 @@ import { useMutation, useQueryClient } from "react-query";
 import ValidationAmount from "../model/ValidationAmount";
 
 const insertValidationAmount = async (
-  accountNameOwner: String,
+  accountNameOwner: string,
   payload: ValidationAmount,
 ): Promise<any> => {
-  let endpoint = "/validation/amount/insert/" + accountNameOwner;
+  const endpoint = "/validation/amount/insert/" + accountNameOwner;
 
   const response = await axios.post(endpoint, payload, {
     timeout: 0,

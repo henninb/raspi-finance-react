@@ -12,8 +12,8 @@ const setupNewPayment = (payload: any) => {
 };
 
 const insertPayment = async (payload: Payment): Promise<any> => {
-  let endpoint = "/payment/insert";
-  let newPayload = setupNewPayment(payload);
+  const endpoint = "/payment/insert";
+  const newPayload = setupNewPayment(payload);
 
   const response = await axios.post(endpoint, newPayload, {
     timeout: 0,
@@ -45,8 +45,8 @@ export default function usePaymentInsert() {
       },
 
       onSuccess: (response) => {
-        let oldData: any = queryClient.getQueryData("payment");
-        let newData = [response, ...oldData];
+        const oldData: any = queryClient.getQueryData("payment");
+        const newData = [response, ...oldData];
         queryClient.setQueryData("payment", newData);
       },
     },
