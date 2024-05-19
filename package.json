@@ -1,6 +1,6 @@
 {
   "name": "raspi-finance-react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.9.11",
@@ -53,8 +53,7 @@
     "typescript": "^5.4.5",
     "uuid": "^9.0.1",
     "webpack": "^5.91.0",
-    "webpack-dev-server": "^5.0.4",
-    "yarn": "^1.22.22"
+    "webpack-dev-server": "^5.0.4"
   },
   "scripts": {
     "start": "GENERATE_SOURCEMAP=false react-scripts start",
@@ -95,7 +94,6 @@
     "@types/jest": "^29.5.12",
     "axios-mock-adapter": "^1.22.0",
     "babel-jest": "^29.7.0",
-    "canvas": "^2.11.2",
     "cypress": "^13.8.0",
     "eslint-plugin-cypress": "^2.15.2",
     "headers-polyfill": "^4.0.3",

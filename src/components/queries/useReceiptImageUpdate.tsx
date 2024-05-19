@@ -7,7 +7,8 @@ const insertReceiptImage = async (
   currentTransaction: any,
   fileContent: any,
 ): Promise<any> => {
-  const endpoint = "/transaction/update/receipt/image/" + currentTransaction.guid;
+  const endpoint =
+    "/transaction/update/receipt/image/" + currentTransaction.guid;
 
   const response = await axios.put(endpoint, fileContent, {
     timeout: 0,

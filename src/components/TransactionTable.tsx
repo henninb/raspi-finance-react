@@ -41,32 +41,25 @@ export default function TransactionTable() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
-
   const routeMatch: any = useMatch("/transactions/:account");
-  let accountNameOwner = 'default';
+  let accountNameOwner = "default";
   try {
     accountNameOwner = routeMatch.params["account"];
   } catch {
     console.log("accountNameOwner is set to the default.");
   }
 
-  const { data, isSuccess } = useFetchTransactionByAccount(
-    accountNameOwner,
-  );
-  const { data: totals, isSuccess: isSuccessTotals } = useFetchTotalsPerAccount(
-    accountNameOwner,
-  );
+  const { data, isSuccess } = useFetchTransactionByAccount(accountNameOwner);
+  const { data: totals, isSuccess: isSuccessTotals } =
+    useFetchTotalsPerAccount(accountNameOwner);
   const { data: validationData, isSuccess: isSuccessValidationTotals } =
     useFetchValidationAmount(accountNameOwner);
-  const { mutate: updateTransactionState } = useChangeTransactionState(
-    accountNameOwner,
-  );
+  const { mutate: updateTransactionState } =
+    useChangeTransactionState(accountNameOwner);
   const { mutate: updateTransaction } = useTransactionUpdate();
   const { mutate: deleteTransaction } = useTransactionDelete();
   const { mutate: insertReceiptImage } = useReceiptImageUpdate();
-  const { mutate: insertTransaction } = useTransactionInsert(
-    accountNameOwner,
-  );
+  const { mutate: insertTransaction } = useTransactionInsert(accountNameOwner);
   const { mutate: insertValidationAmount } = useValidationAmountInsert();
 
   const handleSnackbarClose = () => {
@@ -608,10 +601,7 @@ export default function TransactionTable() {
                   <td className="right">
                     <Button
                       onClick={() =>
-                        insertNewValidationData(
-                          accountNameOwner,
-                          "cleared",
-                        )
+                        insertNewValidationData(accountNameOwner, "cleared")
                       }
                     >
                       {validationData.amount

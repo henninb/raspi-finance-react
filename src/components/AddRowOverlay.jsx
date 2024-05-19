@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { NumericFormat } from 'react-number-format';
+import React, { useState, useEffect } from "react";
+import { NumericFormat } from "react-number-format";
 
 export default function AddRowOverlay({ onAddRow, onClose }) {
   const initialFormData = {
     transactionDate: new Date().toISOString().slice(0, 10),
     //transactionDate: new Date().toLocaleDateString().slice(0, 10),
     //transactionDate: new Date().toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }),
-    description: '',
-    category: '',
-    amount: '0.00',
-    transactionState: 'outstanding',
-    transactionType: 'expense',
-    reoccurringType: 'onetime',
-    notes: '',
+    description: "",
+    category: "",
+    amount: "0.00",
+    transactionState: "outstanding",
+    transactionType: "expense",
+    reoccurringType: "onetime",
+    notes: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -38,7 +38,7 @@ export default function AddRowOverlay({ onAddRow, onClose }) {
 
     // Convert the amount from string to decimal
     const decimalAmount = parseFloat(formData.amount);
-  
+
     // Update formData with the decimal amount
     const updatedFormData = {
       ...formData,
@@ -58,11 +58,11 @@ export default function AddRowOverlay({ onAddRow, onClose }) {
     };
 
     // Add the event listener when the component mounts
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     // Remove the event listener when the component unmounts
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [onClose]);
 

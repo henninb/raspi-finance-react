@@ -18,39 +18,7 @@ else
   exit 2
 fi
 
-if [ ! -x "$(command -v ./os-env)" ]; then
-  echo "./os-env is need to set the environment variable OS."
-  exit 3
-fi
-
-. ./os-env
-
-# "$OSTYPE" == "darwin"*
-if [ "$OS" = "Linux Mint" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian GNU/Linux" ]; then
-  echo "System limit for number of file watchers reached"
-  #echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-  HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
-elif [ "$OS" = "Arch Linux" ] || [ "$OS" = "ArcoLinux" ]; then
-  HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
-elif [ "$OS" = "openSUSE Tumbleweed" ]; then
-  HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
-elif [ "$OS" = "Solus" ]; then
-  HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
-elif [ "$OS" = "Fedora" ]; then
-  HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
-elif [ "$OS" = "Darwin" ]; then
-  HOST_IP=$(ipconfig getifaddr en0)
-elif [ "$OS" = "FreeBSD" ]; then
-  echo
-elif [ "$OS" = "void" ]; then
-  HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}')
-elif [ "$OS" = "Gentoo" ]; then
-  HOST_IP=$(hostname -i | awk '{print $1}')
-  HOST_IP=192.168.10.10
-else
-  echo "$OS is not yet implemented."
-  exit 1
-fi
+HOST_IP=192.168.10.10
 
 export HOST_IP
 export CURRENT_UID="$(id -u)"
@@ -61,23 +29,15 @@ echo HOST_IP=$HOST_IP
 mkdir -p ssl
 rm -rf build
 
-if [ ! -x "$(command -v yarn)" ]; then
-  echo npm install -g yarn
-  npm install -g yarn
-  echo yarn install
-  yarn install
-  exit 2
-fi
-
-echo yarn build
+echo npm run build
 if [ "$ENV" = "prod" ]; then
-  if ! yarn build; then
-    echo "yarn build failed"
+  if ! npm run build; then
+    echo "npm build failed"
     exit 1
   fi
 
   echo docker
-  export DOCKER_HOST=ssh://192.168.10.10
+  export DOCKER_HOST=ssh://$HOST_IP
   docker stop raspi-finance-react
   docker rm -f raspi-finance-react
   docker rmi raspi-finance-react
@@ -93,9 +53,9 @@ if [ "$ENV" = "prod" ]; then
 else
   echo npx npm-check-updates -u
   echo npx depcheck
-  yarn install
-  yarn run prettier
-  yarn test
+  npm install
+  npm run prettier
+  npm test
   NODE_OPTIONS=--openssl-legacy-provider yarn start
 fi
 

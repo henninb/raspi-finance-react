@@ -46,7 +46,7 @@ export default function AllRoutes() {
               path="/transactions/:account"
               element={<TransactionTable />}
             />
-                        <Route
+            <Route
               path="/transactionsnew/:account"
               element={<Transactions />}
             />
