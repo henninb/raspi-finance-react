@@ -36,6 +36,11 @@ export default class App extends Component {
                 </a>
               </li>
               <li className="nav-item">
+              <a className="nav-link" href="/transfers">
+                Transfers
+              </a>
+            </li>
+              <li className="nav-item">
                 <a className="nav-link" href="/payments/required">
                   Payment Required
                 </a>

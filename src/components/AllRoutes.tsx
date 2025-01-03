@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import TransactionTable from "./TransactionTable";
 import Transactions from "./Transactions";
 import AccountSummaryTable from "./AccountSummaryTable";
+import TransferTable from "./TransferTable";
 import PaymentTable from "./PaymentTable";
 import FreeForm from "./FreeForm";
 import PaymentRequired from "./PaymentRequired";
@@ -39,6 +40,7 @@ export default function AllRoutes() {
           <Route path="/login" element={<Login />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/payments" element={<PaymentTable />} />
+            <Route path="/transfers" element={<TransferTable />} />
             <Route path="/freeform" element={<FreeForm />} />
             <Route path="/payments/required" element={<PaymentRequired />} />
             <Route path="/configuration" element={<ParameterConfiguration />} />
