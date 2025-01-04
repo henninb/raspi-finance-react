@@ -3,7 +3,7 @@ import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchTransferData = async (): Promise<any> => {
-  const response = await axios.get("/transfer/select", {
+  const response = await axios.get("/api/transfer/select", {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",

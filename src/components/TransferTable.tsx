@@ -8,13 +8,12 @@ import SnackbarBaseline from "./SnackbarBaseline";
 import moment from "moment";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
-import useFetchPayment from "./queries/useFetchPayment";
-import usePaymentInsert from "./queries/usePaymentInsert";
-import usePaymentDelete from "./queries/usePaymentDelete";
-//import useFetchParameter from "./queries/useFetchParameter";
+import useFetchTransfer from "./queries/useFetchTransfer";
+import useTransferInsert from "./queries/useTransferInsert";
+import useTransferDelete from "./queries/useTransferDelete";
 import DatePicker from "react-datepicker";
 import { TablePagination } from "@material-ui/core";
-import Payment from "./model/Payment";
+import Transfer from "./model/Transfer";
 import Transaction from "./model/Transaction";
 
 export default function TransferTable() {
@@ -23,10 +22,10 @@ export default function TransferTable() {
 
   const history = useNavigate();
 
-  const { data, isSuccess } = useFetchPayment();
+  const { data, isSuccess } = useFetchTransfer();
 
-  const { mutate: insertPayment } = usePaymentInsert();
-  const { mutate: deletePayment } = usePaymentDelete();
+  const { mutate: insertTransfer } = useTransferInsert();
+  const { mutate: deleteTransfer } = useTransferDelete();
 
   const handleSnackbarClose = () => {
     setOpen(false);
@@ -59,11 +58,11 @@ export default function TransferTable() {
     }
   };
 
-  const addRow = (newData: Payment) => {
+  const addRow = (newData: Transfer) => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
-          await insertPayment({ payload: newData });
+          await insertTransfer({ payload: newData });
           // @ts-ignore
           resolve();
         } catch (error) {
@@ -149,31 +148,29 @@ export default function TransferTable() {
               {
                 title: "source",
                 field: "sourceAccount",
-                
 
                 render: (rowData: Transaction) => {
-                    return (
-                      <Button
-                        style={{ fontSize: ".6rem" }}
-                        onClick={() => handleButtonClickLink(rowData)}
-                      >
-                        {rowData.accountNameOwner}
-                      </Button>
-                    );
-                  },
-                  editComponent: (props) => {
-                    return (
-                      <div className="container">
-                        <div>
-                          <SelectAccountNameOwnerDebit
-                            onChangeFunction={props.onChange}
-                            currentValue={props.value}
-                          />
-                        </div>
+                  return (
+                    <Button
+                      style={{ fontSize: ".6rem" }}
+                      onClick={() => handleButtonClickLink(rowData)}
+                    >
+                      {rowData.accountNameOwner}
+                    </Button>
+                  );
+                },
+                editComponent: (props) => {
+                  return (
+                    <div className="container">
+                      <div>
+                        <SelectAccountNameOwnerDebit
+                          onChangeFunction={props.onChange}
+                          currentValue={props.value}
+                        />
                       </div>
-                    );
-                  },
-
+                    </div>
+                  );
+                },
 
                 headerStyle: {},
                 cellStyle: { whiteSpace: "nowrap" },
@@ -219,7 +216,7 @@ export default function TransferTable() {
                   setTimeout(async () => {
                     try {
                       console.log("oldData: " + JSON.stringify(oldData));
-                      deletePayment({ oldRow: oldData });
+                      deleteTransfer({ oldRow: oldData });
                       // @ts-ignore
                       resolve();
                     } catch (error) {
@@ -240,7 +237,7 @@ export default function TransferTable() {
         </div>
       ) : (
         <div className="centered">
-          <Spinner data-test-id="payments-spinner" />
+          <Spinner data-test-id="transfers-spinner" />
         </div>
       )}
     </div>
