@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import Payment from "../model/Payment";
 
-const setupNewPayment = (payload: any) => {
+const setupNewPayment = (payload: Payment) => {
   return {
     accountNameOwner: payload.accountNameOwner,
     amount: payload.amount,

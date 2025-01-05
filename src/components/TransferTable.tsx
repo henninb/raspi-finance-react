@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import MaterialTable from "material-table";
 import SelectAccountNameOwnerDebit from "./SelectAccountNameOwnerDebit";
 import Spinner from "./Spinner";
-import { useNavigate } from "react-router-dom";
-import Button from "@material-ui/core/Button";
+//import { useNavigate } from "react-router-dom";
+//import Button from "@material-ui/core/Button";
 import SnackbarBaseline from "./SnackbarBaseline";
 import moment from "moment";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -14,13 +14,13 @@ import useTransferDelete from "./queries/useTransferDelete";
 import DatePicker from "react-datepicker";
 import { TablePagination } from "@material-ui/core";
 import Transfer from "./model/Transfer";
-import Transaction from "./model/Transaction";
+//import Transaction from "./model/Transaction";
 
 export default function TransferTable() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
-  const history = useNavigate();
+  //const history = useNavigate();
 
   const { data, isSuccess } = useFetchTransfer();
 
@@ -29,10 +29,6 @@ export default function TransferTable() {
 
   const handleSnackbarClose = () => {
     setOpen(false);
-  };
-
-  const handleButtonClickLink = (oldRow: Transaction) => {
-    history("/transactions/" + oldRow.accountNameOwner);
   };
 
   const handleError = (error: any, moduleName: string, throwIt: any) => {
@@ -62,7 +58,12 @@ export default function TransferTable() {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
-          await insertTransfer({ payload: newData });
+          const transferData = {
+            ...newData,
+            sourceAccount: newData.sourceAccount || "",  // Ensure a default value
+            destinationAccount: newData.destinationAccount || "",  // Same for other fields
+          };
+          await insertTransfer({ payload: transferData });
           // @ts-ignore
           resolve();
         } catch (error) {
@@ -107,7 +108,7 @@ export default function TransferTable() {
                 ),
               },
               {
-                title: "source",
+                title: "sourceAccount",
                 field: "sourceAccount",
 
 
@@ -116,8 +117,10 @@ export default function TransferTable() {
                     <div className="container">
                       <div>
                         <SelectAccountNameOwnerDebit
-                          onChangeFunction={props.onChange}
-                          currentValue={props.value}
+                          onChangeFunction={(value) => {
+                            props.onChange(value)
+                          }}
+                          currentValue={props.value || ""}
                         />
                       </div>
                     </div>
@@ -128,7 +131,7 @@ export default function TransferTable() {
                 cellStyle: { whiteSpace: "nowrap" },
               },
               {
-                title: "destination",
+                title: "destinationAccount",
                 field: "destinationAccount",
 
                 cellStyle: {
@@ -142,8 +145,10 @@ export default function TransferTable() {
                     <div className="container">
                       <div>
                         <SelectAccountNameOwnerDebit
-                          onChangeFunction={props.onChange}
-                          currentValue={props.value}
+                          onChangeFunction={(value) => {
+                            props.onChange(value)
+                          }}
+                          currentValue={props.value || ""}
                         />
                       </div>
                     </div>

@@ -33,8 +33,8 @@ export default function PaymentTable() {
     setOpen(false);
   };
 
-  const handleButtonClickLink = (oldRow: Transaction) => {
-    history("/transactions/" + oldRow.accountNameOwner);
+  const handleButtonClickLink = (rowData: Transaction) => {
+    history("/transactions/" + rowData.accountNameOwner);
   };
 
   const handleError = (error: any, moduleName: string, throwIt: any) => {

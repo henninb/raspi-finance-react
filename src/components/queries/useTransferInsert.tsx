@@ -3,10 +3,12 @@ import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import Transfer from "../model/Transfer";
 
-const setupNewTransfer = (payload: any) => {
+const setupNewTransfer = (payload: Transfer) => {
+  console.log(JSON.stringify(payload))
+  console.log('transfer payload')
   return {
-    sourceAccount: payload.accountNameOwner,
-    destinationAccount: payload.accountNameOwner,
+    sourceAccount: payload.sourceAccount,
+    destinationAccount: payload.destinationAccount,
     amount: payload.amount,
     transactionDate: payload.transactionDate.toISOString(),
   };
