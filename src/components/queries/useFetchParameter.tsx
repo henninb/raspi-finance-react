@@ -3,7 +3,7 @@ import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchParameterData = async (parameterName: any): Promise<any> => {
-  const response = await axios.get("/parm/select/" + parameterName, {
+  const response = await axios.get("/api/parm/select/" + parameterName, {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",

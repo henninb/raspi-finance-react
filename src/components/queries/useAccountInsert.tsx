@@ -16,7 +16,7 @@ const setupNewAccount = (payload: Account) => {
 };
 
 const insertAccount = async (payload: Account): Promise<any> => {
-  const endpoint = "/account/insert";
+  const endpoint = "/api/account/insert";
   const newPayload = setupNewAccount(payload);
 
   const response = await axios.post(endpoint, newPayload, {

@@ -9,7 +9,7 @@ const changeTransactionState = async (
   newTransactionState: TransactionState,
 ): Promise<any> => {
   const response = await axios.put(
-    "/transaction/state/update/" + guid + "/" + newTransactionState,
+    "/api/transaction/state/update/" + guid + "/" + newTransactionState,
     "{}",
     {
       timeout: 0,

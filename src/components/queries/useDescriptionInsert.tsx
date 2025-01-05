@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 const insertDescription = async (descriptionName: any): Promise<any> => {
-  const endpoint = "/description/insert";
+  const endpoint = "/api/description/insert";
   const payload = { description: descriptionName, activeStatus: true };
 
   const response = await axios.post(endpoint, payload, {

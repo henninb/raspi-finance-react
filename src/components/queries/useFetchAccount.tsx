@@ -3,7 +3,7 @@ import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchAccountData = async (): Promise<any> => {
-  const response = await axios.get("/account/select/active", {
+  const response = await axios.get("/api/account/select/active", {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",

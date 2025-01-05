@@ -8,7 +8,7 @@ const updateTransaction = async (
   newData: Transaction,
   oldData: Transaction,
 ): Promise<any> => {
-  const endpoint = "/transaction/update/" + oldData.guid;
+  const endpoint = "/api/transaction/update/" + oldData.guid;
 
   if (newData.receiptImage !== undefined) {
     newData["receiptImage"].image = newData["receiptImage"].image.replace(

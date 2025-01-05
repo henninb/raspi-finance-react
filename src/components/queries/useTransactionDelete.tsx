@@ -5,7 +5,7 @@ import { getAccountKey } from "./KeyFile";
 import Transaction from "../model/Transaction";
 
 const deleteTransaction = async (payload: Transaction): Promise<any> => {
-  const endpoint = "/transaction/delete/" + payload.guid;
+  const endpoint = "/api/transaction/delete/" + payload.guid;
 
   const response = await axios.delete(endpoint, {
     timeout: 0,

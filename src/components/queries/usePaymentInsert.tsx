@@ -12,7 +12,7 @@ const setupNewPayment = (payload: any) => {
 };
 
 const insertPayment = async (payload: Payment): Promise<any> => {
-  const endpoint = "/payment/insert";
+  const endpoint = "/api/payment/insert";
   const newPayload = setupNewPayment(payload);
 
   const response = await axios.post(endpoint, newPayload, {

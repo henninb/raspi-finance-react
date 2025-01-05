@@ -6,7 +6,7 @@ const fetchValidationAmountData = async (
   accountNameOwner: string,
 ): Promise<any> => {
   const response = await axios.get(
-    `/validation/amount/select/${accountNameOwner}/cleared`,
+    `/api/validation/amount/select/${accountNameOwner}/cleared`,
     {
       timeout: 0,
       headers: {

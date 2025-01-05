@@ -21,7 +21,7 @@ import { basicAuth } from "../Common";
 // };
 
 const fetchCategoryData = async (): Promise<any> => {
-  const response = await axios.get("/category/select/active", {
+  const response = await axios.get("/api/category/select/active", {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",

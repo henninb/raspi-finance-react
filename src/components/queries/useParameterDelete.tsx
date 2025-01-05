@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 
 const deleteParameter = async (payload: any): Promise<any> => {
   // TODO: change the word parm to the actual path.
-  const endpoint = "/parm/delete/" + payload.parameterName;
+  const endpoint = "/api/parm/delete/" + payload.parameterName;
 
   const response = await axios.delete(endpoint, {
     timeout: 0,

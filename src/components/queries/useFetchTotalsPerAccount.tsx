@@ -4,7 +4,7 @@ import axios, { AxiosError } from "axios";
 
 const fetchTotalsPerAccount = async (accountNameOwner: any): Promise<any> => {
   const response = await axios.get(
-    "/transaction/account/totals/" + accountNameOwner,
+    "/api/transaction/account/totals/" + accountNameOwner,
     {
       timeout: 0,
       headers: {

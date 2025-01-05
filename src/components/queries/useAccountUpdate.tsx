@@ -7,7 +7,7 @@ const updateAccount = async (
   oldRow: Account,
   newRow: Account,
 ): Promise<any> => {
-  let endpoint = "/account/update/" + oldRow.accountNameOwner;
+  let endpoint = "/api/account/update/" + oldRow.accountNameOwner;
 
   const response = await axios.put(endpoint, newRow, {
     timeout: 0,

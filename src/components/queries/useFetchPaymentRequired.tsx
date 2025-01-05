@@ -3,7 +3,7 @@ import { basicAuth } from "../Common";
 import { useQuery } from "react-query";
 
 const fetchPaymentRequiredData = async (): Promise<any> => {
-  const response = await axios.get("/transaction/payment/required", {
+  const response = await axios.get("/api/transaction/payment/required", {
     timeout: 0,
     headers: {
       "Content-Type": "application/json",
