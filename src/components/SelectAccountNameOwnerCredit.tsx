@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 import useFetchAccount from "./queries/useFetchAccount";
 
 export type Props = {
@@ -7,45 +7,51 @@ export type Props = {
   currentValue: string;
 };
 
+type OptionType = {
+  value: string;
+  label: string;
+}
+
 export default function SelectAccountNameOwnerCredit({
   onChangeFunction,
   currentValue,
 }: Props) {
-  const [selectedOption, setSelectedOption] = useState(currentValue);
-  const [accountTypeOptions, setAccountTypeOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState<{ value: string; label: string } | null>(null);
+  const [accountTypeOptions, setAccountTypeOptions] = useState<{ value: string; label: string }[]>([]);
 
   const { data, isSuccess } = useFetchAccount();
 
   useEffect(() => {
     if (isSuccess) {
-      const optionList = data
+      const optionList: OptionType[] = data
         .filter(({ accountType }: any) => accountType === "credit")
-        .map(({ accountNameOwner }: any) => {
-          return {
-            value: accountNameOwner,
-            label: accountNameOwner,
-          };
-        });
+        .map(({ accountNameOwner }: any) => ({
+          value: accountNameOwner,
+          label: accountNameOwner,
+        }));
 
-      if (optionList.length > 0) {
-        setAccountTypeOptions(optionList);
-      }
+      setAccountTypeOptions(optionList);
+
+      // Pre-select the currentValue if it exists in the options
+      const initialOption = optionList.find((option: OptionType) => option.value === currentValue);
+      setSelectedOption(initialOption || null);
     }
-  }, [data, isSuccess]);
+  }, [data, isSuccess, currentValue]);
 
-  const onSelectChange = ({ value }: any) => {
-    setSelectedOption(value);
-    onChangeFunction(value);
+  const onSelectChange = (option: SingleValue<OptionType>) => {
+    setSelectedOption(option);
+    onChangeFunction(option?.value || ""); // Pass the value or an empty string
   };
 
   return (
     <div className="select-formatting" data-testid="accounts-credit">
       <Select
         name="account-select"
-        value={selectedOption}
+        value={selectedOption} // Pass the selected option object
         onChange={onSelectChange}
-        options={accountTypeOptions}
-        placeholder={currentValue}
+        options={accountTypeOptions} // Provide the options
+        placeholder="Select an account" // Updated placeholder
+        isClearable
       />
     </div>
   );
