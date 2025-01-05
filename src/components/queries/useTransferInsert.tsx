@@ -13,7 +13,7 @@ const setupNewTransfer = (payload: any) => {
 };
 
 const insertTransfer = async (payload: Transfer): Promise<any> => {
-  const endpoint = "/transfer/insert";
+  const endpoint = "/api/transfer/insert";
   const newPayload = setupNewTransfer(payload);
 
   const response = await axios.post(endpoint, newPayload, {

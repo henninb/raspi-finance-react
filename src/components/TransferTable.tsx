@@ -95,7 +95,7 @@ export default function TransferTable() {
                     //locale={props.dateTimePickerLocalization}
                   >
                     <DatePicker
-                      data-test-id="payment-date-picker"
+                      data-test-id="tranfer-date-picker"
                       value={
                         props.value
                           ? moment(props.value).format("YYYY-MM-DD")
@@ -107,6 +107,27 @@ export default function TransferTable() {
                 ),
               },
               {
+                title: "source",
+                field: "sourceAccount",
+
+
+                editComponent: (props) => {
+                  return (
+                    <div className="container">
+                      <div>
+                        <SelectAccountNameOwnerDebit
+                          onChangeFunction={props.onChange}
+                          currentValue={props.value}
+                        />
+                      </div>
+                    </div>
+                  );
+                },
+
+                headerStyle: {},
+                cellStyle: { whiteSpace: "nowrap" },
+              },
+              {
                 title: "destination",
                 field: "destinationAccount",
 
@@ -116,16 +137,6 @@ export default function TransferTable() {
 
                 headerStyle: {},
 
-                render: (rowData: Transaction) => {
-                  return (
-                    <Button
-                      style={{ fontSize: ".6rem" }}
-                      onClick={() => handleButtonClickLink(rowData)}
-                    >
-                      {rowData.accountNameOwner}
-                    </Button>
-                  );
-                },
                 editComponent: (props) => {
                   return (
                     <div className="container">
@@ -145,36 +156,7 @@ export default function TransferTable() {
                 type: "currency",
                 cellStyle: { whiteSpace: "nowrap" },
               },
-              {
-                title: "source",
-                field: "sourceAccount",
 
-                render: (rowData: Transaction) => {
-                  return (
-                    <Button
-                      style={{ fontSize: ".6rem" }}
-                      onClick={() => handleButtonClickLink(rowData)}
-                    >
-                      {rowData.accountNameOwner}
-                    </Button>
-                  );
-                },
-                editComponent: (props) => {
-                  return (
-                    <div className="container">
-                      <div>
-                        <SelectAccountNameOwnerDebit
-                          onChangeFunction={props.onChange}
-                          currentValue={props.value}
-                        />
-                      </div>
-                    </div>
-                  );
-                },
-
-                headerStyle: {},
-                cellStyle: { whiteSpace: "nowrap" },
-              },
             ]}
             data={data}
             title="Transfers"
