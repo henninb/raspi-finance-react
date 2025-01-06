@@ -375,9 +375,7 @@ export default function TransactionTable() {
                       <SelectDescription
                         data-test-id="transaction-edit-description"
                         onChangeFunction={props.onChange}
-                        currentValue={() => {
-                          return props.value ? props.value : "undefined";
-                        }}
+                        currentValue={props.value ? props.value : "undefined"}
                       />
                     </>
                   );
@@ -393,9 +391,7 @@ export default function TransactionTable() {
                     <>
                       <SelectCategory
                         onChangeFunction={props.onChange}
-                        currentValue={() => {
-                          return props.value ? props.value : "none";
-                        }}
+                        currentValue={props.value ? props.value : "none"}
                       />
                     </>
                   );

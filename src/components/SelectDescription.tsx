@@ -13,10 +13,9 @@ export default function SelectDescription({
   onChangeFunction,
   currentValue,
 }: Props) {
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<string[]>([]);
   const [value, setValue] = useState(currentValue);
   const [inputValue, setInputValue] = useState("");
-  const [keyPressValue, setKeyPressValue] = useState("");
 
   const { data, isSuccess } = useFetchDescription();
   const { mutate: insertDescription } = useDescriptionInsert();
@@ -24,32 +23,29 @@ export default function SelectDescription({
   useEffect(() => {
     if (isSuccess) {
       const descriptions = data.map(
-        ({ descriptionName }: any) => descriptionName,
+        ({ descriptionName }: any) => descriptionName
       );
       setOptions(descriptions);
     }
-  }, [value, data, currentValue, inputValue, isSuccess]);
+  }, [data, isSuccess]);
+
+  useEffect(() => {
+    setValue(currentValue);
+  }, [currentValue]);
 
   const handleKeyDown = (event: any) => {
-    if (event.key === "Tab") {
-      // @ts-ignore
-      const filteredOptions = options.filter((state: any) =>
-        state.includes(inputValue),
+    if (event.key === "Tab" && inputValue) {
+      const filteredOptions = options.filter((option) =>
+        option.includes(inputValue)
       );
       if (filteredOptions.length > 0) {
-        return filteredOptions.find((state) => {
-          setKeyPressValue(state);
-          onChangeFunction(state);
-          return state;
-        });
+        const selectedValue = filteredOptions[0]; // Select the first match
+        setValue(selectedValue);
+        onChangeFunction(selectedValue);
       } else {
-        setKeyPressValue(inputValue);
+        setValue(inputValue);
         onChangeFunction(inputValue);
-        // @ts-ignore
         insertDescription({ descriptionName: inputValue });
-        //let response = postDescription(inputValue)
-        //console.log(response);
-        return inputValue;
       }
     }
   };
@@ -58,27 +54,20 @@ export default function SelectDescription({
     <div>
       <Autocomplete
         value={value || ""}
-        defaultValue={value || ""}
         onChange={(_event, newValue) => {
           setValue(newValue);
           onChangeFunction(newValue);
         }}
         inputValue={inputValue || ""}
         onInputChange={(_event, newInputValue) => {
-          if (keyPressValue === "") {
-            setInputValue(newInputValue);
-          } else {
-            setInputValue(keyPressValue);
-            setKeyPressValue("");
-          }
+          setInputValue(newInputValue);
         }}
         style={{ width: 140 }}
         options={options}
         renderInput={(params) => (
           <TextField
             {...params}
-            value={""}
-            onKeyDown={(e) => handleKeyDown(e)}
+            onKeyDown={handleKeyDown}
           />
         )}
       />
