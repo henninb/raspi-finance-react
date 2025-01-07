@@ -7,43 +7,49 @@ interface Account {
   accountNameOwner: string;
 }
 
-export default function SelectAccounts() {
-  const [options, setOptions] = useState<{ value: string; label: string }[]>([]);
-  const history = useNavigate();
-  const { data, isSuccess, isError } = useFetchAccount();
+interface Option {
+  value: string;
+  label: string;
+}
 
-  // Adjust the handleChange function to accept the correct type
+export default function SelectAccounts() {
+  const [options, setOptions] = useState<Option[]>([]);
+  const navigate = useNavigate();
+  const { data, isSuccess, isError, error } = useFetchAccount();
+
   const handleChange = (
-    newValue: SingleValue<{ value: string; label: string }>,
-    actionMeta: ActionMeta<{ value: string; label: string }>
+    newValue: SingleValue<Option>,
+    _actionMeta: ActionMeta<Option>
   ) => {
     if (newValue) {
-      history("/transactions/" + newValue.value);
+      navigate(`/transactions/${newValue.value}`);
     }
   };
 
   useEffect(() => {
-    if (isSuccess && data) {
-      // Validate that the data structure is as expected
+    if (isSuccess && Array.isArray(data)) {
       const optionList = data
-        .filter((account: Account) => account.accountNameOwner) // Filter out any empty or null accounts
+        .filter((account: Account) => typeof account.accountNameOwner === "string" && account.accountNameOwner.trim() !== "")
         .map(({ accountNameOwner }: Account) => ({
           value: accountNameOwner,
           label: accountNameOwner,
         }));
 
-      if (optionList.length > 0) {
-        setOptions(optionList);
-      }
+      setOptions(optionList);
     }
   }, [isSuccess, data]);
 
   if (isError) {
-    return <div>Error fetching accounts. Please try again.</div>;
+    return (
+      <div className="error-message">
+        <p>Error fetching accounts. Please try again.</p>
+        <pre>{JSON.stringify(error, null, 2)}</pre> {/* Display error details if available */}
+      </div>
+    );
   }
 
   if (!isSuccess || options.length === 0) {
-    return <div>No accounts available or loading...</div>;
+    return <div>Loading accounts or no accounts available...</div>;
   }
 
   return (
@@ -66,3 +72,4 @@ export default function SelectAccounts() {
     </div>
   );
 }
+

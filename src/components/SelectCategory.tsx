@@ -1,47 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, KeyboardEvent } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import useFetchCategory from "./queries/useFetchCategory";
 
+// Define the category type
+interface Category {
+  categoryName: string;
+}
+
 interface Props {
-  onChangeFunction: any;
-  currentValue: any;
+  onChangeFunction: (value: string) => void; // specify the type of the onChange function
+  currentValue: string;
 }
 
 export default function SelectCategory({
   onChangeFunction,
   currentValue,
 }: Props) {
-  const [options, setOptions] = useState([]);
-  const [value, setValue] = useState(currentValue);
-  const [inputValue, setInputValue] = useState("");
-  const [keyPressValue, setKeyPressValue] = useState("");
+  const [options, setOptions] = useState<string[]>([]);
+  const [value, setValue] = useState<string>(currentValue);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [keyPressValue, setKeyPressValue] = useState<string>("");
 
-  const { data, isSuccess } = useFetchCategory();
+  const { data, isSuccess, isError } = useFetchCategory();
 
+  // Handling API response and populating the options
   useEffect(() => {
-    if (isSuccess) {
-      const categories = data.map(({ categoryName }: any) => categoryName);
+    if (isSuccess && Array.isArray(data)) {
+      const categories = data
+        .filter((category: Category) => category.categoryName)
+        .map(({ categoryName }: Category) => categoryName);
       setOptions(categories);
     }
-  }, [value, data, currentValue, inputValue, isSuccess]);
+  }, [data, isSuccess]);
 
-  const handleKeyDown = (event: any) => {
+  // Error handling
+  if (isError) {
+    return <div>Error fetching categories. Please try again later.</div>;
+  }
+
+  // Key down handler with type for event
+  const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Tab") {
-      const filteredOptions = options.filter((state) => {
-        // @ts-ignore
-        return state.includes(inputValue);
-      });
+      const filteredOptions = options.filter((option) =>
+        option.includes(inputValue)
+      );
       if (filteredOptions.length > 0) {
-        return filteredOptions.find((state) => {
-          setKeyPressValue(state);
-          onChangeFunction(state);
-          return state;
-        });
+        const selectedOption = filteredOptions[0]; // Select the first match
+        setKeyPressValue(selectedOption);
+        onChangeFunction(selectedOption);
       } else {
         setKeyPressValue(inputValue);
         onChangeFunction(inputValue);
-        return inputValue;
       }
     }
   };
@@ -50,10 +60,9 @@ export default function SelectCategory({
     <div>
       <Autocomplete
         value={value || ""}
-        defaultValue={value || ""}
         onChange={(_event, newValue) => {
-          setValue(newValue);
-          onChangeFunction(newValue);
+          setValue(newValue || "");
+          onChangeFunction(newValue || "");
         }}
         inputValue={inputValue || ""}
         onInputChange={(_event, newInputValue) => {
@@ -67,7 +76,7 @@ export default function SelectCategory({
         style={{ width: 140 }}
         options={options}
         renderInput={(params) => (
-          <TextField {...params} onKeyDown={(e) => handleKeyDown(e)} />
+          <TextField {...params} onKeyDown={handleKeyDown} />
         )}
       />
     </div>
