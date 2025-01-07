@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import MaterialTable from "material-table";
 //import MaterialTable from "@material-table/core";
 import Spinner from "./Spinner";
-import { useMatch } from "react-router-dom";
+import { useMatch, PathMatch } from "react-router-dom";
 import SelectTransactionState from "./SelectTransactionState";
 import SelectTransactionType from "./SelectTransactionType";
 import TransactionMove from "./TransactionMove";
@@ -41,11 +41,12 @@ export default function TransactionTable() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
-  const routeMatch: any = useMatch("/transactions/:account");
+  const routeMatch: PathMatch<string> | null = useMatch("/transactions/:account");
   let accountNameOwner = "default";
-  try {
-    accountNameOwner = routeMatch.params["account"];
-  } catch {
+
+  if (routeMatch?.params?.account) {
+    accountNameOwner = routeMatch.params.account;
+  } else {
     console.log("accountNameOwner is set to the default.");
   }
 
