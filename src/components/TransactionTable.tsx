@@ -156,33 +156,12 @@ export default function TransactionTable() {
     [updateTransactionState],
   );
 
-  // const handlerToUpdateTransactionType = useCallback(
-  //   async (
-  //     guid: any,
-  //     accountNameOwner: string,
-  //     transactionType: any,
-  //   ): Promise<any> => {
-  //     // try {
-  //     //     updateTransactionState({
-  //     //         guid: guid,
-  //     //         transactionState: transactionState,
-  //     //     });
-  //     //     //await fetchTotals()
-  //     // } catch (error) {
-  //     //     console.log(error);
-  //     //     handleError(error, "updateTransactionState1", false);
-  //     // }
-  //   },
-  //   [],
-  // );
-
   const updateRow = (newData: any, oldData: any): Promise<any> => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
           updateTransaction({ newRow: newData, oldRow: oldData });
-          // @ts-ignore
-          resolve();
+          resolve("success");
         } catch (error) {
           handleError(error, "updateRow", false);
           reject();
@@ -196,8 +175,7 @@ export default function TransactionTable() {
       setTimeout(async () => {
         try {
           deleteTransaction({ oldRow: oldData });
-          // @ts-ignore
-          resolve();
+          resolve("success");
         } catch (error) {
           handleError(error, "deleteRow", false);
           reject();
@@ -206,17 +184,17 @@ export default function TransactionTable() {
     });
   };
 
+
   const addRow = (newData: Transaction): Promise<any> => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
-          insertTransaction({
+          await insertTransaction({
             accountNameOwner: newData.accountNameOwner,
             newRow: newData,
             isFutureTransaction: false,
           });
-          // @ts-ignore
-          resolve();
+          resolve("success");
         } catch (error) {
           handleError(error, "addRow", false);
           reject();
@@ -224,7 +202,7 @@ export default function TransactionTable() {
       }, 1000);
     });
   };
-
+  
   const handleButtonClickLink = useCallback(
     async (newData: Transaction): Promise<any> => {
       try {
@@ -512,24 +490,6 @@ export default function TransactionTable() {
                 field: "notes",
                 cellStyle: { whiteSpace: "nowrap" },
               },
-              // {
-              //   title: "due",
-              //   field: "dueDate",
-              //   type: "date",
-              //   cellStyle: { whiteSpace: "nowrap" },
-              //   editComponent: (props) => (
-              //     <MuiPickersUtilsProvider utils={MomentUtils}>
-              //       <DatePicker
-              //         value={
-              //           props.value
-              //             ? moment(props.value).format(dateFormat)
-              //             : ""
-              //         }
-              //         onChange={props.onChange}
-              //       />
-              //     </MuiPickersUtilsProvider>
-              //   ),
-              // },
               {
                 title: "image",
                 field: "receiptImage",
